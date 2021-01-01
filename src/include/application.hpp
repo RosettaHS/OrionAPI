@@ -23,16 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_APPLICATION_H__
+#define __ORION_OKIT_APPLICATION_H__
 
-#include "errdef.h"
-#include "xservice.hpp"
-
-/* Uncomment when finished.
-namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-}
-*/
-
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_APPLICATION_H__ */
