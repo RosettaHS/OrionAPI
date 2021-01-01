@@ -23,16 +23,11 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_APPLICATION_H__
-#define __ORION_OKIT_APPLICATION_H__
-
-#define OAPP_SCALE Orion::Application::scale
+#include "include/application.hpp"
 
 namespace Orion{
 	namespace Application{
-		extern float	scale;
+		float scale=1.0f;
 		/* Add more later, focus on getting the Context to work first! */
 	}
 }
-
-#endif /* !__ORION_OKIT_APPLICATION_H__ */

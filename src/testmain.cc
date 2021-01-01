@@ -24,3 +24,8 @@
 /**********************************************************************************/
 
 #include "include/OKit.hpp"
+using namespace Orion;
+
+int main(){
+	X::connect();
+}

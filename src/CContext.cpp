@@ -23,16 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_APPLICATION_H__
-#define __ORION_OKIT_APPLICATION_H__
-
-#define OAPP_SCALE Orion::Application::scale
-
-namespace Orion{
-	namespace Application{
-		extern float	scale;
-		/* Add more later, focus on getting the Context to work first! */
-	}
-}
-
-#endif /* !__ORION_OKIT_APPLICATION_H__ */
+#include <X11/Xlib.h>
+#include "include/application.hpp"
+#include "include/xservice.hpp"
+#include "include/CContext.hpp"

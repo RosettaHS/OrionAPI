@@ -27,7 +27,9 @@
 #define __ORION_OKIT_H__
 
 #include "errdef.h"
+#include "application.hpp"
 #include "xservice.hpp"
+#include "CContext.hpp"
 
 /* Uncomment when finished.
 namespace Orion{

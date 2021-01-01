@@ -23,16 +23,38 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_APPLICATION_H__
-#define __ORION_OKIT_APPLICATION_H__
+#ifndef __ORION_OKIT_CCONTEXT_H__
+#define __ORION_OKIT_CCONTEXT_H__
 
-#define OAPP_SCALE Orion::Application::scale
+/* Wrapper for masks in the X Event System. */
+typedef unsigned long CXMask;
 
 namespace Orion{
-	namespace Application{
-		extern float	scale;
-		/* Add more later, focus on getting the Context to work first! */
-	}
+	/* Internal. Higher-level abstraction of an X Window. */
+	class CContext{
+		public:
+		/* X Information */
+			/* The ID of the X Window on the screen. */
+			unsigned long	XWIN;
+			/* The ID of the root X Window the main XWIN is tied to. */
+			unsigned long	XROOT;
+			/* The mask that the X Event system uses on the XWIN. */
+			CXMask			XMASK;
+			/* The title of the X Window. Can be blank. */
+			const char*		XTITLE;
+		/* Event Handling */
+			/* The top-level object that is listening for events. Something like an OButton for example. */
+			void* listener;
+			/* A pointer to the function that works as a router on the top level object. Takes in the listner and the XEvent. */
+			void (*listenerFunc)(void* l,void* e);
+		/* General Handling */
+			/* Empty constructor. Sets all values to 0. */
+			CContext();
+			/* Destructor. Frees all memory and unlinks from X. */
+			~CContext();
+			/* */
+			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, CXMask mask,bool useScale);
+	};
 }
 
-#endif /* !__ORION_OKIT_APPLICATION_H__ */
+#endif /* !__ORION_OKIT_CCONTEXT_H__ */
