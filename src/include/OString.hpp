@@ -23,20 +23,51 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_OSTRING_H__
+#define __ORION_OKIT_OSTRING_H__
 
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OCol.hpp"
-#include "OString.hpp"
-#include "CContext.hpp"
+#include <sys/types.h>
 
-/* Uncomment when finished.
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-}
-*/
+	/* Minimal wrapper for strings. */
+	class OString{
+		private:
+			/* Internal. The character array that makes up the string. */
+			char* str;
+			/* The length of the string. */
+			size_t length;
+			/* Internal. Was the memory dynamically allocated? */
+			bool isMemStatic;
+			/* Internal. Calculates the length of another string. */
+			size_t calcLength(const char*);
+		public:
+			/* Frees all memory (if dynamically allocated) and sets all values to 0. */
+			~OString();
+			/* Empty constructor. Sets all values to 0. */
+			OString();
+			/* Creates the string with the given text. */
+			OString(const char*);
+			/* Sets the string to the given text. */
+			void setTo(const char*);
+			/* Appends the new text to the current string. */
+			void append(const char*);
 
-#endif /* !__ORION_OKIT_H__ */
+			/* Gets the length of the current string. */
+			size_t getLength();
+			/* Prints the string to the terminal. Pass true if you want all of the data. */
+			void log(bool verbose=false);
+
+			/* Overload. Converts into a char*. Example: char* test=myOString; */
+			operator char*() const;
+			/* Overload. Same as above, but with a const char* instead. */
+			operator const char*() const;
+			/* Overload. Same as append(const char*). */
+			OString& operator+=(const char*);
+			/* Overload. Returns a new string that is the first string with the second string appended. Example: OString newString = oldString+"Appended String!"; */
+			OString operator+(const char*);
+			/* Overload. Same as setTo(const char*). */
+			OString& operator=(const char*);
+	};
+}
+
+#endif /* !__ORION_OKIT_OSTRING_H__ */

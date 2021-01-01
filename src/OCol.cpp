@@ -23,20 +23,15 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#include <stdio.h>
+#include "include/OCol.hpp"
 
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OCol.hpp"
-#include "OString.hpp"
-#include "CContext.hpp"
-
-/* Uncomment when finished.
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
+	OCol::OCol() : r{0},g{0},b{0},XCOL{0} {}
+	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
+	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
+		r=_r,g=_g,b=_b;
+		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
+	}
+	void OCol::log(){printf("OCol %p ( %d ,%d ,%d )\n",this,r,g,b);}
 }
-*/
-
-#endif /* !__ORION_OKIT_H__ */

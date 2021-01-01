@@ -23,20 +23,73 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#include <stdio.h>
+#include <stdlib.h>
+#include "include/OString.hpp"
 
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OCol.hpp"
-#include "OString.hpp"
-#include "CContext.hpp"
-
-/* Uncomment when finished.
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-}
-*/
+	OString::~OString(){
+		if(!isMemStatic){free(str);}
+	}
+	OString::OString() : str{0},length{0},isMemStatic{false} {}
+	OString::OString(const char* text) : str{(char*)text} {
+		length=calcLength(text);
+		isMemStatic=true;
+	}
 
-#endif /* !__ORION_OKIT_H__ */
+	size_t OString::calcLength(const char* t){
+		size_t l=0;
+		while(true){
+			if(t[l]!='\0'){l++;}else{break;}
+		}
+		return l;
+	}
+
+	void OString::setTo(const char* text){
+		if(!isMemStatic){free(str);}
+		str=(char*)text;
+		length=calcLength(text);
+	}
+
+	void OString::append(const char* text){
+		size_t appendLength=calcLength(text);
+		size_t newLength=0;
+		char* tmp=(char*)malloc(sizeof(char)*(length+appendLength)+1);
+		while(newLength<length+appendLength){
+			if(newLength<length){
+				tmp[newLength]=str[newLength];
+			}else{
+				tmp[newLength]=text[newLength-length];
+			}
+			newLength++;
+		}
+		length=newLength;
+		tmp[newLength+1]='\0';
+		if(!isMemStatic){free(str);}
+		str=tmp;
+		isMemStatic=false;
+	}
+
+	size_t OString::getLength(){return length;}
+
+	void OString::log(bool verbose){
+		if(verbose){printf("OString %p with length %lu : %s\n",this,length,str);}
+		else{printf("%s\n",str);}
+	}
+
+	OString::operator char*() const{return str;}
+	OString::operator const char*() const{return str;}
+	OString& OString::operator+=(const char* other){
+		append(other);
+		return *this;
+	}
+	OString OString::operator+(const char* other){
+		OString newStr(str);
+		newStr.append(other);
+		return newStr;
+	}
+	OString& OString::operator=(const char* other){
+		setTo(other);
+		return *this;
+	}
+}

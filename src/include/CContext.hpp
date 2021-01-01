@@ -26,6 +26,8 @@
 #ifndef __ORION_OKIT_CCONTEXT_H__
 #define __ORION_OKIT_CCONTEXT_H__
 
+#include "OCol.hpp"
+
 /* Wrapper for masks in the X Event System. */
 typedef unsigned long CXMask;
 
@@ -53,7 +55,7 @@ namespace Orion{
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext();
 			/* */
-			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, CXMask mask,bool useScale);
+			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, OCol* col, CXMask mask, bool useScale);
 	};
 }
 
