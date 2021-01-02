@@ -55,8 +55,32 @@ namespace Orion{
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext();
 			/* */
-			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, OCol* col, CXMask mask, bool useScale);
+			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
 	};
+
+	/* Internal. This is how the event manager gets the Context from the X service. */
+	struct CXHANDLE{
+		unsigned long XWIN;
+		CContext* context;
+	};
+
+	namespace X{
+		/* Internal. This is a global array of all current XHandles. */
+		extern CXHANDLE* CXHA;
+		/* Internal. Current count of XHandles. */
+		extern unsigned long CXHA_COUNT;
+		/* Internal. The current cap of XHandles before the array gets resized by the step size provided in 'CContext.cpp". */
+		extern unsigned long CXHA_CAP;
+
+		/* Internal. Initialises the XHandle Array. Returns true on success, terminates program upon failure (and returns false if that fails). */
+		extern bool CXHA_INIT();
+		/* Internal. Links a Context to an XHandle and adds that to the array. Returns true on success. */
+		extern bool CXHA_LINK(CContext*);
+		/* Internal. Unlinks a Context from the XHandle Array. Returns true on success, false if wasn't present. */
+		extern bool CXHA_UNLINK(CContext*);
+		/* Internal. Returns a Context* from an XID provided by the X event system. */
+		extern CContext* CXHA_GETFROMXID(unsigned long XWIN);
+	}
 }
 
 #endif /* !__ORION_OKIT_CCONTEXT_H__ */

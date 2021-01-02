@@ -23,9 +23,19 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "include/OKit.hpp"
 using namespace Orion;
 
 int main(){
 	X::connect();
+	X::CXHA_INIT();
+	OCol col(30,27,27);
+	// (30,27,27) (55,86,15)
+	CContext context(0,100,100,400,350,"My OApp",&col,0,false);
+	CContext context2(0,100,100,400,350,"My OApp",&col,0,false);
+	CContext context3(0,100,100,400,350,"My OApp",&col,0,false);
+	sleep(5);
 }

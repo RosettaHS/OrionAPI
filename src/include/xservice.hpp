@@ -30,7 +30,7 @@
 #define OXONLY if(Orion::X::DPY)
 
 /* Quick re-route to Orion::X::DPY. Use this to get the X Display connection instead of writing out the namespaces. */
-#define OXDPY Orion::X::DPY
+#define OXDPY (Display*)Orion::X::DPY
 /* Quick re-route to Orion::X::ROOT. Use this to get the X root window (window manager) instead of writing out the namespaces. */
 #define OXROOT Orion::X::ROOT
 /* Quick re-route to Orion::X::SCR. Use this to get the current X Screen instead of writing out the namespaces. */

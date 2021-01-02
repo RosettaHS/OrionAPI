@@ -28,6 +28,8 @@
 namespace Orion{
 	namespace Application{
 		float scale=1.0f;
+		bool fatalErrors=false;
+		bool verbose=false;
 		/* Add more later, focus on getting the Context to work first! */
 	}
 }
