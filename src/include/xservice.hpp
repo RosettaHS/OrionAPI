@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_XSERVICE_H__
-#define __ORION_XSERVICE_H__
+#ifndef __ORION_OKIT_XSERVICE_H__
+#define __ORION_OKIT_XSERVICE_H__
 
 /* Quick re-route to if(Orion::X::DPY). Add a scope and do any calls in this that you only want to occur if X initialises. */
 #define OXONLY if(Orion::X::DPY)
@@ -49,4 +49,4 @@ namespace Orion{
 	}
 }
 
-#endif /* !__ORION_XSERVICE_H__ */
+#endif /* !__ORION_OKIT_XSERVICE_H__ */
