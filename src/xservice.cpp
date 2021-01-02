@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include "include/xservice.hpp"
+#include "include/CContext.hpp"
 
 namespace Orion{
 	namespace X{
@@ -41,6 +42,16 @@ namespace Orion{
 			SCR=DefaultScreen(DPY);
 			ROOT=RootWindow(DPY,SCR);
 			return true;
+		}
+
+		void eventLoop(){
+			XEvent event;
+			CContext* context;
+			while(CXHA_COUNT){
+				XNextEvent((Display*)DPY,&event);
+				context=CXHA_GETFROMXID(event.xany.window);
+				if(context){context->listenerFunc(context->listener,(void*)&event);}
+			}
 		}
 	}
 }
