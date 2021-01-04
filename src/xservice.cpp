@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
+#include "include/errdef.h"
 #include "include/xservice.hpp"
 #include "include/CContext.hpp"
 
@@ -38,7 +39,7 @@ namespace Orion{
 		bool connect(){
 			if(DPY){return false;}
 			DPY=XOpenDisplay(0);
-			if(!DPY){printf("OKIT | FATAL ERROR! FAILED TO CONNECT TO X DISPLAY!\n"),exit(1);return false;}
+			if(!DPY){printf("OKIT | FATAL ERROR! FAILED TO CONNECT TO X DISPLAY!\n"),exit(OERR_X11_CONNECTION_FAILURE);return false;}
 			SCR=DefaultScreen(DPY);
 			ROOT=RootWindow(DPY,SCR);
 			return true;

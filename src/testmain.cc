@@ -30,11 +30,22 @@
 #include "include/OKit.hpp"
 using namespace Orion;
 
+void myFunc(void* listener, void* event){
+	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
+}
+void myFunc2(void* listener, void* event){
+	printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
+}
+
 int main(){
 	X::connect();
 	X::CXHA_INIT();
-	OCol col(30,27,27);
-	// (30,27,27) (55,86,15)
-	CContext context(0,100,100,400,350,"My OApp",&col,ExposureMask,false);
+	OCol col(255,86,15);
+	OCol col2(30,27,27);
+
+	CContext context(0,100,100,400,350,"My OApp",&col,ButtonPressMask,false);
+	context.listenerFunc=myFunc;
+	CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,false);
+	context2.listenerFunc=myFunc2;
 	X::eventLoop();
 }

@@ -44,7 +44,7 @@ namespace Orion{
 	}
 	CContext::CContext() : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
-	CContext::CContext(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale){
+	CContext::CContext(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {
 		OXONLY{
 			int x,y;
 			unsigned int w,h;
