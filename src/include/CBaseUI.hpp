@@ -23,27 +23,22 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_CBASEUI_H__
+#define __ORION_OKIT_CBASEUI_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
-
-/* Uncomment when finished.
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-}
-*/
+	/* An enumeration of all deferrable class types used in OKit. */
+	enum OType{
+		OT_ERROR,
+		OT_DRAWABLE,
+		OT_CONTAINER,
+		OT_CONTAINABLE
+	};
 
-#endif /* !__ORION_OKIT_H__ */
+	/* Base derivable class that all OKit UI elements derive from. */
+	class CBaseUI{
+		OType type;
+	};
+}
+
+#endif /* !__ORION_OKIT_CBASEUI_H__ */
