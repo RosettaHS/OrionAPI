@@ -32,7 +32,7 @@
 #include "include/CContext.hpp"
 
 namespace Orion{
-	CContext::~CContext(){
+	CContext::~CContext(void){
 		OXONLY{
 			if(XWIN){
 				XUnmapWindow(OXDPY,XWIN);
@@ -42,7 +42,7 @@ namespace Orion{
 			}
 		}
 	}
-	CContext::CContext() : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
+	CContext::CContext(void) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
 	CContext::CContext(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {
 		OXONLY{
@@ -102,7 +102,7 @@ namespace Orion{
 			return true;
 		}
 
-		bool CXHA_INIT(){
+		bool CXHA_INIT(void){
 			if(CXHA){return false;}
 			CXHA=(CXHANDLE*)malloc(sizeof(CXHANDLE)*__CXHA_DEFAULT_CAP);
 			if(!CXHA){printf("OKIT | ERROR! CXHA FAILED TO INITALISE! CAN'T MALLOC!\n");exit(OERR_CANTMALLOC);return false;}

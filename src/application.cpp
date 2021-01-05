@@ -52,14 +52,14 @@ namespace Orion{
 		const char* bindir=0;
 		const char* datapath=0;
 
-		static void _initCWD(){
+		static void _initCWD(void){
 			const char* tmp=get_current_dir_name();
 			if(tmp){
 				cwd=tmp;
 			}else{cwd=0;}
 		}
 
-		static void _initBinPathAndDir(){
+		static void _initBinPathAndDir(void){
 			char tmp[64];
 			char path[OPATH_MAX];
 			
@@ -82,7 +82,7 @@ namespace Orion{
 			memcpy((void*)bindir,path,OPATH_MAX);
 		}
 
-		static void _initOAppCheck(){
+		static void _initOAppCheck(void){
 			char extension[6];
 			if(chdir(bindir)==0){
 				int length=strlen(bindir);
@@ -95,7 +95,7 @@ namespace Orion{
 			}else{isNativeOApp=false;printf("OKIT | ERROR! FAILED TO CHANGE TO BINARY PATH %s\n",bindir);}
 		}
 
-		static void _initDataPath(){
+		static void _initDataPath(void){
 			char tmp[64];
 			char path[OPATH_MAX];
 			ONATIVEONLY{

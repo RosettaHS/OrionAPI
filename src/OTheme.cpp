@@ -24,14 +24,26 @@
 /**********************************************************************************/
 
 #include <stdio.h>
-#include "include/OCol.hpp"
+#include <stdlib.h>
+#include "include/application.hpp"
+#include "include/OTheme.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
+	void OTheme::setPrimary(unsigned char r, unsigned char g, unsigned char b){primary.setTo(r,g,b);}
+	void OTheme::setSecondary(unsigned char r, unsigned char g, unsigned char b){secondary.setTo(r,g,b);}
+	void OTheme::setTertiary(unsigned char r, unsigned char g, unsigned char b){tertiary.setTo(r,g,b);}
+	void OTheme::setAccent(unsigned char r, unsigned char g, unsigned char b){accent.setTo(r,g,b);}
+	void OTheme::log(void){
+		printf("OTheme %p {\n",this);
+		printf("\t Primary : %d,%d,%d\n",primary.r,primary.g,primary.b);
+		printf("\t Secondary : %d,%d,%d\n",secondary.r,secondary.g,secondary.b);
+		printf("\t Tertiary : %d,%d,%d\n",tertiary.r,tertiary.g,tertiary.b);
+		printf("\t Accent : %d,%d,%d\n",accent.r,accent.g,accent.b);
+		printf("};\n");
 	}
-	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",this,r,g,b);}
+	OTheme OTHEME_GLOBAL;
+	bool OTHEME_PRIMARY_OVERRIDE=false;
+	bool OTHEME_SECONDARY_OVERRIDE=false;
+	bool OTHEME_TERTIARY_OVERRIDE=false;
+	bool OTHEME_ACCENT_OVERRIDE=false;
 }

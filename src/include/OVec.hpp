@@ -23,15 +23,36 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include "include/OCol.hpp"
+#ifndef __ORION_OKIT_OVEC_H__
+#define __ORION_OKIT_OVEC_H__
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
-	}
-	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",this,r,g,b);}
+	/* Used to hold position data for any OKit object. */
+	struct OVec{
+		/* The X and Y positions on the screen or of the object.*/
+		int x,y;
+
+		/* Empty constructor. Sets all values to 0. */
+		OVec(void);
+		/* Creates an OVec with the given parameters. */		
+		OVec(int x, int y);
+		/* Prints all the data to the terminal. */
+		void log(void);
+	};
+
+	/* Used to hold position and size data for any OKit object. */
+	struct OVec4{
+		/* The X and Y positions on the screen or of the object. */
+		int x,y;
+		/* The Width and Height of the object.*/
+		unsigned int w,h;
+
+		/* Empty constructor. Sets all values to 0. */
+		OVec4(void);
+		/*Creates an OVec4 with the given parameters. Takes in X, Y, Width, Height respectively. */
+		OVec4(int x, int y, unsigned int w, unsigned int h);
+		/* Prints all the data to the terminal. */
+		void log(void);
+	};
 }
+#endif /* !__ORION_OKIT_OVEC_H__ */

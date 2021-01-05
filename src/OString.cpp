@@ -28,10 +28,10 @@
 #include "include/OString.hpp"
 
 namespace Orion{
-	OString::~OString(){
+	OString::~OString(void){
 		if(!isMemStatic){free(str);}
 	}
-	OString::OString() : str{0},length{0},isMemStatic{false} {}
+	OString::OString(void) : str{0},length{0},isMemStatic{false} {}
 	OString::OString(const char* text) : str{(char*)text} {
 		length=calcLength(text);
 		isMemStatic=true;
@@ -70,15 +70,15 @@ namespace Orion{
 		isMemStatic=false;
 	}
 
-	size_t OString::getLength(){return length;}
+	size_t OString::getLength(void){return length;}
 
 	void OString::log(bool verbose){
 		if(verbose){printf("OString %p with length %lu : %s\n",this,length,str);}
 		else{printf("%s\n",str);}
 	}
 
-	OString::operator char*() const{return str;}
-	OString::operator const char*() const{return str;}
+	OString::operator char*(void) const{return str;}
+	OString::operator const char*(void) const{return str;}
 	OString& OString::operator+=(const char* other){
 		append(other);
 		return *this;

@@ -51,9 +51,9 @@ namespace Orion{
 			void (*listenerFunc)(void* l,void* e);
 		/* General Handling */
 			/* Empty constructor. Sets all values to 0. */
-			CContext();
+			CContext(void);
 			/* Destructor. Frees all memory and unlinks from X. */
-			~CContext();
+			~CContext(void);
 			/* */
 			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
 	};
@@ -73,7 +73,7 @@ namespace Orion{
 		extern unsigned long CXHA_CAP;
 
 		/* Internal. Initialises the XHandle Array. Returns true on success, terminates program upon failure (and returns false if that fails). */
-		extern bool CXHA_INIT();
+		extern bool CXHA_INIT(void);
 		/* Internal. Links a Context to an XHandle and adds that to the array. Returns true on success. */
 		extern bool CXHA_LINK(CContext*);
 		/* Internal. Unlinks a Context from the XHandle Array. Returns true on success, false if wasn't present. */

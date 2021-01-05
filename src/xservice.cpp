@@ -36,7 +36,7 @@ namespace Orion{
 		unsigned long 	ROOT=0;
 		int	 			SCR=0;
 
-		bool connect(){
+		bool connect(void){
 			if(DPY){return false;}
 			DPY=XOpenDisplay(0);
 			if(!DPY){printf("OKIT | FATAL ERROR! FAILED TO CONNECT TO X DISPLAY!\n"),exit(OERR_X11_CONNECTION_FAILURE);return false;}
@@ -45,7 +45,7 @@ namespace Orion{
 			return true;
 		}
 
-		void eventLoop(){
+		void eventLoop(void){
 			XEvent event;
 			CContext* context;
 			while(CXHA_COUNT){

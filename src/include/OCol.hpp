@@ -35,13 +35,13 @@ namespace Orion{
 		unsigned long XCOL;
 	/* General Handling */
 		/* Empty contructor. Sets all values to 0. */
-		OCol();
+		OCol(void);
 		/* Creates an OCol with the given parameters. */
 		OCol(unsigned char r, unsigned char g, unsigned char b);
 		/* Sets the OCol to use the given parameters. */
 		void setTo(unsigned char r, unsigned char g, unsigned char b);
 		/* Prints RGB data to terminal. */
-		void log();
+		void log(void);
 	};
 	
 }

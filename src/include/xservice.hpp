@@ -45,9 +45,9 @@ namespace Orion{
 		/* The X Screen to use in certain graphics calls. */
 		extern int	 			SCR;
 		/* Initialises a connection to the X display. Returns true on success, false if the X connection is already initalised, or crashes the program if X is not found. */
-		extern bool connect();
+		extern bool connect(void);
 		/* Minimal event system. Blocks the program and dispatches events from the X service. */
-		extern void eventLoop();
+		extern void eventLoop(void);
 	}
 }
 

@@ -42,9 +42,9 @@ namespace Orion{
 			size_t calcLength(const char*);
 		public:
 			/* Frees all memory (if dynamically allocated) and sets all values to 0. */
-			~OString();
+			~OString(void);
 			/* Empty constructor. Sets all values to 0. */
-			OString();
+			OString(void);
 			/* Creates the string with the given text. */
 			OString(const char*);
 			/* Sets the string to the given text. */
@@ -53,14 +53,14 @@ namespace Orion{
 			void append(const char*);
 
 			/* Gets the length of the current string. */
-			size_t getLength();
+			size_t getLength(void);
 			/* Prints the string to the terminal. Pass true if you want all of the data. */
 			void log(bool verbose=false);
 
 			/* Overload. Converts into a char*. Example: char* test=myOString; */
-			operator char*() const;
+			operator char*(void) const;
 			/* Overload. Same as above, but with a const char* instead. */
-			operator const char*() const;
+			operator const char*(void) const;
 			/* Overload. Same as append(const char*). */
 			OString& operator+=(const char*);
 			/* Overload. Returns a new string that is the first string with the second string appended. Example: OString newString = oldString+"Appended String!"; */

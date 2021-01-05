@@ -24,14 +24,14 @@
 /**********************************************************************************/
 
 #include <stdio.h>
-#include "include/OCol.hpp"
+#include "include/OVec.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
-	}
-	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",this,r,g,b);}
+	OVec::OVec(void) : x{0},y{0} {}
+	OVec::OVec(int _x, int _y) : x{_x},y{_y} {}
+	void OVec::log(void){printf("OVec( %d , %d )\n",x,y);}
+
+	OVec4::OVec4(void) : x{0},y{0},w{0},h{0} {}
+	OVec4::OVec4(int _x, int _y, unsigned int _w, unsigned int _h) : x{_x},y{_y},w{_w},h{_h} {}
+	void OVec4::log(void){printf("OVec4( %d , %d , %u , %u )\n",x,y,w,h);}
 }
