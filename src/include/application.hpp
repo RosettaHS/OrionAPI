@@ -76,7 +76,7 @@ namespace Orion{
 		/* Sets the global generic name for your OApp. */
 		void setName(const char*);
 		/* Gets the global generic name for your OApp. */
-		const char* getName();
+		const char* getName(void);
 
 		/* Is the application an Orion-Native OApp? See ONATIVEONLY. */
 		extern bool isNativeOApp;
@@ -93,7 +93,7 @@ namespace Orion{
 		
 
 		/* Internal. Sets up unitialised varibles for your OApp. Returns true if successful, false if not. */
-		bool init();
+		extern bool init(void);
 	}
 }
 

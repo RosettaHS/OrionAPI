@@ -34,8 +34,6 @@
 /*Might wanna change this soon once you know what you're actually doing.*/
 #define _MKDIRARG ( S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH )
 
-/*I know you're going to cry looking at this, but, it works.*/
-
 namespace Orion{
 	namespace Application{
 		bool inited=false;
@@ -45,7 +43,7 @@ namespace Orion{
 		const char* name=0;
 		const char* username=0;
 		void setName(const char* _name){name=_name;}
-		const char* getName(){return name;}
+		const char* getName(void){return name;}
 
 		bool isNativeOApp=false;
 		pid_t pid=0;
@@ -122,7 +120,7 @@ namespace Orion{
 			}
 		}
 	
-		bool init(){
+		bool init(void){
 			if(inited){return false;}
 		/*Sets up overrides.*/
 			pid=getpid();
