@@ -26,29 +26,74 @@
 #ifndef __ORION_OKIT_APPLICATION_H__
 #define __ORION_OKIT_APPLICATION_H__
 
+#include <sys/types.h>
+
+/*Orion implementation for maximum amount of characters allowed in a directory path.*/
+#define OPATH_MAX 256
+
 /* Wrapper if() statement for exiting upon fatal errors. Include <stdlib.h>! */
 #define OERR_EXIT(errcode) if(Orion::Application::fatalErrors){exit(errcode);}
+/*Wrapper if() statement. Use this as an easier method of checking if application is Orion-Native. Example:
+	ONATIVEONLY{doThings();} */
+#define ONATIVEONLY if(Orion::Application::isNativeOApp)
 /* Wrapper if() statements for printing debug information to the terminal. Include <stdio.h>! */
 #define OVERB_OUT if(Orion::Application::verbose){printf(
 #define OVERB_END );}
 
-/* Quick re-route to Orion::Application::scale. Use this to get scale of the application. */
-#define OAPP_SCALE Orion::Application::scale
-/* Quick re-route to Orion::Application::fatalErrors. Use this to check if OKit errors will result in process termination. */
-#define OAPP_FATALERRORS Orion::Application::fatalErrors
-/* Quick re-route to Orion::Application::verbose. Use this to check if OKit is set to Verbose mode. */
+/*Quick re-route for Orion::Application::inited.*/
+#define OAPP_INITED Orion::Application::inited
+/*Quick re-route for Orion::Application::verbose.*/
 #define OAPP_VERBOSE Orion::Application::verbose
+/*Quick re-route for Orion::Application::errorsFatal.*/
+#define OAPP_FATALERRORS Orion::Application::errorsFatal
+/*Quick re-route for Orion::Application::pid.*/
+#define OAPP_PID Orion::Application::pid
+/*Quick re-route for Orion::Application::scale.*/
+#define OAPP_SCALE Orion::Application::scale
+/*Quick re-route for Orion::Application::cwd.*/
+#define OAPP_CWD Orion::Application::cwd
+/*Quick re-route for Orion::Application::binpath.*/
+#define OAPP_BINPATH Orion::Application::binpath
+/*Quick re-route for Orion::Application::bindir.*/
+#define OAPP_BINDIR Orion::Application::bindir
+/*Quick re-route for Orion::Application::datapath.*/
+#define OAPP_DATAPATH Orion::Application::datapath
 
 namespace Orion{
 	namespace Application{
-		/* The global UI scale of the OApp. */
-		extern float	scale;
-		/* Forces OApp to terminate upon encountering any error. */
-		extern bool		fatalErrors;
-		/* Causes OKit to print out data to the terminal for most interactions. */
-		extern bool		verbose;
+		/* Internal. Are variables initialised? See OAPP_INITED. */
+		extern bool inited;
+		/* Boolean to decide if OKit should print debug messages to the terminal. To utilise this as a developer, see OVERB_OUT and OVERB_END macros. */
+		extern bool verbose;
+		/* Boolean to decide if OKit should exit if it encounters an error. */
+		extern bool errorsFatal;
+		/* Global UI scale for your OApp. See OAPP_SCALE. */
+		extern float scale;
+		/* Global generic name for your OApp as opposed to individual OWindow titles. */
+		extern const char* name;
+		/* Username of the user running your OApp. */
+		extern const char* username;
+		/* Sets the global generic name for your OApp. */
+		void setName(const char*);
+		/* Gets the global generic name for your OApp. */
+		const char* getName();
+
+		/* Is the application an Orion-Native OApp? See ONATIVEONLY. */
+		extern bool isNativeOApp;
+		/* The PID of your OApp. See OAPP_PID. */
+		extern pid_t pid;
+		/* Current Working Directory; where you launched the OApp. */
+		extern const char* cwd;
+		/* Global system path to your OApp binary */
+		extern const char* binpath;
+		/* Global system directory which your OApp binary is located. */
+		extern const char* bindir;
+		/* Global system path where OKit will store your data. Use this instead of generic write functions! */
+		extern const char* datapath;
 		
-		/* Add more later, focus on getting the Context to work first! */
+
+		/* Internal. Sets up unitialised varibles for your OApp. Returns true if successful, false if not. */
+		bool init();
 	}
 }
 
