@@ -23,27 +23,32 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#include <stdio.h>
+#include <stdlib.h>
+#include "include/OKit.hpp"
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
 
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
-}
+	bool OKitStart(const char* name){
+		if(OAPP_INITED){return false;}
+		if(name){Application::setName(name);}
+		Application::init();
+		X::connect();
+		X::CXHA_INIT();
 
-#endif /* !__ORION_OKIT_H__ */
+		OAPP_INITED=true;
+		return true;
+	}
+
+	bool OKitEventLoop(){
+		if(!OAPP_INITED){return false;}
+		X::eventLoop(); /* TODO: Actually add something to this!! */
+		return true;
+	}
+
+	bool OKitEnd(){
+		if(!OAPP_INITED){return false;}
+		return true; /* TODO: Actually add something to this!! */
+	}
+}
