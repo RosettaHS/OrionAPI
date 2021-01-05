@@ -23,28 +23,34 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_CDRAWABLE_H__
+#define __ORION_OKIT_CDRAWABLE_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
 #include "CBaseUI.hpp"
 #include "CContext.hpp"
-#include "CDrawable.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	/* Abstract class for all drawable UI elements. */
+	class CDrawable : public CBaseUI{
+		protected:
+			/* The X and Y positional coordinates of the Drawable. */
+			int x,y;
+			/* The Width and Height (size) of the Drawable. */
+			unsigned int w,h;
+			/* The minimum allowed width and height of the Drawable. Used in Containables. */
+			unsigned int minW,minH;
+			/* The Context that the Drawable can draw to. */
+			CContext* context;
+		public:
+			/* Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
+			void(*drawPtr)(CDrawable* obj);
+			/* Virtual method, sets the position of the Drawable and does additional computation that the deferred class may require. */
+			virtual void setPos(int x, int y) = 0;
+			/* Virtual method, sets the size of the Drawable and does additional computation that the deferred class may require. */
+			virtual void setSize(unsigned int w, unsigned int h) = 0;
+			/* Virtual method, sets the minimum size allowed on the Drawable and does additional computation that the deferred class may require. */
+			virtual void setMinSize(unsigned int w, unsigned int h) = 0;
+	};
 }
 
-#endif /* !__ORION_OKIT_H__ */
+#endif /* ! __ORION_OKIT_CDRAWABLE_H__ */
