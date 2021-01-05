@@ -37,7 +37,8 @@ namespace Orion{
 
 	/* Base derivable class that all OKit UI elements derive from. */
 	class CBaseUI{
-		OType type;
+		public:
+			OType type;
 	};
 }
 

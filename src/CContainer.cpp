@@ -23,31 +23,35 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
-
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "CContainable.hpp"
+#include "include/CDrawable.hpp"
+#include "include/CContainer.hpp"
+#include "include/CContainable.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
-}
+	CContainer::~CContainer(void){
+		childCount=0;
+		contextToUse=0;
+		children.~CNodeArray();
+	}
+	CContainer::CContainer(void){
+		childCount=0;
+		contextToUse=0;
+	}
+	bool CContainer::link(CContainable* obj){
+		if(children.link(obj)){
+			childCount=children.count;
+			return true;
+		}
+		return false;
+	}
 
-#endif /* !__ORION_OKIT_H__ */
+	bool CContainer::unlink(CContainable* obj){
+		if(children.link(obj)){
+			childCount=children.count;
+			return true;
+		}
+		return false;
+	}
+
+	int CContainer::getIndexOf(CContainable* obj){return children.getIndexOf(obj);}
+}

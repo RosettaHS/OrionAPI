@@ -33,13 +33,17 @@
 namespace Orion{
 	CNodeArray::~CNodeArray(void){free(arr);}
 	CNodeArray::CNodeArray(void) : arr{0},count{0},cap{0},step{0} {}
-	CNodeArray::CNodeArray(unsigned short _cap,unsigned char _step) : arr{0},count{0},cap{_cap},step{_step} {
+	bool CNodeArray::init(unsigned short _cap,unsigned char _step){
+		if(arr){return false;}
+		count=0,cap=_cap,step=_step;
 		arr=(CDrawable**)malloc(sizeof(CDrawable*)*_cap);
 		if(arr){
 			for(unsigned short i=0;i<_cap;i++){arr[i]=0;}
+			return true;
 		}else{
 			printf("OKIT | ERROR! CNodeArray( %us,%u ) CAN'T MALLOC AN ARRAY!\n",_cap,_step);
 			OERR_EXIT(OERR_CANTMALLOC)
+			return false;
 		}
 	}
 

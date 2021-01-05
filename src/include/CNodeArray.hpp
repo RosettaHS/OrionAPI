@@ -47,8 +47,8 @@ namespace Orion{
 			~CNodeArray(void);
 			/* Empty constructor. Sets all values to 0. */
 			CNodeArray(void);
-			/* Creates a CNodeArray with the given parameters. */
-			CNodeArray(unsigned short cap, unsigned char step);		
+			/* Initialises a CNodeArray with the given parameters. */
+			bool init(unsigned short cap, unsigned char step);		
 				
 			/* Links a CDrawable (preferably a CContainable) to the Node Array. Returns true if successful. */
 			bool link(CDrawable*);

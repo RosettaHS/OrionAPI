@@ -26,8 +26,35 @@
 #ifndef __ORION_OKIT_CCONTAINER_H__
 #define __ORION_OKIT_CCONTAINER_H__
 
+#include "CContext.hpp"
+#include "CNodeArray.hpp"
+
 namespace Orion{
 	class CContainable;	/* Forward declaration, see "CContainable.hpp" for proper declaration. */
+
+	/* Deferable abstract class that acts as a wrapper for CNodeArray. */
+	class CContainer{
+		protected:
+			/* The amount of children the container has. */
+			unsigned short childCount;
+			/* The context the container draws to internally. Would exist on top of another context or container. */
+			CContext selfContext;
+			/* The array of children. */
+			CNodeArray children;
+		public:
+			/* The context that children are meant to use. This is different per container. */
+			CContext* contextToUse;
+			/* The abstract function that all children use to connect. */
+			virtual bool link(CContainable*) = 0;
+			/* The abstract function that all children use to disconnect. */
+			virtual bool unlink(CContainable*) = 0;	
+			/* The abstract function that finds the index of a given child. */
+			virtual int getIndexOf(CContainable*) = 0;	
+			/* Empty constructor. Sets all values to 0. */
+			CContainer(void);
+			/* Destructor. Sets all values to 0 and frees memory. */
+			~CContainer(void);
+	};
 }
 
 #endif /* !__ORION_OKIT_CCONTAINER_H__ */

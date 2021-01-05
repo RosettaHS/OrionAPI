@@ -23,31 +23,29 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
-
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "CContainable.hpp"
+#include "include/CContainer.hpp"
+#include "include/CContainable.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	CContainable::CContainable(void){
+		type=OT_CONTAINABLE;
+		index=-1;
+	}
+	bool CContainable::linkTo(CContainer* container){
+		if(container->link(this)){
+			index=container->getIndexOf(this);
+			context=container->contextToUse;
+			return true;
+		}
+		return false;
+	}
+	bool CContainable::unlinkTo(CContainer* container){
+		if(container->unlink(this)){
+			index=-1;
+			context=0;
+			return true;
+		}
+		return false;
+	}
+	int CContainable::getIndex(){return index;}
 }
-
-#endif /* !__ORION_OKIT_H__ */

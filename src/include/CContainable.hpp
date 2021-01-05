@@ -23,31 +23,28 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_CCONTAINABLE_H__
+#define __ORION_OKIT_CCONTAINABLE_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
 #include "CDrawable.hpp"
-#include "CNodeArray.hpp"
 #include "CContainer.hpp"
-#include "CContainable.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	/* The base class that all Containable objects inherit from. */
+	class CContainable : public CDrawable {
+		protected:
+			/* The index of the object. Is -1 if not linked. */
+			int index;
+		public:
+			/* Links an object to a given container. */
+			virtual bool linkTo(CContainer*) = 0;
+			/* Unlinks an object from a given container. */
+			virtual bool unlinkTo(CContainer*) = 0;
+			/* Returns the index of the object. Is kept protected to prevent tampering. */
+			int getIndex(void);
+			/* Empty constructor. Sets all values to 0. */
+			CContainable(void);
+	};
 }
 
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_CCONTAINABLE_H__ */
