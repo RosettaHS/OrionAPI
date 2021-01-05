@@ -32,7 +32,7 @@
 #define OPATH_MAX 256
 
 /* Wrapper if() statement for exiting upon fatal errors. Include <stdlib.h>! */
-#define OERR_EXIT(errcode) if(Orion::Application::fatalErrors){exit(errcode);}
+#define OERR_EXIT(errcode) if(Orion::Application::errorsFatal){exit(errcode);}
 /*Wrapper if() statement. Use this as an easier method of checking if application is Orion-Native. Example:
 	ONATIVEONLY{doThings();} */
 #define ONATIVEONLY if(Orion::Application::isNativeOApp)

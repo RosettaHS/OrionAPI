@@ -23,30 +23,11 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
-
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
+#ifndef __ORION_OKIT_CCONTAINER_H__
+#define __ORION_OKIT_CCONTAINER_H__
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	class CContainable;	/* Forward declaration, see "CContainable.hpp" for proper declaration. */
 }
 
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_CCONTAINER_H__ */

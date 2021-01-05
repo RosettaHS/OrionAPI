@@ -23,30 +23,46 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_CNODEARRAY_H__
+#define __ORION_OKIT_CNODEARRAY_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
-
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CContext.hpp"
 #include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
 
 namespace Orion{
-	extern bool OKitStart(const char* AppName=0);
-	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	/* Internal. Holds child elements for Containers. */
+	class CNodeArray{
+		public:
+			/* Internal. Array of child pointers. */
+			CDrawable** arr;
+			/* Internal. Current amount of children. */
+			unsigned short count;
+			/* Internal. Maximum amount of children before resize. */
+			unsigned short cap;
+			/* Internal. Amount to increase array size during resize. */
+			unsigned char step;
+			/* Internal. Resizes array to set size. Returns true if successful. */
+			bool resize(unsigned short size);
+
+			/* Destructor. Destroys all data. */
+			~CNodeArray(void);
+			/* Empty constructor. Sets all values to 0. */
+			CNodeArray(void);
+			/* Creates a CNodeArray with the given parameters. */
+			CNodeArray(unsigned short cap, unsigned char step);		
+				
+			/* Links a CDrawable (preferably a CContainable) to the Node Array. Returns true if successful. */
+			bool link(CDrawable*);
+			/* Unlinks a CDrawable (preferably a CContainable) to the Node Array. Returns true if successful. */
+			bool unlink(CDrawable*);
+			/* Finds and returns the index of a given CDrawable (preferably a CContainable) in the Node Array. Returns -1 on error. */
+			int getIndexOf(CDrawable*);
+			/* Gets the child count of Node Array. */
+			unsigned short getCount(void);								
+			/* Draws all children of the Node Array. */
+			void drawAll(void);
+			/* Internal/DEBUG. Logs all child data to terminal. */
+			void log(void);	
+		};
 }
 
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_CNODEARRAY_H__ */
