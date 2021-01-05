@@ -33,7 +33,9 @@
 #include "errdef.h"
 #include "application.hpp"
 #include "xservice.hpp"
+#include "OVec.hpp"
 #include "OCol.hpp"
+#include "OTheme.hpp"
 #include "OString.hpp"
 #include "CContext.hpp"
 
