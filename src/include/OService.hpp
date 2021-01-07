@@ -29,7 +29,7 @@
 namespace Orion{
 	/* Starts the OKit service. This is required to use any OKit UI elements. Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity. */
 	extern bool OKitStart(const char* AppName=0,bool ForceONative=false);
-	/* Runs the OKit service. Blocks function execution until OKit ends. Plce this at the bottom of main(). */
+	/* Runs the OKit service. Blocks function execution until OKit ends. Place this at the bottom of main(). */
 	extern bool OKitEventLoop(void);
 }
 
