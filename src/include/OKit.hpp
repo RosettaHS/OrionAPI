@@ -28,7 +28,6 @@
 
 #define OKIT_VERSION 	0
 #define OKIT_REVISION	0
-#define OKIT_LICENSE 	"MIT"
 
 #include "errdef.h"
 #include "application.hpp"
@@ -38,6 +37,7 @@
 #include "OTheme.hpp"
 #include "OString.hpp"
 #include "CBaseUI.hpp"
+#include "CXEvent.hpp"
 #include "CContext.hpp"
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"

@@ -26,6 +26,7 @@
 #ifndef __ORION_OKIT_CCONTEXT_H__
 #define __ORION_OKIT_CCONTEXT_H__
 
+#include "CXEvent.hpp"
 #include "OCol.hpp"
 
 /* Wrapper for masks in the X Event System. */
@@ -48,7 +49,7 @@ namespace Orion{
 			/* The top-level object that is listening for events. Something like an OButton for example. */
 			void* listener;
 			/* A pointer to the function that works as a router on the top level object. Takes in the listner and the XEvent. */
-			void (*listenerFunc)(void* l,void* e);
+			void (*listenerFunc)(void* l,X::CXEvent* e);
 		/* General Handling */
 			/* Empty constructor. Sets all values to 0. */
 			CContext(void);
@@ -58,13 +59,12 @@ namespace Orion{
 			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
 	};
 
-	/* Internal. This is how the event manager gets the Context from the X service. */
-	struct CXHANDLE{
-		unsigned long XWIN;
-		CContext* context;
-	};
-
 	namespace X{
+		/* Internal. This is how the event manager gets the Context from the X service. */
+		struct CXHANDLE{
+			unsigned long XWIN;
+			CContext* context;
+		};
 		/* Internal. This is a global array of all current XHandles. */
 		extern CXHANDLE* CXHA;
 		/* Internal. Current count of XHandles. */

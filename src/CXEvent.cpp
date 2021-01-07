@@ -24,43 +24,30 @@
 /**********************************************************************************/
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <X11/Xlib.h>
-#include "include/errdef.h"
-#include "include/xservice.hpp"
+#include <X11/Xutil.h>
 #include "include/CXEvent.hpp"
-#include "include/CContext.hpp"
 
 namespace Orion{
 	namespace X{
-		void* 			DPY=0;
-		unsigned long 	ROOT=0;
-		int	 			SCR=0;
-
-		bool connect(void){
-			if(DPY){return false;}
-			DPY=XOpenDisplay(0);
-			if(!DPY){printf("OKIT | FATAL ERROR! FAILED TO CONNECT TO X DISPLAY!\n"),exit(OERR_X11_CONNECTION_FAILURE);return false;}
-			SCR=DefaultScreen(DPY);
-			ROOT=RootWindow(DPY,SCR);
-			return true;
+		void CXEvent::compose(void* _e){
+			XEvent* e=(XEvent*)_e;
+			xtype=e->type;
+			switch(e->type){
+				case Expose:{type=CXE_EXPOSE;return;}
+				case KeyPress:{type=CXE_KEYCHAR;XLookupString(&e->xkey,&key.letter,1,0,0);key.pressed=true;key.code=e->xkey.keycode;key.mod=e->xkey.state;return;}
+				case KeyRelease:{type=CXE_KEYCHAR;key.pressed=false;key.code=e->xkey.keycode;key.mod=e->xkey.state;return;}
+			}
 		}
 
-		void eventLoop(void){
-			XEvent event;
-			CContext* context;
-			CXEvent wrapper;
-			while(CXHA_COUNT){
-				XNextEvent((Display*)DPY,&event);
-				context=CXHA_GETFROMXID(event.xany.window);
-				if(context){
-					wrapper.compose((void*)&event);
-					context->listenerFunc(context->listener,&wrapper);
-					wrapper.log();
-					if(event.type==KeyPress||event.type==KeyRelease){
-						printf("------_STATE_----- %u\n",event.xkey.state);
-					}
-				}
+
+		void CXEvent::log(void){
+			printf("CXEvent %p | type %d | xtype %d | {\n",this,type,xtype);
+			switch(type){
+				case CXE_EXPOSE:{printf("\tExpose\n}\n");return;}
+				case CXE_MFOCUS_CHANGED:{return;} /* TODO: Add logging data */
+				case CXE_XWIN_MODDED:{return;} /* TODO: Add logging data */
+				case CXE_KEYCHAR:{printf("\tkey.letter \"%c\"\n\tkey.pressed %d\n\tkey.code %u\n\tkey.mod %u\n}\n",key.letter,key.pressed,key.code,key.mod);return;}
 			}
 		}
 	}

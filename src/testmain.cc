@@ -30,7 +30,7 @@
 #include "include/OKit.hpp"
 using namespace Orion;
 
-void myFunc(void* listener, void* event){
+void myFunc(void* listener, X::CXEvent* event){
 	XEvent* e=(XEvent*)event;
 	char b=e->xkey.keycode;
 	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
@@ -47,7 +47,7 @@ int main(){
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
-	CContext context(0,100,100,400,350,"My OApp",&col,KeyPressMask,true);
+	CContext context(0,100,100,400,350,"My OApp",&col,ExposureMask|KeyPressMask|KeyReleaseMask,true);
 	context.listenerFunc=myFunc;
 	// CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,true);
 	// context2.listenerFunc=myFunc2;
