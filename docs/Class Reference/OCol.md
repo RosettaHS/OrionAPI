@@ -7,10 +7,10 @@ struct OCol{
 	unsigned char r,g,b;
 	unsigned long XCOL;
 
-	OCol();
+	OCol(void);
 	OCol(unsigned char r, unsigned char g, unsigned char b);
 	void setTo(unsigned char r, unsigned char g, unsigned char b);
-	void log();
+	void log(void);
 };
 ```
 ### Use
@@ -38,7 +38,7 @@ unsigned long XCOL;
 ```
 The actual colour that is passed to the X Display Server for rendering. Do not interact with or modify this manually.
 ```cpp
-OCol();
+OCol(void);
 ```
 An empty constructor. Will set all values to 0 and will be rejected by any function that takes in an `OCol&` or `OCol*`.
 ```cpp
@@ -50,7 +50,7 @@ void setTo(unsigned char r, unsigned char g, unsigned char b);
 ```
 Modifies an existing OCol and re-initialises it with the new values.
 ```cpp
-void log();
+void log(void);
 ```
 Prints the RGB values of a given OCol to the terminal. Rarely useful.
 

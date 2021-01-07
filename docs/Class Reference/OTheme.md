@@ -13,7 +13,7 @@ struct OTheme{
 	void setSecondary(unsigned char r, unsigned char g, unsigned char b);
 	void setTertiary(unsigned char r, unsigned char g, unsigned char b);
 	void setAccent(unsigned char r, unsigned char g, unsigned char b);
-	void log();
+	void log(void);
 };
 ```
 
@@ -62,7 +62,7 @@ void setAccent(unsigned char r, unsigned char g, unsigned char b);
 ```
 Sets the respective colour to the given parameters. Internally it calls `setTo(R,G,B)` on the [OCol](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md), making it functionally identical to setting the colour manually on a given value.
 ```cpp
-void log();
+void log(void);
 ```
 Prints all data of the OTheme to the terminal in a formatted manner. Rarely useful, but used for debugging.
 
@@ -76,19 +76,19 @@ You can change this manually, however your changes will be overriden with system
 ```cpp
 OTHEME_PRIMARY
 ```
-This macro is a quick re-route to `OKit::OTHEME_GLOBAL.primary`. This can be modified or read, and is the primary colour that all GUI elements will be created with.
+This macro is a quick re-route to `Orion::OTHEME_GLOBAL.primary`. This can be modified or read, and is the primary colour that all GUI elements will be created with.
 ```cpp
 OTHEME_SECONDARY
 ```
-This macro is a quick re-route to `OKit::OTHEME_GLOBAL.secondary`. This can be modified or read, and is the secondary colour that all GUI elements will be created with.
+This macro is a quick re-route to `Orion::OTHEME_GLOBAL.secondary`. This can be modified or read, and is the secondary colour that all GUI elements will be created with.
 ```cpp
 OTHEME_TERTIARY
 ```
-This macro is a quick re-route to `OKit::OTHEME_GLOBAL.tertiary`. This can be modified or read, and is the tertiary colour that all GUI elements will be created with.
+This macro is a quick re-route to `Orion::OTHEME_GLOBAL.tertiary`. This can be modified or read, and is the tertiary colour that all GUI elements will be created with.
 ```cpp
 OTHEME_ACCENT
 ```
-This macro is a quick re-route to `OKit::OTHEME_GLOBAL.accent`. This can be modified or read, and is the accent colour that all GUI elements will be created with.
+This macro is a quick re-route to `Orion::OTHEME_GLOBAL.accent`. This can be modified or read, and is the accent colour that all GUI elements will be created with.
 
 #### Overriding
 Orion-based operating systems have a built-in theming system that automatically changes the theme of all OApps running on the system.
@@ -104,7 +104,7 @@ bool OTHEME_ACCENT_OVERRIDE;
 Setting any one of these to `true` (as opposed to the default `false`) will tell Orion not to change the given value to the new updated system theme upon a theme change.
 Note that there are no macros that point to these variables, so to access them in a global scope you must access them from their namespace.
 ```
-OKit::OTHEME_PRIMARY_OVERRIDE=true;
+Orion::OTHEME_PRIMARY_OVERRIDE=true;
 ```
 
 Another thing of note about overriding your OApp's theme is it is highly discouraged. A small change such as changing the accent colour is acceptable,
