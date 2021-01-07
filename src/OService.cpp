@@ -24,8 +24,11 @@
 /**********************************************************************************/
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "include/OKit.hpp"
+// #include <stdlib.h>
+#include "include/application.hpp"
+#include "include/xservice.hpp"
+#include "include/CContext.hpp"
+#include "include/OService.hpp"
 
 namespace Orion{
 	bool OKitStart(const char* name){
@@ -34,7 +37,7 @@ namespace Orion{
 		Application::init();
 		X::connect();
 		X::CXHA_INIT();
-
+		OVERB_OUT "OKIT | Service sucessfully initialised!\n" OVERB_END
 		OAPP_INITED=true;
 		return true;
 	}
@@ -44,9 +47,4 @@ namespace Orion{
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		return true;
 	}
-
-	// bool OKitEnd(void){
-		// if(!OAPP_INITED){return false;}
-		// return true; /* TODO: Actually add something to this!! */
-	// }
 }

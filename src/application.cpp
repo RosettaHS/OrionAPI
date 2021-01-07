@@ -134,13 +134,15 @@ namespace Orion{
 			if(_env){
 				if(atoi(_env)>=1){errorsFatal=true;}
 			}
-			
-			OVERB_OUT "OKIT | Initialising Application.\n" OVERB_END
-			OVERB_OUT "OKIT | Running in verbose mode!\n" OVERB_END
-			OVERB_OUT "OKIT | Application Name:\t\t%s\n",name OVERB_END
-			OVERB_OUT "OKIT | Username:\t\t\t%s\n",username OVERB_END
-			OVERB_OUT "OKIT | Current Directory:\t\t%s\n",cwd OVERB_END	
-			OVERB_OUT "OKIT | Are Errors Fatal?:\t\t%s\n",(errorsFatal ? "true" : "false") OVERB_END
+
+			if(verbose){
+				printf("OKIT | Initialising Application.\n");
+				printf("OKIT | Running in verbose mode!\n");
+				printf("OKIT | Application Name:\t\t%s\n",name);
+				printf("OKIT | Username:\t\t\t%s\n",username);
+				printf("OKIT | Current Directory:\t\t%s\n",cwd);
+				printf("OKIT | Are Errors Fatal?:\t\t%s\n",(errorsFatal ? "true" : "false"));
+			}
 
 			_env=getenv("O_SCALE");
 			if(_env){
@@ -153,13 +155,12 @@ namespace Orion{
 			_initBinPathAndDir();
 			_initOAppCheck();
 			_initDataPath();
-
-			OVERB_OUT "OKIT | Full Binary path is:\t\t%s\n",binpath OVERB_END
-			OVERB_OUT "OKIT | Full Binary directory is:\t%s\n",bindir OVERB_END
-
-			OVERB_OUT "OKIT | Data path is:\t\t\t%s\n",datapath OVERB_END
-
-			OVERB_OUT "OKIT | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false") OVERB_END
+			if(verbose){
+				printf("OKIT | Full Binary path is:\t\t%s\n",binpath);
+				printf("OKIT | Full Binary directory is:\t%s\n",bindir);
+				printf("OKIT | Data path is:\t\t\t%s\n",datapath);
+				printf("OKIT | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false"));
+			}
 		return true;}
 	}
 }

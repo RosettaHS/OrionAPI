@@ -23,27 +23,14 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_SERVICE_H__
+#define __ORION_OKIT_SERVICE_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
+namespace Orion{
+	/* Starts the OKit service. This is required to use any OKit UI elements. Optionally you can pass a name for your application. */
+	extern bool OKitStart(const char* AppName=0);
+	/* Runs the OKit service. Blocks function execution until OKit ends. Plce this at the bottom of main(). */
+	extern bool OKitEventLoop(void);
+}
 
-#include "errdef.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "CContainable.hpp"
-
-#include "OService.hpp"
-
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_SERVICE_H__ */
