@@ -44,7 +44,8 @@ namespace Orion{
 	}
 	CContext::CContext(void) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
-	CContext::CContext(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {
+	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale){
+		XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
 		OXONLY{
 			int x,y;
 			unsigned int w,h;
@@ -70,14 +71,17 @@ namespace Orion{
 				XSelectInput(OXDPY,XWIN,XMASK);
 				X::CXHA_LINK(this);
 				OVERB_OUT "OKIT | Successfully created CContext( %p , %d , %d , %u , %u, %s )\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") OVERB_END
+				return true;
 			}else{
 				printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 				exit(OERR_X11_WINDOW_CREATION_FAILURE);
+				return false;
 			}
 		}else{
 			XWIN=0;
 			printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 			exit(OERR_X11_NOT_INITED);
+			return false;
 		}
 	}
 

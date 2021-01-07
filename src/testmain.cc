@@ -44,7 +44,8 @@ int main(){
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
-	CContext context(0,100,100,400,350,"My OApp",&col,ExposureMask|KeyPressMask|KeyReleaseMask,true);
+	CContext context;
+	context.init(0,100,100,400,350,"My OApp",&col,ExposureMask|KeyPressMask|KeyReleaseMask,true);
 	context.listenerFunc=myFunc;
 	// CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,true);
 	// context2.listenerFunc=myFunc2;

@@ -55,8 +55,8 @@ namespace Orion{
 			CContext(void);
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);
-			/* */
-			CContext(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
+			/* Initialiser. Call this with your given parameters after creating an empty CContext. */
+			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
 	};
 
 	namespace X{
