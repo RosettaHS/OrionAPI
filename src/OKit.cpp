@@ -41,13 +41,13 @@ namespace Orion{
 		return true;
 	}
 
-	bool OKitEventLoop(){
+	bool OKitEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		return true;
 	}
 
-	bool OKitEnd(){
+	bool OKitEnd(void){
 		if(!OAPP_INITED){return false;}
 		return true; /* TODO: Actually add something to this!! */
 	}
