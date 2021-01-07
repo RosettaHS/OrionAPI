@@ -46,6 +46,8 @@
 #define OAPP_VERBOSE Orion::Application::verbose
 /*Quick re-route for Orion::Application::errorsFatal.*/
 #define OAPP_FATALERRORS Orion::Application::errorsFatal
+/*Quick re-route for Orion::Application::isNativeOApp.*/
+#define OAPP_NATIVE Orion::Application::isNativeOApp
 /*Quick re-route for Orion::Application::pid.*/
 #define OAPP_PID Orion::Application::pid
 /*Quick re-route for Orion::Application::scale.*/

@@ -29,19 +29,34 @@
 /* This contains error macros that OKit will use when encountering an error. */
 
 /* GENERIC */
-#define OERR_UNKNOWN							-1	/* Emits when OKit has encountered an error but can't resolve the type.  */
-#define OERR_NONE								0	/* Emits when OKit successfully exits. */
-#define OERR_CANTMALLOC							1	/* Emits when OKit can't malloc() any more memory. */
+
+/* Emits when OKit has encountered an error but can't resolve the type.  */
+#define OERR_UNKNOWN							-1
+/* Emits when OKit successfully exits. */
+#define OERR_NONE								0
+/* Emits when OKit can't malloc() any more memory. */
+#define OERR_CANTMALLOC							1
+/* Emits when OKit is forced to NativeOnly mode, and OApp boots as standalone binary. */
+#define OERR_NOT_NATIVE_OAPP					2
 
 /* X11 */
-#define OERR_X11_CONNECTION_FAILURE				2	/* Emits when OKit fails to connect with X11. */
-#define OERR_X11_CONNECTION_INTERRUPTED			3	/* Emits when OKit's X11 connection gets interrupted but can't resolve the type. */
-#define OERR_X11_NOT_INITED						4	/* Emits when OKit tries to create an object while X11 is not initialised. */
-#define OERR_X11_WINDOW_CREATION_FAILURE		5	/* Emits when X fails to return a valid Window. */
+
+/* Emits when OKit fails to connect with X11. */
+#define OERR_X11_CONNECTION_FAILURE				3
+/* Emits when OKit's X11 connection gets interrupted but can't resolve the type. */
+#define OERR_X11_CONNECTION_INTERRUPTED			4
+/* Emits when OKit tries to create an object while X11 is not initialised. */
+#define OERR_X11_NOT_INITED						5
+/* Emits when X fails to return a valid Window. */
+#define OERR_X11_WINDOW_CREATION_FAILURE		6
 
 /* Signals */
-#define OERR_CSIGNALLISTENER_CALLONERROR		6	/* Emits when 'call(void*)' is called on a CSignalListener with 'type' set to CSLT_ERROR. */
-#define OERR_CEVENTARRAY_LINKTONONCHILD			7	/* Emits when 'link(CEvent*,CSignalListener&)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
-#define OERR_CEVENTARRAY_UNLINKTONONCHILD		8	/* Emits when 'unlink(CEvent*,void* func)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
+
+/* Emits when 'call(void*)' is called on a CSignalListener with 'type' set to CSLT_ERROR. */
+#define OERR_CSIGNALLISTENER_CALLONERROR		7
+/* Emits when 'link(CEvent*,CSignalListener&)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
+#define OERR_CEVENTARRAY_LINKTONONCHILD			8
+/* Emits when 'unlink(CEvent*,void* func)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
+#define OERR_CEVENTARRAY_UNLINKTONONCHILD		9
 
 #endif /* !__ORION_OKIT_ERRDEF_H__ */
