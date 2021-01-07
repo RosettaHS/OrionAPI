@@ -40,7 +40,7 @@ namespace Orion{
 		contextToUse=0;
 	}
 	bool CContainer::link(CContainable* obj){
-		if((void*)this==(void*)obj){OVERB_OUT "OKIT | WARNING! CANNOT LINK A CCONTAINER TO ITSELF!\n" OVERB_END return false;}
+		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A CCONTAINER TO ITSELF!\n"); return false;}
 		if(children.link(obj)){
 			childCount=children.count;
 			return true;
@@ -49,7 +49,7 @@ namespace Orion{
 	}
 
 	bool CContainer::unlink(CContainable* obj){
-		if((void*)this==(void*)obj){OVERB_OUT "OKIT | WARNING! CANNOT UNLINK A CCONTAINER FROM ITSELF!\n" OVERB_END return false;}
+		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT UNLINK A CCONTAINER FROM ITSELF!\n");return false;}
 		if(children.link(obj)){
 			childCount=children.count;
 			return true;
