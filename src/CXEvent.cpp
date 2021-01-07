@@ -35,8 +35,9 @@ namespace Orion{
 			xtype=e->type;
 			switch(e->type){
 				case Expose:{type=CXE_EXPOSE;return;}
-				case KeyPress:{type=CXE_KEYCHAR;XLookupString(&e->xkey,&key.letter,1,0,0);key.pressed=true;key.code=e->xkey.keycode;key.mod=e->xkey.state;return;}
-				case KeyRelease:{type=CXE_KEYCHAR;key.pressed=false;key.code=e->xkey.keycode;key.mod=e->xkey.state;return;}
+				/* TODO: Add case for mouse focusing. | CXE_EXPOSE */
+				/* TODO: Add case for structure modification. | CXE_MFOCUS_CHANGED */
+				case KeyPress: case KeyRelease:{type=CXE_KEYCHAR;XLookupString(&e->xkey,&key.letter,1,0,0);(e->type==KeyPress ? key.pressed=true : key.pressed=false);key.code=e->xkey.keycode;key.mod=e->xkey.state;return;} /* I know the syntax is pretty bad but it's more efficient. */
 			}
 		}
 

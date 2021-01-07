@@ -54,12 +54,9 @@ namespace Orion{
 				XNextEvent((Display*)DPY,&event);
 				context=CXHA_GETFROMXID(event.xany.window);
 				if(context){
-					wrapper.compose((void*)&event);
+					wrapper.compose(&event);
 					context->listenerFunc(context->listener,&wrapper);
 					wrapper.log();
-					if(event.type==KeyPress||event.type==KeyRelease){
-						printf("------_STATE_----- %u\n",event.xkey.state);
-					}
 				}
 			}
 		}

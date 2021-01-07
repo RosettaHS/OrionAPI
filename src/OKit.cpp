@@ -27,8 +27,6 @@
 #include <stdlib.h>
 #include "include/OKit.hpp"
 
-
-
 namespace Orion{
 	bool OKitStart(const char* name){
 		if(OAPP_INITED){return false;}
@@ -47,8 +45,8 @@ namespace Orion{
 		return true;
 	}
 
-	bool OKitEnd(void){
-		if(!OAPP_INITED){return false;}
-		return true; /* TODO: Actually add something to this!! */
-	}
+	// bool OKitEnd(void){
+		// if(!OAPP_INITED){return false;}
+		// return true; /* TODO: Actually add something to this!! */
+	// }
 }

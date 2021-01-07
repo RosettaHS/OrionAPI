@@ -45,9 +45,11 @@
 #include "CContainable.hpp"
 
 namespace Orion{
+	/* Starts the OKit service. This is required to use any OKit UI elements. Optionally you can pass a name for your application. */
 	extern bool OKitStart(const char* AppName=0);
+	/* Runs the OKit service. Blocks function execution until OKit ends. Plce this at the bottom of main(). */
 	extern bool OKitEventLoop(void);
-	extern bool OKitEnd(void);
+	// extern bool OKitEnd(void);
 }
 
 #endif /* !__ORION_OKIT_H__ */

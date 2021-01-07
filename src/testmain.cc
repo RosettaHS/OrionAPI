@@ -31,10 +31,7 @@
 using namespace Orion;
 
 void myFunc(void* listener, X::CXEvent* event){
-	XEvent* e=(XEvent*)event;
-	char b=e->xkey.keycode;
 	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
-	printf("Keycode %u | Lookup %c\n",e->xkey.keycode,b);
 }
 
 // void myFunc2(void* listener, void* event){
