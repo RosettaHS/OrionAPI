@@ -55,7 +55,7 @@ namespace Orion{
 				context=CXHA_GETFROMXID(event.xany.window);
 				if(context){
 					wrapper.compose(&event);
-					if(wrapper.valid){context->listenerFunc(context->listener,&wrapper);}
+					context->listenerFunc(context->listener,&wrapper);
 					wrapper.log();
 				}
 			}
