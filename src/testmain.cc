@@ -45,7 +45,7 @@ int main(){
 	OCol col2(30,27,27);
 
 	CContext context;
-	context.init(0,100,100,400,350,"My OApp",&col,ExposureMask|EnterWindowMask|LeaveWindowMask,true);
+	context.init(0,100,100,400,350,"My OApp",&col,StructureNotifyMask,true);
 	context.listenerFunc=myFunc;
 	// CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,true);
 	// context2.listenerFunc=myFunc2;

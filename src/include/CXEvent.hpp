@@ -42,6 +42,8 @@ namespace Orion{
 			CXEventType type;
 			/* The type of the raw XEvent. */
 			int xtype;
+			/* Has the composition been successful? Don't dispatch if this is false! */ 
+			bool valid;
 			/* Initialises data and composes with the given pointer to an XEvent. */
 			void compose(void* event);
 			/* Internal | DEBUG. Logs all data to termianl in a formatted manner regardless of "Orion::Application::verbose". */
@@ -52,13 +54,18 @@ namespace Orion{
 				struct{
 					int x,y;
 					unsigned int w,h;
-				}expose;
+				}expose; /* Avoid this one! Use configure instead! */
 				
 				struct{
 					bool state;
 					unsigned int mod;
 				}mouseFocus;
 
+				struct{
+					int x,y;
+					unsigned int w,h;
+				}configure;
+				
 				struct{
 					char letter;
 					unsigned int code;
