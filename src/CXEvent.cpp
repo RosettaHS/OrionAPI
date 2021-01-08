@@ -35,18 +35,18 @@ namespace Orion{
 			xtype=e->type;
 			switch(e->type){
 				case Expose:{type=CXE_EXPOSE;return;}
-				/* TODO: Add case for mouse focusing. | CXE_EXPOSE */
-				/* TODO: Add case for structure modification. | CXE_MFOCUS_CHANGED */
-				case KeyPress: case KeyRelease:{type=CXE_KEYCHAR;XLookupString(&e->xkey,&key.letter,1,0,0);(e->type==KeyPress ? key.pressed=true : key.pressed=false);key.code=e->xkey.keycode;key.mod=e->xkey.state;return;} /* I know the syntax is pretty bad but it's more efficient. */
+				case EnterNotify: case LeaveNotify:{type=CXE_MFOCUS_CHANGED;mouseFocus.state=(e->type==EnterNotify ? true : false);mouseFocus.mod=e->xcrossing.state;valid=true;return;}
+				/* TODO: Add case for structure modification. | CXE_EXPOSE */
+				case KeyPress: case KeyRelease:{type=CXE_KEYCHAR;XLookupString(&e->xkey,&key.letter,1,0,0);(e->type==KeyPress ? key.pressed=true : key.pressed=false);key.code=e->xkey.keycode;key.mod=e->xkey.state;valid=true;return;} /* I know the syntax is pretty bad but it's more efficient. */
 			}
 		}
 
 
 		void CXEvent::log(void){
-			printf("CXEvent %p | type %d | xtype %d | {\n",this,type,xtype);
+			printf("CXEvent %p | valid %s | type %d | xtype %d | {\n",this,(valid ? "true" : "false"),type,xtype);
 			switch(type){
 				case CXE_EXPOSE:{printf("\tExpose\n}\n");return;}
-				case CXE_MFOCUS_CHANGED:{return;} /* TODO: Add logging data */
+				case CXE_MFOCUS_CHANGED:{printf("\tmouseFocus.state %d\n\tmouseFocus.mod %u\n}\n",mouseFocus.state,mouseFocus.mod);return;}
 				case CXE_XWIN_MODDED:{return;} /* TODO: Add logging data */
 				case CXE_KEYCHAR:{printf("\tkey.letter \"%c\"\n\tkey.pressed %d\n\tkey.code %u\n\tkey.mod %u\n}\n",key.letter,key.pressed,key.code,key.mod);return;}
 			}
