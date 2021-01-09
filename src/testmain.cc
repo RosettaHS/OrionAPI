@@ -56,10 +56,10 @@ int main(){
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
-	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,true);
+	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
 	context.listener=&context;
 	context.listenerFunc=myFunc;
-	context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,true);
+	context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 	// context2.listenerFunc=myFunc2;
 
 	OKitEventLoop();

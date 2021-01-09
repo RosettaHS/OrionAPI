@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
 #include "include/errdef.h"
 #include "include/application.hpp"
 #include "include/xservice.hpp"
@@ -45,7 +46,7 @@ namespace Orion{
 	}
 	CContext::CContext(void) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
-	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, bool useScale){
+	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale){
 		XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
 		OXONLY{
 			int x,y;
@@ -63,15 +64,54 @@ namespace Orion{
 			if(w<=1){w=1;}
 			if(h<=1){h=1;}
 
-			XWIN=XCreateSimpleWindow(OXDPY,XROOT,x,y,w,h,0,col->XCOL,col->XCOL);
+			XSetWindowAttributes attr;
+			Atom _XATOM=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE",False);
+			long atomval=0;
+			unsigned int _XCLASS=InputOutput;
+			CXMask attrmask=CWBackPixel;
+			attr.background_pixel=col->XCOL;
+
+			switch(type){
+				case CCT_INPUTONLY:{_XCLASS=InputOnly;attrmask=0;break;}
+				case CCT_TOPLEVEL:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_NORMAL",False);break;}
+				case CCT_DESKTOP:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_DESKTOP",False);break;}
+				case CCT_PANEL:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_DOCK",False);break;}
+				case CCT_TOOLTIP:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_TOOLTIP",False);attrmask|=CWOverrideRedirect;attr.override_redirect=1;break;}
+				case CCT_MENU:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_MENU",False);attrmask|=CWOverrideRedirect;attr.override_redirect=1;break;}
+			}
+
+			// XWIN=XCreateSimpleWindow(OXDPY,XROOT,x,y,w,h,0,col->XCOL,col->XCOL);
+			XWIN=XCreateWindow(OXDPY,XROOT,x,y,w,h,0,CopyFromParent,_XCLASS,CopyFromParent,attrmask,&attr);
 			if(XWIN){
 				XSelectInput(OXDPY,XWIN,SubstructureNotifyMask | ExposureMask);
 				if(t){XStoreName(OXDPY,XWIN,t);}
+				if(atomval){XChangeProperty(OXDPY,XWIN,_XATOM,XA_ATOM,32,PropModeReplace,(unsigned char *)&atomval,1);}
+				if(type==CCT_TOPLEVEL){
+					// _XATOM=XInternAtom(OXDPY,"_NET_WM_STATE",False);
+					// long _atomval=XInternAtom(OXDPY,"_NET_WM_STATE_FULLSCREEN",False); /* TODO: REPLACE WITH BETTER SOLUTION!! HACKY!! */
+					// XChangeProperty(OXDPY,XWIN,_XATOM,XA_ATOM,32,PropModeReplace,(unsigned char *)&_atomval,1);
+					struct {
+						unsigned long flags;
+						unsigned long functions;
+						unsigned long decorations;
+						long inputMode;
+						unsigned long status;
+					}hints;
+					hints.flags=2,hints.decorations=0;
+					_XATOM=XInternAtom(OXDPY,"_MOTIF_WM_HINTS",true);
+					XChangeProperty(OXDPY,XWIN,_XATOM,XA_ATOM,32,PropModeReplace,(unsigned char *)&hints,1); /* TODO: REPLACE WITH MORE PORTABLE SOLUTION!! */
+				}else if(type==CCT_PANEL){
+					_XATOM=XInternAtom(OXDPY,"_NET_WM_STATE",False);
+					long _atomval=XInternAtom(OXDPY,"_NET_WM_STATE_STICKY",False);
+					XChangeProperty(OXDPY,XWIN,_XATOM,XA_ATOM,32,PropModeReplace,(unsigned char *)&_atomval,1);
+				}
 				XMapWindow(OXDPY,XWIN);
 				XMoveResizeWindow(OXDPY,XWIN,x,y,w,h);
 				XEvent e;
 				XNextEvent(OXDPY,&e);
 				XSelectInput(OXDPY,XWIN,XMASK);
+
+				XChangeWindowAttributes(OXDPY,XWIN,attrmask,&attr);
 				X::CXHA_LINK(this);
 				OVERB_OUT "OKIT | Successfully created CContext( %p , %d , %d , %u , %u, %s )\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") OVERB_END
 				return true;

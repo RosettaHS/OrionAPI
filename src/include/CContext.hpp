@@ -33,6 +33,14 @@
 typedef unsigned long CXMask;
 
 namespace Orion{
+	enum CCType{
+		CCT_INPUTONLY,
+		CCT_TOPLEVEL,
+		CCT_DESKTOP,
+		CCT_PANEL,
+		CCT_TOOLTIP,
+		CCT_MENU
+	};
 	/* Internal. Higher-level abstraction of an X Window. */
 	class CContext{
 		public:
@@ -56,7 +64,7 @@ namespace Orion{
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);
 			/* Initialiser. Call this with your given parameters after creating an empty CContext. */
-			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
+			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask,CCType type, bool useScale);
 			/* Changes the colour of the CContext to the given OCol. */
 			void setCol(OCol*);
 			/* Changes the position of the CContext relative to the root Context. */
