@@ -59,6 +59,8 @@ namespace Orion{
 				x=_x,y=_y;
 				w=_w,h=_h;
 			}
+			if(w<=1){w=1;}
+			if(h<=1){h=1;}
 
 			XWIN=XCreateSimpleWindow(OXDPY,XROOT,x,y,w,h,0,col->XCOL,col->XCOL);
 			if(XWIN){
@@ -113,6 +115,8 @@ namespace Orion{
 	void CContext::setSize(unsigned int _w, unsigned int _h, bool useScale){
 		int w,h;
 		if(useScale){	w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;	}else{w=_w,h=_h;}
+		if(w<=1){w=1;}
+		if(h<=1){h=1;}
 		XResizeWindow(OXDPY,XWIN,w,h);
 		if(listenerFunc){
 			X::CXEvent force;

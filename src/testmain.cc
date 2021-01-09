@@ -30,6 +30,8 @@
 #include "include/OKit.hpp"
 using namespace Orion;
 
+int border=8;
+
 CContext context;
 CContext context2;
 
@@ -40,7 +42,7 @@ void myFunc(void* listener, X::CXEvent* event){
 		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
 		((CContext*)listener)->setCol(&c);
 	}else if(event->type==X::CXE_XWIN_MODDED){
-		context2.setSize(event->configure.w-(16*OAPP_SCALE),event->configure.h-(16*OAPP_SCALE),false);
+		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
 	}
 }
 
@@ -57,7 +59,7 @@ int main(){
 	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,true);
 	context.listener=&context;
 	context.listenerFunc=myFunc;
-	context2.init(&context,8,8,400-16,350-16,0,&col2,0,true);
+	context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,true);
 	// context2.listenerFunc=myFunc2;
 
 	OKitEventLoop();
