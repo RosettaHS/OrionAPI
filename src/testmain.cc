@@ -32,6 +32,11 @@ using namespace Orion;
 
 void myFunc(void* listener, X::CXEvent* event){
 	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
+	if(event->type==X::CXE_MOUSECLICK){
+		OCol c;
+		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
+		((CContext*)listener)->setCol(&c);
+	}
 }
 
 // void myFunc2(void* listener, void* event){
@@ -45,7 +50,8 @@ int main(){
 	OCol col2(30,27,27);
 
 	CContext context;
-	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|PointerMotionMask,true);
+	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask,true);
+	context.listener=&context;
 	context.listenerFunc=myFunc;
 	// CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,true);
 	// context2.listenerFunc=myFunc2;

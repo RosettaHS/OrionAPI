@@ -57,6 +57,8 @@ namespace Orion{
 			~CContext(void);
 			/* Initialiser. Call this with your given parameters after creating an empty CContext. */
 			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
+			/* Changes the colour of the CContext to the given OCol. */
+			void setCol(OCol*);
 	};
 
 	namespace X{

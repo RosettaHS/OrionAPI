@@ -31,6 +31,7 @@ namespace Orion{
 		/* Enumeration, list of XEvents handled by CXEvent. */
 		enum CXEventType{
 			CXE_NONE,
+			CXE_FORCERENDER,
 			CXE_EXPOSE,
 			CXE_MFOCUS_CHANGED,
 			CXE_XWIN_MODDED,

@@ -85,6 +85,16 @@ namespace Orion{
 		}
 	}
 
+	void CContext::setCol(OCol* col){
+		XSetWindowBackground(OXDPY,XWIN,col->XCOL);
+		XClearWindow(OXDPY,XWIN);
+		X::CXEvent force;
+		force.valid=true;
+		force.type=X::CXE_FORCERENDER;
+		listenerFunc(listener,&force);
+		return;
+	}
+
 /* X HANDLER */
 
 #undef __CXHA_DEFAULT_CAP

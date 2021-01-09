@@ -49,7 +49,7 @@ namespace Orion{
 		void CXEvent::log(void){
 			printf("CXEvent %p | valid %s | type %d | xtype %d | {\n",this,(valid ? "true" : "false"),type,xtype);
 			switch(type){
-				case CXE_NONE:{printf("\t No event data to log...\n}\n");return;}
+				case CXE_NONE: case CXE_FORCERENDER:{printf("\t No event data to log...\n}\n");return;}
 				case CXE_EXPOSE:{printf("\texpose.x %d\n\texpose.y %d\n\texpose.w %u\n\texpose.h %u\n}\n",expose.x,expose.y,expose.w,expose.h);return;}
 				case CXE_MFOCUS_CHANGED:{printf("\tmouseFocus.state %d\n\tmouseFocus.mod %u\n}\n",mouseFocus.state,mouseFocus.mod);return;}
 				case CXE_XWIN_MODDED:{printf("\tconfigure.x %d\n\tconfigure.y %d\n\tconfigure.w %u\n\tconfigure.h %u\n}\n",configure.x,configure.y,configure.w,configure.h);return;}
