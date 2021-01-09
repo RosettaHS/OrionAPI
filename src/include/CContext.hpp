@@ -59,6 +59,12 @@ namespace Orion{
 			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, bool useScale);
 			/* Changes the colour of the CContext to the given OCol. */
 			void setCol(OCol*);
+			/* Changes the position of the CContext relative to the root Context. */
+			void setPos(int, int, bool useScale);
+			/* Changes the size of the CContext. */
+			void setSize(unsigned int, unsigned int, bool useScale);
+			/* Changes both the position and size of the CContext. */
+			void setGeometry(int, int, unsigned int, unsigned int, bool useScale);
 	};
 
 	namespace X{

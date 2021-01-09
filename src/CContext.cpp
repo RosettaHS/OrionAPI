@@ -95,6 +95,46 @@ namespace Orion{
 		return;
 	}
 
+	void CContext::setPos(int _x, int _y, bool useScale){
+		int x,y;
+		if(useScale){	if(XROOT!=OXROOT){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}	}else{x=_x,y=_y;}
+		XMoveWindow(OXDPY,XWIN,x,y);
+		X::CXEvent force;
+		force.valid=true;
+		force.type=X::CXE_FORCERENDER;
+		listenerFunc(listener,&force);
+		return;
+	}
+
+	void CContext::setSize(unsigned int _w, unsigned int _h, bool useScale){
+		int w,h;
+		if(useScale){	w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;	}else{w=_w,h=_h;}
+		XResizeWindow(OXDPY,XWIN,w,h);
+		X::CXEvent force;
+		force.valid=true;
+		force.type=X::CXE_FORCERENDER;
+		listenerFunc(listener,&force);
+		return;
+	}
+
+	void CContext::setGeometry(int _x, int _y, unsigned int _w, unsigned int _h, bool useScale){
+		int x,y;
+		unsigned int w,h;
+		if(useScale){
+			if(XROOT!=OXROOT){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}
+			w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;
+		}else{
+			x=_x,y=_y;
+			w=_w,h=_h;
+		}
+		XMoveResizeWindow(OXDPY,XWIN,x,y,w,h);
+		X::CXEvent force;
+		force.valid=true;
+		force.type=X::CXE_FORCERENDER;
+		listenerFunc(listener,&force);
+		return;
+	}
+
 /* X HANDLER */
 
 #undef __CXHA_DEFAULT_CAP

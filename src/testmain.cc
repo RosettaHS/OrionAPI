@@ -32,9 +32,9 @@ using namespace Orion;
 
 void myFunc(void* listener, X::CXEvent* event){
 	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
-	if(event->type==X::CXE_MOUSECLICK){
+	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
 		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
+		if(event->mouse.pressed){c.setTo(30,27,27);((CContext*)listener)->setGeometry(100,100,500,500,true);}else{c.setTo(255,86,15);}
 		((CContext*)listener)->setCol(&c);
 	}
 }
