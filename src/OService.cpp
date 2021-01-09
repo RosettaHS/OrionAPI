@@ -47,6 +47,8 @@ namespace Orion{
 	bool OKitEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
+		X::disconnect();
+		OVERB_OUT "OKIT | Service sucessfully finished!\n" OVERB_END
 		return true;
 	}
 }

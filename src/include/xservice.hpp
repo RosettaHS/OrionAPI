@@ -46,6 +46,8 @@ namespace Orion{
 		extern int	 			SCR;
 		/* Initialises a connection to the X display. Returns true on success, false if the X connection is already initalised, or crashes the program if X is not found. */
 		extern bool connect(void);
+		/* Disconnects from the X service. Returns true on succcess, false if couldn't disconnect or X connection hasn't been initialised. */
+		extern bool disconnect(void);
 		/* Minimal event system. Blocks the program and dispatches events from the X service. */
 		extern void eventLoop(void);
 	}

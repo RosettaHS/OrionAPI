@@ -46,6 +46,12 @@ namespace Orion{
 			return true;
 		}
 
+		bool disconnect(void){
+			if(!DPY){return false;}
+			XCloseDisplay((Display*)DPY);
+			return true;
+		}
+
 		void eventLoop(void){
 			XEvent event;
 			CContext* context;
