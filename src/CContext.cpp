@@ -202,6 +202,7 @@ namespace Orion{
 				CXHA[i-1]=CXHA[i];
 				CXHA[i]={0,0};
 			}
+			CXHA_COUNT--;
 			return true;
 		}
 		
