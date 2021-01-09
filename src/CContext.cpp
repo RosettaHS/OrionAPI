@@ -88,10 +88,12 @@ namespace Orion{
 	void CContext::setCol(OCol* col){
 		XSetWindowBackground(OXDPY,XWIN,col->XCOL);
 		XClearWindow(OXDPY,XWIN);
-		X::CXEvent force;
-		force.valid=true;
-		force.type=X::CXE_FORCERENDER;
-		listenerFunc(listener,&force);
+		if(listenerFunc){
+			X::CXEvent force;
+			force.valid=true;
+			force.type=X::CXE_FORCERENDER;
+			listenerFunc(listener,&force);
+		}
 		return;
 	}
 
@@ -99,10 +101,12 @@ namespace Orion{
 		int x,y;
 		if(useScale){	if(XROOT!=OXROOT){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}	}else{x=_x,y=_y;}
 		XMoveWindow(OXDPY,XWIN,x,y);
-		X::CXEvent force;
-		force.valid=true;
-		force.type=X::CXE_FORCERENDER;
-		listenerFunc(listener,&force);
+		if(listenerFunc){
+			X::CXEvent force;
+			force.valid=true;
+			force.type=X::CXE_FORCERENDER;
+			listenerFunc(listener,&force);
+		}
 		return;
 	}
 
@@ -110,10 +114,12 @@ namespace Orion{
 		int w,h;
 		if(useScale){	w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;	}else{w=_w,h=_h;}
 		XResizeWindow(OXDPY,XWIN,w,h);
-		X::CXEvent force;
-		force.valid=true;
-		force.type=X::CXE_FORCERENDER;
-		listenerFunc(listener,&force);
+		if(listenerFunc){
+			X::CXEvent force;
+			force.valid=true;
+			force.type=X::CXE_FORCERENDER;
+			listenerFunc(listener,&force);
+		}
 		return;
 	}
 
@@ -128,10 +134,12 @@ namespace Orion{
 			w=_w,h=_h;
 		}
 		XMoveResizeWindow(OXDPY,XWIN,x,y,w,h);
-		X::CXEvent force;
-		force.valid=true;
-		force.type=X::CXE_FORCERENDER;
-		listenerFunc(listener,&force);
+		if(listenerFunc){
+			X::CXEvent force;
+			force.valid=true;
+			force.type=X::CXE_FORCERENDER;
+			listenerFunc(listener,&force);
+		}
 		return;
 	}
 

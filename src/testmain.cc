@@ -30,12 +30,17 @@
 #include "include/OKit.hpp"
 using namespace Orion;
 
+CContext context;
+CContext context2;
+
 void myFunc(void* listener, X::CXEvent* event){
 	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
 	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
 		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);((CContext*)listener)->setGeometry(100,100,500,500,true);}else{c.setTo(255,86,15);}
+		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
 		((CContext*)listener)->setCol(&c);
+	}else if(event->type==X::CXE_XWIN_MODDED){
+		context2.setSize(event->configure.w-(16*OAPP_SCALE),event->configure.h-(16*OAPP_SCALE),false);
 	}
 }
 
@@ -49,11 +54,10 @@ int main(){
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
-	CContext context;
-	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask,true);
+	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,true);
 	context.listener=&context;
 	context.listenerFunc=myFunc;
-	// CContext context2(&context,8,8,400-16,350-16,0,&col2,ButtonPressMask,true);
+	context2.init(&context,8,8,400-16,350-16,0,&col2,0,true);
 	// context2.listenerFunc=myFunc2;
 
 	OKitEventLoop();
