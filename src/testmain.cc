@@ -41,7 +41,7 @@ void myFunc(void* listener, X::CXEvent* event){
 		OCol c;
 		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
 		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_XWIN_MODDED){
+	}else if(event->type==X::CXE_CONFIGURE){
 		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
 	}
 }

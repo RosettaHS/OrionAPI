@@ -49,6 +49,7 @@ namespace Orion{
 		bool disconnect(void){
 			if(!DPY){return false;}
 			XCloseDisplay((Display*)DPY);
+			DPY=0,ROOT=0,SCR=0;
 			return true;
 		}
 

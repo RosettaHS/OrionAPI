@@ -38,6 +38,7 @@ namespace Orion{
 				XUnmapWindow(OXDPY,XWIN);
 				XDestroyWindow(OXDPY,XWIN);
 				X::CXHA_UNLINK(this);
+				XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
 				OVERB_OUT "OKIT | CContext %p destroyed.\n",this OVERB_END
 			}
 		}
