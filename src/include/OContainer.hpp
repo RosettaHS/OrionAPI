@@ -42,6 +42,8 @@ namespace Orion{
 			OCol* col;
 			virtual void sort(void) override;
 		public:
+			/* Empty constructor. Sets all values to 0.*/
+			OContainer();
 			/* Constructs an OContainer as a child of the first argument. */
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 

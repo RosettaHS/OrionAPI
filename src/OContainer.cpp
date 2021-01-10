@@ -30,8 +30,15 @@
 
 
 namespace Orion{
-
+	OContainer::OContainer(){
+		type=OT_CONTAINER;
+		drawPtr=0;
+		minW=10,minH=10;
+		x=0,y=0,w=0,h=0;
+		col=0;
+	}
 	OContainer::OContainer(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h){
+		type=OT_CONTAINER;
 		drawPtr=X::OContainer_DRAW;
 		minW=10,minH=10;
 		col=&OTHEME_PRIMARY;
@@ -40,10 +47,10 @@ namespace Orion{
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
 		
-		selfContext.init(parent.contextToUse,x,y,w,h,0,col,ExposureMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-		linkTo(&parent);
+		selfContext.init(parent.contextToUse,x,y,w,h,0,col,ExposureMask,CCT_TOPLEVEL,true);
 		selfContext.listener=(void*)this;
 		selfContext.listenerFunc=X::OContainer_EVH;
+		linkTo(&parent);
 	}
 	
 	/* Base containers do no sorting. */
@@ -103,7 +110,7 @@ namespace Orion{
 			OContainer* container=(OContainer*)obj;
 			switch(event->type){
 				default:{return;}
-				case CXE_EXPOSE: case CXE_CONFIGURE:{OContainer_DRAW(container);}
+				case CXE_EXPOSE:{OContainer_DRAW(container);}
 			}
 		}
 	}
