@@ -39,6 +39,11 @@ namespace Orion{
 		childCount=0;
 		contextToUse=0;
 	}
+
+	CContainer::CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask){
+		selfContext.init(0,x,y,w,h,t,col,mask,CCT_TOPLEVEL,true);
+	}
+	
 	bool CContainer::link(CContainable* obj){
 		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A CCONTAINER TO ITSELF!\n"); return false;}
 		if(children.link(obj)){

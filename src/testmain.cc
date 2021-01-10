@@ -60,6 +60,9 @@ int main(){
 	context.listener=&context;
 	context.listenerFunc=myFunc;
 	context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
+
+	// CContainer c(0,0,400,350,"My OApp",&col,0);
+	
 	// context2.listenerFunc=myFunc2;
 
 	OKitEventLoop();

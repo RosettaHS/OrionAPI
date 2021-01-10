@@ -45,13 +45,15 @@ namespace Orion{
 			/* The context that children are meant to use. This is different per container. */
 			CContext* contextToUse;
 			/* The abstract function that all children use to connect. */
-			virtual bool link(CContainable*) = 0;
+			virtual bool link(CContainable*);
 			/* The abstract function that all children use to disconnect. */
-			virtual bool unlink(CContainable*) = 0;	
+			virtual bool unlink(CContainable*);	
 			/* The abstract function that finds the index of a given child. */
-			virtual int getIndexOf(CContainable*) = 0;	
+			virtual int getIndexOf(CContainable*);	
 			/* Empty constructor. Sets all values to 0. */
 			CContainer(void);
+			/* Internal. Top-level constructor. Does NOT initialise other values! Only creates X Window on display. */
+			CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask);
 			/* Destructor. Sets all values to 0 and frees memory. */
 			~CContainer(void);
 	};
