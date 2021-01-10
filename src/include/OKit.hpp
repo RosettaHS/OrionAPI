@@ -43,6 +43,7 @@
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
 #include "CContainable.hpp"
+#include "OContainer.hpp"
 
 #include "OService.hpp"
 

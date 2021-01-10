@@ -28,8 +28,10 @@
 #include "include/errdef.h"
 #include "include/application.hpp"
 #include "include/xservice.hpp"
+#include "include/OTheme.hpp"
 #include "include/CContext.hpp"
 #include "include/OService.hpp"
+
 
 namespace Orion{
 	bool OKitStart(const char* name,bool ForceONative){
@@ -39,6 +41,7 @@ namespace Orion{
 		if(ForceONative&!OAPP_NATIVE){printf("OKIT | ERROR! SERVICE FORCED AS ORION-NATIVE BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
 		X::connect();
 		X::CXHA_INIT();
+		/* TODO: ADD PROPER THEME RETRIEVAL!!! */
 		OVERB_OUT "OKIT | Service sucessfully initialised!\n" OVERB_END
 		OAPP_INITED=true;
 		return true;

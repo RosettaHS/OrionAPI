@@ -56,12 +56,14 @@ int main(){
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
-	context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-	context.listener=&context;
-	context.listenerFunc=myFunc;
-	context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
+	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
+	// context.listener=&context;
+	// context.listenerFunc=myFunc;
+	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
-	// CContainer c(0,0,400,350,"My OApp",&col,0);
+	CContainer r(0,0,400,350,"My OApp",&col,0);
+
+	OContainer c(r,0,0,100,100);
 	
 	// context2.listenerFunc=myFunc2;
 

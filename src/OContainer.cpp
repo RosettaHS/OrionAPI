@@ -24,31 +24,52 @@
 /**********************************************************************************/
 
 #include <stdio.h>
-#include "include/application.hpp"
-#include "include/CDrawable.hpp"
-#include "include/CContainer.hpp"
-#include "include/CContainable.hpp"
+#include <X11/Xlib.h>
+#include "include/OContainer.hpp"
+#include "include/OTheme.hpp"
+
 
 namespace Orion{
-	CContainer::~CContainer(void){
-		childCount=0;
-		contextToUse=0;
-		children.~CNodeArray();
-	}
-	CContainer::CContainer(void){
-		childCount=0;
-		contextToUse=0;
-	}
 
-	CContainer::CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask){
-		selfContext.init(0,x,y,w,h,t,col,mask,CCT_TOPLEVEL,true);
-		contextToUse=&selfContext;
+	OContainer::OContainer(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h){
+		drawPtr=X::OContainer_DRAW;
+		minW=10,minH=10;
+		col=&OTHEME_PRIMARY;
+		col->log();
+		x=_x,y=_y;
+		if(_w<minW){w=minW;}else{w=_w;}
+		if(_h<minH){h=minH;}else{h=_h;}
+		
+		selfContext.init(parent.contextToUse,x,y,w,h,0,col,ExposureMask|StructureNotifyMask,CCT_TOPLEVEL,true);
+		linkTo(&parent);
+		selfContext.listener=(void*)this;
+		selfContext.listenerFunc=X::OContainer_EVH;
 	}
-
-	void CContainer::sort(void){return;}
 	
-	bool CContainer::link(CContainable* obj){
-		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A CCONTAINER TO ITSELF!\n"); return false;}
+	/* Base containers do no sorting. */
+	void OContainer::sort(void){return;}
+
+	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){
+		internalCol.setTo(r,g,b);
+		col=&internalCol;
+	}
+	void OContainer::setCol(OCol& newCol){
+		internalCol=newCol;
+		col=&internalCol;
+	}
+
+	bool OContainer::link(CContainable* obj){
+		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A OCONTAINER TO ITSELF!\n"); return false;}
+		if(children.link(obj)){
+			childCount=children.count;
+			obj->drawPtr(obj);
+			return true;
+		}
+		return false;
+	}
+
+	bool OContainer::unlink(CContainable* obj){
+		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT UNLINK A OCONTAINER FROM ITSELF!\n");return false;}
 		if(children.link(obj)){
 			childCount=children.count;
 			return true;
@@ -56,14 +77,34 @@ namespace Orion{
 		return false;
 	}
 
-	bool CContainer::unlink(CContainable* obj){
-		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT UNLINK A CCONTAINER FROM ITSELF!\n");return false;}
-		if(children.link(obj)){
-			childCount=children.count;
-			return true;
-		}
-		return false;
+	int OContainer::getIndexOf(CContainable* obj){return children.getIndexOf(obj);}
+
+	void OContainer::setPos(int x, int y){
+		selfContext.setPos(x,y,true);
 	}
 
-	int CContainer::getIndexOf(CContainable* obj){return children.getIndexOf(obj);}
+	void OContainer::setSize(unsigned int _w, unsigned int _h){
+		unsigned int w,h;
+		if(_w<minW){w=minW;}else{w=_w;}
+		if(_h<minH){h=minH;}else{h=_h;}
+		selfContext.setSize(w,h,true);
+		X::OContainer_DRAW(this);
+	}
+
+	void OContainer::setMinSize(unsigned int w, unsigned int h){minW=w,minH=h;}
+
+/* X Handling */
+	namespace X{
+		void OContainer_DRAW(CDrawable* obj){
+			OContainer* container=(OContainer*)obj;
+			container->children.drawAll();
+		}
+		void OContainer_EVH(void* obj,CXEvent* event){
+			OContainer* container=(OContainer*)obj;
+			switch(event->type){
+				default:{return;}
+				case CXE_EXPOSE: case CXE_CONFIGURE:{OContainer_DRAW(container);}
+			}
+		}
+	}
 }

@@ -23,47 +23,52 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include "include/application.hpp"
-#include "include/CDrawable.hpp"
-#include "include/CContainer.hpp"
-#include "include/CContainable.hpp"
+#ifndef __ORION_OKIT_OCONTAINER_H__
+#define __ORION_OKIT_OCONTAINER_H__
+
+#include "CContainer.hpp"
+#include "CContainable.hpp"
 
 namespace Orion{
-	CContainer::~CContainer(void){
-		childCount=0;
-		contextToUse=0;
-		children.~CNodeArray();
-	}
-	CContainer::CContainer(void){
-		childCount=0;
-		contextToUse=0;
+	namespace X{
+		void OContainer_EVH(void* container, CXEvent* event);
+		void OContainer_DRAW(CDrawable* container);
 	}
 
-	CContainer::CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask){
-		selfContext.init(0,x,y,w,h,t,col,mask,CCT_TOPLEVEL,true);
-		contextToUse=&selfContext;
-	}
+	/* Base container. UI Elements can be placed on this but are not modified by the container. */
+	class OContainer : public CContainer, public CContainable{
+		protected:
+			OCol internalCol;
+			OCol* col;
+			virtual void sort(void) override;
+		public:
+			/* Constructs an OContainer as a child of the first argument. */
+			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
-	void CContainer::sort(void){return;}
+			friend void X::OContainer_EVH(void*,CXEvent*);
+			friend void X::OContainer_DRAW(CDrawable* container);
+			
+			/* Sets the background colour of the OContainer. */
+			void setCol(unsigned char r, unsigned char g, unsigned char b);
+			/* Sets the background colour of the OContainer. */
+			void setCol(OCol& col);
+			
+			/* Adds the argument as a child of the OContainer. */
+			virtual bool link(CContainable*) override;
+			/* Removes the argument from child list of the OContainer. */
+			virtual bool unlink(CContainable*) override;	
+			/* Finds the index of a given child. Returns -1 if argument is not a child of the OContainer. */
+			virtual int getIndexOf(CContainable*) override;	
+
+			/* Sets the position of the OContainer relative to its parent. */
+			virtual void setPos(int x, int y) override;
+			/* Sets the size of the OContainer. Parents may override this! */
+			virtual void setSize(unsigned int w, unsigned int h) override;
+			/* Sets the minimum size of the OContainer. Parents can't shrink the OContainer smaller than this. */
+			virtual void setMinSize(unsigned int w, unsigned int h) override;
+	};
+
 	
-	bool CContainer::link(CContainable* obj){
-		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A CCONTAINER TO ITSELF!\n"); return false;}
-		if(children.link(obj)){
-			childCount=children.count;
-			return true;
-		}
-		return false;
-	}
-
-	bool CContainer::unlink(CContainable* obj){
-		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT UNLINK A CCONTAINER FROM ITSELF!\n");return false;}
-		if(children.link(obj)){
-			childCount=children.count;
-			return true;
-		}
-		return false;
-	}
-
-	int CContainer::getIndexOf(CContainable* obj){return children.getIndexOf(obj);}
 }
+
+#endif /* !__ORION_OKIT_OCONTAINER_H__ */

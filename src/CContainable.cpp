@@ -35,6 +35,7 @@ namespace Orion{
 		if(container->link(this)){
 			index=container->getIndexOf(this);
 			context=container->contextToUse;
+			drawPtr(this);
 			return true;
 		}
 		return false;

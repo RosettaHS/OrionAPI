@@ -37,9 +37,9 @@ namespace Orion{
 			int index;
 		public:
 			/* Links an object to a given container. */
-			virtual bool linkTo(CContainer*) = 0;
+			virtual bool linkTo(CContainer*);
 			/* Unlinks an object from a given container. */
-			virtual bool unlinkTo(CContainer*) = 0;
+			virtual bool unlinkTo(CContainer*);
 			/* Returns the index of the object. Is kept protected to prevent tampering. */
 			int getIndex(void);
 			/* Empty constructor. Sets all values to 0. */

@@ -41,6 +41,8 @@ namespace Orion{
 			CContext selfContext;
 			/* The array of children. */
 			CNodeArray children;
+			/* The abstract function that sorts/orders children. */
+			virtual void sort(void);
 		public:
 			/* The context that children are meant to use. This is different per container. */
 			CContext* contextToUse;
