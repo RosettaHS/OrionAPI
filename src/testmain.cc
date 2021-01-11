@@ -36,7 +36,7 @@ CContext context;
 CContext context2;
 
 void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",listener,event);
+	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
 	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
 		OCol c;
 		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
@@ -51,8 +51,7 @@ void myFunc(void* listener, X::CXEvent* event){
 // }
 
 int main(){
-	/* This ends up leading to a "~/.local/share/My OApp" directory being made, and having spaces in directories or filenames is not a good idea. */
-	OKitStart("My OApp");
+	OKitStart("MyOApp");
 	
 	OCol col(255,86,15);
 	OCol col2(30,27,27);

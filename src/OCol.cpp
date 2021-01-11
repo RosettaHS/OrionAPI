@@ -33,5 +33,5 @@ namespace Orion{
 		r=_r,g=_g,b=_b;
 		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
 	}
-	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",this,r,g,b);}
+	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",(void*)this,r,g,b);}
 }

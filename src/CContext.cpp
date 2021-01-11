@@ -40,7 +40,7 @@ namespace Orion{
 				XDestroyWindow(OXDPY,XWIN);
 				X::CXHA_UNLINK(this);
 				XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
-				OVERB_OUT "OKIT | CContext %p destroyed.\n",this OVERB_END
+				OVERB_OUT "OKIT | CContext %p destroyed.\n",(void*)this OVERB_END
 			}
 		}
 	}
@@ -113,16 +113,16 @@ namespace Orion{
 
 				XChangeWindowAttributes(OXDPY,XWIN,attrmask,&attr);
 				X::CXHA_LINK(this);
-				OVERB_OUT "OKIT | Successfully created CContext( %p , %d , %d , %u , %u, %s )\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") OVERB_END
+				OVERB_OUT "OKIT | Successfully created CContext( %p , %d , %d , %u , %u, %s )\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") OVERB_END
 				return true;
 			}else{
-				printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+				printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 				exit(OERR_X11_WINDOW_CREATION_FAILURE);
 				return false;
 			}
 		}else{
 			XWIN=0;
-			printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+			printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 			exit(OERR_X11_NOT_INITED);
 			return false;
 		}

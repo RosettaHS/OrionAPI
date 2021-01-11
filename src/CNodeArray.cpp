@@ -111,9 +111,9 @@ namespace Orion{
 	}
 
 	void CNodeArray::log(void){
-		printf("CNodeArray %p | Size %u | Cap %u |Contents : ( ",this,count,cap);
+		printf("CNodeArray %p | Size %u | Cap %u |Contents : ( ",(void*)this,count,cap);
 		for(unsigned short i=0;i<count;i++){
-			printf("%p, ",arr[i]);
+			printf("%p, ",(void*)arr[i]);
 		}
 		printf(")\n");
 	}

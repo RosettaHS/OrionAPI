@@ -47,7 +47,7 @@ namespace Orion{
 
 
 		void CXEvent::log(void){
-			printf("CXEvent %p | valid %s | type %d | xtype %d | {\n",this,(valid ? "true" : "false"),type,xtype);
+			printf("CXEvent %p | valid %s | type %d | xtype %d | {\n",(void*)this,(valid ? "true" : "false"),type,xtype);
 			switch(type){
 				case CXE_NONE: case CXE_FORCERENDER:{printf("\t No event data to log...\n}\n");return;}
 				case CXE_EXPOSE:{printf("\texpose.x %d\n\texpose.y %d\n\texpose.w %u\n\texpose.h %u\n}\n",expose.x,expose.y,expose.w,expose.h);return;}

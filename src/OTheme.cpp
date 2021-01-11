@@ -34,7 +34,7 @@ namespace Orion{
 	void OTheme::setTertiary(unsigned char r, unsigned char g, unsigned char b){tertiary.setTo(r,g,b);}
 	void OTheme::setAccent(unsigned char r, unsigned char g, unsigned char b){accent.setTo(r,g,b);}
 	void OTheme::log(void){
-		printf("OTheme %p {\n",this);
+		printf("OTheme %p {\n",(void*)this);
 		printf("\t Primary : %d,%d,%d\n",primary.r,primary.g,primary.b);
 		printf("\t Secondary : %d,%d,%d\n",secondary.r,secondary.g,secondary.b);
 		printf("\t Tertiary : %d,%d,%d\n",tertiary.r,tertiary.g,tertiary.b);

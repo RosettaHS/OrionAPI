@@ -73,7 +73,7 @@ namespace Orion{
 	size_t OString::getLength(void){return length;}
 
 	void OString::log(bool verbose){
-		if(verbose){printf("OString %p with length %lu : %s\n",this,length,str);}
+		if(verbose){printf("OString %p with length %lu : %s\n",(void*)this,length,str);}
 		else{printf("%s\n",str);}
 	}
 
