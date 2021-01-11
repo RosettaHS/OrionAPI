@@ -47,7 +47,7 @@ namespace Orion{
 			/* Constructs an OContainer as a child of the first argument. */
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
-			friend void X::OContainer_EVH(void*,CXEvent*);
+			friend void X::OContainer_EVH(void*,X::CXEvent*);
 			friend void X::OContainer_DRAW(CDrawable* container);
 			
 			/* Sets the background colour of the OContainer. */
