@@ -86,7 +86,7 @@ namespace Orion{
 		/* The PID of your OApp. See OAPP_PID. */
 		extern pid_t pid;
 		/* Current Working Directory; where you launched the OApp. */
-		extern const char* cwd;
+		extern char* cwd;
 		/* Global system path to your OApp binary */
 		extern const char* binpath;
 		/* Global system directory which your OApp binary is located. */
