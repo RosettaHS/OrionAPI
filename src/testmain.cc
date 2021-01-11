@@ -51,6 +51,7 @@ void myFunc(void* listener, X::CXEvent* event){
 // }
 
 int main(){
+	/* This ends up leading to a "~/.local/share/My OApp" directory being made, and having spaces in directories or filenames is not a good idea. */
 	OKitStart("My OApp");
 	
 	OCol col(255,86,15);

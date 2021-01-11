@@ -29,6 +29,7 @@
 #include <sys/types.h>
 
 /*Orion implementation for maximum amount of characters allowed in a directory path.*/
+/* OPATH_MAX is so tiny.  256?  1024 is another common minimum.  Of course, using pathconf() and _PC_PATH_MAX would be more general. */
 #define OPATH_MAX 256
 
 /* Wrapper if() statement for exiting upon fatal errors. Include <stdlib.h>! */
@@ -85,7 +86,7 @@ namespace Orion{
 		/* The PID of your OApp. See OAPP_PID. */
 		extern pid_t pid;
 		/* Current Working Directory; where you launched the OApp. */
-		extern const char* cwd;
+		extern char* cwd;
 		/* Global system path to your OApp binary */
 		extern const char* binpath;
 		/* Global system directory which your OApp binary is located. */

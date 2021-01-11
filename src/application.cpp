@@ -47,16 +47,24 @@ namespace Orion{
 
 		bool isNativeOApp=false;
 		pid_t pid=0;
-		const char* cwd=0;
+		char* cwd=NULL;
 		const char* binpath=0;
 		const char* bindir=0;
 		const char* datapath=0;
 
 		static void _initCWD(void){
-			const char* tmp=get_current_dir_name();
-			if(tmp){
-				cwd=tmp;
-			}else{cwd=0;}
+			/*
+			 * get_current_dir_name() is GNU-only, getcwd() is the portable equivalent.
+			 * On any failure (both before and after the change from get_current_dir_name to getcwd) it's up to another part of the program to determine what to do with a NULL cwd value.
+			 * OPATH_MAX is so tiny.  256?  1024 is another common minimum.  Of course, using pathconf() and _PC_PATH_MAX would be more general.
+			 */
+			char* result;
+			cwd = (char*) malloc(OPATH_MAX);
+
+			result = getcwd(cwd, OPATH_MAX);
+			if(result == NULL){
+				cwd=NULL;
+			}
 		}
 
 		static void _initBinPathAndDir(void){
