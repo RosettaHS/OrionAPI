@@ -88,11 +88,11 @@ namespace Orion{
 		/* Current Working Directory; where you launched the OApp. */
 		extern char* cwd;
 		/* Global system path to your OApp binary */
-		extern const char* binpath;
+		extern char* binpath;
 		/* Global system directory which your OApp binary is located. */
-		extern const char* bindir;
+		extern char* bindir;
 		/* Global system path where OKit will store your data. Use this instead of generic write functions! */
-		extern const char* datapath;
+		extern char* datapath;
 		
 
 		/* Internal. Sets up unitialised varibles for your OApp. Returns true if successful, false if not. */

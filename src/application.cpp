@@ -48,9 +48,9 @@ namespace Orion{
 		bool isNativeOApp=false;
 		pid_t pid=0;
 		char* cwd=NULL;
-		const char* binpath=0;
-		const char* bindir=0;
-		const char* datapath=0;
+		char* binpath=0;
+		char* bindir=0;
+		char* datapath=0;
 
 		static void _initCWD(void){
 			/*
@@ -59,10 +59,10 @@ namespace Orion{
 			 * OPATH_MAX is so tiny.  256?  1024 is another common minimum.  Of course, using pathconf() and _PC_PATH_MAX would be more general.
 			 */
 			char* result;
-			cwd = (char*) malloc(OPATH_MAX);
+			cwd=(char*)malloc(OPATH_MAX);
 
-			result = getcwd(cwd, OPATH_MAX);
-			if(result == NULL){
+			result = getcwd(cwd,OPATH_MAX);
+			if(result==NULL){
 				cwd=NULL;
 			}
 		}
@@ -78,7 +78,7 @@ namespace Orion{
 				printf("OKIT | ERROR! Failed to get binary path!\n");
 				return;
 			}
-			binpath=(const char*)malloc(OPATH_MAX);
+			binpath=(char*)malloc(OPATH_MAX);
 			memcpy((void*)binpath,path,OPATH_MAX);
 			
 			int place=0; /*Now I know this looks bad.... and that's because it is.*/
@@ -86,7 +86,7 @@ namespace Orion{
 				if(path[i]=='/'){place=i;} /*Dumb as hell, but this finds where the directory ends...*/
 			}
 			path[place]='\0';
-			bindir=(const char*)malloc(OPATH_MAX);
+			bindir=(char*)malloc(OPATH_MAX);
 			memcpy((void*)bindir,path,OPATH_MAX);
 		}
 
@@ -107,7 +107,7 @@ namespace Orion{
 			char tmp[64];
 			char path[OPATH_MAX];
 			ONATIVEONLY{
-				datapath=(const char*)malloc(OPATH_MAX);
+				datapath=(char*)malloc(OPATH_MAX);
 				if(chdir(bindir)==0){
 					sprintf(tmp,"data/%s",username);
 					mkdir("data",_MKDIRARG);
@@ -116,7 +116,7 @@ namespace Orion{
 				}else{printf("OKIT | ERROR! FAILED TO ACCESS:\t\t\t%s !\n",bindir);}
 			}else{
 				if(name){
-					datapath=(const char*)malloc(OPATH_MAX);
+					datapath=(char*)malloc(OPATH_MAX);
 					const char*_env=getenv("HOME");
 					sprintf(path,"%s/.local/share",_env);
 					if(chdir(path)==0){
@@ -133,7 +133,7 @@ namespace Orion{
 		/*Sets up overrides.*/
 			pid=getpid();
 			_initCWD();
-			username=getenv("USERNAME");
+			username=getlogin();
 			const char* _env=getenv("O_VERBOSE");
 			if(_env){
 				if(atoi(_env)>=1){verbose=true;}
