@@ -47,7 +47,7 @@ namespace Orion{
 
 		bool isNativeOApp=false;
 		pid_t pid=0;
-		const char* cwd=NULL;
+		char* cwd=NULL;
 		const char* binpath=0;
 		const char* bindir=0;
 		const char* datapath=0;
@@ -59,14 +59,11 @@ namespace Orion{
 			 * OPATH_MAX is so tiny.  256?  1024 is another common minimum.  Of course, using pathconf() and _PC_PATH_MAX would be more general.
 			 */
 			char* result;
-			char tmp[OPATH_MAX];
-			cwd = (const char*) malloc(OPATH_MAX);
+			cwd = (char*) malloc(OPATH_MAX);
 
-			result = getcwd(tmp, OPATH_MAX);
+			result = getcwd(cwd, OPATH_MAX);
 			if(result == NULL){
 				cwd=NULL;
-			} else {
-				cwd=tmp;
 			}
 		}
 
