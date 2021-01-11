@@ -30,7 +30,7 @@
 
 /*Orion implementation for maximum amount of characters allowed in a directory path.*/
 /* OPATH_MAX is so tiny.  256?  1024 is another common minimum.  Of course, using pathconf() and _PC_PATH_MAX would be more general. */
-#define OPATH_MAX 256
+#define OPATH_MAX 1024
 
 /* Wrapper if() statement for exiting upon fatal errors. Include <stdlib.h>! */
 #define OERR_EXIT(errcode) if(Orion::Application::errorsFatal){exit(errcode);}
