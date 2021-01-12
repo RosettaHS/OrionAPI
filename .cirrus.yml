@@ -1,0 +1,9 @@
+freebsd_instance:
+  image_family: freebsd-12-1
+
+task:
+  install_script: pkg install -y libX11
+  script:
+  # The following line adds the proper include and library locations for libX11 on FreeBSD.  FreeBSD users manually need to do the same or similar when building OKit.
+    - printf '/FLAGS=/s/FLAGS=/FLAGS=-I\\/usr\\/local\\/include -L\\/usr\\/local\\/lib \nw\nq\n' | ed -s Makefile
+    - make
