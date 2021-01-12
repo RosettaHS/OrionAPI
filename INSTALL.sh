@@ -12,22 +12,17 @@ do
 	esac
 done
 
-if
-	[ ! -e "INSTALL.sh" ]
-then
+if [ ! -e "INSTALL.sh" ]; then
 	echo "Orion | OKit : Please run inside the directory this script is located in."
 	exit 1
 fi
 
-if
-	[ "$(id -u)" -ne 0 ]
-then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "Orion | OKit : Please run as root."
 	exit 1
 fi
 
-if [ -z "$qflag" ]
-then
+if [ -z "$qflag" ]; then
 	tput clear
 	# Thanks Ron Fritz!
 	echo
@@ -45,8 +40,7 @@ fi
 
 [ -d "/usr/include/Orion" ] || mkdir "/usr/include/Orion"
 
-if [ -e "/usr/lib/libOKit.so" ]
-then
+if [ -e "/usr/lib/libOKit.so" ]; then
 	printf "Orion | OKit is already installed, would you like to re-install? (y/N) : "
 	read conf
 	case ${conf} in
@@ -63,8 +57,7 @@ fi
 # Instead of using dpkg for this test, you should see if a test like
 # command -v make
 # works or not.
-if ! dpkg -s "make" >/dev/null 2>&1
-then 
+if ! dpkg -s "make" >/dev/null 2>&1; then 
 	printf 'Orion | OKit : "make" is not installed. It is required for OKit to be compiled. Would you like to install this dependency? (y/N) : '
 	read confb
 	case ${confb} in
@@ -72,8 +65,7 @@ then
 			exit 1;;
 	esac
 	echo "Orion | OKit : Working on installing Make."
-	if apt-get install "make" -y
-	then
+	if apt-get install "make" -y; then
 		echo "Orion | OKit : Make successfully installed."
 	else
 		echo "Orion | OKit : ERROR! Make could not be installed! Aborting."
@@ -81,8 +73,7 @@ then
 	fi
 fi
 
-if ! dpkg -s "libx11-dev" >/dev/null 2>&1
-then 
+if ! dpkg -s "libx11-dev" >/dev/null 2>&1; then 
 	printf 'Orion | OKit : "libx11-dev" is not installed. It is required for OKit to function. Would you like to install this dependency? (y/N) : '
 	read confc
 	case ${confc} in
@@ -99,24 +90,19 @@ then
 	fi
 fi
 
-printf 'Orion | OKit : OKit is ready to be installed. Would you like to proceed? (y/N) : '
-read confd
+printf 'Orion | OKit : OKit is ready to be installed. Would you like to proceed? (y/N) : '; read confd
 case ${confd} in
 	[!Yy]) echo 'Orion | OKit : Aborted.'
 		exit 1;;
 esac
 
 echo "Orion | OKit : Working on installing OKit."
-if
-	! cp -R "src/include/" "/usr/include/Orion/_OKit"
-then
+if ! cp -R "src/include/" "/usr/include/Orion/_OKit"; then
 	echo 'Orion | OKit : ERROR! Failed to copy header files into "/usr/include/Orion/_OKit"! Aborting.'
 	exit 1
 fi
 
-if
-	cp "src/SYSHEADER" "/usr/include/Orion/OKit"
-then
+if cp "src/SYSHEADER" "/usr/include/Orion/OKit"; then
 	echo 'Orion | OKit : Copied header files. Use "#include <Orion/OKit>" in your C++ files to use these headers.'
 else
 	echo 'Orion | OKit : ERROR! Failed to copy redirect header as "/usr/include/Orion/OKit"! Aborting.'
@@ -124,18 +110,15 @@ else
 fi
 
 echo "Orion | OKit : Compiling source code..."
-if
-	make shared >>/dev/null
-then
+
+if make shared >>/dev/null; then
 	echo "Orion | OKit : Successfully compiled OKit source code."
 else
 	echo "Orion | OKit : ERROR! Failed to compile source code! Aborting."
 	exit 1
 fi
 
-if
-	cp "libOKit.so" "/usr/lib/libOKit.so"
-then
+if cp "libOKit.so" "/usr/lib/libOKit.so"; then
 	echo "Orion | OKit : Copied OKit library to system libaries directory."
 else
 	echo 'Orion | OKit : ERROR! Failed to copy compiled library as "/usr/lib/libOKit.so"! Aborting.'
@@ -144,8 +127,7 @@ fi
 
 rm ./*.o ./*.so >/dev/null 2>&1
 
-if [ -z "$qflag" ]
-then
+if [ -z "$qflag" ]; then
 	echo
 	echo ".oOOOo.                                             oO"
 	echo "o     o                                             OO"

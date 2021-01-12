@@ -12,31 +12,24 @@ do
 	esac
 done
 
-if
-	[ ! -e "UNINSTALL.sh" ]
-then
+if [ ! -e "UNINSTALL.sh" ]; then
 	echo "Orion | OKit : Please run inside the directory this script is located in."
 	exit 1
 fi
 
-if
-	[ "$(id -u)" -ne 0 ]
-then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "Orion | OKit : Please run as root."
 	exit 1
 fi
 
-if
-	[ ! -e "/usr/lib/libOKit.so" ]
-then
+if [ ! -e "/usr/lib/libOKit.so" ]; then
 	echo "Orion | OKit : OKit is not installed. Aborting."
 	exit 1
 fi
 
 # Do eligibility checks here!
 
-if [ -z "$qflag" ]
-then
+if [ -z "$qflag" ]; then
 	tput clear
 	# Thanks Ron Fritz!
 	echo
@@ -51,61 +44,47 @@ then
 	echo
 fi
 
-printf "Orion | OKit : OKit is eligible to be uninstalled. Would you like to proceed? (y/N) : "
-read conf
+printf "Orion | OKit : OKit is eligible to be uninstalled. Would you like to proceed? (y/N) : "; read conf
 case ${conf} in
 	[!Yy])
 		echo "Orion | OKit : Aborted."
 		exit 1;;
 esac
 
-if
-	rm "/usr/lib/libOKit.so"
-then
+if rm "/usr/lib/libOKit.so"; then
 	echo 'Orion | OKit : Uninstalled "libOKit.so"'
 else
 	echo 'Orion | OKit : ERROR! Failed to uninstall "libOKit.so"! Aborting.'
 	exit 1
 fi
 
-if [ -d "/usr/include/Orion/_OKit" ]
-then
-	if
-		rm -rf "/usr/include/Orion/_OKit"
-	then
+if [ -d "/usr/include/Orion/_OKit" ]; then
+	if rm -rf "/usr/include/Orion/_OKit"; then
 		echo "Orion | OKit : Uninstalled OKit system headers."
 	else
 		echo "Orion | OKit : ERROR! Failed to uninstall OKit system headers! Aborting."
 		exit 1
 	fi
 
-	if
-		rm "/usr/include/Orion/OKit"
-	then
+	if rm "/usr/include/Orion/OKit"; then
 		echo "Orion | OKit : Uninstalled OKit master header."
 	else
 		echo "Orion | OKit : ERROR! Failed to uninstall OKit master header! Aborting."
 		exit 1
 	fi
 
-	if
-		[ ! "$(ls -A /usr/include/Orion)" ]
-	then
+	if [ ! "$(ls -A /usr/include/Orion)" ]; then
 		rmdir "/usr/include/Orion/" && echo "Orion | OKit : Uninstalled Orion library directory. (Was empty.)"
 	fi
 fi
 
-if dpkg -s "libx11-dev" > /dev/null 2>&1
-then 
+if dpkg -s "libx11-dev" > /dev/null 2>&1; then
 	printf "Orion | OKit : XLib was installed alongside OKit and is no longer needed. Would you like to uninstall Xlib as well? (y/N) : "
 	read confb
 	case ${confb} in
 		y | Y)
 			echo 'Orion | OKit : Working on uninstalling "libx11-dev".'
-			if
-				# sudo?  Aren't we already root by now?  Also, consider moving -y in front of the package argument rather than behind it.  On Unix (in shell scripts) option flags are traditionally placed as early as possible.
-				apt-get purge "libx11-dev" -y
-			then
+			if apt-get purge "libx11-dev" -y; then
 				echo 'Orion | OKit : "libx11-dev" successfully uninstalled.'
 			else
 				echo 'Orion | OKit : ERROR! Failed to uninstall "libx11-dev"! Aborting.'
@@ -115,8 +94,7 @@ then
 	esac
 fi
 
-if [ -z "$qflag" ]
-then
+if [ -z "$qflag" ]; then
 	echo
 	echo ".oOOOo.                                             oO"
 	echo "o     o                                             OO"
