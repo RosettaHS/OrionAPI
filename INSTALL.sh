@@ -71,9 +71,8 @@ then
 		[!Yy]) echo 'Orion | OKit : Aborted.'
 			exit 1;;
 	esac
-	# sudo when already root?
 	echo "Orion | OKit : Working on installing Make."
-	if sudo apt-get install "make" -y
+	if apt-get install "make" -y
 	then
 		echo "Orion | OKit : Make successfully installed."
 	else
@@ -91,7 +90,7 @@ then
 			exit 1;;
 	esac
 	echo "Orion | OKit : Working on installing XLib."
-	if sudo apt-get install "libx11-dev" -y
+	if apt-get install "libx11-dev" -y
 	then
 		echo "Orion | OKit : XLib successfully installed."
 	else
@@ -109,7 +108,7 @@ esac
 
 echo "Orion | OKit : Working on installing OKit."
 if
-	cp -R "src/include/" "/usr/include/Orion/_OKit"
+	! cp -R "src/include/" "/usr/include/Orion/_OKit"
 then
 	echo 'Orion | OKit : ERROR! Failed to copy header files into "/usr/include/Orion/_OKit"! Aborting.'
 	exit 1

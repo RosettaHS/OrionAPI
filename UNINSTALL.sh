@@ -104,7 +104,7 @@ then
 			echo 'Orion | OKit : Working on uninstalling "libx11-dev".'
 			if
 				# sudo?  Aren't we already root by now?  Also, consider moving -y in front of the package argument rather than behind it.  On Unix (in shell scripts) option flags are traditionally placed as early as possible.
-				sudo apt-get purge "libx11-dev" -y
+				apt-get purge "libx11-dev" -y
 			then
 				echo 'Orion | OKit : "libx11-dev" successfully uninstalled.'
 			else
