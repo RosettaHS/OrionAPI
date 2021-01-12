@@ -1,0 +1,10 @@
+# arch is in beta, remove it if it doesn't work
+arch:
+ - amd64
+ - arm64
+
+language: cpp
+dist: focal
+
+script:
+ - make
