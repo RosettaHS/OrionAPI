@@ -111,7 +111,8 @@ fi
 
 echo "Orion | OKit : Compiling source code..."
 
-if make shared >>/dev/null; then
+# This cd src lasts until the end of the script.  If you wanted to back out, you'd need to specifically "cd .."
+if cd src && make shared >>/dev/null; then
 	echo "Orion | OKit : Successfully compiled OKit source code."
 else
 	echo "Orion | OKit : ERROR! Failed to compile source code! Aborting."
