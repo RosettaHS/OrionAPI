@@ -42,7 +42,6 @@ namespace Orion{
 		drawPtr=X::OContainer_DRAW;
 		minW=10,minH=10;
 		col=&OTHEME_PRIMARY;
-		col->log();
 		x=_x,y=_y;
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
