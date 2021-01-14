@@ -36,7 +36,7 @@ namespace Orion{
 		OSIG_NONE,
 		OSIG_BOOL,
 		OSIG_INT,
-		OSIG_UNSIGNEDINT,
+		OSIG_UNSIGNED_INT,
 		OSIG_SHORT,
 		OSIG_UNSIGNED_SHORT,
 		OSIG_FLOAT,
@@ -51,7 +51,7 @@ namespace Orion{
 	struct OSignal{
 		/* The object that emitted this Signal. */
 		CBaseUI* obj;
-		/* The type of the Signal. */
+		/* The type of data carried by the Signal. See OSignalType. */
 		OSignalType type;
 
 		/* The data carried by the Signal. */
