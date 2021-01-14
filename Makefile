@@ -1,5 +1,5 @@
 CC=c++
-SRCS=src/CContainable.cpp src/CContainer.cpp src/CContext.cpp src/CNodeArray.cpp src/CXEvent.cpp src/OCol.cpp src/OContainer.cpp src/OService.cpp src/OString.cpp src/OTheme.cpp src/OVec.cpp src/application.cpp src/xservice.cpp
+SRCS=src/*.cpp
 BINS=CContainable.o CContainer.o CContext.o CNodeArray.o CXEvent.o OCol.o OContainer.o OService.o OString.o OTheme.o OVec.o application.o xservice.o
 ALLBINS=$(BINS) testmain.o
 LIBS=-lX11
