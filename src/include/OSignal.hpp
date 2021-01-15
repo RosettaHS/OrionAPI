@@ -45,9 +45,10 @@ namespace Orion{
 		OSIG_UNSIGNED_CHAR,
 		OSIG_STRING,
 		OSIG_ARBITRARY,
-		OSIG_OBJECT,
+		OSIG_OBJECT
 	};
 	
+	/* A container struct for data types emitted on events from a gnve UI element. */
 	struct OSignal{
 		/* The object that emitted this Signal. */
 		CBaseUI* obj;
@@ -65,10 +66,16 @@ namespace Orion{
 			double asDouble;
 			char asChar;
 			unsigned char asUnsignedChar;
-			OString asString;
+			struct{
+				char* text;
+				size_t length;
+			}asString;
 			void* asArbitrary;
 			CBaseUI* asObject;
 		}get;
+
+		// OSignal(OSignal&);
+		// ~OSignal(void);
 	};
 }
 
