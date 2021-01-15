@@ -3,37 +3,148 @@
 
 ### Definition
 ```cpp
-class OString{								/* Minimal wrapper for strings. */
+class OString{
 	private:
-		char* str;							/* Internal. The character array that makes up the string. */
-		size_t length;						/* The length of the string. */
-		bool isMemStatic;					/* Internal. Was the memory dynamically allocated? */
-		size_t calcLength(const char*);		/* Internal. Calculates the length of another string. */
+		char* str;
+		size_t length;
+		bool isMemStatic;
+		size_t calcLength(const char*);
 	public:
-		~OString(void);							/* Frees all memory (if dynamically allocated) and sets all values to 0. */
-		OString(void);							/* Empty constructor. Sets all values to 0. */
-		OString(const char*);				/* Creates the string with the given text. */
+		~OString(void);
+		OString(void);
+		OString(const char*);
 
-		void setTo(const char*);			/* Sets the string to the given text. */
-		void append(const char*);			/* Appends the new text to the current string. */
+		void setTo(const char*);
+		void append(const char*);
 
-		size_t getLength(void);					/* Gets the length of the current string. */
-		void log(bool verbose=false);		/* Prints the string to the terminal. Pass true if you want all of the data. */
+		size_t getLength(void);
+		void log(bool verbose=false);
 
-		operator char*(void) const;				/* Overload. Converts into a char*. Example: char* test=myOString; */
-		operator const char*(void) const;		/* Overload. Same as above, but with a const char* instead. */
-		OString& operator+=(const char*);	/* Overload. Same as append(const char*). */
-		OString operator+(const char*);		/* Overload. Returns a new string that is the first string with the second string appended. Example: OString newString = oldString+"Appended String!"; */
-		OString& operator=(const char*);	/* Overload. Same as setTo(const char*). */
+		operator char*(void) const;
+		operator const char*(void) const;
+		OString& operator+=(const char*);
+		OString operator+(const char*);
+		OString& operator=(const char*);
 };
 ```
 ### Use
 OString is the Orion-Native method of handling encapsulated strings.
-It allows for Python-inspired string modification, such as easy appendication.
+They are meant to be a replacement of using more bloated encapsulated strings such as `std::string` from the C++ Standard Library.
+It allows for Python-inspired string modification, such as easily appending two strings together.
 
 To create an OString for use, use the following syntax.
 ```cpp
 OString myString("This is my string!");
 ```
 
-# ///UNFINISHED///
+To append another string to an OString, you can either do
+```cpp
+myString.append(" Here's another string attached!"); // which results in "This is my string! Here's another string attached!"
+```
+Or you could do
+```cpp
+myString+=" Here's another string attached!"; // which also results in "This is my string! Here's another string attached!"
+```
+
+To override the data of an OString, you can either do
+```cpp
+myString.setTo("Here's my new string."); // which turns it from "This is my string!" to "Here's my new string."
+```
+Or you could do
+```cpp
+myString="Here's my new string."; // which also turns it from "This is my string!" to "Here's my new string."
+```
+
+You can print the data of a given OString to the terminal by calling the `log()` function on it.
+Passing `true` to `log()` would print out extra data on the OString, such as the length and the pointer to the OString itself.
+
+
+OStrings can be converted to a `const char*` or a `char*` implicitly. For example.
+```cpp
+void myPrintingFunction(const char* text){
+	printf("%s",text);
+}
+```
+`myPrintingFunction` could either take in `myPrintingFunction("Here's a string literal");` or `myPrintingFunction(myString);` and would still work exactly as intended.
+
+### Structure Breakdown
+```cpp
+char* str;
+```
+Private. This is the raw string data and is ever interacted with directly. OString acts as a wrapper for this.
+```cpp
+size_t length;
+```
+Private. This is the length of the string. You can retrieve this by calling the `getLength()` function.
+```cpp
+bool isMemStatic;
+```
+Private. Was the memory dynamically allocated or does it come from a string literal? The purpose of this is to prevent OString from freeing a string literal
+when the OString comes out of scope. If the OString dynamically allocated memory (such as with `append()`), it will free the newly-allocated memory upon deletion.
+```cpp
+size_t calcLength(const char*);
+```
+Private and Internal. Calculates the length of the internal string and sets `length` to that.
+This is called internally whenever the internal string is modified.
+```cpp
+~OString(void);
+```
+Internal. Destructor. Frees the memory if `isMemStatic` is false (It is false if the OString has dynamically allocated memory, like when the OString has been appended.)
+```cpp
+OString(void);
+```
+Empty constructor. Sets all values to 0.
+```cpp
+OString(const char*);
+```
+Creates and initalises the OString with the string literal passed in. 
+Only pass in string literals, as passing in any other pointer could cause huge problems if the pointer origin comes out of scope or is freed before the OString.
+```cpp
+void setTo(const char*);
+```
+Sets the OString to the string literal passed in.
+Only pass in string literals, as passing in any other pointer could cause huge problems if the pointer origin comes out of scope or is freed before the OString.
+```cpp
+void append(const char*);
+```
+Appends the string literal to the OString. This causes the OString to dynamically allocate memory for the new string, setting `isMemStatic` to false.
+```cpp
+size_t getLength(void);
+```
+Returns the `length` of the OString.
+```cpp
+void log(bool verbose=false);
+```
+Logs the data of the OString to the terminal. Pass in `true` if you want data such as the pointer to the OString and the length of the OString.
+```cpp
+operator char*(void) const;
+```
+Override. Allows for implicit conversion of the OString to a `char*`.
+Example: `char* myCharArray=myString;`
+
+```cpp
+operator const char*(void) const;
+```
+Override. Allows for implicit conversion of the OString to a `const char*`.
+Example: `const char* myCharArray=myString;`
+
+```cpp
+OString& operator+=(const char*);
+```
+Override. Redirects to `append()`.
+
+```cpp
+OString operator+(const char*);
+```
+Override. Creates and returns a new OString that is a mix of the left OString appended with the right OString/String literal.
+Example: `OString newString = myString+" Another appended string!";`
+
+```cpp
+OString& operator=(const char*);
+```
+Override. Copies the data of the right OString/String literal to the left OString.
+EXample: `OString newString="Assigned from a String Literal!";`
+
+### Other Information
+OStrings are often used internally in UI Elements such as `OTextEntry` (coming soon).
+If you are making Orion-Native applications, it is advised you use Orion-Native replacements for things from the C++ Standard Library for faster performance.
