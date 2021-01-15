@@ -23,47 +23,38 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlib.h>
-#include "include/OKit.hpp"
-using namespace Orion;
+#include "include/CSignalListener.hpp"
 
-int border=8;
+namespace Orion{
+	CSignalListener::CSignalListener(void) :type{CSLT_NONE},mask{0} {ptr.VOID=0;}
+	void CSignalListener::clear(void){type=CSLT_NONE,mask=0,ptr.VOID=0;}
 
-CContext context;
-CContext context2;
-
-void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
-	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
-		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
-		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_CONFIGURE){
-		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
+	void CSignalListener::compose(void(*func)(void),OMask& _mask){
+		type=CSLT_VOID;
+		mask=_mask;
+		ptr.VOID=func;
 	}
-}
+	void CSignalListener::compose(void(*func)(OSignal),OMask& _mask){
+		type=CSLT_SIGNALER;
+		mask=_mask;
+		ptr.SIGNALER=func;
+	}
 
-// void myFunc2(void* listener, void* event){
-	// printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
-// }
+	bool CSignalListener::compare(CSignalListener& sig){
+		if(type!=sig.type){return false;}
+		switch(type){
+			case CSLT_NONE:{return true;}
+			case CSLT_VOID:{ if(ptr.VOID==sig.ptr.VOID){return true;}else{return false;} }
+			case CSLT_SIGNALER:{ if(ptr.SIGNALER==sig.ptr.SIGNALER){return true;}else{return false;} }
+		}
+		return false;
+	}
 
-int main(){
-	OKitStart("MyOApp");
-	
-	OCol col(255,86,15);
-	OCol col2(30,27,27);
-
-	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-	// context.listener=&context;
-	// context.listenerFunc=myFunc;
-	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
-
-	CContainer r(0,0,400,350,"My OApp",&col,0);
-
-	OContainer c(r,0,0,100,100);
-	
-	OKitEventLoop();
+	void CSignalListener::call(OSignal& sig){
+		switch(type){
+			case CSLT_NONE:{return;}
+			case CSLT_VOID:{ptr.VOID();return;}
+			case CSLT_SIGNALER:{ptr.SIGNALER(sig);return;}
+		}
+	}
 }

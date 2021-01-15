@@ -1,6 +1,6 @@
 CC=c++
 SRCS=src/*.cpp
-BINS=CContainable.o CContainer.o CContext.o CNodeArray.o CXEvent.o OCol.o OContainer.o OService.o OString.o OTheme.o OVec.o application.o xservice.o
+BINS=CContainable.o CContainer.o CContext.o CNodeArray.o CSignalListener.o CEventArray.o CXEvent.o OCol.o OContainer.o OService.o OString.o OTheme.o OVec.o application.o xservice.o
 ALLBINS=$(BINS) testmain.o
 LIBS=-lX11
 FLAGS=-Wall -Wextra -Wpedantic

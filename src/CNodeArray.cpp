@@ -31,7 +31,7 @@
 #include "include/CNodeArray.hpp"
 
 namespace Orion{
-	CNodeArray::~CNodeArray(void){if(arr){free(arr);}}
+	CNodeArray::~CNodeArray(void){if(arr){free(arr);arr=0;}}
 	CNodeArray::CNodeArray(void) : arr{0},count{0},cap{0},step{0} {}
 	bool CNodeArray::init(unsigned short _cap,unsigned char _step){
 		if(arr){return false;}

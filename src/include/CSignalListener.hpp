@@ -23,47 +23,47 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlib.h>
-#include "include/OKit.hpp"
-using namespace Orion;
+#ifndef __ORION_OKIT_CSIGNALISTENER_H__
+#define __ORION_OKIT_CSIGNALISTENER_H__
 
-int border=8;
+#include "signals.h"
+#include "OSignal.hpp"
 
-CContext context;
-CContext context2;
+namespace Orion{
+	enum CSignalListenerType{
+		CSLT_NONE,
+		CSLT_VOID,
+		CSLT_SIGNALER
+	};
 
-void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
-	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
-		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
-		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_CONFIGURE){
-		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
-	}
+	/* Internal. Container struct for function pointers. */
+	struct CSignalListener{
+		/* The type of function pointer this listener contains. */
+		CSignalListenerType type;
+		/* The mask of this listener. This is handled within an external event loop, not by the listener. */
+		OMask mask;
+		/* Union of the pointer used. This is dictated by the CSignalListenerType. */
+		union{
+			void(*VOID)(void);
+			void(*SIGNALER)(OSignal);
+		}ptr;
+
+		/* Empty constructor. Sets all values to 0. */
+		CSignalListener(void);
+		/* Sets all values to 0. */
+		void clear(void);
+		/* Composes with a VOID-accepting/returning function. */
+		void compose(void(*func)(void),OMask&);
+		/* Composes with an OSignal-accepting function. */
+		void compose(void(*func)(OSignal),OMask&);
+		/* Compares the two CSignalListeners. Returns true if they're identical, false if not. */
+		bool compare(CSignalListener&);
+
+		/* Calls all functions and sends a copy of the referenced OSignal to the functions which accept them. Otherwise calls emptily. */
+		void call(OSignal&);
+	};
+	
 }
 
-// void myFunc2(void* listener, void* event){
-	// printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
-// }
 
-int main(){
-	OKitStart("MyOApp");
-	
-	OCol col(255,86,15);
-	OCol col2(30,27,27);
-
-	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-	// context.listener=&context;
-	// context.listenerFunc=myFunc;
-	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
-
-	CContainer r(0,0,400,350,"My OApp",&col,0);
-
-	OContainer c(r,0,0,100,100);
-	
-	OKitEventLoop();
-}
+#endif /* !__ORION_OKIT_CSIGNALISTENER_H__ */

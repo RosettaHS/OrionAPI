@@ -30,6 +30,7 @@
 #define OKIT_REVISION	0
 
 #include "errdef.h"
+#include "signals.h"
 #include "application.hpp"
 #include "xservice.hpp"
 #include "OVec.hpp"
@@ -37,6 +38,10 @@
 #include "OTheme.hpp"
 #include "OString.hpp"
 #include "CBaseUI.hpp"
+#include "OSignal.hpp"
+#include "CSignalListener.hpp"
+#include "CEventArray.hpp"
+#include "CSignalDispatcher.hpp"
 #include "CXEvent.hpp"
 #include "CContext.hpp"
 #include "CDrawable.hpp"

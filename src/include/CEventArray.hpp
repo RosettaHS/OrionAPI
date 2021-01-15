@@ -23,47 +23,61 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlib.h>
-#include "include/OKit.hpp"
-using namespace Orion;
+#ifndef __ORION_OKIT_CEVENTARRAY_H__
+#define __ORION_OKIT_CEVENTARRAY_H__
 
-int border=8;
+#include "signals.h"
+#include "OSignal.hpp"
+#include "CSignalListener.hpp"
 
-CContext context;
-CContext context2;
+namespace Orion{
+	/* Internal. Essentially a contained array of CSignalListeners. */
+	struct CEvent{
+		/* The array of CSignalListeners. */
+		CSignalListener* arr;
+		/* The current count of valid CSignalListeners. */
+		unsigned short count;
+		/* The maximum amount of valid CSignalListeners before resize. */
+		unsigned short cap;
 
-void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
-	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
-		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
-		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_CONFIGURE){
-		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
-	}
+		/* Empty constructor. Sets all values to 0. */
+		CEvent(void);
+		/* Sets all values to 0. */
+		void clear(void);
+	};
+
+	struct CEventArray{
+		/* The array of CEvents. */
+		CEvent* arr;
+		/* The count of valid CEvents. */
+		unsigned short count;
+		/* The maximum amount of valid CEvents before resize. */
+		unsigned short cap;
+		/* The amount to increase the array size during resize. */
+		unsigned char step;
+
+		/* Empty constructor. Sets all values to 0. */
+		CEventArray(void);
+		/* Destructor. Frees all memory. */
+		~CEventArray(void);
+
+		/* Initialiser. Sets up the array with the given parameters. */
+		bool init(unsigned short cap, unsigned char step);
+		/* Internal. Resizes the current array to the given size. */
+		bool resize(unsigned short size);
+
+	/* CEvent handling */
+
+		/* Creates an event that this array will handle and returns a pointer to it. */
+		CEvent* createEvent(unsigned short cap);
+		/* Resizes an event owned by this array to the given size. */
+		bool resizeEvent(CEvent*,unsigned short size);
+		/* Links a CSignalListener to a given event handled by this array. */
+		bool link(CEvent*,CSignalListener&);
+		/* Unlinks a CSignalListener to a given event handled by this array. */
+		bool unlink(CEvent*,CSignalListener&);
+	};
 }
 
-// void myFunc2(void* listener, void* event){
-	// printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
-// }
 
-int main(){
-	OKitStart("MyOApp");
-	
-	OCol col(255,86,15);
-	OCol col2(30,27,27);
-
-	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-	// context.listener=&context;
-	// context.listenerFunc=myFunc;
-	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
-
-	CContainer r(0,0,400,350,"My OApp",&col,0);
-
-	OContainer c(r,0,0,100,100);
-	
-	OKitEventLoop();
-}
+#endif /* !__ORION_OKIT_CEVENTARRAY_H__ */

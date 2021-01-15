@@ -23,47 +23,17 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlib.h>
-#include "include/OKit.hpp"
-using namespace Orion;
+#ifndef __ORION_OKIT_SIGNALS_H__
+#define __ORION_OKIT_SIGNALS_H__
 
-int border=8;
+typedef unsigned long OMask;
 
-CContext context;
-CContext context2;
+/* The following are the required SignalMasks that all CSignalDispatcher derivatives must handle in one way or another. */
 
-void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
-	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
-		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
-		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_CONFIGURE){
-		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
-	}
-}
+/* Emits whenever a UI element redraws itself to the screen. */
+#define OUI_DRAW 1UL
 
-// void myFunc2(void* listener, void* event){
-	// printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
-// }
+/* Redefine this to whatever the highest base SignalMask number is so you don't have to modify every other one. */
+#define OUI_MAXEND OUI_DRAW
 
-int main(){
-	OKitStart("MyOApp");
-	
-	OCol col(255,86,15);
-	OCol col2(30,27,27);
-
-	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true);
-	// context.listener=&context;
-	// context.listenerFunc=myFunc;
-	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
-
-	CContainer r(0,0,400,350,"My OApp",&col,0);
-
-	OContainer c(r,0,0,100,100);
-	
-	OKitEventLoop();
-}
+#endif /* !__ORION_OKIT_SIGNALS_H__ */
