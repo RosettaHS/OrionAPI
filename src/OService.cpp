@@ -34,6 +34,17 @@
 
 
 namespace Orion{
+	static bool _setThemeFromSystem(){
+		return false; /* Add proper support here! */
+	}
+
+	static void _setThemeToFallback(){
+		OTHEME_PRIMARY.setTo(30,25,25);
+		OTHEME_SECONDARY.setTo(40,35,35);
+		OTHEME_TERTIARY.setTo(25,15,15);
+		OTHEME_ACCENT.setTo(255,86,15);
+	}
+
 	bool OKitStart(const char* name,bool ForceONative){
 		if(OAPP_INITED){return false;}
 		if(name){Application::setName(name);}
@@ -44,7 +55,7 @@ namespace Orion{
 		}
 		X::connect();
 		X::CXHA_INIT();
-		/* TODO: ADD PROPER THEME RETRIEVAL!!! */
+		if(!_setThemeFromSystem()){_setThemeToFallback();}
 		OVERB_OUT "OKIT | Service sucessfully initialised!\n" OVERB_END
 		OAPP_INITED=true;
 		return true;
