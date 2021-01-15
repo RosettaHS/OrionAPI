@@ -23,60 +23,26 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OSIGNAL_H__
-#define __ORION_OKIT_OSIGNAL_H__
-
-#include <sys/types.h>
-#include "CBaseUI.hpp"
-#include "OString.hpp"
+#include <stdio.h>
+#include "include/OSignal.hpp"
 
 namespace Orion{
-	/* An enumeration of types of Signals that CSignalDispatchers can dispatch. */
-	enum OSignalType{
-		OSIG_NONE,
-		OSIG_BOOL,
-		OSIG_INT,
-		OSIG_UNSIGNED_INT,
-		OSIG_SHORT,
-		OSIG_UNSIGNED_SHORT,
-		OSIG_FLOAT,
-		OSIG_DOUBLE,
-		OSIG_CHAR,
-		OSIG_UNSIGNED_CHAR,
-		OSIG_STRING,
-		OSIG_ARBITRARY,
-		OSIG_OBJECT
-	};
-	
-	/* A container struct for data types emitted on events from a given UI element. */
-	struct OSignal{
-		/* The object that emitted this Signal. */
-		CBaseUI* obj;
-		/* The type of data carried by the Signal. See OSignalType. */
-		OSignalType type;
-
-		/* The data carried by the Signal. */
-		union{
-			bool asBool;
-			int asInt;
-			unsigned int asUnsignedInt;
-			short asShort;
-			unsigned short asUnsignedShort;
-			float asFloat;
-			double asDouble;
-			char asChar;
-			unsigned char asUnsignedChar;
-			struct{
-				char* text;
-				size_t length;
-			}asString;
-			void* asArbitrary;
-			CBaseUI* asObject;
-		}get;
-
-		/* Logs the data of this to the terminal in a formatted manner. */
-		void log(void);
-	};
+	void OSignal::log(void){
+		printf("OSignal %p | type %d | emitter %p {\n",(void*)this,type,(void*)obj);
+		switch(type){
+			case OSIG_NONE:{printf("\tNo data to log...\n}\n");return;}
+			case OSIG_BOOL:{printf("\tget.asBool %s\n}\n",(get.asBool ? "true" : "false"));return;}
+			case OSIG_INT:{printf("\tget.asInt %d\n}\n",get.asInt);return;}
+			case OSIG_UNSIGNED_INT:{printf("\tget.asUnsignedInt %u\n}\n",get.asUnsignedInt);return;}
+			case OSIG_SHORT:{printf("\tget.asShort %hd\n}\n",get.asShort);return;}
+			case OSIG_UNSIGNED_SHORT:{printf("\tget.asUnsignedShort %hu\n}\n",get.asUnsignedShort);return;}
+			case OSIG_FLOAT:{printf("\tget.asFloat %f\n}\n",get.asFloat);return;}
+			case OSIG_DOUBLE:{printf("\tget.asDouble %lf\n}\n",get.asDouble);return;}
+			case OSIG_CHAR:{printf("\tget.asChar (char) %c\n\tget.asChar (number) %d\n}\n",get.asChar,get.asChar);return;}
+			case OSIG_UNSIGNED_CHAR:{printf("\tget.asUnsignedChar (number) %u\n}\n",(unsigned int)get.asChar);return;}
+			case OSIG_STRING:{printf("\tget.asString.text %s\n\tget.asString.length %lu\n}\n",get.asString.text,get.asString.length);return;}
+			case OSIG_ARBITRARY:{printf("\tget.asArbitrary %p\n}\n",get.asArbitrary);return;}
+			case OSIG_OBJECT:{printf("\tget.asObject %p\n\tget.asObject->type %d\n}\n",(void*)get.asObject,get.asObject->type);return;}
+		};
+	}
 }
-
-#endif /* !__ORION_OKIT_OSIGNAL_H__ */
