@@ -52,7 +52,6 @@ void myFunc(void* listener, X::CXEvent* event){
 
 int main(){
 	OKitStart("MyOApp");
-	
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 

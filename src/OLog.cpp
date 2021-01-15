@@ -23,43 +23,27 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#include <stdio.h>
+#include <stdarg.h>
+#include "include/application.hpp"
+#include "include/OLog.hpp"
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
+/* Modification and simplification of GNU's implementation for printf(). */
 
-#include "errdef.h"
-#include "signals.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OLog.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "OSignal.hpp"
-#include "CSignalListener.hpp"
-#include "CEventArray.hpp"
-#include "CSignalDispatcher.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "CContainable.hpp"
-#include "OContainer.hpp"
+namespace Orion{
+	void OLog(const char* string, ...){
+		va_list arg;
+		va_start(arg,string);
+		vfprintf(stdout,string,arg);
+		va_end(arg);
+	}
 
-#include "OService.hpp"
-
-/* Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
-	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
-		rather than force everyone to write "using namespace Orion;" in each of their files,
-			as is dictated in each tutorial and example for OKit. */
-
-#ifndef ORION_UNUSE_NAMESPACE
-using namespace Orion;
-#endif /* !ORION_UNUSE_NAMESPACE */
-
-#endif /* !__ORION_OKIT_H__ */
+	void OVLog(const char* string, ...){
+		if(OAPP_VERBOSE){
+			va_list arg;
+			va_start(arg,string);
+			vfprintf(stdout,string,arg);
+			va_end(arg);
+		}
+	}
+}
