@@ -28,7 +28,7 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 #include "include/OKit.hpp"
-using namespace Orion;
+// using namespace Orion;
 
 int border=8;
 

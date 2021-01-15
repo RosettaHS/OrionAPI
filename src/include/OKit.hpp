@@ -52,4 +52,13 @@
 
 #include "OService.hpp"
 
+/* Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
+	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
+		rather than force everyone to write "using namespace Orion;" in each of their files,
+			as is dictated in each tutorial and example for OKit. */
+
+#ifndef OKIT_UNUSE_NAMESPACE
+using namespace Orion;
+#endif /* !OKIT_UNUSE_NAMESPACE */
+
 #endif /* !__ORION_OKIT_H__ */
