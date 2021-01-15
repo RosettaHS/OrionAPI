@@ -57,8 +57,8 @@
 		rather than force everyone to write "using namespace Orion;" in each of their files,
 			as is dictated in each tutorial and example for OKit. */
 
-#ifndef OKIT_UNUSE_NAMESPACE
+#ifndef ORION_UNUSE_NAMESPACE
 using namespace Orion;
-#endif /* !OKIT_UNUSE_NAMESPACE */
+#endif /* !ORION_UNUSE_NAMESPACE */
 
 #endif /* !__ORION_OKIT_H__ */
