@@ -73,9 +73,6 @@ namespace Orion{
 			void* asArbitrary;
 			CBaseUI* asObject;
 		}get;
-
-		// OSignal(OSignal&);
-		// ~OSignal(void);
 	};
 }
 
