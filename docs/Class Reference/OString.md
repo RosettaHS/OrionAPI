@@ -43,16 +43,19 @@ myString.append(" Here's another string attached!"); // which results in "This i
 ```
 Or you could do
 ```cpp
-myString+=" Here's another string attached!"; // which also results in "This is my string! Here's another string attached!"
+myString+=" Here's another string attached!"; 
+// which also results in "This is my string! Here's another string attached!"
 ```
 
 To override the data of an OString, you can either do
 ```cpp
-myString.setTo("Here's my new string."); // which turns it from "This is my string!" to "Here's my new string."
+myString.setTo("Here's my new string."); 
+// which turns it from "This is my string!" to "Here's my new string."
 ```
 Or you could do
 ```cpp
-myString="Here's my new string."; // which also turns it from "This is my string!" to "Here's my new string."
+myString="Here's my new string."; 
+// which also turns it from "This is my string!" to "Here's my new string."
 ```
 
 You can print the data of a given OString to the terminal by calling the `log()` function on it.
@@ -148,3 +151,4 @@ EXample: `OString newString="Assigned from a String Literal!";`
 ### Other Information
 OStrings are often used internally in UI Elements such as `OTextEntry` (coming soon).
 If you are making Orion-Native applications, it is advised you use Orion-Native replacements for things from the C++ Standard Library for faster performance.
+It's also advised you use OStrings in place of `const char*` due to how minimal OStrings are, and the additional features it provides out-of-the-box, and how they're interchangable with `const char*`s.
