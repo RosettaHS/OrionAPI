@@ -54,5 +54,15 @@ namespace Orion{
 		/* Prints all the data to the terminal. */
 		void log(void);
 	};
+
+	void OLog(OVec&);
+	void OVLog(OVec&);
+	void OLog(OVec*);
+	void OVLog(OVec*);
+
+	void OLog(OVec4&);
+	void OVLog(OVec4&);
+	void OLog(OVec4*);
+	void OVLog(OVec4*);
 }
 #endif /* !__ORION_OKIT_OVEC_H__ */

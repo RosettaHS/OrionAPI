@@ -23,7 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
+#include "include/application.hpp"
+#include "include/OLog.hpp"
 #include "include/OCol.hpp"
 
 namespace Orion{
@@ -33,5 +34,11 @@ namespace Orion{
 		r=_r,g=_g,b=_b;
 		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
 	}
-	void OCol::log(void){printf("OCol %p ( %d ,%d ,%d )\n",(void*)this,r,g,b);}
+	void OCol::log(void){OLog("OCol %p ( %d ,%d ,%d )\n",(void*)this,r,g,b);}
+
+	void OLog(OCol& c){c.log();}
+	void OLog(OCol* c){c->log();}
+
+	void OVLog(OCol& c){if(OAPP_VERBOSE){c.log();}}
+	void OVLog(OCol* c){if(OAPP_VERBOSE){c->log();}}
 }

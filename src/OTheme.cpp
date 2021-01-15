@@ -41,6 +41,12 @@ namespace Orion{
 		printf("\t Accent : %d,%d,%d\n",accent.r,accent.g,accent.b);
 		printf("};\n");
 	}
+
+	void OLog(OTheme& t){t.log();}
+	void OVLog(OTheme& t){if(OAPP_VERBOSE){t.log();}}
+	void OLog(OTheme*t){t->log();}
+	void OVLog(OTheme*t){if(OAPP_VERBOSE){t->log();}}
+	
 	OTheme OTHEME_GLOBAL;
 	bool OTHEME_PRIMARY_OVERRIDE=false;
 	bool OTHEME_SECONDARY_OVERRIDE=false;

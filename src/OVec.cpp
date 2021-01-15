@@ -23,15 +23,26 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
+#include "include/application.hpp"
+#include "include/OLog.hpp"
 #include "include/OVec.hpp"
 
 namespace Orion{
 	OVec::OVec(void) : x{0},y{0} {}
 	OVec::OVec(int _x, int _y) : x{_x},y{_y} {}
-	void OVec::log(void){printf("OVec( %d , %d )\n",x,y);}
+	void OVec::log(void){OLog("OVec( %d , %d )\n",x,y);}
 
 	OVec4::OVec4(void) : x{0},y{0},w{0},h{0} {}
 	OVec4::OVec4(int _x, int _y, unsigned int _w, unsigned int _h) : x{_x},y{_y},w{_w},h{_h} {}
-	void OVec4::log(void){printf("OVec4( %d , %d , %u , %u )\n",x,y,w,h);}
+	void OVec4::log(void){OLog("OVec4( %d , %d , %u , %u )\n",x,y,w,h);}
+
+	void OLog(OVec& v){v.log();}
+	void OVLog(OVec& v){if(OAPP_VERBOSE){v.log();}}
+	void OLog(OVec* v){v->log();}
+	void OVLog(OVec* v){if(OAPP_VERBOSE){v->log();}}
+
+	void OLog(OVec4& v){v.log();}
+	void OVLog(OVec4& v){if(OAPP_VERBOSE){v.log();}}
+	void OLog(OVec4* v){v->log();}
+	void OVLog(OVec4* v){if(OAPP_VERBOSE){v->log();}}
 }

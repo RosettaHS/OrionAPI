@@ -43,6 +43,11 @@ namespace Orion{
 		/* Prints RGB data to terminal. */
 		void log(void);
 	};
+
+	void OLog(OCol&);
+	void OVLog(OCol&);
+	void OLog(OCol*);
+	void OVLog(OCol*);
 	
 }
 #endif /* !__ORION_OKIT_OCOL_H__ */

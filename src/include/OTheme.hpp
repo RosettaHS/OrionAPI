@@ -53,6 +53,11 @@ namespace Orion{
 		void log(void);		/* Prints all OCol data out to the terminal. */
 	};
 
+	void OLog(OTheme&);
+	void OLog(OTheme*);
+	void OVLog(OTheme&);
+	void OVLog(OTheme&);
+
 	/* The global theme for the OApp. */
 	extern OTheme OTHEME_GLOBAL;
 
