@@ -48,7 +48,7 @@ namespace Orion{
 		OSIG_OBJECT
 	};
 	
-	/* A container struct for data types emitted on events from a gnve UI element. */
+	/* A container struct for data types emitted on events from a given UI element. */
 	struct OSignal{
 		/* The object that emitted this Signal. */
 		CBaseUI* obj;
