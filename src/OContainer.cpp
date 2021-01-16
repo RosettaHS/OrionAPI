@@ -31,25 +31,30 @@
 
 namespace Orion{
 	OContainer::OContainer(){
-		type=OT_CONTAINER;
+		type=OT_ERROR;
 		drawPtr=0;
 		minW=10,minH=10;
 		x=0,y=0,w=0,h=0;
 		col=0;
 	}
 	OContainer::OContainer(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h){
-		type=OT_CONTAINER;
-		drawPtr=X::OContainer_DRAW;
-		minW=10,minH=10;
-		col=&OTHEME_PRIMARY;
-		x=_x,y=_y;
-		if(_w<minW){w=minW;}else{w=_w;}
-		if(_h<minH){h=minH;}else{h=_h;}
-		
-		selfContext.init(parent.contextToUse,x,y,w,h,0,col,ExposureMask,CCT_TOPLEVEL,true);
-		selfContext.listener=(void*)this;
-		selfContext.listenerFunc=X::OContainer_EVH;
-		linkTo(&parent);
+		if(linkTo(&parent)){
+			type=OT_CONTAINER;
+			drawPtr=X::OContainer_DRAW;
+			minW=10,minH=10;
+			col=&OTHEME_PRIMARY;
+			x=_x,y=_y;
+			if(_w<minW){w=minW;}else{w=_w;}
+			if(_h<minH){h=minH;}else{h=_h;}
+
+			selfContext.init(parent.contextToUse,x,y,w,h,0,col,ExposureMask,CCT_TOPLEVEL,true);
+			selfContext.listener=(void*)this;
+			selfContext.listenerFunc=X::OContainer_EVH;
+			drawPtr(this);
+		}else{
+			type=OT_ERROR;
+			printf("OKIT | WARNING! OCONTAINER %p FAILED TO LINK TO PARENT %p ON INITIALISER! OCONTAINER NON-FUNCTIONAL!\n",(void*)this,(void*)&parent);
+		}
 	}
 	
 	/* Base containers do no sorting. */
@@ -58,38 +63,48 @@ namespace Orion{
 	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){
 		internalCol.setTo(r,g,b);
 		col=&internalCol;
+		if(type!=OT_ERROR){ selfContext.setCol(&internalCol); }else{ printf("OKIT | WARNING! OCONTAINER %p COULD NOT SET COL DUE TO IT NOT BEING INITIALISED!\n",(void*)this); }
 	}
 	void OContainer::setCol(OCol& newCol){
 		internalCol=newCol;
 		col=&internalCol;
+		if(type!=OT_ERROR){ selfContext.setCol(&internalCol); }else{ printf("OKIT | WARNING! OCONTAINER %p COULD NOT SET COL DUE TO IT NOT BEING INITIALISED!\n",(void*)this); }
 	}
 
 	bool OContainer::link(CContainable* obj){
+		if(type==OT_ERROR){ printf("OKIT | WARNING! CAN'T LINK %p TO OCONTAINER %p SINCE THE CONTAINER IS NOT INITIALISED!\n",(void*)obj,(void*)this); return false; }
 		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT LINK A OCONTAINER TO ITSELF!\n"); return false;}
 		if(children.link(obj)){
 			childCount=children.count;
-			obj->drawPtr(obj);
+			drawPtr(this);
 			return true;
 		}
 		return false;
 	}
 
 	bool OContainer::unlink(CContainable* obj){
+		if(type==OT_ERROR){ printf("OKIT | WARNING! CAN'T UNLINK %p FROM OCONTAINER %p SINCE THE CONTAINER IS NOT INITIALISED!\n",(void*)obj,(void*)this); return false; }
 		if((void*)this==(void*)obj){printf("OKIT | WARNING! CANNOT UNLINK A OCONTAINER FROM ITSELF!\n");return false;}
 		if(children.link(obj)){
 			childCount=children.count;
+			drawPtr(this);
 			return true;
 		}
 		return false;
 	}
 
-	int OContainer::getIndexOf(CContainable* obj){return children.getIndexOf(obj);}
+	int OContainer::getIndexOf(CContainable* obj){
+		if(type==OT_ERROR){ printf("OKIT | WARNING! CAN'T GET INDEX OF %p ON OCONTAINER %p SINCE THE CONTAINER IS NOT INITIALISED!\n",(void*)obj,(void*)this); return -1; }
+		return children.getIndexOf(obj);
+	}
 
 	void OContainer::setPos(int x, int y){
+		if(type==OT_ERROR){ printf("OKIT | WARNING! CAN'T SET POS ON OCONTAINER %p SINCE THE CONTAINER IS NOT INITIALISED!\n",(void*)this); return; }
 		selfContext.setPos(x,y,true);
 	}
 
 	void OContainer::setSize(unsigned int _w, unsigned int _h){
+		if(type==OT_ERROR){ printf("OKIT | WARNING! CAN'T SET SIZE ON OCONTAINER %p SINCE THE CONTAINER IS NOT INITIALISED!\n",(void*)this); return; }
 		unsigned int w,h;
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
@@ -103,6 +118,7 @@ namespace Orion{
 	namespace X{
 		void OContainer_DRAW(CDrawable* obj){
 			OContainer* container=(OContainer*)obj;
+			container->sort();
 			container->children.drawAll();
 		}
 		void OContainer_EVH(void* obj,CXEvent* event){

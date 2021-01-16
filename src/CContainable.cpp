@@ -28,14 +28,14 @@
 
 namespace Orion{
 	CContainable::CContainable(void){
-		type=OT_CONTAINABLE;
+		type=OT_ERROR;
 		index=-1;
 	}
 	bool CContainable::linkTo(CContainer* container){
+		
 		if(container->link(this)){
 			index=container->getIndexOf(this);
 			context=container->contextToUse;
-			drawPtr(this);
 			return true;
 		}
 		return false;
