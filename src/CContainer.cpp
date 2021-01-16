@@ -40,7 +40,7 @@ namespace Orion{
 		contextToUse=0;
 	}
 
-	CContainer::CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask){
+	void CContainer::initAsTL(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask){
 		selfContext.init(0,x,y,w,h,t,col,mask,CCT_TOPLEVEL,true);
 		contextToUse=&selfContext;
 	}

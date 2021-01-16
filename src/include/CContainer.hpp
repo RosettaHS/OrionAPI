@@ -55,7 +55,7 @@ namespace Orion{
 			/* Empty constructor. Sets all values to 0. */
 			CContainer(void);
 			/* Internal. Top-level constructor. Does NOT initialise other values! Only creates X Window on display. */
-			CContainer(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask);
+			void initAsTL(int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask);
 			/* Destructor. Sets all values to 0 and frees memory. */
 			~CContainer(void);
 	};
