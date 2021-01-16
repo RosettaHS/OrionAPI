@@ -29,7 +29,7 @@
 
 namespace Orion{
 	OString::~OString(void){
-		if(!isMemStatic){free(str);}
+		if(!isMemStatic){if(str){free(str);str=0;}}
 	}
 	OString::OString(void) : str{0},length{0},isMemStatic{false} {}
 	OString::OString(const char* text) : str{(char*)text} {
