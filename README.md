@@ -1,6 +1,9 @@
 # Welcome to OKit.	Luxury + Linux. For Everyone.
 The Application toolkit for the Orion Operating System.
 
+# ////////////////////////////////////////////////////////////////
+# /// THIS TOOLKIT IS UNDER DEVELOPMENT AND DOES NOT WORK YET! ///
+# ////////////////////////////////////////////////////////////////
 
 ## What is OKit?
 
