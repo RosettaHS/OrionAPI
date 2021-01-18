@@ -1,6 +1,7 @@
 CC=c++
 SRCS=src/*.cpp
-BINS=*.o
+BINS=CContainable.o CContainer.o CContext.o CNodeArray.o OLog.o OSignal.o CSignalListener.o CEventArray.o CXEvent.o OCol.o OContainer.o OService.o OString.o OTheme.o OVec.o application.o xservice.o
+ALLBINS=$(BINS) testmain.o
 LIBS=-lX11
 FLAGS=-Wall -Wextra -Wpedantic
 
@@ -12,14 +13,13 @@ all: output
 
 output: $(BINS)
 	$(CC) $(FLAGS) -c $(TESTMAIN) $(LIBS)
-	$(CC) $(FLAGS) $(BINS) -no-pie -o $(OUTNAME) $(LIBS)
+	$(CC) $(FLAGS) $(ALLBINS) -no-pie -o $(OUTNAME) $(LIBS)
 
 shared: $(BINS)
 	$(CC) -shared -fPIC $(FLAGS) $(BINS) -o $(LIBNAME) $(LIBS)
 
-%.o: src/%.cpp
-	$(CC) $(FLAGS) -fPIC -c $^ $(LIBS)
-
+$(BINS): $(SRCS)
+	$(CC) $(FLAGS) -fPIC -c $(SRCS) $(LIBS)
 run:
 	O_VERBOSE=1 ./$(OUTNAME)
 
