@@ -23,7 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
+#include "include/OLog.hpp"
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/application.hpp"
@@ -50,13 +50,13 @@ namespace Orion{
 		if(name){Application::setName(name);}
 		Application::init();
 		if(ForceONative){
-			if(!OAPP_NATIVE){printf("OKIT | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
-			if(OAPP_BINPATH==0||OAPP_BINDIR==0||OAPP_DATAPATH==0){printf("OKIT | ERROR! SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");exit(OERR_NOT_NATIVE_OAPP);}
+			if(!OAPP_NATIVE){OLog("OKIT | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
+			if(OAPP_BINPATH==0||OAPP_BINDIR==0||OAPP_DATAPATH==0){OLog("OKIT | ERROR! SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");exit(OERR_NOT_NATIVE_OAPP);}
 		}
 		X::connect();
 		X::CXHA_INIT();
 		if(!_setThemeFromSystem()){_setThemeToFallback();}
-		OVERB_OUT "OKIT | Service sucessfully initialised!\n" OVERB_END
+		OVLog("OKIT | Service sucessfully initialised!\n");
 		OAPP_INITED=true;
 		return true;
 	}
@@ -65,7 +65,7 @@ namespace Orion{
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
-		OVERB_OUT "OKIT | Service sucessfully finished!\n" OVERB_END
+		OVLog("OKIT | Service sucessfully finished!\n");
 		return true;
 	}
 }

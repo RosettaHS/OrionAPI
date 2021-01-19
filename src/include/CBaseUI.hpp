@@ -30,15 +30,18 @@ namespace Orion{
 	/* An enumeration of all deferrable class types used in OKit. */
 	enum OType{
 		OT_ERROR,
-		OT_DRAWABLE,
-		OT_CONTAINER,
-		OT_CONTAINABLE
+		OT_CDRAWABLE,
+
+		OT_OWINDOW,
 	};
 
 	/* Base derivable class that all OKit UI elements derive from. */
 	class CBaseUI{
 		public:
+			/* The type of this Object. */
 			OType type;
+			/* Is the Object ready and initalised? Don't call any functions of this is false! */
+			bool ready;
 	};
 }
 

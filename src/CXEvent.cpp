@@ -23,10 +23,10 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include "include/CXEvent.hpp"
+#include "include/OLog.hpp"
 
 namespace Orion{
 	namespace X{
@@ -47,15 +47,15 @@ namespace Orion{
 
 
 		void CXEvent::log(void){
-			printf("CXEvent %p | valid %s | type %d | xtype %d | {\n",(void*)this,(valid ? "true" : "false"),type,xtype);
+			OLog("CXEvent %p | valid %s | type %d | xtype %d | {\n",(void*)this,(valid ? "true" : "false"),type,xtype);
 			switch(type){
-				case CXE_NONE: case CXE_FORCERENDER:{printf("\t No event data to log...\n}\n");return;}
-				case CXE_EXPOSE:{printf("\texpose.x %d\n\texpose.y %d\n\texpose.w %u\n\texpose.h %u\n}\n",expose.x,expose.y,expose.w,expose.h);return;}
-				case CXE_MFOCUS_CHANGED:{printf("\tmouseFocus.state %d\n\tmouseFocus.mod %u\n}\n",mouseFocus.state,mouseFocus.mod);return;}
-				case CXE_CONFIGURE:{printf("\tconfigure.x %d\n\tconfigure.y %d\n\tconfigure.w %u\n\tconfigure.h %u\n}\n",configure.x,configure.y,configure.w,configure.h);return;}
-				case CXE_KEYCHAR:{printf("\tkey.letter \"%c\"\n\tkey.pressed %d\n\tkey.code %u\n\tkey.mod %u\n}\n",key.letter,key.pressed,key.code,key.mod);return;}
-				case CXE_MOUSEMOVE:{printf("\tmouse.x %d\n\tmouse.y %d\n\tmouse.x_root %d\n\tmouse.y_root %d\n\tmouse.state %u\n}\n",mouse.x,mouse.y,mouse.x_root,mouse.y_root,mouse.state);return;}
-				case CXE_MOUSECLICK:{printf("\tmouse.x %d\n\tmouse.y %d\n\tmouse.x_root %d\n\tmouse.y_root %d\n\tmouse.state %u\n\tmouse.button %u\n\tmouse.pressed %s\n}\n",mouse.x,mouse.y,mouse.x_root,mouse.y_root,mouse.state,mouse.button,(mouse.pressed ? "true" : "false"));return;}
+				case CXE_NONE: case CXE_FORCERENDER:{OLog("\t No event data to log...\n}\n");return;}
+				case CXE_EXPOSE:{OLog("\texpose.x %d\n\texpose.y %d\n\texpose.w %u\n\texpose.h %u\n}\n",expose.x,expose.y,expose.w,expose.h);return;}
+				case CXE_MFOCUS_CHANGED:{OLog("\tmouseFocus.state %d\n\tmouseFocus.mod %u\n}\n",mouseFocus.state,mouseFocus.mod);return;}
+				case CXE_CONFIGURE:{OLog("\tconfigure.x %d\n\tconfigure.y %d\n\tconfigure.w %u\n\tconfigure.h %u\n}\n",configure.x,configure.y,configure.w,configure.h);return;}
+				case CXE_KEYCHAR:{OLog("\tkey.letter \"%c\"\n\tkey.pressed %d\n\tkey.code %u\n\tkey.mod %u\n}\n",key.letter,key.pressed,key.code,key.mod);return;}
+				case CXE_MOUSEMOVE:{OLog("\tmouse.x %d\n\tmouse.y %d\n\tmouse.x_root %d\n\tmouse.y_root %d\n\tmouse.state %u\n}\n",mouse.x,mouse.y,mouse.x_root,mouse.y_root,mouse.state);return;}
+				case CXE_MOUSECLICK:{OLog("\tmouse.x %d\n\tmouse.y %d\n\tmouse.x_root %d\n\tmouse.y_root %d\n\tmouse.state %u\n\tmouse.button %u\n\tmouse.pressed %s\n}\n",mouse.x,mouse.y,mouse.x_root,mouse.y_root,mouse.state,mouse.button,(mouse.pressed ? "true" : "false"));return;}
 			}
 		}
 	}

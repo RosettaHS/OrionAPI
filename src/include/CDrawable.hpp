@@ -26,31 +26,99 @@
 #ifndef __ORION_OKIT_CDRAWABLE_H__
 #define __ORION_OKIT_CDRAWABLE_H__
 
+#include <stdint.h>
+#include "OVec.hpp"
+#include "OCol.hpp"
+#include "OTheme.hpp"
 #include "CBaseUI.hpp"
 #include "CContext.hpp"
+
+#define _OUI_SIZE_FILL_FULL		0x1
+#define _OUI_SIZE_FILL_LEFT		0x2
+#define _OUI_SIZE_FILL_RIGHT	0x4
+#define _OUI_SIZE_FILL_TOP		0x8
+#define _OUI_SIZE_FILL_BOTTOM	0x10
+
+/* Add positional flags here later! */
 
 namespace Orion{
 	/* Abstract class for all drawable UI elements. */
 	class CDrawable : public CBaseUI{
 		protected:
-			/* The X and Y positional coordinates of the Drawable. */
+			/* The X and Y positional coordinates of this Drawable. */
 			int x,y;
+			/* The positional coordinates for the centre of this Drawable. */
+			int centreX, centreY;
 			/* The Width and Height (size) of the Drawable. */
 			unsigned int w,h;
-			/* The minimum allowed width and height of the Drawable. Used in Containables. */
+			/* The minimum allowed width and height of this Drawable. Used in Containables when sorting. */
 			unsigned int minW,minH;
-			/* The Context that the Drawable can draw to. */
+			/* The UI scale of this drawable. */
+			float scale;
+
+			/* The Context that this Drawable can draw to. */
 			CContext* context;
+			/* The parent Drawable of this Drawable (if it has one). */
+			CDrawable* parentDrawable;
+
+			/* Internal. The internal theme of this drawable. Not used normally, only during overrides. */
+			OTheme internalTheme;
+			/* Internal. Pointers to the actual colour values used by this Drawable. */
+			CTheme theme;
+			/* Internal. Override values for the theme of this Drawable. */
+			uint8_t themeFlags;
 		public:
-			/* Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
-			void(*drawPtr)(CDrawable* obj);
-			/* Virtual method, sets the position of the Drawable and does additional computation that the deferred class may require. */
-			virtual void setPos(int x, int y) = 0;
-			/* Virtual method, sets the size of the Drawable and does additional computation that the deferred class may require. */
-			virtual void setSize(unsigned int w, unsigned int h) = 0;
-			/* Virtual method, sets the minimum size allowed on the Drawable and does additional computation that the deferred class may require. */
-			virtual void setMinSize(unsigned int w, unsigned int h) = 0;
+			/* Internal. Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
+			void(*drawPtr)(CDrawable*);
+
+			/* Internal. Raw flags that govern the size and positioning that non-sorting Containers will use to modify this Drawable. */
+			struct{
+				uint8_t size;
+				uint8_t pos;
+			}flags;
+
+			/* Empty constructor. Sets all values to 0. */
+			CDrawable();
+
+			/* Sets the position of this Drawable relative to its parent (if it has one). */
+			void setPos(int x, int y);
+			/* Sets the positional coordinates of the centre of this Drawable relative to the top left. Used during scaling. */
+			void setCentre(int x, int y);
+			/* Sets the size of this Drawable. */
+			void setSize(unsigned int w,unsigned int h);
+			/* Sets the minimum allowed size of this Drawable. */
+			void setMinSize(unsigned int w, unsigned int h);
+			/* Sets the UI scale of this Drawable. */
+			void setScale(float);
+			/* Sets and overrides the theme of this Drawable. Use with caution! */
+			void setTheme(OTheme&);
+			/* Sets and overrides the primary colour of this Drawable. Use with caution!*/
+			void setPrimaryCol(unsigned char r, unsigned char g, unsigned char b);
+			/* Sets and overrides the secondary colour of this Drawable. Use with caution!*/
+			void setSecondaryCol(unsigned char r, unsigned char g, unsigned char b);
+			/* Sets and overrides the tertiary colour of this Drawable. Use with caution!*/
+			void setTertiaryCol(unsigned char r, unsigned char g, unsigned char b);
+			/* Sets and overrides the accent colour of this Drawable. Use with caution!*/
+			void setAccentCol(unsigned char r, unsigned char g, unsigned char b);
+			/* Resets the theme of this Drawable to its default values. */
+			void resetTheme();
+
+			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
+			OVec getPos(bool globalToWindow=false);
+			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */
+			OVec getCentre();
+			/* Returns the size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
+			OVec4 getSize(bool useScale=false);
+			/* Returns the minimum size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
+			OVec4 getMinSize(bool useScale=false);
+			/* Returns the local UI scale of this drawable. Pass true to retrieve the global scale of the Drawable including the scales of its parents (if it has them). */
+			float getScale(bool includeParents=false);
+			/* Returns the local position and size of this Drawable. Pass true to retrieve the global position relative to the Window. */
+			OVec4 getGeometry(bool globalToWindow=false);
+
+			/* Returns a copy of the theme used by this Drawable. */
+			OTheme getTheme();
 	};
 }
 
-#endif /* ! __ORION_OKIT_CDRAWABLE_H__ */
+#endif /* !__ORION_OKIT_CDRAWABLE_H__ */

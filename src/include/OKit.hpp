@@ -47,16 +47,15 @@
 #include "CContext.hpp"
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "CContainable.hpp"
-#include "OContainer.hpp"
 
 #include "OService.hpp"
 
-/* Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
-	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
-		rather than force everyone to write "using namespace Orion;" in each of their files,
-			as is dictated in each tutorial and example for OKit. */
+/*
+*	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
+*	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
+*	rather than force everyone to write "using namespace Orion;" in each of their files,
+*	as is dictated in each tutorial and example for OKit. 
+*/
 
 #ifndef ORION_UNUSE_NAMESPACE
 using namespace Orion;

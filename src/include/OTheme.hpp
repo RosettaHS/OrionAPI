@@ -40,17 +40,23 @@
 #define OTHEME_ACCENT Orion::OTHEME_GLOBAL.accent
 
 namespace Orion{
-	struct OTheme{		/* Container for multiple OCols. Used for theming UI elements. */
-		OCol primary;	/* The primary colour of the theme. Used for backgrounds. */
-		OCol secondary;	/* The secondary colour of the theme. Used for top-level UI elements. */
-		OCol tertiary;	/* The tertiary colour of the theme. Used for borders between elements. */
-		OCol accent;	/* The accent colour of the theme.  Used for accents around elements or in symbols. */
+	/* Container for multiple OCols. Used for theming UI elements. */
+	struct OTheme{
+		/* The primary colour of the theme. Used for backgrounds. */
+		OCol primary;
+		/* The secondary colour of the theme. Used for top-level UI elements. */
+		OCol secondary;
+		/* The tertiary colour of the theme. Used for borders between elements. */
+		OCol tertiary;
+		/* The accent colour of the theme.  Used for accents around elements or in symbols. */
+		OCol accent;
 
 		void setPrimary(unsigned char r, unsigned char g, unsigned char b);
 		void setSecondary(unsigned char r, unsigned char g, unsigned char b);
 		void setTertiary(unsigned char r, unsigned char g, unsigned char b);
 		void setAccent(unsigned char r, unsigned char g, unsigned char b);
-		void log(void);		/* Prints all OCol data out to the terminal. */
+		/* Prints all OCol data out to the terminal. */
+		void log(void);
 	};
 
 	void OLog(OTheme&);
@@ -66,6 +72,23 @@ namespace Orion{
 	extern bool OTHEME_SECONDARY_OVERRIDE;
 	extern bool OTHEME_TERTIARY_OVERRIDE;
 	extern bool OTHEME_ACCENT_OVERRIDE;
+
+#define _CTHEME_OVERRIDE_PRIMARY	0x1
+#define _CTHEME_OVERRIDE_SECONDARY	0x2
+#define _CTHEME_OVERRIDE_TERTIARY	0x4
+#define _CTHEME_OVERRIDE_ACCENT		0x8
+
+	/* Internal themer for UI elements. Contains pointers to the real values to use and can be overridden. */
+	struct CTheme{
+		/* Pointer to the primary colour to use. Can either be from OTHEME_GLOBAL or an internal colour. */
+		OCol* primary;
+		/* Pointer to the secondary colour to use. Can either be from OTHEME_GLOBAL or an internal colour. */
+		OCol* secondary;
+		/* Pointer to the tertiary colour to use. Can either be from OTHEME_GLOBAL or an internal colour. */
+		OCol* tertiary;
+		/* Pointer to the accent colour to use. Can either be from OTHEME_GLOBAL or an internal colour. */
+		OCol* accent;
+	};
 
 }
 

@@ -23,8 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "include/OLog.hpp"
 #include "include/application.hpp"
 #include "include/OTheme.hpp"
 
@@ -34,12 +33,12 @@ namespace Orion{
 	void OTheme::setTertiary(unsigned char r, unsigned char g, unsigned char b){tertiary.setTo(r,g,b);}
 	void OTheme::setAccent(unsigned char r, unsigned char g, unsigned char b){accent.setTo(r,g,b);}
 	void OTheme::log(void){
-		printf("OTheme %p {\n",(void*)this);
-		printf("\t Primary : %d,%d,%d\n",primary.r,primary.g,primary.b);
-		printf("\t Secondary : %d,%d,%d\n",secondary.r,secondary.g,secondary.b);
-		printf("\t Tertiary : %d,%d,%d\n",tertiary.r,tertiary.g,tertiary.b);
-		printf("\t Accent : %d,%d,%d\n",accent.r,accent.g,accent.b);
-		printf("};\n");
+		OLog("OTheme %p {\n",(void*)this);
+		OLog("\t Primary : %d,%d,%d\n",primary.r,primary.g,primary.b);
+		OLog("\t Secondary : %d,%d,%d\n",secondary.r,secondary.g,secondary.b);
+		OLog("\t Tertiary : %d,%d,%d\n",tertiary.r,tertiary.g,tertiary.b);
+		OLog("\t Accent : %d,%d,%d\n",accent.r,accent.g,accent.b);
+		OLog("};\n");
 	}
 
 	void OLog(OTheme& t){t.log();}

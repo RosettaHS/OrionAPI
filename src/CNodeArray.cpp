@@ -23,7 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
+#include "include/OLog.hpp"
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/application.hpp"
@@ -41,7 +41,7 @@ namespace Orion{
 			for(unsigned short i=0;i<_cap;i++){arr[i]=0;}
 			return true;
 		}else{
-			printf("OKIT | ERROR! CNodeArray( %us,%u ) CAN'T MALLOC AN ARRAY!\n",_cap,_step);
+			OLog("OKIT | ERROR! CNodeArray( %us,%u ) CAN'T MALLOC AN ARRAY!\n",_cap,_step);
 			OERR_EXIT(OERR_CANTMALLOC)
 			return false;
 		}
@@ -54,7 +54,7 @@ namespace Orion{
 			for(unsigned short i=count;i<_size;i++){arr[i]=0;}
 			return true;
 		}else{
-			printf("OKIT | ERROR! CNodeArray( %us,%u ) :: resize( %us ) CAN'T MALLOC AN ARRAY!\n",cap,step,_size);
+			OLog("OKIT | ERROR! CNodeArray( %us,%u ) :: resize( %us ) CAN'T MALLOC AN ARRAY!\n",cap,step,_size);
 			OERR_EXIT(OERR_CANTMALLOC)
 			return false;
 		}
@@ -111,11 +111,11 @@ namespace Orion{
 	}
 
 	void CNodeArray::log(void){
-		printf("CNodeArray %p | Size %u | Cap %u |Contents : ( ",(void*)this,count,cap);
+		OLog("CNodeArray %p | Size %u | Cap %u |Contents : ( ",(void*)this,count,cap);
 		for(unsigned short i=0;i<count;i++){
-			printf("%p, ",(void*)arr[i]);
+			OLog("%p, ",(void*)arr[i]);
 		}
-		printf(")\n");
+		OLog(")\n");
 	}
 
 }
