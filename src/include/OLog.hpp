@@ -31,6 +31,51 @@ namespace Orion{
 	void OLog(const char* string, ...);
 	/* Logs the formatted string out to the terminal ONLY if OAPP_VERBOSE is true. */
 	void OVLog(const char* string, ...);
+
+/* Primitive Types. */
+/* Yes... this is bad... But it works for now! */
+
+	/* Logs this primitive type to the terminal. */
+	void OLog(bool);
+	/* Logs this primitive type to the terminal. */
+	void OLog(int);
+	/* Logs this primitive type to the terminal. */
+	void OLog(unsigned int);
+	/* Logs this primitive type to the terminal. */
+	void OLog(short);
+	/* Logs this primitive type to the terminal. */
+	void OLog(unsigned short);
+	/* Logs this primitive type to the terminal. */
+	void OLog(float);
+	/* Logs this primitive type to the terminal. */
+	void OLog(double);
+	/* Logs this primitive type to the terminal. */
+	void OLog(char);
+	/* Logs this primitive type to the terminal. */
+	void OLog(unsigned char);
+	/* Logs this primitive type to the terminal. */
+	void OLog(void*);
+
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(bool);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(int);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(unsigned int);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(short);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(unsigned short);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(float);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(double);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(char);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(unsigned char);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	void OVLog(void*);
 }
 
 #endif /* !__ORION_OKIT_OLOG_H__ */
