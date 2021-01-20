@@ -27,6 +27,7 @@
 #define __ORION_OKIT_OSIGNAL_H__
 
 #include <sys/types.h>
+#include "CLoggable.hpp"
 #include "CBaseUI.hpp"
 #include "OString.hpp"
 
@@ -49,7 +50,7 @@ namespace Orion{
 	};
 	
 	/* A container struct for data types emitted on events from a given UI element. */
-	struct OSignal{
+	struct OSignal : public CLoggable{
 		/* The object that emitted this Signal. */
 		CBaseUI* obj;
 		/* The type of data carried by the Signal. See OSignalType. */
@@ -74,8 +75,11 @@ namespace Orion{
 			CBaseUI* asObject;
 		}get;
 
-		/* Logs the data of this to the terminal in a formatted manner. */
-		void log(void);
+		/* Logs the information of this Signal to the terminal. Pass true for more verbose information (recommended). */
+		virtual void log(bool verbose=false) override;
+
+		/* Returns a string version of the type of this Signal. */
+		const char* getTypeAsString(void);
 	};
 }
 
