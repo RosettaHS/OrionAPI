@@ -23,21 +23,22 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/OLog.hpp"
-#include "include/OCol.hpp"
+#ifndef __ORION_OKIT_CLOGGABLE_H__
+#define __ORION_OKIT_CLOGGABLE_H__
+
+#include "OLog.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
-	}
-	void OCol::log(bool verbose){
-		if(verbose){
-			OLog("OCol %p : R %d | G %d | B %d\n",(void*)this,r,g,b);
-		}else{
-			OLog("(%d, %d, %d)\n",r,g,b);
-		}
-	}
+	class CLoggable{
+		public:
+			/* Logs the information of this Object to the terminal. Pass true for more verbose information. */
+			virtual void log(bool verbose=false);
+	};
+
+	void OLog(CLoggable&);
+	void OLog(CLoggable*);
+	void OVLog(CLoggable&,bool passVerbose=true);
+	void OVLog(CLoggable*,bool passVerbose=true);
 }
+
+#endif /* !__ORION_OKIT_CLOGGABLE_H__ */

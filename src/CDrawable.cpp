@@ -27,12 +27,12 @@
 #include "include/CDrawable.hpp"
 
 namespace Orion{
-	CDrawable::CDrawable() : 
+	CDrawable::CDrawable(void) : 
 		x{0},y{0},
 		centreX{0},centreY{0},
 		w{0},h{0},
 		minW{0},minH{0},
-		scale{0},
+		scale{1},
 		context{0},parentDrawable{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
 		drawPtr{0},flags{0,0} {
@@ -88,7 +88,7 @@ namespace Orion{
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
 	}
-	void CDrawable::resetTheme(){
+	void CDrawable::resetTheme(void){
 		internalTheme=OTHEME;
 		theme.primary=&(OTHEME.primary);
 		theme.secondary=&(OTHEME.secondary);
@@ -114,7 +114,7 @@ namespace Orion{
 		return v;
 	}
 
-	OVec CDrawable::getCentre(){ return OVec(centreX,centreY); }
+	OVec CDrawable::getCentre(void){ return OVec(centreX,centreY); }
 
 	OVec4 CDrawable::getSize(bool useScale){
 		OVec4 v;
@@ -162,5 +162,45 @@ namespace Orion{
 		return v;
 	}
 
-	OTheme CDrawable::getTheme(){ return internalTheme; }
+	OTheme CDrawable::getTheme(void){ return internalTheme; }
+
+	void CDrawable::log(bool verbose){
+		if(verbose){
+			OVec v;
+			OVec4 v4;
+
+			OLog("CDrawable %p | type %s {\n",(void*)this,getTypeAsString());
+			v=getPos();
+			OLog("\t----POSITION----\n");
+			OLog("\t Position : (%d, %d)\n",v.x,v.y);
+			v=getPos(true);
+			OLog("\t Position - Global : (%d, %d)\n",v.x,v.y);
+			v=getCentre();
+			OLog("\t Relative Centre : (%d, %d)\n",v.x,v.y);
+			v4=getSize();
+			OLog("\t----SIZE----\n");
+			OLog("\t Size : (%u, %u)\n",v4.w,v4.h);
+			v4=getSize(true);
+			OLog("\t Size - Scaled Global : (%u, %u)\n",v4.w,v4.h);
+			v4=getMinSize();
+			OLog("\t Minimum Size : (%u, %u)\n",v4.w,v4.h);
+			v4=getMinSize(true);
+			OLog("\t Minimum Size - Scaled Global : (%u, %u)\n",v4.w,v4.h);
+			OLog("\t Scale : %f\n",getScale());
+			OLog("\t Scale - Global : %f\n",getScale(true));
+			OLog("\t----INTERNAL----\n");
+			OLog("\t Context : %p\n",(void*)context);
+			OLog("\t Parent Drawable : %p\n",parentDrawable);
+			OLog("\t Draw Pointer : %p\n",(void*)drawPtr);
+			OLog("\t Ready/Initialised : %d\n",ready);
+			OLog("\t----THEME----\n");
+			OLog("\t Theme : primary (%d, %d, %d)\n",theme.primary->r,theme.primary->g,theme.primary->b);
+			OLog("\t Theme : secondary (%d, %d, %d)\n",theme.secondary->r,theme.secondary->g,theme.secondary->b);
+			OLog("\t Theme : tertiary (%d, %d, %d)\n",theme.tertiary->r,theme.tertiary->g,theme.tertiary->b);
+			OLog("\t Theme : accent (%d, %d, %d)\n",theme.accent->r,theme.accent->g,theme.accent->b);
+			OLog("\t Theme - Flags (P,S,T,A Overrides) : (%d, %d, %d, %d)\n}\n",(themeFlags>>_CTHEME_OVERRIDE_PRIMARY),(themeFlags>>_CTHEME_OVERRIDE_SECONDARY),(themeFlags>>_CTHEME_OVERRIDE_TERTIARY),(themeFlags>>_CTHEME_OVERRIDE_ACCENT));
+		}else{
+			OLog("(x %d, y %d, w %u, h %u)\n",x,y,w,h);
+		}
+	}
 }

@@ -23,21 +23,18 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include "include/application.hpp"
 #include "include/OLog.hpp"
-#include "include/OCol.hpp"
+#include "include/CLoggable.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
+	void CLoggable::log(bool verbose){
+		if(verbose){ OLog("Object %p | No data to log...\n",(void*)this); }
+		else{ OLog("No data to log...\n"); }
 	}
-	void OCol::log(bool verbose){
-		if(verbose){
-			OLog("OCol %p : R %d | G %d | B %d\n",(void*)this,r,g,b);
-		}else{
-			OLog("(%d, %d, %d)\n",r,g,b);
-		}
-	}
+
+	void OLog(CLoggable& l){ l.log(false); }
+	void OLog(CLoggable* l){ l->log(false); }
+	void OVLog(CLoggable& l, bool passVerbose){ if(OAPP_VERBOSE){l.log(passVerbose);} }
+	void OVLog(CLoggable* l, bool passVerbose){ if(OAPP_VERBOSE){l->log(passVerbose);} }
 }

@@ -27,10 +27,11 @@
 #define __ORION_OKIT_OSTRING_H__
 
 #include <sys/types.h>
+#include "CLoggable.hpp"
 
 namespace Orion{
 	/* Minimal wrapper for strings. */
-	class OString{
+	class OString : public CLoggable {
 		private:
 			/* Internal. The character array that makes up the string. */
 			char* str;
@@ -54,8 +55,8 @@ namespace Orion{
 
 			/* Gets the length of the current string. */
 			size_t getLength(void);
-			/* Prints the string to the terminal. Pass true if you want all of the data. */
-			void log(bool verbose=false);
+			/* Logs the information of this Vector4 to the terminal. Pass true for more verbose information. */
+			virtual void log(bool verbose=false) override;
 
 			/* Overload. Converts into a char*. Example: char* test=myOString; */
 			operator char*(void) const;

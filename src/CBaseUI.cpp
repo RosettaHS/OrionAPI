@@ -23,21 +23,19 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/OLog.hpp"
-#include "include/OCol.hpp"
+#include "include/CBaseUI.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
-	}
-	void OCol::log(bool verbose){
-		if(verbose){
-			OLog("OCol %p : R %d | G %d | B %d\n",(void*)this,r,g,b);
-		}else{
-			OLog("(%d, %d, %d)\n",r,g,b);
+	CBaseUI::CBaseUI() : type{OT_ERROR},ready{0} {}
+
+	const char* CBaseUI::getTypeAsString(void){
+		switch(type){
+			case OT_ERROR:{return "OT_ERROR";}
+			case OT_CDRAWABLE:{return "OT_CDRAWABLE";}
+
+			case OT_OWINDOW:{return "OT_OWINDOW";}
 		}
+
+		return 0;
 	}
 }

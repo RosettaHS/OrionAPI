@@ -26,9 +26,11 @@
 #ifndef __ORION_OKIT_OVEC_H__
 #define __ORION_OKIT_OVEC_H__
 
+#include "CLoggable.hpp"
+
 namespace Orion{
 	/* Used to hold position data for any OKit object. */
-	struct OVec{
+	struct OVec  : public CLoggable {
 		/* The X and Y positions on the screen or of the object.*/
 		int x,y;
 
@@ -36,12 +38,12 @@ namespace Orion{
 		OVec(void);
 		/* Creates an OVec with the given parameters. */		
 		OVec(int x, int y);
-		/* Prints all the data to the terminal. */
-		void log(void);
+		/* Logs the information of this Vec to the terminal. Pass true for more verbose information. */
+		virtual void log(bool verbose=false) override;
 	};
 
 	/* Used to hold position and size data for any OKit object. */
-	struct OVec4{
+	struct OVec4 : public CLoggable {
 		/* The X and Y positions on the screen or of the object. */
 		int x,y;
 		/* The Width and Height of the object.*/
@@ -51,18 +53,8 @@ namespace Orion{
 		OVec4(void);
 		/*Creates an OVec4 with the given parameters. Takes in X, Y, Width, Height respectively. */
 		OVec4(int x, int y, unsigned int w, unsigned int h);
-		/* Prints all the data to the terminal. */
-		void log(void);
+		/* Logs the information of this Vec4 to the terminal. Pass true for more verbose information. */
+		virtual void log(bool verbose=false) override;
 	};
-
-	void OLog(OVec&);
-	void OVLog(OVec&);
-	void OLog(OVec*);
-	void OVLog(OVec*);
-
-	void OLog(OVec4&);
-	void OVLog(OVec4&);
-	void OLog(OVec4*);
-	void OVLog(OVec4*);
 }
 #endif /* !__ORION_OKIT_OVEC_H__ */

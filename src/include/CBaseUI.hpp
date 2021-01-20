@@ -42,6 +42,12 @@ namespace Orion{
 			OType type;
 			/* Is the Object ready and initalised? Don't call any functions of this is false! */
 			bool ready;
+
+			/* Empty constructor. Sets all values to 0. */
+			CBaseUI(void);
+
+			/* Returns the type of this Object as a string. Useful for logging. */
+			const char* getTypeAsString(void);
 	};
 }
 

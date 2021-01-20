@@ -27,6 +27,7 @@
 #define __ORION_OKIT_CDRAWABLE_H__
 
 #include <stdint.h>
+#include "CLoggable.hpp"
 #include "OVec.hpp"
 #include "OCol.hpp"
 #include "OTheme.hpp"
@@ -43,7 +44,7 @@
 
 namespace Orion{
 	/* Abstract class for all drawable UI elements. */
-	class CDrawable : public CBaseUI{
+	class CDrawable : public CBaseUI , public CLoggable {
 		protected:
 			/* The X and Y positional coordinates of this Drawable. */
 			int x,y;
@@ -78,7 +79,7 @@ namespace Orion{
 			}flags;
 
 			/* Empty constructor. Sets all values to 0. */
-			CDrawable();
+			CDrawable(void);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
 			void setPos(int x, int y);
@@ -101,7 +102,7 @@ namespace Orion{
 			/* Sets and overrides the accent colour of this Drawable. Use with caution!*/
 			void setAccentCol(unsigned char r, unsigned char g, unsigned char b);
 			/* Resets the theme of this Drawable to its default values. */
-			void resetTheme();
+			void resetTheme(void);
 
 			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
 			OVec getPos(bool globalToWindow=false);
@@ -117,7 +118,10 @@ namespace Orion{
 			OVec4 getGeometry(bool globalToWindow=false);
 
 			/* Returns a copy of the theme used by this Drawable. */
-			OTheme getTheme();
+			OTheme getTheme(void);
+
+			/* Log the data of this Drawable to the terminal. Pass true to get more detailed information. */
+			virtual void log(bool verbose=false) override;
 	};
 }
 

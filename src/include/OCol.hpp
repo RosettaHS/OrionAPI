@@ -26,9 +26,11 @@
 #ifndef __ORION_OKIT_OCOL_H__
 #define __ORION_OKIT_OCOL_H__
 
+#include "CLoggable.hpp"
+
 namespace Orion{
 	/* Allows you to use colours with OKit. Takes in RGB values.*/
-	struct OCol{
+	struct OCol : public CLoggable{
 		/* The Red, Green, and Blue values (respectively) of the OCol.*/
 		unsigned char r,g,b;
 		/* Internal. Representation of the RGB values that X can use. */
@@ -40,14 +42,9 @@ namespace Orion{
 		OCol(unsigned char r, unsigned char g, unsigned char b);
 		/* Sets the OCol to use the given parameters. */
 		void setTo(unsigned char r, unsigned char g, unsigned char b);
-		/* Prints RGB data to terminal. */
-		void log(void);
+		/* Logs the information of this Col to the terminal. Pass true for more verbose information. */
+		virtual void log(bool verbose=false) override;
 	};
-
-	void OLog(OCol&);
-	void OVLog(OCol&);
-	void OLog(OCol*);
-	void OVLog(OCol*);
 	
 }
 #endif /* !__ORION_OKIT_OCOL_H__ */

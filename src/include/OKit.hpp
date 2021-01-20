@@ -34,6 +34,7 @@
 #include "application.hpp"
 #include "xservice.hpp"
 #include "OLog.hpp"
+#include "CLoggable.hpp"
 #include "OVec.hpp"
 #include "OCol.hpp"
 #include "OTheme.hpp"

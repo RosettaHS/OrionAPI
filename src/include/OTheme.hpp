@@ -26,6 +26,7 @@
 #ifndef __ORION_OKIT_OTHEME_H__
 #define __ORION_OKIT_OTHEME_H__
 
+#include "CLoggable.hpp"
 #include "OCol.hpp"
 
 /* Quick re-route for Orion::OTHEME_GLOBAL. */
@@ -41,7 +42,7 @@
 
 namespace Orion{
 	/* Container for multiple OCols. Used for theming UI elements. */
-	struct OTheme{
+	struct OTheme : public CLoggable{
 		/* The primary colour of the theme. Used for backgrounds. */
 		OCol primary;
 		/* The secondary colour of the theme. Used for top-level UI elements. */
@@ -55,14 +56,9 @@ namespace Orion{
 		void setSecondary(unsigned char r, unsigned char g, unsigned char b);
 		void setTertiary(unsigned char r, unsigned char g, unsigned char b);
 		void setAccent(unsigned char r, unsigned char g, unsigned char b);
-		/* Prints all OCol data out to the terminal. */
-		void log(void);
+		/* Logs the information of this Theme to the terminal. Pass true for more verbose information. */
+		virtual void log(bool verbose=false) override;
 	};
-
-	void OLog(OTheme&);
-	void OLog(OTheme*);
-	void OVLog(OTheme&);
-	void OVLog(OTheme&);
 
 	/* The global theme for the OApp. */
 	extern OTheme OTHEME_GLOBAL;
