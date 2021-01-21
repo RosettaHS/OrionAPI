@@ -43,7 +43,9 @@
 /* Add positional flags here later! */
 
 namespace Orion{
-	/* Abstract class for all drawable UI elements. */
+	class CContainer; /* Forward declaration. See CContainer.hpp for definition. */
+
+	/* Base class for all drawable and containable UI elements. */
 	class CDrawable : public CBaseUI , public CLoggable {
 		protected:
 			/* The X and Y positional coordinates of this Drawable. */
@@ -58,11 +60,15 @@ namespace Orion{
 			float scale;
 			/* Unused. The rotation of this Drawable. */
 			float rotation;
+			/* The child index of this Drawable if it is linked to Container. Is -1 if not linked. */
+			int index;
 
 			/* The Context that this Drawable can draw to. */
 			CContext* context;
 			/* The parent Drawable of this Drawable (if it has one). */
 			CDrawable* parentDrawable;
+			/* The parent Container of this Drawable (if it has one). */
+			CContainer* parentContainer;
 
 			/* Internal. The internal theme of this drawable. Not used normally, only during overrides. */
 			OTheme internalTheme;
@@ -70,6 +76,9 @@ namespace Orion{
 			CTheme theme;
 			/* Internal. Override values for the theme of this Drawable. */
 			uint8_t themeFlags;
+
+			/* Allows Containers to access internal members of this Drawable. */
+			friend class CContainer;
 		public:
 			/* Internal. Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
 			void(*drawPtr)(CDrawable*);
@@ -82,6 +91,11 @@ namespace Orion{
 
 			/* Empty constructor. Sets all values to 0. */
 			CDrawable(void);
+
+			/* Links this Drawable to the passed Container. Returns false if could not link. */
+			bool linkTo(CContainer&);
+			/* Un;inks this Drawable from the passed Container. Returns false if could not unlink. */
+			bool unlinkTo(CContainer&);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
 			void setPos(int x, int y);
@@ -122,6 +136,8 @@ namespace Orion{
 			float getRotation(bool includeParents=false);
 			/* Returns the local position and size of this Drawable. Pass true to retrieve the global position relative to the Window. */
 			OVec4 getGeometry(bool globalToWindow=false);
+			/* Returns the child index of this Drawable if it is linked to a Container. Returns -1 if not linked. */
+			int getIndex(void);
 
 			/* Returns a copy of the theme used by this Drawable. */
 			OTheme getTheme(void);

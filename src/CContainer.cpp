@@ -23,46 +23,68 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CNODEARRAY_H__
-#define __ORION_OKIT_CNODEARRAY_H__
-
-#include "CDrawable.hpp"
+#include "include/OLog.hpp"
+#include "include/CContainer.hpp"
 
 namespace Orion{
-	/* Internal. Holds child elements for Containers. */
-	class CNodeArray{
-		public:
-			/* Internal. Array of child pointers. */
-			CDrawable** arr;
-			/* Internal. Current amount of children. */
-			unsigned short count;
-			/* Internal. Maximum amount of children before resize. */
-			unsigned short cap;
-			/* Internal. Amount to increase array size during resize. */
-			unsigned char step;
-			/* Internal. Resizes array to set size. Returns true if successful. */
-			bool resize(unsigned short size);
+	CContainer::~CContainer(void){
+		if(arr.arr){
+			CDrawable* obj=0;
+			for(unsigned short i=0;i<childCount;i++){
+				obj=arr.arr[i];
+				obj->context=0;
+				obj->parentDrawable=0;
+				obj->parentContainer=0;
+				obj->index=-1;
+			}
+		}
+		childCount=0;
+		contextToUse=0;
+		drawableToUse=0;
+		containerToUse=0;
+	}
+	CContainer::CContainer(void){
+		childCount=0;
+		contextToUse=0;
+		drawableToUse=0;
+		containerToUse=this;
+	}
 
-			/* Destructor. Destroys all data. */
-			~CNodeArray(void);
-			/* Empty constructor. Sets all values to 0. */
-			CNodeArray(void);
-			/* Initialises a CNodeArray with the given parameters. */
-			bool init(unsigned short cap, unsigned char step);		
-				
-			/* Links a CDrawable to the Node Array. Returns true if successful. */
-			bool link(CDrawable*);
-			/* Unlinks a CDrawable to the Node Array. Returns true if successful. */
-			bool unlink(CDrawable*);
-			/* Finds and returns the index of a given CDrawable in the Node Array. Returns -1 on error. */
-			int getIndexOf(CDrawable*);
-			/* Gets the child count of Node Array. */
-			unsigned short getCount(void);								
-			/* Draws all children of the Node Array. */
-			void drawAll(void);
-			/* Internal/DEBUG. Logs all child data to terminal. */
-			void log(void);	
-		};
+	/* Base containers do no sorting. */
+	void CContainer::sort(void){ return; }
+
+	bool CContainer::link(CDrawable& obj){
+		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T LINK A CONTAINER TO ITSELF!\n"); return false; }
+		if(containerToUse->arr.link(&obj)){
+			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
+			childCount=containerToUse->arr.count;
+			obj.context=contextToUse;
+			obj.parentContainer=containerToUse;
+			obj.parentDrawable=drawableToUse;
+			obj.index=containerToUse->arr.getIndexOf(&obj);
+			sort();
+			if(obj.drawPtr){ obj.drawPtr(&obj); }
+			return true;
+		}
+		return false;
+	}
+
+	bool CContainer::unlink(CDrawable& obj){
+		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T UNLINK A CONTAINER FROM ITSELF!\n"); return false; }
+		if(containerToUse->arr.unlink(&obj)){
+			childCount=containerToUse->arr.count;
+			obj.context=0;
+			obj.parentContainer=0;
+			obj.parentDrawable=0;
+			obj.index=-1;
+			sort();
+			return true;
+		}
+		return false;
+	}
+
+	int CContainer::getIndexOf(CDrawable& obj){
+		if(obj.parentContainer==containerToUse){ return containerToUse->arr.getIndexOf(&obj); }
+		else{ return -1; }
+	}
 }
-
-#endif /* !__ORION_OKIT_CNODEARRAY_H__ */

@@ -25,6 +25,7 @@
 
 #include "include/OLog.hpp"
 #include "include/CDrawable.hpp"
+#include "include/CContainer.hpp"
 
 namespace Orion{
 	CDrawable::CDrawable(void) : 
@@ -32,8 +33,8 @@ namespace Orion{
 		centreX{0},centreY{0},
 		w{0},h{0},
 		minW{0},minH{0},
-		scale{1},rotation{0},
-		context{0},parentDrawable{0},
+		scale{1},rotation{0},index{-1},
+		context{0},parentDrawable{0},parentContainer{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
 		drawPtr{0},flags{0,0} {
 			type=OT_CDRAWABLE;
@@ -43,6 +44,10 @@ namespace Orion{
 			theme.tertiary=&(OTHEME.tertiary);
 			theme.accent=&(OTHEME.accent);
 		}
+
+	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
+
+	bool CDrawable::unlinkTo(CContainer& container){ return container.unlink(*this); }
 
 /* Setters */
 
@@ -181,6 +186,11 @@ namespace Orion{
 		return v;
 	}
 
+	int CDrawable::getIndex(void){
+		if(parentContainer){ index=parentContainer->getIndexOf(*this); return index; }
+		else{ return -1; }
+	}
+
 	OTheme CDrawable::getTheme(void){ return internalTheme; }
 
 	void CDrawable::log(bool verbose){
@@ -210,7 +220,9 @@ namespace Orion{
 			OLog("\t----INTERNAL----\n");
 			OLog("\t Context : %p\n",(void*)context);
 			OLog("\t Parent Drawable : %p\n",parentDrawable);
+			OLog("\t Parent Container : %p\n",parentContainer);
 			OLog("\t Draw Pointer : %p\n",(void*)drawPtr);
+			OLog("\t Child Index : %d\n",index);
 			OLog("\t Ready/Initialised : %d\n",ready);
 			OLog("\t----THEME----\n");
 			OLog("\t Theme : primary (%d, %d, %d)\n",theme.primary->r,theme.primary->g,theme.primary->b);

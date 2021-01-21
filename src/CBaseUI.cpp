@@ -32,6 +32,7 @@ namespace Orion{
 		switch(type){
 			case OT_ERROR:{return "OT_ERROR";}
 			case OT_CDRAWABLE:{return "OT_CDRAWABLE";}
+			case OT_CCONTAINER:{return "OT_CCONTAINER";}
 
 			case OT_OWINDOW:{return "OT_OWINDOW";}
 		}

@@ -23,46 +23,48 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CNODEARRAY_H__
-#define __ORION_OKIT_CNODEARRAY_H__
+#ifndef __ORION_OKIT_CCONTAINER_H__
+#define __ORION_OKIT_CCONTAINER_H__
 
 #include "CDrawable.hpp"
+#include "CNodeArray.hpp"
 
 namespace Orion{
-	/* Internal. Holds child elements for Containers. */
-	class CNodeArray{
-		public:
-			/* Internal. Array of child pointers. */
-			CDrawable** arr;
-			/* Internal. Current amount of children. */
-			unsigned short count;
-			/* Internal. Maximum amount of children before resize. */
-			unsigned short cap;
-			/* Internal. Amount to increase array size during resize. */
-			unsigned char step;
-			/* Internal. Resizes array to set size. Returns true if successful. */
-			bool resize(unsigned short size);
+	class CContainer{
+		protected:
+			/* Internal. The Context that this Container creates to draw its content on. */
+			CContext selfContext;
+			/* Internal. The array of Drawables owned by this Container. */
+			CNodeArray arr;
+			/* Internal. The amount of Drawables owned by this Container. */
+			unsigned short childCount;
+			/* Internal. The Context that child Drawables will link to when using this Container. */
+			CContext* contextToUse;
+			/* Internal. The Drawables that child Drawables will link to when using this Container. */
+			CDrawable* drawableToUse;
+			/* Internal. The Container that Drawables will link to when using this Container. Some Containers are made of nested Containers so this is necessary. */
+			CContainer* containerToUse;
 
-			/* Destructor. Destroys all data. */
-			~CNodeArray(void);
+			/* Allows Drawables to access internal members of this Container. */
+			friend class CDrawable;
+		public:
+
+			/* Destructor. Unlinks all children. */
+			~CContainer(void);
 			/* Empty constructor. Sets all values to 0. */
-			CNodeArray(void);
-			/* Initialises a CNodeArray with the given parameters. */
-			bool init(unsigned short cap, unsigned char step);		
-				
-			/* Links a CDrawable to the Node Array. Returns true if successful. */
-			bool link(CDrawable*);
-			/* Unlinks a CDrawable to the Node Array. Returns true if successful. */
-			bool unlink(CDrawable*);
-			/* Finds and returns the index of a given CDrawable in the Node Array. Returns -1 on error. */
-			int getIndexOf(CDrawable*);
-			/* Gets the child count of Node Array. */
-			unsigned short getCount(void);								
-			/* Draws all children of the Node Array. */
-			void drawAll(void);
-			/* Internal/DEBUG. Logs all child data to terminal. */
-			void log(void);	
-		};
+			CContainer(void);
+
+			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
+			virtual void sort(void);
+
+			/* Links a Drawable to this Container. Returns true on successful linkage. */
+			bool link(CDrawable&);
+			/* Unlinks a Drawable from this Container. Returns false if could not unlink Drawable. */
+			bool unlink(CDrawable&);
+			/* Returns the child index of the passed Drawable. Returns -1 if Drawable is not linked. */
+			int getIndexOf(CDrawable&);
+		
+	};
 }
 
-#endif /* !__ORION_OKIT_CNODEARRAY_H__ */
+#endif /* !__ORION_OKIT_CCONTAINER_H__ */

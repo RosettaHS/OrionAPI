@@ -48,6 +48,7 @@
 #include "CContext.hpp"
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
+#include "CContainer.hpp"
 
 #include "OService.hpp"
 

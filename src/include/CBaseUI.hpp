@@ -31,6 +31,7 @@ namespace Orion{
 	enum OType{
 		OT_ERROR,
 		OT_CDRAWABLE,
+		OT_CCONTAINER,
 
 		OT_OWINDOW,
 	};
