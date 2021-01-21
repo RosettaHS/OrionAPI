@@ -54,8 +54,10 @@ namespace Orion{
 			unsigned int w,h;
 			/* The minimum allowed width and height of this Drawable. Used in Containables when sorting. */
 			unsigned int minW,minH;
-			/* The UI scale of this drawable. */
+			/* The UI scale of this Drawable. */
 			float scale;
+			/* Unused. The rotation of this Drawable. */
+			float rotation;
 
 			/* The Context that this Drawable can draw to. */
 			CContext* context;
@@ -91,16 +93,18 @@ namespace Orion{
 			void setMinSize(unsigned int w, unsigned int h);
 			/* Sets the UI scale of this Drawable. */
 			void setScale(float);
+			/* Unused. Sets the relative rotation of this Drawable. */
+			void setRotation(float);
 			/* Sets and overrides the theme of this Drawable. Use with caution! */
 			void setTheme(OTheme&);
 			/* Sets and overrides the primary colour of this Drawable. Use with caution!*/
-			void setPrimaryCol(unsigned char r, unsigned char g, unsigned char b);
+			void setPrimaryCol(unsigned char r, unsigned char g, unsigned char b); void setPrimaryCol(OCol&);
 			/* Sets and overrides the secondary colour of this Drawable. Use with caution!*/
-			void setSecondaryCol(unsigned char r, unsigned char g, unsigned char b);
+			void setSecondaryCol(unsigned char r, unsigned char g, unsigned char b); void setSecondaryCol(OCol&);
 			/* Sets and overrides the tertiary colour of this Drawable. Use with caution!*/
-			void setTertiaryCol(unsigned char r, unsigned char g, unsigned char b);
+			void setTertiaryCol(unsigned char r, unsigned char g, unsigned char b); void setTertiaryCol(OCol&);
 			/* Sets and overrides the accent colour of this Drawable. Use with caution!*/
-			void setAccentCol(unsigned char r, unsigned char g, unsigned char b);
+			void setAccentCol(unsigned char r, unsigned char g, unsigned char b); void setAccentCol(OCol&);
 			/* Resets the theme of this Drawable to its default values. */
 			void resetTheme(void);
 
@@ -114,6 +118,8 @@ namespace Orion{
 			OVec4 getMinSize(bool useScale=false);
 			/* Returns the local UI scale of this drawable. Pass true to retrieve the global scale of the Drawable including the scales of its parents (if it has them). */
 			float getScale(bool includeParents=false);
+			/* Unused. Returns the local rotation of this drawable. Pass true to retrieve the global rotation of the Drawable including the rotations of its parents (if it has them). */
+			float getRotation(bool includeParents=false);
 			/* Returns the local position and size of this Drawable. Pass true to retrieve the global position relative to the Window. */
 			OVec4 getGeometry(bool globalToWindow=false);
 

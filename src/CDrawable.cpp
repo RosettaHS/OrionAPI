@@ -32,7 +32,7 @@ namespace Orion{
 		centreX{0},centreY{0},
 		w{0},h{0},
 		minW{0},minH{0},
-		scale{1},
+		scale{1},rotation{0},
 		context{0},parentDrawable{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
 		drawPtr{0},flags{0,0} {
@@ -58,6 +58,7 @@ namespace Orion{
 		if( (w<minW) || (h<minH) ){setSize(_w,_h);}
 	}
 	void CDrawable::setScale(float _s){ scale=_s; if(drawPtr){drawPtr(this);} }
+	void CDrawable::setRotation(float _r){ rotation=_r; if(drawPtr){drawPtr(this);} }
 
 	void CDrawable::setTheme(OTheme& newTheme){
 		internalTheme=newTheme;
@@ -73,21 +74,29 @@ namespace Orion{
 		theme.primary=&(internalTheme.primary);
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
 	}
+	void CDrawable::setPrimaryCol(OCol& c){setPrimaryCol(c.r,c.g,c.b);}
+
 	void CDrawable::setSecondaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setSecondary(r,g,b);
 		theme.secondary=&(internalTheme.secondary);
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
 	}
+	void CDrawable::setSecondaryCol(OCol& c){setSecondaryCol(c.r,c.g,c.b);}
+
 	void CDrawable::setTertiaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setTertiary(r,g,b);
 		theme.tertiary=&(internalTheme.tertiary);
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
 	}
+	void CDrawable::setTertiaryCol(OCol& c){setTertiaryCol(c.r,c.g,c.b);}
+
 	void CDrawable::setAccentCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setAccent(r,g,b);
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
 	}
+	void CDrawable::setAccentCol(OCol& c){setAccentCol(c.r,c.g,c.b);}
+
 	void CDrawable::resetTheme(void){
 		internalTheme=OTHEME;
 		theme.primary=&(OTHEME.primary);
@@ -146,6 +155,16 @@ namespace Orion{
 			s=scale;
 		}
 		return s;
+	}
+
+	float CDrawable::getRotation(bool includeParents){
+		float r;
+		if(includeParents&&parentDrawable){
+			r=rotation+parentDrawable->getRotation(true);
+		}else{
+			r=rotation;
+		}
+		return r;
 	}
 
 	OVec4 CDrawable::getGeometry(bool globalToWindow){
