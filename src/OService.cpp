@@ -56,7 +56,7 @@ namespace Orion{
 		X::connect();
 		X::CXHA_INIT();
 		if(!_setThemeFromSystem()){_setThemeToFallback();}
-		OVLog("OKIT | Service sucessfully initialised!\n");
+		OVLog("OKIT | Service sucessfully initialised!\n\n");
 		OAPP_INITED=true;
 		return true;
 	}
@@ -65,7 +65,7 @@ namespace Orion{
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
-		OVLog("OKIT | Service sucessfully finished!\n");
+		OVLog("\nOKIT | Service sucessfully finished!\n\n");
 		return true;
 	}
 }
