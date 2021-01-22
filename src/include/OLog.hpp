@@ -50,6 +50,8 @@ namespace Orion{
 	/* Logs this primitive type to the terminal. */
 	extern void OLog(double);
 	/* Logs this primitive type to the terminal. */
+	extern void OLog(long double v);
+	/* Logs this primitive type to the terminal. */
 	extern void OLog(char);
 	/* Logs this primitive type to the terminal. */
 	extern void OLog(unsigned char);
@@ -70,6 +72,8 @@ namespace Orion{
 	extern void OVLog(float);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
 	extern void OVLog(double);
+	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
+	extern void OVLog(long double);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
 	extern void OVLog(char);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
