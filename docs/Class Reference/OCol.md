@@ -56,7 +56,7 @@ virtual void log(bool verbose=false) override;
 Prints the RGB values of a given OCol to the terminal. Pass `true` to get more verbose information.
 
 ### Other Information
-To use the application's [theme data](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md), there are several macros that point directly to [application's theme](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md) colours.
+To use the application's [theme data](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md), there are several macros that point directly to [application's theme](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md#other-information) colours.
 They are
 
 `OTHEME_PRIMARY`   Often used as the background for a window or container.
