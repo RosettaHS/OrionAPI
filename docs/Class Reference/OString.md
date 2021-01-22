@@ -31,6 +31,7 @@ class OString : public CLoggable {
 OString is the Orion-Native method of handling encapsulated strings.
 They are meant to be a replacement of using more bloated encapsulated strings such as `std::string` from the C++ Standard Library.
 It allows for Python-inspired string modification, such as easily appending two strings together.
+OString extends from [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md), meaning it can be logged both verbosely and minimally.
 
 To create an OString for use, use the following syntax.
 ```cpp

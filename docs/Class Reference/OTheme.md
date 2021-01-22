@@ -20,6 +20,8 @@ struct OTheme : public CLoggable {
 ### Use
 OTheme is a container used to house multiple [OCols](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md) for use in a GUI element, such as a button or window.
 It's strictly a structure that makes moving or storing mulitple [OCols](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md) easier. It provides no extra functionality to [OCol]((https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md)), and is functionally identical to storing 4 [OCols](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md) manually.
+OTheme extends from [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md), meaning it can be logged both verbosely and minimally.
+
 To create an OTheme for use, use the following syntax.
 ```cpp
 OTheme myTheme();

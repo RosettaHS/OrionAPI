@@ -62,3 +62,5 @@ class CDrawable : public CBaseUI , public CLoggable {
 		virtual void log(bool verbose=false) override;
 };
 ```
+### Use
+CDrawable extends from [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md), meaning it can be logged both verbosely and minimally.

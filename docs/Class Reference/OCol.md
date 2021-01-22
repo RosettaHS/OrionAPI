@@ -17,6 +17,7 @@ struct OCol : public CLoggable {
 OCol is the primary method OKit deals with colouring GUI elements.
 Most GUI elements in OKit colour themselves automatically, however you can manually assign them colours. Be aware that this can be overridden by a given user's Orion [theming]((https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md)) settings 
 Assigning custom colours to elements is detailed in class reference for said element.
+OCol extends from [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md), meaning it can be logged both verbosely and minimally.
 
 To create an OCol for use, use the following syntax.
 ```cpp
