@@ -26,7 +26,7 @@ CBaseUI is the base class for all UI elements in OKit. It contains the type of o
 
 OType is an enumeration of all deferrable class types used in OKit. Prefixed with `OT_`, all members of the enumeration share exact names with the classes they are representing.
 `OT_OWINDOW` is the type only for the `OWindow` class.
-OType is often useful when getting a `CBaseUI*` from an OSignal's `get.asObject` and `obj` members, as they allow you to
+OType is often useful when getting a `CBaseUI*` from an OSignal's `get.asObject` and `emitter` members, as they allow you to
 easily cast the `CBaseUI*` into a useable pointer for the derived-class.
 
 The `ready` boolean is always `false` until the deferred class initialises. Do NOT call any functions, or attempt to link to, or modify data on a class that has not initialised yet!
