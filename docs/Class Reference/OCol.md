@@ -3,14 +3,14 @@
 
 ### Definition
 ```cpp
-struct OCol{
+struct OCol : public CLoggable {
 	unsigned char r,g,b;
 	unsigned long XCOL;
 
 	OCol(void);
 	OCol(unsigned char r, unsigned char g, unsigned char b);
 	void setTo(unsigned char r, unsigned char g, unsigned char b);
-	void log(void);
+	virtual void log(bool verbose=false) override;
 };
 ```
 ### Use
@@ -50,9 +50,9 @@ void setTo(unsigned char r, unsigned char g, unsigned char b);
 ```
 Modifies an existing OCol and re-initialises it with the new values.
 ```cpp
-void log(void);
+virtual void log(bool verbose=false) override;
 ```
-Prints the RGB values of a given OCol to the terminal. Rarely useful.
+Prints the RGB values of a given OCol to the terminal. Pass `true` to get more verbose information.
 
 ### Other Information
 To use the application's [theme data](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md), there are several macros that point directly to [application's theme](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OTheme.md) colours.

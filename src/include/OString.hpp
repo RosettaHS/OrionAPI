@@ -55,7 +55,7 @@ namespace Orion{
 
 			/* Gets the length of the current string. */
 			size_t getLength(void);
-			/* Logs the information of this Vector4 to the terminal. Pass true for more verbose information. */
+			/* Logs the information of this String to the terminal. Pass true for more verbose information. */
 			virtual void log(bool verbose=false) override;
 
 			/* Overload. Converts into a char*. Example: char* test=myOString; */

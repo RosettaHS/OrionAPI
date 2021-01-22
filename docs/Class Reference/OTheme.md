@@ -3,7 +3,7 @@
 
 ### Definition
 ```cpp
-struct OTheme{
+struct OTheme : public CLoggable {
 	OCol primary;
 	OCol secondary;
 	OCol tertiary;
@@ -13,7 +13,7 @@ struct OTheme{
 	void setSecondary(unsigned char r, unsigned char g, unsigned char b);
 	void setTertiary(unsigned char r, unsigned char g, unsigned char b);
 	void setAccent(unsigned char r, unsigned char g, unsigned char b);
-	void log(void);
+	virtual void log(bool verbose=false) override;
 };
 ```
 
@@ -62,9 +62,9 @@ void setAccent(unsigned char r, unsigned char g, unsigned char b);
 ```
 Sets the respective colour to the given parameters. Internally it calls `setTo(R,G,B)` on the [OCol](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md), making it functionally identical to setting the colour manually on a given value.
 ```cpp
-void log(void);
+virtual void log(bool verbose=false) override;
 ```
-Prints all data of the OTheme to the terminal in a formatted manner. Rarely useful, but used for debugging.
+Prints all data of the OTheme to the terminal in a formatted manner. Pass `true` to get more verbose information.
 
 ### Other Information
 There are a few macros and global variables that come alongside OThemes

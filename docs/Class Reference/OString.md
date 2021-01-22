@@ -3,7 +3,7 @@
 
 ### Definition
 ```cpp
-class OString{
+class OString : public CLoggable {
 	private:
 		char* str;
 		size_t length;
@@ -18,7 +18,7 @@ class OString{
 		void append(const char*);
 
 		size_t getLength(void);
-		void log(bool verbose=false);
+		virtual void log(bool verbose=false) override;
 
 		operator char*(void) const;
 		operator const char*(void) const;
@@ -116,9 +116,9 @@ size_t getLength(void);
 ```
 Returns the `length` of the OString.
 ```cpp
-void log(bool verbose=false);
+virtual void log(bool verbose=false) override;
 ```
-Logs the data of the OString to the terminal. Pass in `true` if you want data such as the pointer to the OString and the length of the OString.
+Logs the data of the OString to the terminal. Pass in `true` if you want more verbose data, such as the pointer to the OString and the length of the OString.
 ```cpp
 operator char*(void) const;
 ```
@@ -146,7 +146,7 @@ Example: `OString newString = myString+" Another appended string!";`
 OString& operator=(const char*);
 ```
 Override. Copies the data of the right OString/String literal to the left OString.
-EXample: `OString newString="Assigned from a String Literal!";`
+Example: `OString newString="Assigned from a String Literal!";`
 
 ### Other Information
 OStrings are often used internally in UI Elements such as `OTextEntry` (coming soon).
