@@ -38,7 +38,7 @@ namespace Orion{
 			OLog("OTheme %p {\n",(void*)this);
 			OLog("\t Primary\t:\tR %d | G %d | B %d | XCOL %lu\n",primary.r,primary.g,primary.b,primary.XCOL);
 			OLog("\t Secondary\t:\tR %d | G %d | B %d | XCOL %lu\n",secondary.r,secondary.g,secondary.b,secondary.XCOL);
-			OLog("\t Tertiary\t:\tR %d | G %d | B %d | XCOL %lu\n",tertiary.r,tertiary.g,tertiary.b,secondary.XCOL);
+			OLog("\t Tertiary\t:\tR %d | G %d | B %d | XCOL %lu\n",tertiary.r,tertiary.g,tertiary.b,tertiary.XCOL);
 			OLog("\t Accent\t\t:\tR %d | G %d | B %d | XCOL %lu\n}\n",accent.r,accent.g,accent.b,accent.XCOL);
 		}else{
 			OLog("Primary : %d,%d,%d\n",primary.r,primary.g,primary.b);

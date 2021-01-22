@@ -36,7 +36,7 @@
 /* Quick re-route for Orion::OTHEME_GLOBAL.secondary. */
 #define OTHEME_SECONDARY Orion::OTHEME_GLOBAL.secondary
 /* Quick re-route for Orion::OTHEME_GLOBAL.tertiary. */
-#define OTHEME_TERTIARY Orion::OTHEME_GLOBAL.primary
+#define OTHEME_TERTIARY Orion::OTHEME_GLOBAL.tertiary
 /* Quick re-route for Orion::OTHEME_GLOBAL.accent. */
 #define OTHEME_ACCENT Orion::OTHEME_GLOBAL.accent
 

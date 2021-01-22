@@ -59,11 +59,9 @@ int main(){
 	// context.listener=&context;
 	// context.listenerFunc=myFunc;
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
-
 	CDrawable c1;
 	c1.setPos(100,100);
 	c1.setScale(0.5);
 	OVLog(c1);
-
 	OKitEventLoop();
 }
