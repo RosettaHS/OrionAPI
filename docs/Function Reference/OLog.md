@@ -76,12 +76,12 @@ Calls the `log()` function on the passed [CLoggable](https://github.com/RosettaH
 ```cpp
 void OVLog(CLoggable&,bool passVerbose=true);
 ```
-Calls the `log(true)` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) reference ONLY if `OAPP_VERBOSE` is true.
+Calls `log(true)` on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) reference ONLY if `OAPP_VERBOSE` is true.
 Pass `false` as the second argument if you wish to show more simplified information.
 ```cpp
 void OVLog(CLoggable*,bool passVerbose=true);
 ```
-Calls the `log(true)` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) pointer ONLY if `OAPP_VERBOSE` is true.
+Calls `log(true)` on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) pointer ONLY if `OAPP_VERBOSE` is true.
 Pass `false` as the second argument if you wish to show more simplified information.
 
 ### Other Information
