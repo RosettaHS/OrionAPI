@@ -63,5 +63,7 @@ int main(){
 	c1.setPos(100,100);
 	c1.setScale(0.5);
 	OVLog(c1);
+	OCol t(255,255,255);
+	OVLog(t);
 	OKitEventLoop();
 }

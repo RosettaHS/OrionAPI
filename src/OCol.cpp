@@ -35,7 +35,7 @@ namespace Orion{
 	}
 	void OCol::log(bool verbose){
 		if(verbose){
-			OLog("OCol %p : R %d | G %d | B %d\n",(void*)this,r,g,b);
+			OLog("OCol %p : R %d | G %d | B %d | XCOL %lu\n",(void*)this,r,g,b,XCOL);
 		}else{
 			OLog("(%d, %d, %d)\n",r,g,b);
 		}

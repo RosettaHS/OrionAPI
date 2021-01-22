@@ -35,10 +35,10 @@ namespace Orion{
 			virtual void log(bool verbose=false);
 	};
 
-	void OLog(CLoggable&);
-	void OLog(CLoggable*);
-	void OVLog(CLoggable&,bool passVerbose=true);
-	void OVLog(CLoggable*,bool passVerbose=true);
+	extern void OLog(CLoggable&);
+	extern void OLog(CLoggable*);
+	extern void OVLog(CLoggable&,bool passVerbose=true);
+	extern void OVLog(CLoggable*,bool passVerbose=true);
 }
 
 #endif /* !__ORION_OKIT_CLOGGABLE_H__ */

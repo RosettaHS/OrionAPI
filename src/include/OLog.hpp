@@ -28,54 +28,54 @@
 
 namespace Orion{
 	/* Logs the formatted string out to the terminal. */
-	void OLog(const char* string, ...);
+	extern void OLog(const char* string, ...);
 	/* Logs the formatted string out to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(const char* string, ...);
+	extern void OVLog(const char* string, ...);
 
 /* Primitive Types. */
 /* Yes... this is bad... But it works for now! */
 
 	/* Logs this primitive type to the terminal. */
-	void OLog(bool);
+	extern void OLog(bool);
 	/* Logs this primitive type to the terminal. */
-	void OLog(int);
+	extern void OLog(int);
 	/* Logs this primitive type to the terminal. */
-	void OLog(unsigned int);
+	extern void OLog(unsigned int);
 	/* Logs this primitive type to the terminal. */
-	void OLog(short);
+	extern void OLog(short);
 	/* Logs this primitive type to the terminal. */
-	void OLog(unsigned short);
+	extern void OLog(unsigned short);
 	/* Logs this primitive type to the terminal. */
-	void OLog(float);
+	extern void OLog(float);
 	/* Logs this primitive type to the terminal. */
-	void OLog(double);
+	extern void OLog(double);
 	/* Logs this primitive type to the terminal. */
-	void OLog(char);
+	extern void OLog(char);
 	/* Logs this primitive type to the terminal. */
-	void OLog(unsigned char);
+	extern void OLog(unsigned char);
 	/* Logs this primitive type to the terminal. */
-	void OLog(void*);
+	extern void OLog(void*);
 
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(bool);
+	extern void OVLog(bool);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(int);
+	extern void OVLog(int);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(unsigned int);
+	extern void OVLog(unsigned int);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(short);
+	extern void OVLog(short);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(unsigned short);
+	extern void OVLog(unsigned short);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(float);
+	extern void OVLog(float);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(double);
+	extern void OVLog(double);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(char);
+	extern void OVLog(char);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(unsigned char);
+	extern void OVLog(unsigned char);
 	/* Logs this primitive type to the terminal ONLY if OAPP_VERBOSE is true. */
-	void OVLog(void*);
+	extern void OVLog(void*);
 }
 
 #endif /* !__ORION_OKIT_OLOG_H__ */
