@@ -51,15 +51,13 @@ OLog(myCol);
 ```
 Would produce `(255, 255, 255)` in the terminal.
 
-Passing a [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md)
-
-through OVLog would call the `log();` function on the [CLoggable]https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) with `true`.
+Passing a [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) through OVLog would call the log(); function on the [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) with `true`.
 This would result in a different, more verbose output. To prevent this from happening, you may pass `false` after passing the [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) through OVLog.
 
 Passing `myCol` through OVLog would appear as `OCol <Memory Address> : R 255 | G 255 | B 255 | XCOL 16777215`, if `OAPP_VERBOSE` is `true`. (With `<Memory Address>` being the actual memory address of the [OCol.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md))
 
 ### Other Information
-OLog and OVLog both call the `log()` function if called with a [CLoggable.]https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md)
+OLog and OVLog both call the `log()` function if called with a [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md).
 
 Both functions are often used internally in newer modules, however older modules currently use `printf()` and conditionals for debug output.
 
