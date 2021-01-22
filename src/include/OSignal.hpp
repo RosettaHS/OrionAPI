@@ -42,6 +42,8 @@ namespace Orion{
 		OSIG_UNSIGNED_SHORT,
 		OSIG_FLOAT,
 		OSIG_DOUBLE,
+		OSIG_LONG,
+		OSIG_UNSIGNED_LONG,
 		OSIG_CHAR,
 		OSIG_UNSIGNED_CHAR,
 		OSIG_STRING,
@@ -65,6 +67,8 @@ namespace Orion{
 			unsigned short asUnsignedShort;
 			float asFloat;
 			double asDouble;
+			long asLong;
+			unsigned long asUnsignedLong;
 			char asChar;
 			unsigned char asUnsignedChar;
 			struct{

@@ -38,6 +38,8 @@ namespace Orion{
 			case OSIG_UNSIGNED_SHORT:{return "OSIG_UNSIGNED_SHORT";}
 			case OSIG_FLOAT:{return "OSIG_FLOAT";}
 			case OSIG_DOUBLE:{return "OSIG_DOUBLE";}
+			case OSIG_LONG:{return "OSIG_LONG";}
+			case OSIG_UNSIGNED_LONG:{return "OSIG_UNSIGNED_LONG";}
 			case OSIG_CHAR:{return "OSIG_CHAR";}
 			case OSIG_UNSIGNED_CHAR:{return "OSIG_UNSIGNED_CHAR";}
 			case OSIG_STRING:{return "OSIG_STRING";}
@@ -59,6 +61,8 @@ namespace Orion{
 				case OSIG_UNSIGNED_SHORT:{OLog("\tget.asUnsignedShort %hu\n}\n",get.asUnsignedShort);return;}
 				case OSIG_FLOAT:{OLog("\tget.asFloat %f\n}\n",get.asFloat);return;}
 				case OSIG_DOUBLE:{OLog("\tget.asDouble %lf\n}\n",get.asDouble);return;}
+				case OSIG_LONG:{OLog("\tget.asLong %l\n}\n",get.asLong);return;}
+				case OSIG_UNSIGNED_LONG:{OLog("\tget.asUnsignedLong %lu\n}\n",get.asUnsignedLong);return;}
 				case OSIG_CHAR:{OLog("\tget.asChar (char) %c\n\tget.asChar (number) %d\n}\n",get.asChar,get.asChar);return;}
 				case OSIG_UNSIGNED_CHAR:{OLog("\tget.asUnsignedChar (number) %u\n}\n",(unsigned int)get.asChar);return;}
 				case OSIG_STRING:{OLog("\tget.asString.text %s\n\tget.asString.length %lu\n}\n",get.asString.text,get.asString.length);return;}
@@ -75,6 +79,8 @@ namespace Orion{
 				case OSIG_UNSIGNED_SHORT:{OLog("%hu\n\n",get.asUnsignedShort);return;}
 				case OSIG_FLOAT:{OLog("%f\n}\n",get.asFloat);return;}
 				case OSIG_DOUBLE:{OLog("%lf\n\n",get.asDouble);return;}
+				case OSIG_LONG:{OLog("%l\n\n",get.asLong);return;}
+				case OSIG_UNSIGNED_LONG:{OLog("%lu\n\n",get.asUnsignedLong);return;}
 				case OSIG_CHAR:{OLog("(char) %c\t(number) %d\n\n",get.asChar,get.asChar);return;}
 				case OSIG_UNSIGNED_CHAR:{OLog("(number) %u\n\n",(unsigned int)get.asChar);return;}
 				case OSIG_STRING:{OLog("%s\n",get.asString.text);return;}
