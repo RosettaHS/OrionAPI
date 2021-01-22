@@ -58,4 +58,4 @@ Returns the type of this Object as a string.
 ### Other Information
 As with all Control classes, you are never to instantiate or create one manually.
 
-The only CBaseUI-derived class is [CDrawable]((https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md)), other control classes such as CContainer and CSignalDispatcher are entirely separate from CBaseUI.
+The only CBaseUI-derived class is [CDrawable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md), other control classes such as CContainer and CSignalDispatcher are entirely separate from CBaseUI.
