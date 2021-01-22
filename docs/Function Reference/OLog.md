@@ -56,6 +56,34 @@ This would result in a different, more verbose output. To prevent this from happ
 
 Passing `myCol` through OVLog would appear as `OCol <Memory Address> : R 255 | G 255 | B 255 | XCOL 16777215`, if `OAPP_VERBOSE` is `true`. (With `<Memory Address>` being the actual memory address of the [OCol.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md))
 
+### Breakdown
+```cpp
+void OLog(const char* string, ...);
+```
+Logs the formatted string out to the terminal.
+```cpp
+void OVLog(const char* string, ...);
+```
+Logs the formatted string out to the terminal ONLY if `OAPP_VERBOSE` is true.
+```cpp
+void OLog(CLoggable&);
+```
+Calls the `log()` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) reference.
+```cpp
+void OLog(CLoggable*);
+```
+Calls the `log()` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) pointer.
+```cpp
+void OVLog(CLoggable&,bool passVerbose=true);
+```
+Calls the `log(true)` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) reference ONLY if `OAPP_VERBOSE` is true.
+Pass `false` as the second argument if you wish to show more simplified information.
+```cpp
+void OVLog(CLoggable*,bool passVerbose=true);
+```
+Calls the `log(true)` function on the passed [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) pointer ONLY if `OAPP_VERBOSE` is true.
+Pass `false` as the second argument if you wish to show more simplified information.
+
 ### Other Information
 OLog and OVLog both call the `log()` function if called with a [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md).
 
