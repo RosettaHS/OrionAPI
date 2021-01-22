@@ -51,7 +51,7 @@ namespace Orion{
 
 	void OSignal::log(bool verbose){
 		if(verbose){
-			OLog("OSignal %p | type %s | emitter %p {\n",(void*)this,getTypeAsString(),(void*)obj);
+			OLog("OSignal %p | type %s | emitter %p {\n",(void*)this,getTypeAsString(),(void*)emitter);
 			switch(type){
 				case OSIG_NONE:{OLog("\tNo data to log...\n}\n");return;}
 				case OSIG_BOOL:{OLog("\tget.asBool %s\n}\n",(get.asBool ? "true" : "false"));return;}

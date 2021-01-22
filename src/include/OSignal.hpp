@@ -54,7 +54,7 @@ namespace Orion{
 	/* A container struct for data types emitted on events from a given UI element. */
 	struct OSignal : public CLoggable{
 		/* The object that emitted this Signal. */
-		CBaseUI* obj;
+		CBaseUI* emitter;
 		/* The type of data carried by the Signal. See OSignalType. */
 		OSignalType type;
 
