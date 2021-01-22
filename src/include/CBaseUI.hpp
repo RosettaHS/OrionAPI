@@ -41,7 +41,7 @@ namespace Orion{
 		public:
 			/* The type of this Object. */
 			OType type;
-			/* Is the Object ready and initalised? Don't call any functions of this is false! */
+			/* Is the Object ready and initalised? Don't call any functions if this is false! */
 			bool ready;
 
 			/* Empty constructor. Sets all values to 0. */

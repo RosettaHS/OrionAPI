@@ -94,7 +94,7 @@ namespace Orion{
 
 			/* Links this Drawable to the passed Container. Returns false if could not link. */
 			bool linkTo(CContainer&);
-			/* Un;inks this Drawable from the passed Container. Returns false if could not unlink. */
+			/* Unlinks this Drawable from the passed Container. Returns false if could not unlink. */
 			bool unlinkTo(CContainer&);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */

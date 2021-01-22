@@ -40,7 +40,7 @@ namespace Orion{
 			unsigned short childCount;
 			/* Internal. The Context that child Drawables will link to when using this Container. */
 			CContext* contextToUse;
-			/* Internal. The Drawables that child Drawables will link to when using this Container. */
+			/* Internal. The Drawable that child Drawables will link to when using this Container. */
 			CDrawable* drawableToUse;
 			/* Internal. The Container that Drawables will link to when using this Container. Some Containers are made of nested Containers so this is necessary. */
 			CContainer* containerToUse;
