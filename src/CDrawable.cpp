@@ -62,7 +62,10 @@ namespace Orion{
 		minW=_w,minH=_h;
 		if( (w<minW) || (h<minH) ){setSize(_w,_h);}
 	}
-	void CDrawable::setScale(float _s){ scale=_s; if(drawPtr){drawPtr(this);} }
+	void CDrawable::setScale(float _s){
+		if(_s>=0.01){scale=_s;}else{scale=0.01;}
+		if(drawPtr){drawPtr(this);}
+	}
 	void CDrawable::setRotation(float _r){ rotation=_r; if(drawPtr){drawPtr(this);} }
 
 	void CDrawable::setTheme(OTheme& newTheme){
@@ -113,7 +116,7 @@ namespace Orion{
 
 /* Getters */
 
-	OVec CDrawable::getPos(bool globalToWindow){
+	OVec CDrawable::getPos(bool globalToWindow,bool useScale){
 		OVec v;
 		if(globalToWindow&&parentDrawable){
 			if(parentDrawable->type!=OT_OWINDOW){
@@ -124,6 +127,11 @@ namespace Orion{
 			}
 		}else{
 			v={x,y};
+		}
+
+		if(useScale){
+			float f=getScale(true);
+			v.x*=f,v.y*=f;
 		}
 		return v;
 	}

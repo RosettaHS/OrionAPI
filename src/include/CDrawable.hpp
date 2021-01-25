@@ -122,8 +122,8 @@ namespace Orion{
 			/* Resets the theme of this Drawable to its default values. */
 			void resetTheme(void);
 
-			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
-			OVec getPos(bool globalToWindow=false);
+			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true as the first argument to retrieve the global position relative to the Window. Pass true on the second argument to get the raw scaled position. */
+			OVec getPos(bool globalToWindow=false,bool useScale=false);
 			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */
 			OVec getCentre();
 			/* Returns the size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */

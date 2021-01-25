@@ -55,8 +55,8 @@ namespace Orion{
 			XTITLE=t;
 			if(root){XROOT=root->XWIN;}else{XROOT=OXROOT;}
 			if(useScale){
-				if(root){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}
-				w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;
+				if(root){x=_INTSCALEBYFLOAT(_x,OAPP_SCALE),y=_INTSCALEBYFLOAT(_y,OAPP_SCALE);}else{x=_x,y=_y;}
+				w=_UINTSCALEBYFLOAT(_w,OAPP_SCALE),h=_UINTSCALEBYFLOAT(_h,OAPP_SCALE);
 			}else{
 				x=_x,y=_y;
 				w=_w,h=_h;

@@ -32,6 +32,9 @@
 /* Wrapper for masks in the X Event System. */
 typedef unsigned long CXMask;
 
+#define _INTSCALEBYFLOAT(x,y) ((int)((float)x*y))
+#define _UINTSCALEBYFLOAT(x,y) ((unsigned int)((float)x*y))
+
 namespace Orion{
 	enum CCType{
 		CCT_INPUTONLY,
