@@ -27,12 +27,16 @@
 #define __ORION_OKIT_CDRAWABLE_H__
 
 #include <stdint.h>
+#include <limits.h>
 #include "CLoggable.hpp"
 #include "OVec.hpp"
 #include "OCol.hpp"
 #include "OTheme.hpp"
 #include "CBaseUI.hpp"
 #include "CContext.hpp"
+
+#define CENTER (INT_MAX)
+#define CENTRE (INT_MAX)
 
 #define _OUI_SIZE_FILL_FULL		0x1
 #define _OUI_SIZE_FILL_LEFT		0x2

@@ -23,70 +23,25 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/OLog.hpp"
-#include "include/CContainer.hpp"
+#include "CContext.hpp"
+#include "CDrawable.hpp"
+#include "CContainer.hpp"
 
 namespace Orion{
-	CContainer::~CContainer(void){
-		if(arr.arr){
-			CDrawable* obj=0;
-			for(unsigned short i=0;i<childCount;i++){
-				obj=arr.arr[i];
-				obj->context=0;
-				obj->parentDrawable=0;
-				obj->parentContainer=0;
-				obj->index=-1;
-			}
-		}
-		childCount=0;
-		contextToUse=0;
-		drawableToUse=0;
-		containerToUse=0;
-	}
-	CContainer::CContainer(void){
-		childCount=0;
-		contextToUse=0;
-		drawableToUse=0;
-		containerToUse=this;
-	}
+	/* Handling */
+	namespace DRAW{ extern void OWindow(CDrawable*); }
+	namespace HANDLE{ extern void OWindow(void*,X::CXEvent*); }
 
-	/* Base containers do no sorting. */
-	void CContainer::sort(void){ return; }
-
-	bool CContainer::link(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T LINK A CONTAINER TO ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T LINK A WINDOW TO ANYTHING!\n"); return false; }
-		if(containerToUse->arr.link(&obj)){
-			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
-			childCount=containerToUse->arr.count;
-			obj.context=contextToUse;
-			obj.parentContainer=containerToUse;
-			obj.parentDrawable=drawableToUse;
-			obj.index=containerToUse->arr.getIndexOf(&obj);
-			sort();
-			if(obj.drawPtr){ obj.drawPtr(&obj); }
-			return true;
-		}
-		return false;
-	}
-
-	bool CContainer::unlink(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T UNLINK A CONTAINER FROM ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T UNLINK A WINDOW FROM ANYTHING!\n"); return false; }
-		if(containerToUse->arr.unlink(&obj)){
-			childCount=containerToUse->arr.count;
-			obj.context=0;
-			obj.parentContainer=0;
-			obj.parentDrawable=0;
-			obj.index=-1;
-			sort();
-			return true;
-		}
-		return false;
-	}
-
-	int CContainer::getIndexOf(CDrawable& obj){
-		if(obj.parentContainer==containerToUse){ return containerToUse->arr.getIndexOf(&obj); }
-		else{ return -1; }
-	}
+	/* Debug. A top-level window. */
+	class OWindow : public CDrawable, public CContainer{
+		protected:
+			const char* title;
+		
+			friend void DRAW::OWindow(CDrawable*);
+			friend void HANDLE::OWindow(void*,X::CXEvent*);
+		public:
+			~OWindow(void);
+			OWindow(void);
+			OWindow(int x, int y, unsigned int w, unsigned int h, const char* title=0);
+	};
 }

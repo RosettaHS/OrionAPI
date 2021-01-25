@@ -212,6 +212,8 @@ namespace Orion{
 			OLog("\t Position : (%d, %d)\n",v.x,v.y);
 			v=getPos(true);
 			OLog("\t Position - Global : (%d, %d)\n",v.x,v.y);
+			v=getPos(true,true);
+			OLog("\t Position - Scaled Global : (%d, %d)\n",v.x,v.y);
 			v=getCentre();
 			OLog("\t Relative Centre : (%d, %d)\n",v.x,v.y);
 			v4=getSize();

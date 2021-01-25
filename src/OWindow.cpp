@@ -23,70 +23,80 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <stdlib.h>
+#include "include/errdef.h"
+#include "include/xservice.hpp"
 #include "include/OLog.hpp"
-#include "include/CContainer.hpp"
+#include "include/OWindow.hpp"
+#include "include/OService.hpp"
+
+#define _OWINDOW_DEFMASK 0
 
 namespace Orion{
-	CContainer::~CContainer(void){
-		if(arr.arr){
-			CDrawable* obj=0;
-			for(unsigned short i=0;i<childCount;i++){
-				obj=arr.arr[i];
-				obj->context=0;
-				obj->parentDrawable=0;
-				obj->parentContainer=0;
-				obj->index=-1;
+
+	OWindow::~OWindow(void){
+		type=OT_ERROR;
+		minW=400,minH=350;
+		title=0;
+		ready=false;
+	}
+
+	OWindow::OWindow(void){
+		type=OT_OWINDOW;
+		minW=400,minH=350;
+		title=0;
+		ready=false;
+	}
+
+	OWindow::OWindow(int _x, int _y, unsigned int _w, unsigned int _h, const char* _t){
+		OXONLY{
+			type=OT_OWINDOW;
+			OVec _screenSize=OScreenGetSize();
+		/* Variable Initialisation */
+			title=_t;
+			w=_w,h=_h;
+			if(_w<minW){minW=_w;}
+			if(_h<minH){minH=_h;}
+			
+			switch(_x){
+				default:{ x=_x; break; }
+				case CENTER:{ x=((_screenSize.x/2)-(_w/2)); break; }
 			}
+
+			switch(_y){
+				default:{ y=_y; break; }
+				case CENTER:{ y=((_screenSize.y/2)-(_h/2)); break; }
+			}
+		/* Context Initialisation */
+			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true)){
+				selfContext.listener=(void*)this;
+				// selfContext.listenerFunc=HANDLE::OWindow;
+				// drawPtr=DRAW::OWindow;
+
+				context=&selfContext;
+				contextToUse=&selfContext;
+				drawableToUse=(CDrawable*)this;
+				containerToUse=(CContainer*)this;
+				arr.init(5,1);
+			}else{type=OT_ERROR;}
+			
+			
+		}else{
+			OLog("OKIT | ERROR! FAILED TO CREATE OWINDOW(%d %d %u %u %s) BECAUSE X IS NOT INITIALISED!\n",_x,_y,_w,_h,_t);
+			type=OT_ERROR;
+			exit(OERR_X11_NOT_INITED);
 		}
-		childCount=0;
-		contextToUse=0;
-		drawableToUse=0;
-		containerToUse=0;
-	}
-	CContainer::CContainer(void){
-		childCount=0;
-		contextToUse=0;
-		drawableToUse=0;
-		containerToUse=this;
 	}
 
-	/* Base containers do no sorting. */
-	void CContainer::sort(void){ return; }
+	// namespace DRAW{
+		// void OWindow(CDrawable* obj){
+			// Orion::OWindow* win=(Orion::OWindow*)obj;
+		// }
+	// }
 
-	bool CContainer::link(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T LINK A CONTAINER TO ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T LINK A WINDOW TO ANYTHING!\n"); return false; }
-		if(containerToUse->arr.link(&obj)){
-			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
-			childCount=containerToUse->arr.count;
-			obj.context=contextToUse;
-			obj.parentContainer=containerToUse;
-			obj.parentDrawable=drawableToUse;
-			obj.index=containerToUse->arr.getIndexOf(&obj);
-			sort();
-			if(obj.drawPtr){ obj.drawPtr(&obj); }
-			return true;
-		}
-		return false;
-	}
-
-	bool CContainer::unlink(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T UNLINK A CONTAINER FROM ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T UNLINK A WINDOW FROM ANYTHING!\n"); return false; }
-		if(containerToUse->arr.unlink(&obj)){
-			childCount=containerToUse->arr.count;
-			obj.context=0;
-			obj.parentContainer=0;
-			obj.parentDrawable=0;
-			obj.index=-1;
-			sort();
-			return true;
-		}
-		return false;
-	}
-
-	int CContainer::getIndexOf(CDrawable& obj){
-		if(obj.parentContainer==containerToUse){ return containerToUse->arr.getIndexOf(&obj); }
-		else{ return -1; }
-	}
+	// namespace HANDLE{
+		// void OWindow(void* obj,X::CXEvent* event){
+			// Orion::OWindow* win=(Orion::OWindow*)obj;
+		// }
+	// }
 }

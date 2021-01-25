@@ -50,6 +50,8 @@
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
 
+#include "OWindow.hpp"
+
 #include "OService.hpp"
 
 /*

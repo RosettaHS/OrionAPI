@@ -23,8 +23,9 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/OLog.hpp"
 #include <stdlib.h>
+#include <X11/Xlib.h>
+#include "include/OLog.hpp"
 #include "include/errdef.h"
 #include "include/application.hpp"
 #include "include/xservice.hpp"
@@ -67,5 +68,13 @@ namespace Orion{
 		X::disconnect();
 		OVLog("\nOKIT | Service sucessfully finished!\n\n");
 		return true;
+	}
+
+	OVec OScreenGetSize(void){
+		OVec v;
+		XWindowAttributes attr;
+		XGetWindowAttributes(OXDPY,OXROOT,&attr);
+		v.x=attr.width,v.y=attr.height;
+		return v;
 	}
 }
