@@ -66,6 +66,8 @@ namespace Orion{
 			float rotation;
 			/* The child index of this Drawable if it is linked to Container. Is -1 if not linked. */
 			int index;
+			/* Internal. Flag that dictates whether the draw function in drawPtr should do a complete wipe and redraw of this Drawable. */
+			bool fullRedraw;
 
 			/* The Context that this Drawable can draw to. */
 			CContext* context;

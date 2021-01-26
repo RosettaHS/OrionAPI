@@ -33,7 +33,7 @@ namespace Orion{
 		centreX{0},centreY{0},
 		w{0},h{0},
 		minW{0},minH{0},
-		scale{1},rotation{0},index{-1},
+		scale{1},rotation{0},index{-1},fullRedraw{false},
 		context{0},parentDrawable{0},parentContainer{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
 		drawPtr{0},flags{0,0} {
@@ -54,8 +54,10 @@ namespace Orion{
 	void CDrawable::setPos(int _x, int _y){ x=_x,y=_y; }
 	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
 	void CDrawable::setSize(unsigned int _w, unsigned int _h){
+		if( (w==_w) && (h==_h) ){return;}
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
+		fullRedraw=true;
 		if(drawPtr){drawPtr(this);}
 	}
 	void CDrawable::setMinSize(unsigned int _w, unsigned int _h){
@@ -64,9 +66,10 @@ namespace Orion{
 	}
 	void CDrawable::setScale(float _s){
 		if(_s>=0.01){scale=_s;}else{scale=0.01;}
+		fullRedraw=true;
 		if(drawPtr){drawPtr(this);}
 	}
-	void CDrawable::setRotation(float _r){ rotation=_r; if(drawPtr){drawPtr(this);} }
+	void CDrawable::setRotation(float _r){ rotation=_r; fullRedraw=true; if(drawPtr){drawPtr(this);} }
 
 	void CDrawable::setTheme(OTheme& newTheme){
 		internalTheme=newTheme;
@@ -75,12 +78,16 @@ namespace Orion{
 		theme.tertiary=&(internalTheme.tertiary);
 		theme.accent=&(internalTheme.accent);
 		themeFlags=_CTHEME_OVERRIDE_PRIMARY|_CTHEME_OVERRIDE_SECONDARY|_CTHEME_OVERRIDE_TERTIARY|_CTHEME_OVERRIDE_ACCENT;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 
 	void CDrawable::setPrimaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setPrimary(r,g,b);
 		theme.primary=&(internalTheme.primary);
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 	void CDrawable::setPrimaryCol(OCol& c){setPrimaryCol(c.r,c.g,c.b);}
 
@@ -88,6 +95,8 @@ namespace Orion{
 		internalTheme.setSecondary(r,g,b);
 		theme.secondary=&(internalTheme.secondary);
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 	void CDrawable::setSecondaryCol(OCol& c){setSecondaryCol(c.r,c.g,c.b);}
 
@@ -95,6 +104,8 @@ namespace Orion{
 		internalTheme.setTertiary(r,g,b);
 		theme.tertiary=&(internalTheme.tertiary);
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 	void CDrawable::setTertiaryCol(OCol& c){setTertiaryCol(c.r,c.g,c.b);}
 
@@ -102,6 +113,8 @@ namespace Orion{
 		internalTheme.setAccent(r,g,b);
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 	void CDrawable::setAccentCol(OCol& c){setAccentCol(c.r,c.g,c.b);}
 
@@ -112,6 +125,8 @@ namespace Orion{
 		theme.tertiary=&(OTHEME.tertiary);
 		theme.accent=&(OTHEME.accent);
 		themeFlags=0;
+		fullRedraw=true;
+		if(drawPtr){drawPtr(this);}
 	}
 
 /* Getters */
