@@ -50,13 +50,9 @@
 /* Emits when X fails to return a valid Window. */
 #define OERR_X11_WINDOW_CREATION_FAILURE		6
 
-/* Signals */
+/* CDRAWABLE */
 
-/* Emits when 'call(void*)' is called on a CSignalListener with 'type' set to CSLT_ERROR. */
-#define OERR_CSIGNALLISTENER_CALLONERROR		7
-/* Emits when 'link(CEvent*,CSignalListener&)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
-#define OERR_CEVENTARRAY_LINKTONONCHILD			8
-/* Emits when 'unlink(CEvent*,void* func)' is called on a CEventArray but the 'CEvent*' is NOT owned by the array. */
-#define OERR_CEVENTARRAY_UNLINKTONONCHILD		9
+/* Emits when developer tries to set an invalid axis flag */
+#define OERR_CDRAWABLE_INVALID_FLAG				7
 
 #endif /* !__ORION_OKIT_ERRDEF_H__ */

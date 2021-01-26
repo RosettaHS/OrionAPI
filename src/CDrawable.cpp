@@ -23,6 +23,9 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <stdlib.h>
+#include "include/errdef.h"
+#include "include/application.hpp"
 #include "include/OLog.hpp"
 #include "include/CDrawable.hpp"
 #include "include/CContainer.hpp"
@@ -56,19 +59,27 @@ namespace Orion{
 			case START:{internal.modFlags|=_OUI_X_START; return true;}
 			case END:{internal.modFlags|=_OUI_X_END; return true;}
 			case CENTER:{internal.modFlags|=_OUI_X_CENTRE; return true;}
+			case FILL:{OLog("OKIT | ERROR! CAN'T SET X POSITION WITH FILL (SIZE ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 		}
 
 		switch(yFlag){
 			case START:{internal.modFlags|=_OUI_Y_START; return true;}
 			case END:{internal.modFlags|=_OUI_Y_END; return true;}
 			case CENTER:{internal.modFlags|=_OUI_Y_CENTRE; return true;}
+			case FILL:{OLog("OKIT | ERROR! CAN'T SET Y POSITION WITH FILL (SIZE ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 		}
 
 		switch(wFlag){
+			case START:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH START (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case END:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH END (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case CENTER:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH CENTER (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 			case FILL:{internal.modFlags|=_OUI_W_FILL; return true;}
 		}
 
 		switch(hFlag){
+			case START:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH START (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case END:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH END (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case CENTER:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH (POSITIONAL ONLY) CENTER FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 			case FILL:{internal.modFlags|=_OUI_H_FILL; return true;}
 		}
 
