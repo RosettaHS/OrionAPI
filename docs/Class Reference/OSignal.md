@@ -77,7 +77,7 @@ void myReciever(OSignal signal){
 It is very important to check the type of the OSignal before attempting to access the data, as the type is not always guaranteed.
 There are special types too, such as the `OSIG_STRING` type.
 
-If an OSignal has the type `OSIG_STRING`, this means that it carries an array of characters. To access this array, use `get.string.asText;`.
+If an OSignal has the type `OSIG_STRING`, it means that it carries an array of characters. To access this array, use `get.string.asText;`.
 It also carries the length of the string in the `get.string` struct. To access this, use `get.string.asLength;`
 
 OSignals also carry a pointer to the object that emit it, in the form of a pointer to a [CBaseUI-derived class.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CBaseUI.md)
