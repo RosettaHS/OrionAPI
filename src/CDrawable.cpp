@@ -36,7 +36,7 @@ namespace Orion{
 		scale{1},rotation{0},index{-1},fullRedraw{false},
 		context{0},parentDrawable{0},parentContainer{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
-		drawPtr{0},flags{0,0} {
+		internal{0,0} {
 			type=OT_CDRAWABLE;
 			ready=false;
 			theme.primary=&(OTHEME.primary);
@@ -51,6 +51,30 @@ namespace Orion{
 
 /* Setters */
 
+	bool CDrawable::setFlag(short xFlag, short yFlag, short wFlag, short hFlag){
+		switch(xFlag){
+			case START:{internal.modFlags|=_OUI_X_START; return true;}
+			case END:{internal.modFlags|=_OUI_X_END; return true;}
+			case CENTER:{internal.modFlags|=_OUI_X_CENTRE; return true;}
+		}
+
+		switch(yFlag){
+			case START:{internal.modFlags|=_OUI_Y_START; return true;}
+			case END:{internal.modFlags|=_OUI_Y_END; return true;}
+			case CENTER:{internal.modFlags|=_OUI_Y_CENTRE; return true;}
+		}
+
+		switch(wFlag){
+			case FILL:{internal.modFlags|=_OUI_W_FILL; return true;}
+		}
+
+		switch(hFlag){
+			case FILL:{internal.modFlags|=_OUI_H_FILL; return true;}
+		}
+
+		return false;
+	}
+
 	void CDrawable::setPos(int _x, int _y){ x=_x,y=_y; }
 	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
 	void CDrawable::setSize(unsigned int _w, unsigned int _h){
@@ -58,7 +82,7 @@ namespace Orion{
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setMinSize(unsigned int _w, unsigned int _h){
 		minW=_w,minH=_h;
@@ -67,9 +91,9 @@ namespace Orion{
 	void CDrawable::setScale(float _s){
 		if(_s>=0.01){scale=_s;}else{scale=0.01;}
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setRotation(float _r){ rotation=_r; fullRedraw=true; if(drawPtr){drawPtr(this);} }
+	void CDrawable::setRotation(float _r){ rotation=_r; fullRedraw=true; if(internal.drawPtr){internal.drawPtr(this);} }
 
 	void CDrawable::setTheme(OTheme& newTheme){
 		internalTheme=newTheme;
@@ -79,7 +103,7 @@ namespace Orion{
 		theme.accent=&(internalTheme.accent);
 		themeFlags=_CTHEME_OVERRIDE_PRIMARY|_CTHEME_OVERRIDE_SECONDARY|_CTHEME_OVERRIDE_TERTIARY|_CTHEME_OVERRIDE_ACCENT;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 
 	void CDrawable::setPrimaryCol(unsigned char r, unsigned char g, unsigned char b){
@@ -87,7 +111,7 @@ namespace Orion{
 		theme.primary=&(internalTheme.primary);
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setPrimaryCol(OCol& c){setPrimaryCol(c.r,c.g,c.b);}
 
@@ -96,7 +120,7 @@ namespace Orion{
 		theme.secondary=&(internalTheme.secondary);
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setSecondaryCol(OCol& c){setSecondaryCol(c.r,c.g,c.b);}
 
@@ -105,7 +129,7 @@ namespace Orion{
 		theme.tertiary=&(internalTheme.tertiary);
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setTertiaryCol(OCol& c){setTertiaryCol(c.r,c.g,c.b);}
 
@@ -114,7 +138,7 @@ namespace Orion{
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setAccentCol(OCol& c){setAccentCol(c.r,c.g,c.b);}
 
@@ -126,7 +150,7 @@ namespace Orion{
 		theme.accent=&(OTHEME.accent);
 		themeFlags=0;
 		fullRedraw=true;
-		if(drawPtr){drawPtr(this);}
+		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 
 /* Getters */
@@ -246,7 +270,7 @@ namespace Orion{
 			OLog("\t Context : %p\n",(void*)context);
 			OLog("\t Parent Drawable : %p\n",parentDrawable);
 			OLog("\t Parent Container : %p\n",parentContainer);
-			OLog("\t Draw Pointer : %p\n",(void*)drawPtr);
+			OLog("\t Draw Pointer : %p\n",(void*)internal.drawPtr);
 			OLog("\t Child Index : %d\n",index);
 			OLog("\t Ready/Initialised : %d\n",ready);
 			OLog("\t----THEME----\n");

@@ -61,6 +61,7 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
 	OWindow win(CENTER,CENTER,400,350);
+	CDrawable d;
 
 	// OSignal sig;
 	// sig.type=OSIG_BOOL;

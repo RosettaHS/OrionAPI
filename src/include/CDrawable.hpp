@@ -35,16 +35,32 @@
 #include "CBaseUI.hpp"
 #include "CContext.hpp"
 
-#define CENTER (INT_MAX)
-#define CENTRE (INT_MAX)
+/* Position Flag Definitions */
+	/* Positional Only. Aligns to the start of the given axis. */
+	#define START (SHRT_MAX)
+	/* Positional Only. Aligns to the end of the given axis. */
+	#define END (SHRT_MAX-1)
+	/* Positional Only. Aligns to the center of the given axis. */
+	#define CENTER (SHRT_MAX-2)
+	/* Positional Only. Aligns to the centre of the given axis. */
+	#define CENTRE (SHRT_MAX-2)
 
-#define _OUI_SIZE_FILL_FULL		0x1
-#define _OUI_SIZE_FILL_LEFT		0x2
-#define _OUI_SIZE_FILL_RIGHT	0x4
-#define _OUI_SIZE_FILL_TOP		0x8
-#define _OUI_SIZE_FILL_BOTTOM	0x10
+/* Size Flag Definitions */
+	/* Size Only. Fills to the end of the given axis. */
+	#define FILL (SHRT_MAX-3)
 
-/* Add positional flags here later! */
+
+/* Internal Flags */
+	#define _OUI_X_START  0x1
+	#define _OUI_X_END    0x2
+	#define _OUI_X_CENTRE 0x4
+
+	#define _OUI_Y_START  0x8
+	#define _OUI_Y_END    0x10
+	#define _OUI_Y_CENTRE 0x20
+
+	#define _OUI_W_FILL   0x40
+	#define _OUI_H_FILL   0x80
 
 namespace Orion{
 	class CContainer; /* Forward declaration. See CContainer.hpp for definition. */
@@ -83,17 +99,18 @@ namespace Orion{
 			/* Internal. Override values for the theme of this Drawable. */
 			uint8_t themeFlags;
 
+			/* Internal. Sets the raw flags of internal.modFlags. Sets one at a time! Returns true if flag was valid. */
+			bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
+
 			/* Allows Containers to access internal members of this Drawable. */
 			friend class CContainer;
 		public:
-			/* Internal. Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
-			void(*drawPtr)(CDrawable*);
-
-			/* Internal. Raw flags that govern the size and positioning that non-sorting Containers will use to modify this Drawable. */
 			struct{
-				uint8_t size;
-				uint8_t pos;
-			}flags;
+				/* Internal. Pointer to the draw function that the deferred Drawable will use. Takes in the Drawable as an argument. */
+				void(*drawPtr)(CDrawable*);	
+				/* Internal. Raw flags that govern the size and positioning that non-sorting Containers will use to modify this Drawable. */
+				uint8_t modFlags;
+			}internal;
 
 			/* Empty constructor. Sets all values to 0. */
 			CDrawable(void);

@@ -64,7 +64,7 @@ namespace Orion{
 			obj.parentDrawable=drawableToUse;
 			obj.index=containerToUse->arr.getIndexOf(&obj);
 			sort();
-			if(obj.drawPtr){ obj.drawPtr(&obj); }
+			if(obj.internal.drawPtr){ obj.internal.drawPtr(&obj); }
 			return true;
 		}
 		return false;

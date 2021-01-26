@@ -107,7 +107,7 @@ namespace Orion{
 	unsigned short CNodeArray::getCount(void){return count;}
 
 	void CNodeArray::drawAll(void){
-		for(unsigned short i=0;i<count;i++){arr[i]->drawPtr(arr[i]);}
+		for(unsigned short i=0;i<count;i++){ if(arr[i]->internal.drawPtr){arr[i]->internal.drawPtr(arr[i]);} }
 	}
 
 	void CNodeArray::log(void){

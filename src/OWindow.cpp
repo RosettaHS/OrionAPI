@@ -61,11 +61,15 @@ namespace Orion{
 			
 			switch(_x){
 				default:{ x=_x; break; }
+				case START:{ x=0; break; }
+				case END:{ x=((_screenSize.x)-(_w)*OAPP_SCALE); break; }
 				case CENTER:{ x=((_screenSize.x/2)-(_w/2)*OAPP_SCALE); break; }
 			}
 
 			switch(_y){
 				default:{ y=_y; break; }
+				case START:{ y=0; break; }
+				case END:{ y=((_screenSize.y)-(_h)*OAPP_SCALE); break; }
 				case CENTER:{ y=((_screenSize.y/2)-(_h/2)*OAPP_SCALE); break; }
 			}
 		/* Context Initialisation */
