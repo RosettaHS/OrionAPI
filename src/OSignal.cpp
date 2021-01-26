@@ -51,7 +51,7 @@ namespace Orion{
 
 	void OSignal::log(bool verbose){
 		if(verbose){
-			OLog("OSignal %p | type %s | emitter %p {\n",(void*)this,getTypeAsString(),(void*)emitter);
+			OLog("OSignal %p | type %s | emitter %p | emitter->type %s {\n",(void*)this,getTypeAsString(),(void*)emitter,emitter->getTypeAsString());
 			switch(type){
 				case OSIG_NONE:{OLog("\tNo data to log...\n}\n");return;}
 				case OSIG_BOOL:{OLog("\tget.asBool : %s\n}\n",(get.asBool ? "true" : "false"));return;}
@@ -65,7 +65,7 @@ namespace Orion{
 				case OSIG_UNSIGNED_LONG:{OLog("\tget.asUnsignedLong : %lu\n}\n",get.asUnsignedLong);return;}
 				case OSIG_CHAR:{OLog("\tget.asChar : (char) %c\n\tget.asChar : (number) %d\n}\n",get.asChar,get.asChar);return;}
 				case OSIG_UNSIGNED_CHAR:{OLog("\tget.asUnsignedChar : (number) %u\n}\n",(unsigned int)get.asChar);return;}
-				case OSIG_STRING:{OLog("\tget.asString.text : %s\n\tget.asString.length : %lu\n}\n",get.asString.text,get.asString.length);return;}
+				case OSIG_STRING:{OLog("\tget.string.asText : %s\n\tget.string.asLength : %lu\n}\n",get.string.asText,get.string.asLength);return;}
 				case OSIG_ARBITRARY:{OLog("\tget.asArbitrary : %p\n}\n",get.asArbitrary);return;}
 				case OSIG_OBJECT:{OLog("\tget.asObject : %p\n\tget.asObject->type : %s\n}\n",(void*)get.asObject,get.asObject->getTypeAsString());return;}
 			};
@@ -83,7 +83,7 @@ namespace Orion{
 				case OSIG_UNSIGNED_LONG:{OLog("get.asUnsignedLong : %lu\n",get.asUnsignedLong);return;}
 				case OSIG_CHAR:{OLog("get.asChar : (char) %c\tget.asChar : (number) %d\n",get.asChar,get.asChar);return;}
 				case OSIG_UNSIGNED_CHAR:{OLog("get.asChar : (number) %u\n",(unsigned int)get.asChar);return;}
-				case OSIG_STRING:{OLog("get.asString : %s\n",get.asString.text);return;}
+				case OSIG_STRING:{OLog("get.string.asText : %s\n",get.string.asText);return;}
 				case OSIG_ARBITRARY:{OLog("get.asArbitrary : %p\n",get.asArbitrary);return;}
 				case OSIG_OBJECT:{OLog("get.asObject : %p\tget.asObject->type : %s\n",(void*)get.asObject,get.asObject->getTypeAsString());return;}
 			};

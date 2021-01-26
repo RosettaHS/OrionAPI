@@ -72,9 +72,9 @@ namespace Orion{
 			char asChar;
 			unsigned char asUnsignedChar;
 			struct{
-				char* text;
-				size_t length;
-			}asString;
+				char* asText;
+				size_t asLength;
+			}string;
 			void* asArbitrary;
 			CBaseUI* asObject;
 		}get;
