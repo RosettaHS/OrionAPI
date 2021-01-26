@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/xservice.hpp"
+#include "include/application.hpp"
 #include "include/OLog.hpp"
 #include "include/OWindow.hpp"
 #include "include/OService.hpp"
@@ -60,12 +61,12 @@ namespace Orion{
 			
 			switch(_x){
 				default:{ x=_x; break; }
-				case CENTER:{ x=((_screenSize.x/2)-(_w/2)); break; }
+				case CENTER:{ x=((_screenSize.x/2)-(_w/2)*OAPP_SCALE); break; }
 			}
 
 			switch(_y){
 				default:{ y=_y; break; }
-				case CENTER:{ y=((_screenSize.y/2)-(_h/2)); break; }
+				case CENTER:{ y=((_screenSize.y/2)-(_h/2)*OAPP_SCALE); break; }
 			}
 		/* Context Initialisation */
 			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true)){
