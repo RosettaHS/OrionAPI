@@ -101,6 +101,7 @@ namespace Orion{
 	}
 
 	void CDrawable::setPos(int _x, int _y){
+		if(x==_x && y==_y){return;}
 		x=_x,y=_y;
 		offsetX=(int)( (float)(x-(int)((float)centreX*(scale-1)) )/scale );
 		offsetY=(int)( (float)(y-(int)((float)centreY*(scale-1)) )/scale );
