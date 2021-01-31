@@ -36,6 +36,7 @@ namespace Orion{
 				obj->parentDrawable=0;
 				obj->parentContainer=0;
 				obj->index=-1;
+				obj->onUnlink();
 			}
 		}
 		childCount=0;
