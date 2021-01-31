@@ -133,6 +133,15 @@ namespace Orion{
 		}
 	}
 
+	void CContext::setTitle(const char* title){
+		int length=0;
+		while(true){
+			if(title[length]==0){break;}
+			length++;
+		}
+		XChangeProperty(OXDPY,XWIN,XInternAtom(OXDPY,"_NET_WM_NAME",False),XInternAtom(OXDPY,"UTF8_STRING",False),8,PropModeReplace,(unsigned char *)title,length);
+	}
+
 	void CContext::setCol(OCol* col){
 		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETCOL ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		if(col->XCOL==XCOL){return;}

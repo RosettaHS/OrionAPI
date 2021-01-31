@@ -74,6 +74,8 @@ namespace Orion{
 			bool destroy(void);
 			/* Changes the colour of the CContext to the given OCol. */
 			void setCol(OCol*);
+			/* Changes the title of the CContext if it is a top-level Context. */
+			void setTitle(const char*);
 			/* Changes the position of the CContext relative to the root Context. */
 			void setPos(int, int, bool useScale);
 			/* Changes the size of the CContext. */
