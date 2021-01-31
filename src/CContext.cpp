@@ -134,6 +134,7 @@ namespace Orion{
 	}
 
 	void CContext::setCol(OCol* col){
+		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETCOL ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		if(col->XCOL==XCOL){return;}
 		XSetWindowBackground(OXDPY,XWIN,col->XCOL);
 		XClearWindow(OXDPY,XWIN);
@@ -147,6 +148,7 @@ namespace Orion{
 	}
 
 	void CContext::setPos(int _x, int _y, bool useScale){
+		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETPOS ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int x,y;
 		if(useScale){	if(XROOT!=OXROOT){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}	}else{x=_x,y=_y;}
 		XMoveWindow(OXDPY,XWIN,x,y);
@@ -160,6 +162,7 @@ namespace Orion{
 	}
 
 	void CContext::setSize(unsigned int _w, unsigned int _h, bool useScale){
+		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETSIZE ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int w,h;
 		if(useScale){	w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;	}else{w=_w,h=_h;}
 		if(w<=1){w=1;}
@@ -175,6 +178,7 @@ namespace Orion{
 	}
 
 	void CContext::setGeometry(int _x, int _y, unsigned int _w, unsigned int _h, bool useScale){
+		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETGEOMETRY ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int x,y;
 		unsigned int w,h;
 		if(useScale){
@@ -195,6 +199,7 @@ namespace Orion{
 	}
 
 	void CContext::reparent(CContext* root, int _x, int _y, bool useScale){
+		if(!XWIN){OLog("OKIT | WARNING! CAN'T REPARENT CONTEXT THAT HAS NOT BEEN INITIALISED YET!\n"); return;}
 		if(root->XWIN==XROOT){return;}
 		int x,y;
 		if(useScale){
