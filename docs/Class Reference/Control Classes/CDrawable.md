@@ -93,7 +93,7 @@ if the Y position is `START`, it will keep the Drawable at the top of that axis.
 
 These are interchangable between the positional values. Any configuration of `START`, `CENTRE`, and `END` can exist between the X and Y position values of the Drawable, so long as the Container respects the flags.
 
-The fourth and fith arguments always refer to the horizontal and vertical size of the Drawable, and much like the positional arguments this can take in either direct explicit size or can use the `FILL` flag,
+The fourth and fifth arguments always refer to the horizontal and vertical size of the Drawable, and much like the positional arguments this can take in either direct explicit size or can use the `FILL` flag,
 which tells the Container to make this Drawable stretch to the very end of the given axis.
 
 Any following arguments are up to the implementation of the derived class and you must look at the documentation for said class if you wish to know the proper syntax and breakdown.
