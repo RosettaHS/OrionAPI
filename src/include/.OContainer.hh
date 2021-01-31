@@ -23,22 +23,24 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/CBaseUI.hpp"
+#include "CContainer.hpp"
 
 namespace Orion{
-	CBaseUI::CBaseUI() : type{OT_ERROR},ready{0} {}
 
-	const char* CBaseUI::getTypeAsString(void){
-		switch(type){
-			case OT_ERROR:{return "OT_ERROR";}
-			case OT_CDRAWABLE:{return "OT_CDRAWABLE";}
-			case OT_CCONTAINER:{return "OT_CCONTAINER";}
-			case OT_OCONTAINER:{return "OT_OCONTAINER";}
-			case OT_ORECT:{return "OT_ORECT";}
+	namespace DRAW{ void OContainer(Orion::CDrawable*); }
+	namespace HANDLE{ void OContainer(void*, X::CXEvent*); }
 
-			case OT_OWINDOW:{return "OT_OWINDOW";}
-		}
+	class OContainer : public CDrawable, public CContainer{
+		protected:
+			friend void DRAW::OContainer(Orion::CDrawable*);
+			friend void HANDLE::OContainer(void*, X::CXEvent*);
+		public:
+			// ~OContainer(void);
+			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
-		return 0;
-	}
+			// virtual void sort(void) override;
+
+			virtual void setPos(int x, int y) override;
+			virtual void setSize(unsigned int w, unsigned int y, bool force=false) override;
+	};
 }

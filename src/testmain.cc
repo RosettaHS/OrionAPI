@@ -60,12 +60,15 @@ int main(){
 	// context.listenerFunc=myFunc;
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
-	OWindow win(CENTER,CENTER,400,350);
-	CDrawable d;
+	OWindow win(CENTER,CENTER,500,500);
+	OCol parentCol(255,255,255);
+	ORect parent(win,0,0,200,200,parentCol);
+	// parent.setScale(2);
 
-	// OSignal sig;
-	// sig.type=OSIG_BOOL;
-	// sig.log();
-	
+	ORect rect(win,0,0,50,50);
+	// rect.parentDrawable=&parent;
+
+	rect.setScale(4);
+
 	OKitEventLoop();
 }

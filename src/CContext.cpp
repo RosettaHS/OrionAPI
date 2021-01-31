@@ -44,7 +44,7 @@ namespace Orion{
 			}
 		}
 	}
-	CContext::CContext(void) : XWIN{0},XROOT{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
+	CContext::CContext(void) : XWIN{0},XROOT{0},XCOL{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
 	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale){
 		XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
@@ -70,6 +70,7 @@ namespace Orion{
 			unsigned int _XCLASS=InputOutput;
 			CXMask attrmask=CWBackPixel;
 			attr.background_pixel=col->XCOL;
+			XCOL=col->XCOL;
 
 			switch(type){
 				case CCT_INPUTONLY:{_XCLASS=InputOnly;attrmask=0;break;}
@@ -113,10 +114,10 @@ namespace Orion{
 
 				XChangeWindowAttributes(OXDPY,XWIN,attrmask,&attr);
 				X::CXHA_LINK(this);
-				OVERB_OUT "OKIT | Successfully created CContext( %p , %d , %d , %u , %u, %s )\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") OVERB_END
+				OVLog("OKIT | Successfully created CContext %p with parameters ( %p , %d , %d , %u , %u, %s )\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false"));
 				return true;
 			}else{
-				printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+				printf("OKIT | ERROR! FAILED TO CREATE CContext %p WITH PARAMETERS( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 				exit(OERR_X11_WINDOW_CREATION_FAILURE);
 				return false;
 			}
@@ -129,6 +130,7 @@ namespace Orion{
 	}
 
 	void CContext::setCol(OCol* col){
+		if(col->XCOL==XCOL){return;}
 		XSetWindowBackground(OXDPY,XWIN,col->XCOL);
 		XClearWindow(OXDPY,XWIN);
 		if(listenerFunc){
@@ -186,6 +188,20 @@ namespace Orion{
 			listenerFunc(listener,&force);
 		}
 		return;
+	}
+
+	void CContext::reparent(CContext* root, int _x, int _y, bool useScale){
+		if(root->XWIN==XROOT){return;}
+		int x,y;
+		if(useScale){
+			x=_INTSCALEBYFLOAT(_x,OAPP_SCALE);
+			y=_INTSCALEBYFLOAT(_y,OAPP_SCALE);
+		}else{x=_x, y=_y;}
+		OLog("REPARENT - x %d | y %d\n",x,y);
+		if(XReparentWindow(OXDPY,XWIN,root->XWIN,x,y)){
+			OLog("Success. Old %lu | New %lu | New Root %p\n",XROOT,root->XWIN,root);
+			XROOT=root->XWIN;	
+		}
 	}
 
 /* X HANDLER */

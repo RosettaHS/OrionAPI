@@ -38,16 +38,17 @@ namespace Orion{
 			CNodeArray arr;
 			/* Internal. The amount of Drawables owned by this Container. */
 			unsigned short childCount;
-			/* Internal. The Context that child Drawables will link to when using this Container. */
-			CContext* contextToUse;
 			/* Internal. The Drawable that child Drawables will link to when using this Container. */
 			CDrawable* drawableToUse;
 			/* Internal. The Container that Drawables will link to when using this Container. Some Containers are made of nested Containers so this is necessary. */
 			CContainer* containerToUse;
-
 			/* Allows Drawables to access internal members of this Container. */
 			friend class CDrawable;
 		public:
+			struct{
+				/* Internal. The Context that child Drawables will link to when using this Container. */
+				CContext* contextToUse;
+			}internal_link; /* Internal. Wrapped to discourage unauthorised access. */
 
 			/* Destructor. Unlinks all children. */
 			~CContainer(void);

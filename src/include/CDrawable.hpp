@@ -70,8 +70,10 @@ namespace Orion{
 		protected:
 			/* The X and Y positional coordinates of this Drawable. */
 			int x,y;
-			/* The positional coordinates for the centre of this Drawable. */
+			/* The relative positional coordinates for the centre of this Drawable. */
 			int centreX, centreY;
+			/* The internal offset (real) positional coordinates of this Drawable. */
+			int offsetX, offsetY;
 			/* The Width and Height (size) of the Drawable. */
 			unsigned int w,h;
 			/* The minimum allowed width and height of this Drawable. Used in Containables when sorting. */
@@ -101,6 +103,8 @@ namespace Orion{
 
 			/* Internal. Sets the raw flags of internal.modFlags. Sets one at a time! Returns true if flag was valid. */
 			bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
+			/* Internal. Sets flags and other data. */
+			void init(int, int, unsigned int, unsigned int);
 
 			/* Allows Containers to access internal members of this Drawable. */
 			friend class CContainer;
@@ -121,40 +125,44 @@ namespace Orion{
 			bool unlinkTo(CContainer&);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
-			void setPos(int x, int y);
+			virtual void setPos(int x, int y); void setPos(OVec&);
 			/* Sets the positional coordinates of the centre of this Drawable relative to the top left. Used during scaling. */
 			void setCentre(int x, int y);
-			/* Sets the size of this Drawable. */
-			void setSize(unsigned int w,unsigned int h);
+			/* Sets the size of this Drawable. Pass true at the end to force a redraw. */
+			virtual void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
 			/* Sets the minimum allowed size of this Drawable. */
-			void setMinSize(unsigned int w, unsigned int h);
-			/* Sets the UI scale of this Drawable. */
-			void setScale(float);
+			void setMinSize(unsigned int w, unsigned int h); void setMinSize(OVec&);
+			/* Sets the UI scale of this Drawable. Not applicable on Containers. */
+			virtual void setScale(float);
 			/* Unused. Sets the relative rotation of this Drawable. */
 			void setRotation(float);
-			/* Sets and overrides the theme of this Drawable. Use with caution! */
+
+			/* Sets the colour of this Drawable. Some derived classes do not allow this! */
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b); void setCol(OCol&);
+	
+			/* Internal. Sets and overrides the theme of this Drawable. Use with caution! */
 			void setTheme(OTheme&);
-			/* Sets and overrides the primary colour of this Drawable. Use with caution!*/
+			/* Internal. Sets and overrides the primary colour of this Drawable. Use with caution!*/
 			void setPrimaryCol(unsigned char r, unsigned char g, unsigned char b); void setPrimaryCol(OCol&);
-			/* Sets and overrides the secondary colour of this Drawable. Use with caution!*/
+			/* Internal. Sets and overrides the secondary colour of this Drawable. Use with caution!*/
 			void setSecondaryCol(unsigned char r, unsigned char g, unsigned char b); void setSecondaryCol(OCol&);
-			/* Sets and overrides the tertiary colour of this Drawable. Use with caution!*/
+			/* Internal. Sets and overrides the tertiary colour of this Drawable. Use with caution!*/
 			void setTertiaryCol(unsigned char r, unsigned char g, unsigned char b); void setTertiaryCol(OCol&);
-			/* Sets and overrides the accent colour of this Drawable. Use with caution!*/
+			/* Internal. Sets and overrides the accent colour of this Drawable. Use with caution!*/
 			void setAccentCol(unsigned char r, unsigned char g, unsigned char b); void setAccentCol(OCol&);
-			/* Resets the theme of this Drawable to its default values. */
+			/* Internal. Resets the theme of this Drawable to its default values. */
 			void resetTheme(void);
 
-			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true as the first argument to retrieve the global position relative to the Window. Pass true on the second argument to get the raw scaled position. */
-			OVec getPos(bool globalToWindow=false,bool useScale=false);
+			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
+			OVec getPos(bool globalToWindow=false);
 			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */
-			OVec getCentre();
+			OVec getCentre(void);
 			/* Returns the size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
 			OVec4 getSize(bool useScale=false);
 			/* Returns the minimum size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
 			OVec4 getMinSize(bool useScale=false);
-			/* Returns the local UI scale of this drawable. Pass true to retrieve the global scale of the Drawable including the scales of its parents (if it has them). */
-			float getScale(bool includeParents=false);
+			/* Returns the local UI scale of this Drawable. Containers cannot scale. */
+			float getScale(void);
 			/* Unused. Returns the local rotation of this drawable. Pass true to retrieve the global rotation of the Drawable including the rotations of its parents (if it has them). */
 			float getRotation(bool includeParents=false);
 			/* Returns the local position and size of this Drawable. Pass true to retrieve the global position relative to the Window. */

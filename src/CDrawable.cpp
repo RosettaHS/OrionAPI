@@ -34,6 +34,7 @@ namespace Orion{
 	CDrawable::CDrawable(void) : 
 		x{0},y{0},
 		centreX{0},centreY{0},
+		offsetX{0},offsetY{0},
 		w{0},h{0},
 		minW{0},minH{0},
 		scale{1},rotation{0},index{-1},fullRedraw{false},
@@ -51,6 +52,19 @@ namespace Orion{
 	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
 
 	bool CDrawable::unlinkTo(CContainer& container){ return container.unlink(*this); }
+
+	void CDrawable::init(int _x, int _y, unsigned int _w, unsigned int _h){
+		if(!setFlag(_x,0,0,0)){x=_x;}else{x=0;}
+		if(!setFlag(0,_y,0,0)){y=_y;}else{y=0;}
+		if(!setFlag(0,0,_w,0)){w=_w;}else{w=0;}
+		if(!setFlag(0,0,0,_h)){h=_h;}else{h=0;}
+		if(_w<minW){minW=_w;}
+		if(_w<minH){minH=_h;}
+		w=_w,h=_h;
+		centreX=w/2,centreY=h/2;
+		offsetX=( (x-(centreX*(scale-1)) )/scale );
+		offsetY=( (y-(centreY*(scale-1)) )/scale );
+	}
 
 /* Setters */
 
@@ -86,25 +100,45 @@ namespace Orion{
 		return false;
 	}
 
-	void CDrawable::setPos(int _x, int _y){ x=_x,y=_y; }
+	void CDrawable::setPos(int _x, int _y){
+		x=_x,y=_y;
+		offsetX=(int)( (float)(x-(int)((float)centreX*(scale-1)) )/scale );
+		offsetY=(int)( (float)(y-(int)((float)centreY*(scale-1)) )/scale );
+	}
+	void CDrawable::setPos(OVec& v){ setPos(v.x, v.y); }
 	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
-	void CDrawable::setSize(unsigned int _w, unsigned int _h){
-		if( (w==_w) && (h==_h) ){return;}
+	void CDrawable::setSize(unsigned int _w, unsigned int _h, bool force){
+		if( !force && (w==_w) && (h==_h) ){return;}
 		if(_w<minW){w=minW;}else{w=_w;}
 		if(_h<minH){h=minH;}else{h=_h;}
+		centreX=w/2;
+		centreY=h/2;
+		offsetX=( (x-(centreX*(scale-1)) )/scale );
+		offsetY=( (y-(centreY*(scale-1)) )/scale );
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
+	void CDrawable::setSize(OVec& v, bool force){ setSize(v.x,v.y,force); }
 	void CDrawable::setMinSize(unsigned int _w, unsigned int _h){
 		minW=_w,minH=_h;
 		if( (w<minW) || (h<minH) ){setSize(_w,_h);}
 	}
+	void CDrawable::setMinSize(OVec& v){ setMinSize(v.x,v.y); }
 	void CDrawable::setScale(float _s){
 		if(_s>=0.01){scale=_s;}else{scale=0.01;}
+		setPos(x,y);
+		setSize(w,h,true);
+	}
+	void CDrawable::setRotation(float _r){
+		rotation=_r;
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setRotation(float _r){ rotation=_r; fullRedraw=true; if(internal.drawPtr){internal.drawPtr(this);} }
+
+	void CDrawable::setCol(unsigned char r, unsigned char g, unsigned char b){
+		OLog("OKIT | WARNING! %s DOES NOT SUPPORT COLOUR MODIFICATION! FAILED TO SET COLOUR TO (%u, %u, %u)!\n",getTypeAsString(),r,g,b);
+	}
+	void CDrawable::setCol(OCol& c){ setCol(c.r,c.g,c.b); }
 
 	void CDrawable::setTheme(OTheme& newTheme){
 		internalTheme=newTheme;
@@ -166,7 +200,7 @@ namespace Orion{
 
 /* Getters */
 
-	OVec CDrawable::getPos(bool globalToWindow,bool useScale){
+	OVec CDrawable::getPos(bool globalToWindow){
 		OVec v;
 		if(globalToWindow&&parentDrawable){
 			if(parentDrawable->type!=OT_OWINDOW){
@@ -178,11 +212,6 @@ namespace Orion{
 		}else{
 			v={x,y};
 		}
-
-		if(useScale){
-			float f=getScale(true);
-			v.x*=f,v.y*=f;
-		}
 		return v;
 	}
 
@@ -191,7 +220,7 @@ namespace Orion{
 	OVec4 CDrawable::getSize(bool useScale){
 		OVec4 v;
 		if(useScale){
-			float s=getScale(true);
+			float s=getScale();
 			v={0,0,(unsigned int)((float)w*s),(unsigned int)((float)h*s)}; /* WHY!?!?! */
 		}else{
 			v={0,0,w,h};
@@ -202,7 +231,7 @@ namespace Orion{
 	OVec4 CDrawable::getMinSize(bool useScale){
 		OVec4 v;
 		if(useScale){
-			float s=getScale(true);
+			float s=getScale();
 			v={0,0,(unsigned int)((float)minW*s),(unsigned int)((float)minH*s)}; /* WHY!?!?! */
 		}else{
 			v={0,0,minW,minH};
@@ -210,15 +239,7 @@ namespace Orion{
 		return v;
 	}
 
-	float CDrawable::getScale(bool includeParents){
-		float s;
-		if(includeParents&&parentDrawable){
-			s=scale*parentDrawable->getScale(true);
-		}else{
-			s=scale;
-		}
-		return s;
-	}
+	float CDrawable::getScale(void){ return scale; }
 
 	float CDrawable::getRotation(bool includeParents){
 		float r;
@@ -262,8 +283,6 @@ namespace Orion{
 			OLog("\t Position : (%d, %d)\n",v.x,v.y);
 			v=getPos(true);
 			OLog("\t Position - Global : (%d, %d)\n",v.x,v.y);
-			v=getPos(true,true);
-			OLog("\t Position - Scaled Global : (%d, %d)\n",v.x,v.y);
 			v=getCentre();
 			OLog("\t Relative Centre : (%d, %d)\n",v.x,v.y);
 			v4=getSize();
@@ -276,9 +295,9 @@ namespace Orion{
 			v4=getMinSize(true);
 			OLog("\t Minimum Size - Scaled Global : (%u, %u)\n",v4.w,v4.h);
 			OLog("\t Scale : %f\n",getScale());
-			OLog("\t Scale - Global : %f\n",getScale(true));
 			OLog("\t----INTERNAL----\n");
 			OLog("\t Context : %p\n",(void*)context);
+			OLog("\t Context->XROOT : %lu\n",context->XROOT);
 			OLog("\t Parent Drawable : %p\n",parentDrawable);
 			OLog("\t Parent Container : %p\n",parentContainer);
 			OLog("\t Draw Pointer : %p\n",(void*)internal.drawPtr);

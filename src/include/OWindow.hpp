@@ -40,6 +40,7 @@ namespace Orion{
 			friend void DRAW::OWindow(CDrawable*);
 			friend void HANDLE::OWindow(void*,X::CXEvent*);
 		public:
+			virtual void sort(void) override;
 			~OWindow(void);
 			OWindow(void);
 			OWindow(int x, int y, unsigned int w, unsigned int h, const char* title=0);

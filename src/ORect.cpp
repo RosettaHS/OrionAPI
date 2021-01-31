@@ -23,73 +23,70 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <X11/Xlib.h>
+#include <stdlib.h>
+#include "include/xservice.hpp"
+#include "include/application.hpp"
+#include "include/errdef.h"
 #include "include/OLog.hpp"
-#include "include/CContainer.hpp"
+#include "include/ORect.hpp"
 
 namespace Orion{
-	CContainer::~CContainer(void){
-		if(arr.arr){
-			CDrawable* obj=0;
-			for(unsigned short i=0;i<childCount;i++){
-				obj=arr.arr[i];
-				obj->context=0;
-				obj->parentDrawable=0;
-				obj->parentContainer=0;
-				obj->index=-1;
+
+	ORect::~ORect(void){
+		type=OT_ERROR;
+		ready=false;
+	}
+
+	ORect::ORect(void){type=OT_ORECT; }
+
+	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){
+		OXONLY{
+			minW=50,minH=50;
+		/* Flag override checking */
+			init(_x,_y,_w,_h);
+			/* ORects use the secondary colour of the OApp theme by default. */
+			if(col.XCOL!=theme.secondary->XCOL){setSecondaryCol(col);}
+
+			// XGCValues values;
+			// values.foreground=col.XCOL;
+			// XGC=XCreateGC(OXDPY,parent.internal_link.contextToUse->XWIN,GCForeground,&values);
+			ready=true;
+			parent.link(*this);
+			rect.init(parent.internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,&col,0,CCT_TOPLEVEL,true);
+			internal.drawPtr=DRAW::ORect;
+			
+		}else{
+			OLog("OKIT | ERROR! FAILED TO CREATE ORECT BECAUSE X HAS NOT BEEN INITIALISED!\n");
+			exit(OERR_X11_NOT_INITED);
+		}
+	}
+
+	void ORect::setCol(unsigned char r, unsigned char g, unsigned char b){
+		setSecondaryCol(r,g,b);
+	}
+
+
+	/* Redirect */
+	// ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, /* Colour */  unsigned char _r, unsigned char _g, unsigned char _b){
+		// OCol col(_r,_g,_b);
+		// ORect(parent,_x,_y,_w,_h,col);
+	// }
+
+
+	namespace DRAW{
+		void ORect(CDrawable* obj){
+			if(!obj->ready){return;}
+			Orion::ORect* rect=(Orion::ORect*)obj;
+			if(!rect->fullRedraw){return;}
+			if(rect->parentContainer){
+				rect->rect.setGeometry(
+					rect->offsetX*rect->scale,
+					rect->offsetY*rect->scale,
+					rect->w*rect->scale,rect->h*rect->scale,true);
+				rect->rect.setCol(rect->theme.secondary);
 			}
 		}
-		childCount=0;
-		internal_link.contextToUse=0;
-		drawableToUse=0;
-		containerToUse=0;
-	}
-	CContainer::CContainer(void){
-		childCount=0;
-		internal_link.contextToUse=0;
-		drawableToUse=0;
-		containerToUse=this;
 	}
 
-	/* Base containers do no sorting. */
-	void CContainer::sort(void){ return; }
-
-	bool CContainer::link(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T LINK A CONTAINER TO ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T LINK A WINDOW TO ANYTHING!\n"); return false; }
-		if(!obj.ready){ OLog("OKIT | WARNING! CAN'T LINK A NON-INITIALISED OBJECT TO ANYTHING!\n"); return false;}
-		if(containerToUse->arr.link(&obj)){
-			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
-			childCount=containerToUse->arr.count;
-			obj.context=internal_link.contextToUse;
-			obj.parentContainer=containerToUse;
-			obj.parentDrawable=drawableToUse;
-			obj.index=containerToUse->arr.getIndexOf(&obj);
-			sort();
-			obj.fullRedraw=true;
-			if(obj.internal.drawPtr){ obj.internal.drawPtr(&obj); }
-			return true;
-		}
-		return false;
-	}
-
-	bool CContainer::unlink(CDrawable& obj){
-		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T UNLINK A CONTAINER FROM ITSELF!\n"); return false; }
-		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T UNLINK A WINDOW FROM ANYTHING!\n"); return false; }
-		if(!obj.ready){ OLog("OKIT | WARNING! CAN'T UNLINK A NON-INITIALISED OBJECT FROM ANYTHING!\n"); return false;}
-		if(containerToUse->arr.unlink(&obj)){
-			childCount=containerToUse->arr.count;
-			obj.context=0;
-			obj.parentContainer=0;
-			obj.parentDrawable=0;
-			obj.index=-1;
-			sort();
-			return true;
-		}
-		return false;
-	}
-
-	int CContainer::getIndexOf(CDrawable& obj){
-		if(obj.parentContainer==containerToUse){ return containerToUse->arr.getIndexOf(&obj); }
-		else{ return -1; }
-	}
 }

@@ -29,6 +29,20 @@
 #define OKIT_VERSION 	0
 #define OKIT_REVISION	0
 
+/* The following are forward declarations for Visual Studio (Code) Tooltips */
+
+/* The OrionAPI Namespace. */
+namespace Orion{
+	/* OKit - The namespace that contains all functions and global variables for the OApp. */
+	namespace Application{}
+	/* OKit - The namespace that contains all internal X connection information. */
+	namespace X{}
+	/* OKit - The namespace that contains all internal render functions for each class. */
+	namespace DRAW{}
+	/* OKit - The namespace that contains all internal event handling functions for each class. */
+	namespace HANDLE{}
+}
+
 #include "errdef.h"
 #include "signals.h"
 #include "application.hpp"
@@ -49,6 +63,8 @@
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
+#include "ORect.hpp"
+// #include "OContainer.hpp"
 
 #include "OWindow.hpp"
 

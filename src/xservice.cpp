@@ -54,16 +54,17 @@ namespace Orion{
 		}
 
 		void eventLoop(void){
+			if(CXHA_COUNT==0){return;}
 			XEvent event;
 			CContext* context;
 			CXEvent wrapper;
 			while(CXHA_COUNT){
 				XNextEvent((Display*)DPY,&event);
 				context=CXHA_GETFROMXID(event.xany.window);
-				if(context){
+				if(context&&context->listenerFunc){
 					wrapper.compose(&event);
-					if(wrapper.valid){context->listenerFunc(context->listener,&wrapper);}
-					wrapper.log();
+					if(wrapper.valid){ context->listenerFunc(context->listener,&wrapper); }
+					// wrapper.log();
 				}
 			}
 		}

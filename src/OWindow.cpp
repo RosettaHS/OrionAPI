@@ -23,6 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <X11/Xlib.h>
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/xservice.hpp"
@@ -31,7 +32,7 @@
 #include "include/OWindow.hpp"
 #include "include/OService.hpp"
 
-#define _OWINDOW_DEFMASK 0
+#define _OWINDOW_DEFMASK StructureNotifyMask|ButtonPressMask
 
 namespace Orion{
 
@@ -77,14 +78,15 @@ namespace Orion{
 		/* Context Initialisation */
 			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true)){
 				selfContext.listener=(void*)this;
-				// selfContext.listenerFunc=HANDLE::OWindow;
+				selfContext.listenerFunc=HANDLE::OWindow;
 				// drawPtr=DRAW::OWindow;
 
 				context=&selfContext;
-				contextToUse=&selfContext;
+				internal_link.contextToUse=&selfContext;
 				drawableToUse=(CDrawable*)this;
 				containerToUse=(CContainer*)this;
 				arr.init(5,1);
+				ready=true;
 			}else{type=OT_ERROR;}
 			
 			
@@ -95,15 +97,35 @@ namespace Orion{
 		}
 	}
 
+	void OWindow::sort(void){
+		arr.drawAll();
+	}
+
 	// namespace DRAW{
 		// void OWindow(CDrawable* obj){
 			// Orion::OWindow* win=(Orion::OWindow*)obj;
 		// }
 	// }
 
-	// namespace HANDLE{
-		// void OWindow(void* obj,X::CXEvent* event){
-			// Orion::OWindow* win=(Orion::OWindow*)obj;
-		// }
-	// }
+	namespace HANDLE{
+		void OWindow(void* obj,X::CXEvent* event){
+			Orion::OWindow* win=(Orion::OWindow*)obj;
+			if(!win->ready){OLog("NOT READY!\n");return;}
+			switch(event->type){
+				default:{OLog("DEFAULT!\n");return;}
+				// case X::CXE_EXPOSE:{ win->sort(); OLog("EXPOSE!\n"); return; }
+				case X::CXE_CONFIGURE:{
+					win->x=event->configure.x/OAPP_SCALE,win->y=event->configure.y/OAPP_SCALE;
+					win->w=event->configure.w/OAPP_SCALE,win->h=event->configure.h/OAPP_SCALE;
+					win->sort();
+					OLog("CONFIGURE!\n");
+					return;
+				}
+				case X::CXE_MOUSECLICK:{
+					OLog("Exiting\n");
+					exit(0);
+				}
+			}
+		}
+	}
 }

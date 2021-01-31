@@ -32,6 +32,8 @@ namespace Orion{
 		OT_ERROR,
 		OT_CDRAWABLE,
 		OT_CCONTAINER,
+		OT_OCONTAINER,
+		OT_ORECT,
 
 		OT_OWINDOW,
 	};

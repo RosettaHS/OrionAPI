@@ -52,6 +52,8 @@ namespace Orion{
 			unsigned long	XWIN;
 			/* The ID of the root X Window the main XWIN is tied to. */
 			unsigned long	XROOT;
+			/* The colour of the X Window. */
+			unsigned long	XCOL;
 			/* The mask that the X Event system uses on the XWIN. */
 			CXMask			XMASK;
 			/* The title of the X Window. Can be blank. */
@@ -76,6 +78,8 @@ namespace Orion{
 			void setSize(unsigned int, unsigned int, bool useScale);
 			/* Changes both the position and size of the CContext. */
 			void setGeometry(int, int, unsigned int, unsigned int, bool useScale);
+			/* Reparents with another CContext. */
+			void reparent(CContext* root, int x, int y, bool useScale);
 	};
 
 	namespace X{
