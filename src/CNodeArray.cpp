@@ -48,7 +48,7 @@ namespace Orion{
 	}
 
 	bool CNodeArray::resize(unsigned short _size){
-		arr=(CDrawable**)realloc(arr,_size);
+		arr=(CDrawable**)realloc(arr,sizeof(CDrawable*)*_size);
 		if(arr){
 			cap=_size;
 			for(unsigned short i=count;i<_size;i++){arr[i]=0;}
