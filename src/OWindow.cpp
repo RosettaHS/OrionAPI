@@ -76,7 +76,7 @@ namespace Orion{
 				case FILL:{ y=0; OLog("OKIT | WARNING! CAN'T SET Y POSITION WITH FILL FLAG!\n"); break;}
 			}
 		/* Context Initialisation */
-			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true)){
+			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true,true)){
 				selfContext.listener=(void*)this;
 				selfContext.listenerFunc=HANDLE::OWindow;
 				// drawPtr=DRAW::OWindow;

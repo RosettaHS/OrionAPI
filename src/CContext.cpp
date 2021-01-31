@@ -46,7 +46,7 @@ namespace Orion{
 	}
 	CContext::CContext(void) : XWIN{0},XROOT{0},XCOL{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
-	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale){
+	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale, bool link){
 		XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
 		OXONLY{
 			int x,y;
@@ -113,7 +113,7 @@ namespace Orion{
 				XSelectInput(OXDPY,XWIN,XMASK);
 
 				XChangeWindowAttributes(OXDPY,XWIN,attrmask,&attr);
-				X::CXHA_LINK(this);
+				if(link){X::CXHA_LINK(this);}
 				OVLog("OKIT | Successfully created CContext %p with parameters ( %p , %d , %d , %u , %u, %s )\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false"));
 				return true;
 			}else{

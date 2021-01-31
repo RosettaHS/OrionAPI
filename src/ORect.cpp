@@ -53,7 +53,7 @@ namespace Orion{
 			// XGC=XCreateGC(OXDPY,parent.internal_link.contextToUse->XWIN,GCForeground,&values);
 			ready=true;
 			parent.link(*this);
-			rect.init(parent.internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,&col,0,CCT_TOPLEVEL,true);
+			rect.init(parent.internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,&col,0,CCT_TOPLEVEL,true,false);
 			internal.drawPtr=DRAW::ORect;
 			
 		}else{
