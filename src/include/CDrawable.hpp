@@ -125,8 +125,8 @@ namespace Orion{
 
 			/* Links this Drawable to the passed Container. Returns false if could not link. */
 			bool linkTo(CContainer&);
-			/* Unlinks this Drawable from the passed Container. Returns false if could not unlink. */
-			bool unlinkTo(CContainer&);
+			/* Unlinks this Drawable its parent Container. Returns false if could not unlink. */
+			bool unlinkThis(void);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
 			virtual void setPos(int x, int y); void setPos(OVec&);
@@ -147,16 +147,18 @@ namespace Orion{
 			/* Internal. Sets and overrides the theme of this Drawable. Use with caution! */
 			void setTheme(OTheme&);
 			/* Internal. Sets and overrides the primary colour of this Drawable. Use with caution!*/
-			void setPrimaryCol(unsigned char r, unsigned char g, unsigned char b); void setPrimaryCol(OCol&);
+			void setThemePrimaryCol(unsigned char r, unsigned char g, unsigned char b); void setThemePrimaryCol(OCol&);
 			/* Internal. Sets and overrides the secondary colour of this Drawable. Use with caution!*/
-			void setSecondaryCol(unsigned char r, unsigned char g, unsigned char b); void setSecondaryCol(OCol&);
+			void setThemeSecondaryCol(unsigned char r, unsigned char g, unsigned char b); void setThemeSecondaryCol(OCol&);
 			/* Internal. Sets and overrides the tertiary colour of this Drawable. Use with caution!*/
-			void setTertiaryCol(unsigned char r, unsigned char g, unsigned char b); void setTertiaryCol(OCol&);
+			void setThemeTertiaryCol(unsigned char r, unsigned char g, unsigned char b); void setThemeTertiaryCol(OCol&);
 			/* Internal. Sets and overrides the accent colour of this Drawable. Use with caution!*/
-			void setAccentCol(unsigned char r, unsigned char g, unsigned char b); void setAccentCol(OCol&);
+			void setThemeAccentCol(unsigned char r, unsigned char g, unsigned char b); void setThemeAccentCol(OCol&);
 			/* Internal. Resets the theme of this Drawable to its default values. */
 			void resetTheme(void);
 
+			/* Returns a pointer to the parent of this Drawable (if it has one). */
+			CContainer* getParent(void);
 			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
 			OVec getPos(bool globalToWindow=false);
 			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */

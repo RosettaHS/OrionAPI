@@ -55,7 +55,7 @@ namespace Orion{
 			else if(col.XCOL==OTHEME_SECONDARY.XCOL){theme.secondary=&OTHEME_SECONDARY;}
 			else if(col.XCOL==OTHEME_TERTIARY.XCOL){theme.secondary=&OTHEME_TERTIARY;}
 			else if(col.XCOL==OTHEME_ACCENT.XCOL){theme.secondary=&OTHEME_ACCENT;}
-			else{setSecondaryCol(col);}
+			else{setThemeSecondaryCol(col);}
 
 			// XGCValues values;
 			// values.foreground=col.XCOL;
@@ -95,7 +95,7 @@ namespace Orion{
 	}
 
 	void ORect::setCol(unsigned char r, unsigned char g, unsigned char b){
-		setSecondaryCol(r,g,b);
+		setThemeSecondaryCol(r,g,b);
 	}
 
 

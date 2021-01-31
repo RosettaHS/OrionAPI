@@ -49,13 +49,17 @@ namespace Orion{
 			theme.accent=&(OTHEME.accent);
 		}
 
-	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
-
 	/* Base drawable does nothing when linked. */
 	void CDrawable::onLink(void){ return; }
 	void CDrawable::onUnlink(void){ return; }
 
-	bool CDrawable::unlinkTo(CContainer& container){ return container.unlink(*this); }
+	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
+
+	bool CDrawable::unlinkThis(void){
+		if(parentContainer){
+			return parentContainer->unlink(*this);		
+		}else{return false;}
+	}
 
 	void CDrawable::init(int _x, int _y, unsigned int _w, unsigned int _h){
 		if(!setFlag(_x,0,0,0)){x=_x;}else{x=0;}
@@ -156,41 +160,41 @@ namespace Orion{
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 
-	void CDrawable::setPrimaryCol(unsigned char r, unsigned char g, unsigned char b){
+	void CDrawable::setThemePrimaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setPrimary(r,g,b);
 		theme.primary=&(internalTheme.primary);
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setPrimaryCol(OCol& c){setPrimaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemePrimaryCol(OCol& c){setThemePrimaryCol(c.r,c.g,c.b);}
 
-	void CDrawable::setSecondaryCol(unsigned char r, unsigned char g, unsigned char b){
+	void CDrawable::setThemeSecondaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setSecondary(r,g,b);
 		theme.secondary=&(internalTheme.secondary);
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setSecondaryCol(OCol& c){setSecondaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeSecondaryCol(OCol& c){setThemeSecondaryCol(c.r,c.g,c.b);}
 
-	void CDrawable::setTertiaryCol(unsigned char r, unsigned char g, unsigned char b){
+	void CDrawable::setThemeTertiaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setTertiary(r,g,b);
 		theme.tertiary=&(internalTheme.tertiary);
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setTertiaryCol(OCol& c){setTertiaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeTertiaryCol(OCol& c){setThemeTertiaryCol(c.r,c.g,c.b);}
 
-	void CDrawable::setAccentCol(unsigned char r, unsigned char g, unsigned char b){
+	void CDrawable::setThemeAccentCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setAccent(r,g,b);
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setAccentCol(OCol& c){setAccentCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeAccentCol(OCol& c){setThemeAccentCol(c.r,c.g,c.b);}
 
 	void CDrawable::resetTheme(void){
 		internalTheme=OTHEME;
@@ -204,6 +208,8 @@ namespace Orion{
 	}
 
 /* Getters */
+
+	CContainer* CDrawable::getParent(void){ return parentContainer; }
 
 	OVec CDrawable::getPos(bool globalToWindow){
 		OVec v;
