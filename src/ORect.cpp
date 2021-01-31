@@ -53,7 +53,6 @@ namespace Orion{
 			// XGC=XCreateGC(OXDPY,parent.internal_link.contextToUse->XWIN,GCForeground,&values);
 			ready=true;
 			parent.link(*this);
-			rect.init(parent.internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,&col,0,CCT_TOPLEVEL,true,false);
 			internal.drawPtr=DRAW::ORect;
 			
 		}else{
@@ -61,6 +60,12 @@ namespace Orion{
 			exit(OERR_X11_NOT_INITED);
 		}
 	}
+
+	void ORect::onLink(void){
+		rect.init(parentContainer->internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+	}
+
+	void ORect::onUnlink(void){ rect.destroy(); }
 
 	void ORect::setPos(int _x, int _y){
 		if(x==_x && y==_y){return;}
@@ -97,7 +102,7 @@ namespace Orion{
 			if(!obj->ready){return;}
 			Orion::ORect* rect=(Orion::ORect*)obj;
 			if(!rect->fullRedraw){return;}
-			if(rect->parentContainer){
+			if(rect->rect.XWIN){
 				rect->rect.setGeometry(
 					rect->offsetX*rect->scale,
 					rect->offsetY*rect->scale,

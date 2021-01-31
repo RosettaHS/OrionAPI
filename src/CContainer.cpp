@@ -65,6 +65,7 @@ namespace Orion{
 			obj.parentDrawable=drawableToUse;
 			obj.index=containerToUse->arr.getIndexOf(&obj);
 			sort();
+			obj.onLink();
 			obj.fullRedraw=true;
 			if(obj.internal.drawPtr){ obj.internal.drawPtr(&obj); }
 			return true;
@@ -83,6 +84,7 @@ namespace Orion{
 			obj.parentDrawable=0;
 			obj.index=-1;
 			sort();
+			obj.onUnlink();
 			return true;
 		}
 		return false;

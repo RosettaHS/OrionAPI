@@ -51,6 +51,10 @@ namespace Orion{
 
 	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
 
+	/* Base drawable does nothing when linked. */
+	void CDrawable::onLink(void){ return; }
+	void CDrawable::onUnlink(void){ return; }
+
 	bool CDrawable::unlinkTo(CContainer& container){ return container.unlink(*this); }
 
 	void CDrawable::init(int _x, int _y, unsigned int _w, unsigned int _h){
@@ -298,7 +302,7 @@ namespace Orion{
 			OLog("\t Scale : %f\n",getScale());
 			OLog("\t----INTERNAL----\n");
 			OLog("\t Context : %p\n",(void*)context);
-			OLog("\t Context->XROOT : %lu\n",context->XROOT);
+			OLog("\t Context->XROOT : %lu\n",(context ? context->XROOT : 0));
 			OLog("\t Parent Drawable : %p\n",parentDrawable);
 			OLog("\t Parent Container : %p\n",parentContainer);
 			OLog("\t Draw Pointer : %p\n",(void*)internal.drawPtr);

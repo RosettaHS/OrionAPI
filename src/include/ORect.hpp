@@ -36,6 +36,11 @@ namespace Orion{
 		protected:
 			/* The real rectangle on the screen. */
 			CContext rect;
+
+			/* Internal. Calls this method when linked. */
+			virtual void onLink(void) override;
+			/* Internal. Calls this method when unlinked. */
+			virtual void onUnlink(void) override;
 		public:
 			/* Destructor. Sets all values to 0. */
 			~ORect(void);

@@ -34,17 +34,21 @@
 
 namespace Orion{
 	CContext::~CContext(void){
+		if(destroy()){ OVLog("OKIT | CContext %p destroyed.\n",(void*)this); }
+	}
+	CContext::CContext(void) : XWIN{0},XROOT{0},XCOL{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
+
+	bool CContext::destroy(void){
 		OXONLY{
 			if(XWIN){
 				XUnmapWindow(OXDPY,XWIN);
 				XDestroyWindow(OXDPY,XWIN);
 				X::CXHA_UNLINK(this);
 				XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;
-				OVERB_OUT "OKIT | CContext %p destroyed.\n",(void*)this OVERB_END
-			}
-		}
+				return true;
+			}else{return false;}
+		}else{return false;}
 	}
-	CContext::CContext(void) : XWIN{0},XROOT{0},XCOL{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
 	bool CContext::init(CContext* root, int _x, int _y, unsigned int _w, unsigned int _h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale, bool link){
 		XWIN=0,XROOT=0,XMASK=0,XTITLE=0,listener=0,listenerFunc=0;

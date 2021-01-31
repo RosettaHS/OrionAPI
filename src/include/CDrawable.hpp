@@ -105,6 +105,10 @@ namespace Orion{
 			bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
 			/* Internal. Sets flags and other data. */
 			void init(int, int, unsigned int, unsigned int);
+			/* Internal. Calls this virtual method when linked. */
+			virtual void onLink(void);
+			/* Internal. Calls this virtual method when unlinked. */
+			virtual void onUnlink(void);
 
 			/* Allows Containers to access internal members of this Drawable. */
 			friend class CContainer;

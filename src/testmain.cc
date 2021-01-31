@@ -61,14 +61,14 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
 	OWindow win(CENTER,CENTER,500,500);
-	OCol parentCol(255,255,255);
-	ORect parent(win,0,0,200,200,parentCol);
+	OWindow win2(CENTER,CENTER,500,500);
+	// OCol parentCol(255,255,255);
+	// ORect parent(win,0,0,200,200,parentCol);
 	// parent.setScale(2);
 
-	ORect rect(win,0,0,50,50);
+	ORect rect(win,0,0,500,500);
+	rect.setCol(255,255,255);
 	// rect.parentDrawable=&parent;
-
-	rect.setScale(4);
 
 	OKitEventLoop();
 }
