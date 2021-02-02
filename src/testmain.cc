@@ -61,12 +61,21 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
 	OWindow win(CENTER,CENTER,500,500);
+	OContainer container(win,150,150,200,200);
 	// OCol parentCol(255,255,255);
 	// ORect parent(win,0,0,200,200,parentCol);
 	// parent.setScale(2);
 
-	ORect rect(win,0,0,50,50);
-	rect.setCol(255,255,255);
+	ORect rect(container,50,50,50,50);
+	// ORect rect2(container,50,50,50,50);
+	// // rect.setScale(2);
+	// rect.setCol(255,255,255);
+	// rect2.setCol(125,125,125);
+	// rect.setPos(100,100);
+
+	// container.unlinkThis();
+	// rect.setPos(400,400);
+	// container.linkTo(win);
 	// rect.parentDrawable=&parent;
 
 	OKitEventLoop();

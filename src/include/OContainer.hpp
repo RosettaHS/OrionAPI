@@ -23,62 +23,34 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OKIT_OCONTAINER_H__
+#define __ORION_OKIT_OCONTAINER_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
+#include "CDrawable.hpp"
+#include "CContainer.hpp"
 
-/* The following are forward declarations for Visual Studio (Code) Tooltips */
-
-/* The OrionAPI Namespace. */
 namespace Orion{
-	/* OKit - The namespace that contains all functions and global variables for the OApp. */
-	namespace Application{}
-	/* OKit - The namespace that contains all internal X connection information. */
-	namespace X{}
-	/* OKit - The namespace that contains all internal render functions for each class. */
-	namespace DRAW{}
-	/* OKit - The namespace that contains all internal event handling functions for each class. */
-	namespace HANDLE{}
+
+	namespace DRAW{ void OContainer(CDrawable*); }
+	namespace HANDLE{ void OContainer(void*, X::CXEvent*); }
+
+	class OContainer : public CDrawable, public CContainer{
+		friend void DRAW::OContainer(CDrawable*); friend void HANDLE::OContainer(void*, X::CXEvent*);
+		protected:
+
+			virtual void onLink(void) override;
+			virtual void onUnlink(void) override;
+			virtual void onPosChanged(void) override;
+			virtual void onSizeChanged(void) override;
+			virtual void sort(void) override;
+		public:
+			// ~OContainer(void);
+			OContainer(void);
+			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
+
+			virtual void setScale(float) override;
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
+	};
 }
 
-#include "errdef.h"
-#include "signals.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OLog.hpp"
-#include "CLoggable.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "OSignal.hpp"
-#include "CSignalListener.hpp"
-#include "CEventArray.hpp"
-#include "CSignalDispatcher.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "ORect.hpp"
-#include "OContainer.hpp"
-
-#include "OWindow.hpp"
-
-#include "OService.hpp"
-
-/*
-*	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
-*	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
-*	rather than force everyone to write "using namespace Orion;" in each of their files,
-*	as is dictated in each tutorial and example for OKit. 
-*/
-
-#ifndef ORION_UNUSE_NAMESPACE
-using namespace Orion;
-#endif /* !ORION_UNUSE_NAMESPACE */
-
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OKIT_OCONTAINER_H__ */

@@ -23,62 +23,85 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#include <stdlib.h>
+#include "include/errdef.h"
+#include "include/xservice.hpp"
+#include "include/OContainer.hpp"
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
+#define DEF_W 50
+#define DEF_H 50
 
-/* The following are forward declarations for Visual Studio (Code) Tooltips */
-
-/* The OrionAPI Namespace. */
 namespace Orion{
-	/* OKit - The namespace that contains all functions and global variables for the OApp. */
-	namespace Application{}
-	/* OKit - The namespace that contains all internal X connection information. */
-	namespace X{}
-	/* OKit - The namespace that contains all internal render functions for each class. */
-	namespace DRAW{}
-	/* OKit - The namespace that contains all internal event handling functions for each class. */
-	namespace HANDLE{}
+	OContainer::OContainer(void){
+		type=OT_OCONTAINER;
+	}
+
+	OContainer::OContainer(CContainer& parent, int _x , int _y, unsigned int _w, unsigned int _h){
+		OXONLY{
+			type=OT_OCONTAINER;
+			minW=DEF_W,minH=DEF_H;
+			init(_x,_y,_w,_h);
+			ready=true;
+
+			internal_link.contextToUse=&selfContext;
+			containerToUse=this;
+			drawableToUse=this;
+			arr.init(10,5);
+			internal.drawPtr=DRAW::OContainer;
+			
+			parent.link(*this);
+		}else{
+			OLog("OKIT | ERROR! FAILED TO CREATE OCONTAINER BECAUSE X IS NOT INITIALISED!\n");
+			exit(OERR_X11_NOT_INITED);
+		}
+	}
+
+	/* Add more to this later! */
+	void OContainer::sort(void){ return; }
+
+	void OContainer::onLink(void){
+		selfContext.init(parentContainer->internal_link.contextToUse,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		for(unsigned short i=0;i<childCount;i++){
+			link(*arr.arr[i]);
+		}
+		sort();
+	}
+
+	void OContainer::onUnlink(void){
+		selfContext.destroy();
+		for(unsigned short i=0;i<childCount;i++){
+			unlink(*arr.arr[i]);
+		}
+	}
+
+	void OContainer::onPosChanged(void){
+		selfContext.setPos(x, y, true);
+	}
+	void OContainer::onSizeChanged(void){
+		selfContext.setGeometry(x, y, w, h, true);
+	}
+
+	/* Containers can not be scaled. */
+	void OContainer::setScale(float s){
+		OLog("OKIT | WARNING! CANNOT SET THE SCALE OF CONTAINERS! FAILED SETTING OCONTAINER %p SCALE TO %2!\n",s);
+	}
+
+	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){ setThemeSecondaryCol(r,g,b); }
+
+/* Handling */
+
+	namespace DRAW{
+		void OContainer(CDrawable* obj){
+			Orion::OContainer* container=(Orion::OContainer*)obj;
+			if(!container->ready || !container->selfContext.XWIN){return;}
+			container->selfContext.setCol(container->theme.secondary);
+			if(!container->fullRedraw){return;}
+			container->selfContext.setGeometry(
+				container->x,container->y,
+				container->w,container->h,true
+			);
+			container->sort();
+		}
+	}
+
 }
-
-#include "errdef.h"
-#include "signals.h"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OLog.hpp"
-#include "CLoggable.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "OSignal.hpp"
-#include "CSignalListener.hpp"
-#include "CEventArray.hpp"
-#include "CSignalDispatcher.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-#include "ORect.hpp"
-#include "OContainer.hpp"
-
-#include "OWindow.hpp"
-
-#include "OService.hpp"
-
-/*
-*	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
-*	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
-*	rather than force everyone to write "using namespace Orion;" in each of their files,
-*	as is dictated in each tutorial and example for OKit. 
-*/
-
-#ifndef ORION_UNUSE_NAMESPACE
-using namespace Orion;
-#endif /* !ORION_UNUSE_NAMESPACE */
-
-#endif /* !__ORION_OKIT_H__ */

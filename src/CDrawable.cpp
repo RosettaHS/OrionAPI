@@ -257,6 +257,15 @@ namespace Orion{
 	}
 
 	float CDrawable::getScale(void){ return scale; }
+	// float CDrawable::getScale(bool includeParents){
+		// float s;
+		// if(includeParents&&parentDrawable){
+			// s=scale*parentDrawable->getScale(true);
+		// }else{
+			// s=scale;
+		// }
+		// return s;
+	// }
 
 	float CDrawable::getRotation(bool includeParents){
 		float r;

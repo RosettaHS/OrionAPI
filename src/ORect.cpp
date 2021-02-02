@@ -31,6 +31,9 @@
 #include "include/OLog.hpp"
 #include "include/ORect.hpp"
 
+#define DEF_W 50
+#define DEF_H 50
+
 namespace Orion{
 
 	ORect::~ORect(void){
@@ -42,7 +45,7 @@ namespace Orion{
 
 	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){
 		OXONLY{
-			minW=50,minH=50;
+			minW=DEF_W,minH=DEF_H;
 		/* Flag override checking */
 			init(_x,_y,_w,_h);
 			/* ORects use the secondary colour of the OApp theme by default.
@@ -99,14 +102,13 @@ namespace Orion{
 		void ORect(CDrawable* obj){
 			if(!obj->ready){return;}
 			Orion::ORect* rect=(Orion::ORect*)obj;
+			if(!rect->rect.XWIN){return;}
 			rect->rect.setCol(rect->theme.secondary);
 			if(!rect->fullRedraw){return;}
-			if(rect->rect.XWIN){
-				rect->rect.setGeometry(
-					rect->offsetX*rect->scale,
-					rect->offsetY*rect->scale,
-					rect->w*rect->scale,rect->h*rect->scale,true);
-			}
+			rect->rect.setGeometry(
+				rect->offsetX*rect->scale,rect->offsetY*rect->scale,
+				rect->w*rect->scale,rect->h*rect->scale,true
+			);
 		}
 	}
 
