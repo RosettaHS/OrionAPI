@@ -99,13 +99,13 @@ namespace Orion{
 		void ORect(CDrawable* obj){
 			if(!obj->ready){return;}
 			Orion::ORect* rect=(Orion::ORect*)obj;
+			rect->rect.setCol(rect->theme.secondary);
 			if(!rect->fullRedraw){return;}
 			if(rect->rect.XWIN){
 				rect->rect.setGeometry(
 					rect->offsetX*rect->scale,
 					rect->offsetY*rect->scale,
 					rect->w*rect->scale,rect->h*rect->scale,true);
-				rect->rect.setCol(rect->theme.secondary);
 			}
 		}
 	}

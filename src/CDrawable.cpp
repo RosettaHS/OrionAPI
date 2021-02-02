@@ -167,7 +167,6 @@ namespace Orion{
 		theme.tertiary=&(internalTheme.tertiary);
 		theme.accent=&(internalTheme.accent);
 		themeFlags=_CTHEME_OVERRIDE_PRIMARY|_CTHEME_OVERRIDE_SECONDARY|_CTHEME_OVERRIDE_TERTIARY|_CTHEME_OVERRIDE_ACCENT;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 
@@ -175,7 +174,6 @@ namespace Orion{
 		internalTheme.setPrimary(r,g,b);
 		theme.primary=&(internalTheme.primary);
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemePrimaryCol(OCol& c){setThemePrimaryCol(c.r,c.g,c.b);}
@@ -184,7 +182,6 @@ namespace Orion{
 		internalTheme.setSecondary(r,g,b);
 		theme.secondary=&(internalTheme.secondary);
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeSecondaryCol(OCol& c){setThemeSecondaryCol(c.r,c.g,c.b);}
@@ -193,7 +190,6 @@ namespace Orion{
 		internalTheme.setTertiary(r,g,b);
 		theme.tertiary=&(internalTheme.tertiary);
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeTertiaryCol(OCol& c){setThemeTertiaryCol(c.r,c.g,c.b);}
@@ -202,7 +198,6 @@ namespace Orion{
 		internalTheme.setAccent(r,g,b);
 		theme.accent=&(internalTheme.accent);
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeAccentCol(OCol& c){setThemeAccentCol(c.r,c.g,c.b);}
