@@ -76,21 +76,10 @@ namespace Orion{
 
 	void ORect::onUnlink(void){ rect.destroy(); }
 
-	void ORect::setPos(int _x, int _y){
-		if(x==_x && y==_y){return;}
-		x=_x,y=_y;
-		offsetX=(int)( (float)(x-(int)((float)centreX*(scale-1)) )/scale );
-		offsetY=(int)( (float)(y-(int)((float)centreY*(scale-1)) )/scale );
+	void ORect::onPosChanged(void){
 		rect.setPos(offsetX*scale, offsetY*scale, true);
 	}
-	void ORect::setSize(unsigned int _w, unsigned int _h, bool force){
-		if( !force && (w==_w) && (h==_h) ){return;}
-		if(_w<minW){w=minW;}else{w=_w;}
-		if(_h<minH){h=minH;}else{h=_h;}
-		centreX=w/2;
-		centreY=h/2;
-		offsetX=( (x-(centreX*(scale-1)) )/scale );
-		offsetY=( (y-(centreY*(scale-1)) )/scale );
+	void ORect::onSizeChanged(void){
 		rect.setGeometry(offsetX*scale, offsetY*scale, w*scale, h*scale, true);
 	}
 

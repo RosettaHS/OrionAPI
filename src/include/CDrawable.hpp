@@ -109,6 +109,10 @@ namespace Orion{
 			virtual void onLink(void);
 			/* Internal. Calls this virtual method when unlinked. */
 			virtual void onUnlink(void);
+			/* Internal. Calls this virtual method when position is modified. */
+			virtual void onPosChanged(void);
+			/* Internal. Calls this virtual method when size is modified. */
+			virtual void onSizeChanged(void);
 
 			/* Allows Containers to access internal members of this Drawable. */
 			friend class CContainer;
@@ -120,6 +124,8 @@ namespace Orion{
 				uint8_t modFlags;
 			}internal;
 
+			/* Destructor. Unlinks from its parent (if it has one) and frees all memory. */
+			~CDrawable(void);
 			/* Empty constructor. Sets all values to 0. */
 			CDrawable(void);
 
@@ -129,11 +135,11 @@ namespace Orion{
 			bool unlinkThis(void);
 
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
-			virtual void setPos(int x, int y); void setPos(OVec&);
+			void setPos(int x, int y); void setPos(OVec&);
 			/* Sets the positional coordinates of the centre of this Drawable relative to the top left. Used during scaling. */
 			void setCentre(int x, int y);
 			/* Sets the size of this Drawable. Pass true at the end to force a redraw. */
-			virtual void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
+			void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
 			/* Sets the minimum allowed size of this Drawable. */
 			void setMinSize(unsigned int w, unsigned int h); void setMinSize(OVec&);
 			/* Sets the UI scale of this Drawable. Not applicable on Containers. */

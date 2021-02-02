@@ -27,6 +27,8 @@ class CDrawable : public CBaseUI , public CLoggable {
 		void init(int, int, unsigned int, unsigned int);
 		virtual void onLink(void);
 		virtual void onUnlink(void);
+		virtual void onPosChanged(void);
+		virtual void onSizeChanged(void);
 
 		friend class CContainer;
 	public:
@@ -41,9 +43,9 @@ class CDrawable : public CBaseUI , public CLoggable {
 		bool unlinkThis(void);
 
 
-		virtual void setPos(int x, int y); void setPos(OVec&);
+		void setPos(int x, int y); void setPos(OVec&);
 		void setCentre(int x, int y);
-		virtual void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
+		void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
 		void setMinSize(unsigned int w, unsigned int h); void setMinSize(OVec&);
 		virtual void setScale(float);
 		void setRotation(float);
@@ -316,6 +318,14 @@ virtual void onUnlink(void);
 ```
 Calls whenever this Drawable gets unlinked from a Container. Entirely up to the derived class for implementation.
 ```cpp
+virtual void onPosChanged(void);
+```
+Calls whenever this Drawable gets its position modified. Entirely up to the derived class for implementation.
+```cpp
+virtual void onSizeChanged(void);
+```
+Calls whenever this Drawable gets its size modified. Entirely up to the derived class for implementation.
+```cpp
 friend class CContainer;
 ```
 Allows CContainer to access base CDrawable protected member variables.
@@ -344,7 +354,7 @@ bool unlinkThis(void);
 ```
 Unlinks this Drawable from its parent Container. Returns `true` if removal was successful.
 ```cpp
-virtual void setPos(int x, int y);
+void setPos(int x, int y);
 void setPos(OVec&);
 ```
 Sets the local position of this Drawable relative to its parent Container. This is ignored if the Container handles automatic sorting.
@@ -354,7 +364,7 @@ void setCentre(int x, int y);
 ```
 Sets the centre of this Drawable relative to the top left of the Drawable. Use with caution, as this is unstable and only meant for debug purposes. Overridden on position or size modification.
 ```cpp
-virtual void setSize(unsigned int w,unsigned int h, bool force=false);
+void setSize(unsigned int w,unsigned int h, bool force=false);
 void setSize(OVec&, bool force=false);
 ```
 Sets the size of this Drawable. Ignores values if values are identical to current values, or values are smaller than the minimum allowed size for this Drawable. Pass true to force a render after setting size.

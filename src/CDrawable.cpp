@@ -31,6 +31,15 @@
 #include "include/CContainer.hpp"
 
 namespace Orion{
+
+	CDrawable::~CDrawable(void){
+		if(parentContainer){
+			parentContainer->unlink(*this);
+		}
+		type=OT_ERROR;
+		ready=false;
+	}
+
 	CDrawable::CDrawable(void) : 
 		x{0},y{0},
 		centreX{0},centreY{0},
@@ -49,8 +58,10 @@ namespace Orion{
 			theme.accent=&(OTHEME.accent);
 		}
 
-	/* Base drawable does nothing when linked. */
+	/* Base drawable does nothing when linked or modified. */
 	void CDrawable::onLink(void){ return; }
+	void CDrawable::onPosChanged(void){ return; }
+	void CDrawable::onSizeChanged(void){ return; }
 	void CDrawable::onUnlink(void){ return; }
 
 	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
@@ -113,6 +124,7 @@ namespace Orion{
 		x=_x,y=_y;
 		offsetX=(int)( (float)(x-(int)((float)centreX*(scale-1)) )/scale );
 		offsetY=(int)( (float)(y-(int)((float)centreY*(scale-1)) )/scale );
+		onPosChanged();
 	}
 	void CDrawable::setPos(OVec& v){ setPos(v.x, v.y); }
 	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
@@ -124,8 +136,7 @@ namespace Orion{
 		centreY=h/2;
 		offsetX=( (x-(centreX*(scale-1)) )/scale );
 		offsetY=( (y-(centreY*(scale-1)) )/scale );
-		fullRedraw=true;
-		if(internal.drawPtr){internal.drawPtr(this);}
+		onSizeChanged();
 	}
 	void CDrawable::setSize(OVec& v, bool force){ setSize(v.x,v.y,force); }
 	void CDrawable::setMinSize(unsigned int _w, unsigned int _h){

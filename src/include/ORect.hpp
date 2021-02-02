@@ -41,6 +41,10 @@ namespace Orion{
 			virtual void onLink(void) override;
 			/* Internal. Calls this method when unlinked. */
 			virtual void onUnlink(void) override;
+			/* Internal. Calls this method when position is modified. */
+			virtual void onPosChanged(void) override;
+			/* Internal. Calls this virtual method when position is modified. */
+			virtual void onSizeChanged(void) override;
 		public:
 			/* Destructor. Sets all values to 0. */
 			~ORect(void);
@@ -49,10 +53,6 @@ namespace Orion{
 			/* Creates a Rectangle with the given parameters on the parent container. Pass an OCol on the last value to override the theme. */
 			ORect(CContainer& parent,int x, int y, unsigned int w, unsigned int h, OCol& col=OTHEME_SECONDARY);
 
-			/* Sets the position of this Rectangle. */
-			virtual void setPos(int x, int y) override;
-			/* Sets the size of this Rectangle. */
-			virtual void setSize(unsigned int w,unsigned int h, bool force=false) override;
 			/* Sets the colour of this Rectangle. */
 			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
 	};
