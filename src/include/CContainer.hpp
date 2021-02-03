@@ -44,6 +44,10 @@ namespace Orion{
 			CContainer* containerToUse;
 			/* Allows Drawables to access internal members of this Container. */
 			friend class CDrawable;
+			/* Calls when this Container gets unlinked. Temporarily unlinks all children but stores them in memory to relink later. */
+			void tempUnlinkAll(void);
+			/* Calls when this Container gets relinked. Links all children stored in memory back to this Container. */
+			void tempRelinkAll(void);
 		public:
 			struct{
 				/* Internal. The Context that child Drawables will link to when using this Container. */

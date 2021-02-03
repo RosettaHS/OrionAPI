@@ -61,17 +61,13 @@ namespace Orion{
 
 	void OContainer::onLink(void){
 		selfContext.init(parentContainer->internal_link.contextToUse,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
-		for(unsigned short i=0;i<childCount;i++){
-			link(*arr.arr[i]);
-		}
+		tempRelinkAll();
 		sort();
 	}
 
 	void OContainer::onUnlink(void){
+		tempUnlinkAll();
 		selfContext.destroy();
-		for(unsigned short i=0;i<childCount;i++){
-			unlink(*arr.arr[i]);
-		}
 	}
 
 	void OContainer::onPosChanged(void){
@@ -94,6 +90,8 @@ namespace Orion{
 		void OContainer(CDrawable* obj){
 			Orion::OContainer* container=(Orion::OContainer*)obj;
 			if(!container->ready || !container->selfContext.XWIN){return;}
+			OLog("DRAWING - XID %lu\n",container->selfContext.XWIN);
+			// return;
 			container->selfContext.setCol(container->theme.secondary);
 			if(!container->fullRedraw){return;}
 			container->selfContext.setGeometry(
