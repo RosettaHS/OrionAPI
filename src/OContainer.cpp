@@ -79,7 +79,7 @@ namespace Orion{
 
 	/* Containers can not be scaled. */
 	void OContainer::setScale(float s){
-		OLog("OKIT | WARNING! CANNOT SET THE SCALE OF CONTAINERS! FAILED SETTING OCONTAINER %p SCALE TO %2!\n",s);
+		OLog("OKIT | WARNING! CANNOT SET THE SCALE OF CONTAINERS! FAILED SETTING OCONTAINER %p SCALE TO %f!\n",s);
 	}
 
 	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){ setThemeSecondaryCol(r,g,b); }
