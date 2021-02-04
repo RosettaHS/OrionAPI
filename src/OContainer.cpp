@@ -57,7 +57,46 @@ namespace Orion{
 	}
 
 	/* Add more to this later! */
-	void OContainer::sort(void){ return; }
+	void OContainer::sort(void){
+		CDrawable* obj;
+		uint8_t flag;
+		OVec4 oldGeometry;
+		OVec4 newGeometry;
+		for(unsigned short i=0;i<childCount;i++){
+			obj=arr.arr[i];
+			flag=obj->internal.modFlags;
+
+			/*
+			*  New to bit fields/bit masking... forgive me for doing this the YandereDev way... again... 
+			*  Feel free to replace this with a less eye-r*pey version if you can get it working just as good.
+			*  ... You know, for the core of an operating system, this is quite stupid.
+			*/
+
+			if(flag){
+				oldGeometry=obj->getGeometry();
+				newGeometry={0,0,0,0};
+			/* X Axis */
+				if     (flag & _OUI_X_START) { newGeometry.x=0; OLog("Has X START flag!\n"); }
+				else if(flag & _OUI_X_CENTRE){ newGeometry.x=( (w/2)-(oldGeometry.w/2) ); OLog("Has X CENTRE flag!\n"); }
+				else if(flag & _OUI_X_END)   { newGeometry.x=( w-(oldGeometry.w) ); OLog("Has X END flag!\n"); }
+				else{ newGeometry.x=oldGeometry.x; }
+			/* Y Axis */
+				if     (flag & _OUI_Y_START) { newGeometry.y=0; }
+				else if(flag & _OUI_Y_CENTRE){ newGeometry.y=( (h/2)-(oldGeometry.h/2) ); }
+				else if(flag & _OUI_Y_END)   { newGeometry.y=( h-(oldGeometry.h) ); }
+				else{ newGeometry.y=oldGeometry.y; }
+			/* Width */
+				if     (flag & _OUI_W_FILL){ newGeometry.w=h-newGeometry.x; }
+				else{ newGeometry.w=oldGeometry.w; }
+			/* Height */
+				if     (flag & _OUI_H_FILL){ newGeometry.h=h-newGeometry.h; }
+				else{ newGeometry.h=oldGeometry.h; }
+
+				obj->setGeometry(newGeometry);
+			}else{ continue; }
+
+		}
+	}
 
 	void OContainer::onLink(void){
 		selfContext.init(parentContainer->internal_link.contextToUse,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
@@ -75,6 +114,7 @@ namespace Orion{
 	}
 	void OContainer::onSizeChanged(void){
 		selfContext.setGeometry(x, y, w, h, true);
+		sort();
 	}
 
 	/* Containers can not be scaled. */
@@ -90,8 +130,6 @@ namespace Orion{
 		void OContainer(CDrawable* obj){
 			Orion::OContainer* container=(Orion::OContainer*)obj;
 			if(!container->ready || !container->selfContext.XWIN){return;}
-			OLog("DRAWING - XID %lu\n",container->selfContext.XWIN);
-			// return;
 			container->selfContext.setCol(container->theme.secondary);
 			if(!container->fullRedraw){return;}
 			container->selfContext.setGeometry(

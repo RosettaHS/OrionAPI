@@ -75,11 +75,21 @@ namespace Orion{
 	void CDrawable::init(int _x, int _y, unsigned int _w, unsigned int _h){
 		if(!setFlag(_x,0,0,0)){x=_x;}else{x=0;}
 		if(!setFlag(0,_y,0,0)){y=_y;}else{y=0;}
-		if(!setFlag(0,0,_w,0)){w=_w;}else{w=0;}
-		if(!setFlag(0,0,0,_h)){h=_h;}else{h=0;}
+		if(!setFlag(0,0,_w,0)){w=_w;}else{w=minW;}
+		if(!setFlag(0,0,0,_h)){h=_h;}else{h=minH;}
+
+	/* Extra error checking */
+		if(internal.modFlags & _OUI_W_FILL){
+			if(internal.modFlags & _OUI_X_CENTRE){ OLog("OKIT | ERROR! CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"CENTRE\" POSITONAL FLAG ON THE SAME AXIS! (X | W AXIS)\n"); exit(OERR_CDRAWABLE_INVALID_FLAG); }
+			if(internal.modFlags & _OUI_X_END){ OLog("OKIT | ERROR! CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"END\" POSITONAL FLAG ON THE SAME AXIS! (X | W AXIS)\n"); exit(OERR_CDRAWABLE_INVALID_FLAG); }
+		}
+		if(internal.modFlags & _OUI_H_FILL){
+			if(internal.modFlags & _OUI_Y_CENTRE){ OLog("OKIT | ERROR! CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"CENTRE\" POSITONAL FLAG ON THE SAME AXIS! (Y | H AXIS)\n"); exit(OERR_CDRAWABLE_INVALID_FLAG); }
+			if(internal.modFlags & _OUI_Y_END){ OLog("OKIT | ERROR! CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"END\" POSITONAL FLAG ON THE SAME AXIS! (Y | H AXIS)\n"); exit(OERR_CDRAWABLE_INVALID_FLAG); }
+		}
+		
 		if(_w<minW){minW=_w;}
 		if(_w<minH){minH=_h;}
-		w=_w,h=_h;
 		centreX=w/2,centreY=h/2;
 		offsetX=( (x-(centreX*(scale-1)) )/scale );
 		offsetY=( (y-(centreY*(scale-1)) )/scale );
@@ -92,27 +102,27 @@ namespace Orion{
 			case START:{internal.modFlags|=_OUI_X_START; return true;}
 			case END:{internal.modFlags|=_OUI_X_END; return true;}
 			case CENTER:{internal.modFlags|=_OUI_X_CENTRE; return true;}
-			case FILL:{OLog("OKIT | ERROR! CAN'T SET X POSITION WITH FILL (SIZE ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case FILL:{OLog("OKIT | ERROR! CAN'T SET X POSITION FLAG WITH \"FILL\" SIZE FLAG (SIZE ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 		}
 
 		switch(yFlag){
 			case START:{internal.modFlags|=_OUI_Y_START; return true;}
 			case END:{internal.modFlags|=_OUI_Y_END; return true;}
 			case CENTER:{internal.modFlags|=_OUI_Y_CENTRE; return true;}
-			case FILL:{OLog("OKIT | ERROR! CAN'T SET Y POSITION WITH FILL (SIZE ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case FILL:{OLog("OKIT | ERROR! CAN'T SET Y POSITION FLAG WITH \"FILL\" SIZE FLAG (SIZE ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 		}
 
 		switch(wFlag){
-			case START:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH START (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
-			case END:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH END (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
-			case CENTER:{OLog("OKIT | ERROR! CAN'T SET W SIZE WITH CENTER (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case START:{OLog("OKIT | ERROR! CAN'T SET WIDTH SIZE FLAG WITH \"START\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case END:{OLog("OKIT | ERROR! CAN'T SET WIDTH SIZE FLAG WITH \"END\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case CENTER:{OLog("OKIT | ERROR! CAN'T SET WIDTH SIZE FLAG WITH \"CENTER\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 			case FILL:{internal.modFlags|=_OUI_W_FILL; return true;}
 		}
 
 		switch(hFlag){
-			case START:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH START (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
-			case END:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH END (POSITIONAL ONLY) FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
-			case CENTER:{OLog("OKIT | ERROR! CAN'T SET H SIZE WITH (POSITIONAL ONLY) CENTER FLAG!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case START:{OLog("OKIT | ERROR! CAN'T SET HEIGHT SIZE FLAG WITH \"START\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case END:{OLog("OKIT | ERROR! CAN'T SET HEIGHT SIZE FLAG WITH \"END\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
+			case CENTER:{OLog("OKIT | ERROR! CAN'T SET HEIGHT SIZE FLAG WITH \"CENTER\" POSITIONAL FLAG (POSITIONAL ONLY)!\n"); exit(OERR_CDRAWABLE_INVALID_FLAG);}
 			case FILL:{internal.modFlags|=_OUI_H_FILL; return true;}
 		}
 
@@ -154,6 +164,23 @@ namespace Orion{
 		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
+
+	void CDrawable::setGeometry(int _x, int _y, unsigned int _w, unsigned int _h){
+		bool posChanged=false;
+		bool sizeChanged=false;
+		if(x!=_x || y!=_y){ posChanged=true; }
+		if(w!=_w || h!=_h){ sizeChanged=true; }
+		x=_x,y=_y;
+		if(_w<minW){w=minW;}else{w=_w;}
+		if(_h<minH){h=minH;}else{h=_h;}
+		centreX=w/2;
+		centreY=h/2;
+		offsetX=( (x-(centreX*(scale-1)) )/scale );
+		offsetY=( (y-(centreY*(scale-1)) )/scale );
+		if(posChanged){ onPosChanged(); }
+		if(sizeChanged){ onSizeChanged(); }
+	}
+	void CDrawable::setGeometry(OVec4& v){ setGeometry(v.x,v.y,v.w,v.h); }
 
 	void CDrawable::setCol(unsigned char r, unsigned char g, unsigned char b){
 		OLog("OKIT | WARNING! %s DOES NOT SUPPORT COLOUR MODIFICATION! FAILED TO SET COLOUR TO (%u, %u, %u)!\n",getTypeAsString(),r,g,b);

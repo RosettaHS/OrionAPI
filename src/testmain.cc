@@ -66,18 +66,15 @@ int main(){
 	// ORect parent(win,0,0,200,200,parentCol);
 	// parent.setScale(2);
 
-	ORect rect(container,50,50,50,50);
+	ORect rect(container,START,START,50,50);
 	// ORect rect2(container,50,50,50,50);
 	// // rect.setScale(2);
 	rect.setCol(255,255,255);
 	// rect2.setCol(125,125,125);
 	// rect.setPos(100,100);
 
-	OLog("------------UNLINK-----------\n");
-	container.unlinkThis();
-	// rect.setPos(400,400);
-	container.linkTo(win);
-	// rect.parentDrawable=&parent;
+	// container.unlinkThis();
+	// container.linkTo(win);
 
 	OKitEventLoop();
 }

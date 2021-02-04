@@ -146,6 +146,8 @@ namespace Orion{
 			virtual void setScale(float);
 			/* Unused. Sets the relative rotation of this Drawable. */
 			void setRotation(float);
+			/* Sets the position and size of this Drawable with the passed parameters. */
+			void setGeometry(int x, int y, unsigned int w, unsigned int h); void setGeometry(OVec4&);
 
 			/* Sets the colour of this Drawable. Some derived classes do not allow this! */
 			virtual void setCol(unsigned char r, unsigned char g, unsigned char b); void setCol(OCol&);
