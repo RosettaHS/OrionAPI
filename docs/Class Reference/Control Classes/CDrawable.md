@@ -102,6 +102,8 @@ Any following arguments are up to the implementation of the derived class and yo
 
 `FILL` as a flag can ONLY be put on the width and height arguments, if it is put in the positional arguments, OKit will give out an error and close the program, alerting the developer of this mistake.
 Conversely, `START`, `CENTRE`, and `END` positional flags can NOT be put in the size arguments of the Drawable, as they are STRICTLY POSITIONAL ONLY. This will cause an error and a crash.
+Another thing of note is that the `FILL` size flag can NOT be paired with `CENTRE` or `END` flags on the same axis.
+For example, the X positional flag being `START` and the W size flag being `FILL` is legal, but X positional flag being `CENTRE` or `END` and the W size flag being `FILL` is illegal, and will cause an error and a crash.
 
 Most Containers do automatic sorting and alignment, so they will ignore these flags, but base containers such as OContainer will respect these flags and align the Drawable based on the developer's wishes.
 
@@ -423,7 +425,7 @@ void resetTheme(void);
 ```
 Resets the internal theme back to its default values after the inevitable damage you will cause by messing with the theme overrides.
 ```cpp
-Container* getParent(void);
+OContainer* getParent(void);
 ```
 Returns a pointer to the parent Container if this Drawable is linked.
 If pointer is not `0`, you can cast it back into its original type by first casting it into a [CBaseUI*](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CBaseUI.md)
