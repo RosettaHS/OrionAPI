@@ -30,12 +30,9 @@
 #include "CContainer.hpp"
 
 namespace Orion{
-
 	namespace DRAW{ void OContainer(CDrawable*); }
-	namespace HANDLE{ void OContainer(void*, X::CXEvent*); }
 
-	class OContainer : public CDrawable, public CContainer{
-		friend void DRAW::OContainer(CDrawable*); friend void HANDLE::OContainer(void*, X::CXEvent*);
+	class OContainer : public CDrawable, public CContainer{ friend void DRAW::OContainer(CDrawable*);
 		protected:
 
 			virtual void onLink(void) override;
