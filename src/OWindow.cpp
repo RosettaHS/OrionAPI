@@ -118,7 +118,6 @@ namespace Orion{
 					win->x=event->configure.x/OAPP_SCALE,win->y=event->configure.y/OAPP_SCALE;
 					win->w=event->configure.w/OAPP_SCALE,win->h=event->configure.h/OAPP_SCALE;
 					win->sort();
-					OLog("CONFIGURE!\n");
 					return;
 				}
 				case X::CXE_MOUSECLICK:{

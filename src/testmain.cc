@@ -66,7 +66,7 @@ int main(){
 	// ORect parent(win,0,0,200,200,parentCol);
 	// parent.setScale(2);
 
-	ORect rect(container,START,START,50,50);
+	ORect rect(container,START,CENTRE,FILL,50);
 	// ORect rect2(container,50,50,50,50);
 	// // rect.setScale(2);
 	rect.setCol(255,255,255);
@@ -75,6 +75,5 @@ int main(){
 
 	// container.unlinkThis();
 	// container.linkTo(win);
-
 	OKitEventLoop();
 }

@@ -76,9 +76,9 @@ namespace Orion{
 				oldGeometry=obj->getGeometry();
 				newGeometry={0,0,0,0};
 			/* X Axis */
-				if     (flag & _OUI_X_START) { newGeometry.x=0; OLog("Has X START flag!\n"); }
-				else if(flag & _OUI_X_CENTRE){ newGeometry.x=( (w/2)-(oldGeometry.w/2) ); OLog("Has X CENTRE flag!\n"); }
-				else if(flag & _OUI_X_END)   { newGeometry.x=( w-(oldGeometry.w) ); OLog("Has X END flag!\n"); }
+				if     (flag & _OUI_X_START) { newGeometry.x=0; }
+				else if(flag & _OUI_X_CENTRE){ newGeometry.x=( (w/2)-(oldGeometry.w/2) ); }
+				else if(flag & _OUI_X_END)   { newGeometry.x=( w-(oldGeometry.w) ); }
 				else{ newGeometry.x=oldGeometry.x; }
 			/* Y Axis */
 				if     (flag & _OUI_Y_START) { newGeometry.y=0; }
@@ -86,7 +86,7 @@ namespace Orion{
 				else if(flag & _OUI_Y_END)   { newGeometry.y=( h-(oldGeometry.h) ); }
 				else{ newGeometry.y=oldGeometry.y; }
 			/* Width */
-				if     (flag & _OUI_W_FILL){ newGeometry.w=h-newGeometry.x; }
+				if     (flag & _OUI_W_FILL){ newGeometry.w=w-newGeometry.x; }
 				else{ newGeometry.w=oldGeometry.w; }
 			/* Height */
 				if     (flag & _OUI_H_FILL){ newGeometry.h=h-newGeometry.h; }
