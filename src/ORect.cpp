@@ -31,8 +31,8 @@
 #include "include/OLog.hpp"
 #include "include/ORect.hpp"
 
-#define DEF_W 50
-#define DEF_H 50
+#define DEF_MINW 50
+#define DEF_MINH 50
 
 namespace Orion{
 
@@ -45,7 +45,7 @@ namespace Orion{
 
 	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){
 		OXONLY{
-			minW=DEF_W,minH=DEF_H;
+			minW=DEF_MINW,minH=DEF_MINH;
 		/* Flag override checking */
 			init(_x,_y,_w,_h);
 			/* ORects use the secondary colour of the OApp theme by default.
@@ -60,9 +60,6 @@ namespace Orion{
 			else if(col.XCOL==OTHEME_ACCENT.XCOL){theme.secondary=&OTHEME_ACCENT;}
 			else{setThemeSecondaryCol(col);}
 
-			// XGCValues values;
-			// values.foreground=col.XCOL;
-			// XGC=XCreateGC(OXDPY,parent.internal_link.contextToUse->XWIN,GCForeground,&values);
 			ready=true;
 			parent.link(*this);
 			internal.drawPtr=DRAW::ORect;
@@ -90,19 +87,10 @@ namespace Orion{
 		setThemeSecondaryCol(r,g,b);
 	}
 
-
-	/* Redirect */
-	// ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, /* Colour */  unsigned char _r, unsigned char _g, unsigned char _b){
-		// OCol col(_r,_g,_b);
-		// ORect(parent,_x,_y,_w,_h,col);
-	// }
-
-
 	namespace DRAW{
 		void ORect(CDrawable* obj){
-			if(!obj->ready){return;}
 			Orion::ORect* rect=(Orion::ORect*)obj;
-			if(!rect->rect.XWIN){return;}
+			if(!rect->ready || !rect->rect.XWIN){return;}
 			rect->rect.setCol(rect->theme.secondary);
 			if(!rect->fullRedraw){return;}
 			rect->rect.setGeometry(

@@ -28,8 +28,8 @@
 #include "include/xservice.hpp"
 #include "include/OContainer.hpp"
 
-#define DEF_W 50
-#define DEF_H 50
+#define DEF_MINW 50
+#define DEF_MINH 50
 
 namespace Orion{
 	OContainer::OContainer(void){
@@ -39,7 +39,7 @@ namespace Orion{
 	OContainer::OContainer(CContainer& parent, int _x , int _y, unsigned int _w, unsigned int _h){
 		OXONLY{
 			type=OT_OCONTAINER;
-			minW=DEF_W,minH=DEF_H;
+			minW=DEF_MINW,minH=DEF_MINH;
 			init(_x,_y,_w,_h);
 			ready=true;
 

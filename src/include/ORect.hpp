@@ -31,7 +31,8 @@
 
 namespace Orion{
 	namespace DRAW{ void ORect(CDrawable*); }
-	/* A solid, coloured Rectangle. Merely visual. */
+
+	/* A solid Rectangle with colour. */
 	class ORect : public CDrawable{ friend void DRAW::ORect(CDrawable*);
 		protected:
 			/* The real rectangle on the screen. */
