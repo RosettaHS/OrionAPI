@@ -32,18 +32,28 @@
 namespace Orion{
 	namespace DRAW{ void OContainer(CDrawable*); }
 
+	/* A Container for UI elements that does no automatic sorting. */
 	class OContainer : public CDrawable, public CContainer{ friend void DRAW::OContainer(CDrawable*);
 		protected:
+			/* Internal. This method is called when this Container is linked from its parent. */
 			virtual void onLink(void) override;
+			/* Internal. This method is called when this Container is unlinked from its parent. */
 			virtual void onUnlink(void) override;
+			/* Internal. This method is called when position is modified. */
 			virtual void onPosChanged(void) override;
+			/* Internal. This method is called when size is modified. */
 			virtual void onSizeChanged(void) override;
+			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
 			virtual void sort(void) override;
 		public:
+			/* Empty constructor. Sets all values to 0. */
 			OContainer(void);
+			/* Creates and links an OContainer to the passed parent with the given arguments */
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
+			/* This function does not work on Containers, and will result in a warning. Do not call this! */
 			virtual void setScale(float) override;
+			/* Sets the colour of this Container. */
 			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override; virtual void setCol(OCol&) override;
 	};
 }
