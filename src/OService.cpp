@@ -78,9 +78,9 @@ namespace Orion{
 
 				OVLog("OKIT | Successfully set OApp's theme from system theme!\n");
 				return true;
-			}else{ OVLog("OKIT | OApp theme could not  be set from the system because system theme file exists but could not be opened. Resorting to fallback."); return false; }
+			}else{ OVLog("OKIT | OApp theme could not be set from the system because system theme file exists but could not be opened. Resorting to fallback.\n"); return false; }
 
-		}else{ OLog("OKIT | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
+		}else{ OVLog("OKIT | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
 		return false; /* Add proper support here! */
 	}
 
