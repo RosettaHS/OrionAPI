@@ -82,7 +82,7 @@ namespace Orion{
 				// drawPtr=DRAW::OWindow;
 
 				context=&selfContext;
-				internal_link.contextToUse=&selfContext;
+				contextToUse=&selfContext;
 				drawableToUse=(CDrawable*)this;
 				containerToUse=(CContainer*)this;
 				arr.init(5,1);

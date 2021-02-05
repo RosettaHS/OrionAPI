@@ -38,6 +38,8 @@ namespace Orion{
 			CNodeArray arr;
 			/* Internal. The amount of Drawables owned by this Container. */
 			unsigned short childCount;
+			/* Internal. The Context that child Drawables will link to when using this Container. */
+			CContext* contextToUse;
 			/* Internal. The Drawable that child Drawables will link to when using this Container. */
 			CDrawable* drawableToUse;
 			/* Internal. The Container that Drawables will link to when using this Container. Some Containers are made of nested Containers so this is necessary. */
@@ -48,19 +50,13 @@ namespace Orion{
 			void tempUnlinkAll(void);
 			/* Calls when this Container gets relinked. Links all children stored in memory back to this Container. */
 			void tempRelinkAll(void);
+			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
+			virtual void sort(void);
 		public:
-			struct{
-				/* Internal. The Context that child Drawables will link to when using this Container. */
-				CContext* contextToUse;
-			}internal_link; /* Internal. Wrapped to discourage unauthorised access. */
-
 			/* Destructor. Unlinks all children. */
 			~CContainer(void);
 			/* Empty constructor. Sets all values to 0. */
 			CContainer(void);
-
-			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
-			virtual void sort(void);
 
 			/* Links a Drawable to this Container. Returns true on successful linkage. */
 			bool link(CDrawable&);

@@ -40,14 +40,14 @@ namespace Orion{
 			}
 		}
 		childCount=0;
-		internal_link.contextToUse=0;
+		contextToUse=0;
 		drawableToUse=0;
 		containerToUse=0;
 		selfContext.destroy();
 	}
 	CContainer::CContainer(void){
 		childCount=0;
-		internal_link.contextToUse=0;
+		contextToUse=0;
 		drawableToUse=0;
 		containerToUse=this;
 	}
@@ -58,7 +58,7 @@ namespace Orion{
 	void CContainer::tempRelinkAll(void){
 		for(unsigned short i=0;i<childCount;i++){
 			if(arr.arr[i]->parentContainer==this){
-				arr.arr[i]->context=internal_link.contextToUse;
+				arr.arr[i]->context=contextToUse;
 				arr.arr[i]->onLink();
 			}
 		}
@@ -78,7 +78,7 @@ namespace Orion{
 		if(containerToUse->arr.link(&obj)){
 			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
 			childCount=containerToUse->arr.count;
-			obj.context=internal_link.contextToUse;
+			obj.context=contextToUse;
 			obj.parentContainer=containerToUse;
 			obj.parentDrawable=drawableToUse;
 			obj.index=containerToUse->arr.getIndexOf(&obj);

@@ -45,7 +45,7 @@ namespace Orion{
 			margin_bottom=margin;
 			ready=true;
 
-			internal_link.contextToUse=&selfContext;
+			contextToUse=&selfContext;
 			containerToUse=this;
 			drawableToUse=this;
 			arr.init(10,5);
@@ -102,7 +102,7 @@ namespace Orion{
 
 
 	void OMarginContainer::onLink(void){
-		selfContext.init(parentContainer->internal_link.contextToUse,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		selfContext.init(context,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_TOPLEVEL,true,false);
 		tempRelinkAll();
 		sort();
 	}

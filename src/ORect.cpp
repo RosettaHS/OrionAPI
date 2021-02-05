@@ -46,14 +46,12 @@ namespace Orion{
 	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){
 		OXONLY{
 			minW=DEF_MINW,minH=DEF_MINH;
-		/* Flag override checking */
 			init(_x,_y,_w,_h);
 			/* ORects use the secondary colour of the OApp theme by default.
 			 * This checks if you're inputting another value from the OApp's theme,
 			 * and if it discovers a match, it will set the pointer directly to that instead.
 			 * I'm doing it the YandereDev way because a switch() statement would not work in this situation.
 			 */
-			// if(col.XCOL!=theme.secondary->XCOL){setSecondaryCol(col);}
 			if(col.XCOL==OTHEME_PRIMARY.XCOL){theme.secondary=&OTHEME_PRIMARY;}
 			else if(col.XCOL==OTHEME_SECONDARY.XCOL){theme.secondary=&OTHEME_SECONDARY;}
 			else if(col.XCOL==OTHEME_TERTIARY.XCOL){theme.secondary=&OTHEME_TERTIARY;}
@@ -71,7 +69,7 @@ namespace Orion{
 	}
 
 	void ORect::onLink(void){
-		rect.init(parentContainer->internal_link.contextToUse,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		rect.init(context,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
 	}
 
 	void ORect::onUnlink(void){ rect.destroy(); }

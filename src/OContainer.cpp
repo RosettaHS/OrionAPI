@@ -43,7 +43,7 @@ namespace Orion{
 			init(_x,_y,_w,_h);
 			ready=true;
 
-			internal_link.contextToUse=&selfContext;
+			contextToUse=&selfContext;
 			containerToUse=this;
 			drawableToUse=this;
 			arr.init(10,5);
@@ -98,7 +98,7 @@ namespace Orion{
 	}
 
 	void OContainer::onLink(void){
-		selfContext.init(parentContainer->internal_link.contextToUse,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		selfContext.init(context,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
 		tempRelinkAll();
 		sort();
 	}
