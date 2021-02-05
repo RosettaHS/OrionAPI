@@ -23,72 +23,43 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OSIGNAL_H__
-#define __ORION_OKIT_OSIGNAL_H__
-
-#include <stdint.h>
-#include <sys/types.h>
-#include "CLoggable.hpp"
-#include "CBaseUI.hpp"
-#include "OString.hpp"
-
-/* A value that contains individual bitmasks for connecting a function to an OSignal. */
-typedef uint32_t OMask;
+#include "include/OLog.hpp"
+#include "include/CSignalDispatcher.hpp"
 
 namespace Orion{
-	/* An enumeration of types of Signals that CSignalDispatchers can dispatch. */
-	enum OSignalType{
-		OSIG_NONE,
-		OSIG_BOOL,
-		OSIG_INT,
-		OSIG_UNSIGNED_INT,
-		OSIG_SHORT,
-		OSIG_UNSIGNED_SHORT,
-		OSIG_FLOAT,
-		OSIG_DOUBLE,
-		OSIG_LONG,
-		OSIG_UNSIGNED_LONG,
-		OSIG_CHAR,
-		OSIG_UNSIGNED_CHAR,
-		OSIG_STRING,
-		OSIG_ARBITRARY,
-		OSIG_OBJECT
-	};
-	
-	/* A container struct for data types emitted on events from a given UI element. */
-	struct OSignal : public CLoggable{
-		/* The object that emitted this Signal. */
-		CBaseUI* emitter;
-		/* The type of data carried by the Signal. See OSignalType. */
-		OSignalType type;
+	bool CSignalDispatcher::connect(OMask& mask, void(*func)(void)){
+		if(SIGMGR.arr){
+			CSignalListener listener;
+			listener.compose(func,mask);
+			return SIGMGR.connect(listener);
+		}else{ OLog("OKIT | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		return false;
+	}
 
-		/* The data carried by the Signal. */
-		union{
-			bool asBool;
-			int asInt;
-			unsigned int asUnsignedInt;
-			short asShort;
-			unsigned short asUnsignedShort;
-			float asFloat;
-			double asDouble;
-			long asLong;
-			unsigned long asUnsignedLong;
-			char asChar;
-			unsigned char asUnsignedChar;
-			struct{
-				char* asText;
-				size_t asLength;
-			}string;
-			void* asArbitrary;
-			CBaseUI* asObject;
-		}get;
+	bool CSignalDispatcher::connect(OMask& mask, void(*func)(OSignal)){
+		if(SIGMGR.arr){
+			CSignalListener listener;
+			listener.compose(func,mask);
+			return SIGMGR.connect(listener);
+		}else{ OLog("OKIT | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		return false;
+	}
 
-		/* Logs the information of this Signal to the terminal. Pass true for more verbose information (recommended). */
-		virtual void log(bool verbose=false) override;
+	bool CSignalDispatcher::disconnect(OMask& mask, void(*func)(void)){
+		if(SIGMGR.arr){
+			CSignalListener listener;
+			listener.compose(func,mask);
+			return SIGMGR.disconnect(listener);
+		}else{ OLog("OKIT | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		return false;
+	}
 
-		/* Returns a string version of the type of this Signal. */
-		const char* getTypeAsString(void);
-	};
+	bool CSignalDispatcher::disconnect(OMask& mask, void(*func)(OSignal)){
+		if(SIGMGR.arr){
+			CSignalListener listener;
+			listener.compose(func,mask);
+			return SIGMGR.disconnect(listener);
+		}else{ OLog("OKIT | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		return false;
+	}
 }
-
-#endif /* !__ORION_OKIT_OSIGNAL_H__ */

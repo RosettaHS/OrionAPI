@@ -26,24 +26,24 @@
 #ifndef __ORION_OKIT_CSIGNALDISPATCHER_H__
 #define __ORION_OKIT_CSIGNALDISPATCHER_H__
 
-#include "CEventArray.hpp"
+#include "CSLArray.hpp"
 
 namespace Orion{
-	/* Abstract deferrable class for anything that emits events. */
+	/* Deferrable class for anything that emits events. */
 	class CSignalDispatcher{
 		protected:
 			/* The event manager itself. */
-			CEventArray eventArray;
+			CSLArray SIGMGR;
 		public:
 			/* Links a function to be called by a specific event mask on the given UI element. */
-			virtual bool connect(OMask,void(*func)(void)) = 0;
+			virtual bool connect(OMask&, void(*func)(void));
 			/* Links a function to be called by a specific event mask on the given UI element. */
-			virtual bool connect(OMask,void(*func)(OSignal)) = 0;
+			virtual bool connect(OMask&, void(*func)(OSignal));
 
-			/* Unlinks a function from the given UI element. */
-			virtual bool disconnect(void(*func)(void)) = 0;
-			/* Unlinks a function from the given UI element. */
-			virtual bool disconnect(void(*func)(OSignal)) = 0;
+			/* Unlinks a function with the given event mask from the UI element. */
+			virtual bool disconnect(OMask&, void(*func)(void));
+			/* Unlinks a function with the given event mask from the UI element. */
+			virtual bool disconnect(OMask&, void(*func)(OSignal));
 	};
 }
 

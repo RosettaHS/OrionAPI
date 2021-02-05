@@ -26,7 +26,6 @@
 #ifndef __ORION_OKIT_CSIGNALISTENER_H__
 #define __ORION_OKIT_CSIGNALISTENER_H__
 
-#include "signals.h"
 #include "OSignal.hpp"
 
 namespace Orion{
@@ -56,7 +55,7 @@ namespace Orion{
 		void compose(void(*func)(void),OMask&);
 		/* Composes with an OSignal-accepting function. */
 		void compose(void(*func)(OSignal),OMask&);
-		/* Compares the two CSignalListeners. Returns true if they're identical, false if not. */
+		/* Compares the two CSignalListeners. Returns true if they contain identical pointers, false if not. */
 		bool compare(CSignalListener&);
 
 		/* Calls all functions and sends a copy of the referenced OSignal to the functions which accept them. Otherwise calls emptily. */

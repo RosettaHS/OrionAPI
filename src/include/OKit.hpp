@@ -44,7 +44,6 @@ namespace Orion{
 }
 
 #include "errdef.h"
-#include "signals.h"
 #include "application.hpp"
 #include "xservice.hpp"
 #include "OLog.hpp"
@@ -56,7 +55,7 @@ namespace Orion{
 #include "CBaseUI.hpp"
 #include "OSignal.hpp"
 #include "CSignalListener.hpp"
-#include "CEventArray.hpp"
+#include "CSLArray.hpp"
 #include "CSignalDispatcher.hpp"
 #include "CXEvent.hpp"
 #include "CContext.hpp"

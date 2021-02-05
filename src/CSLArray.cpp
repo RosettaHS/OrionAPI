@@ -23,72 +23,73 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OSIGNAL_H__
-#define __ORION_OKIT_OSIGNAL_H__
-
-#include <stdint.h>
-#include <sys/types.h>
-#include "CLoggable.hpp"
-#include "CBaseUI.hpp"
-#include "OString.hpp"
-
-/* A value that contains individual bitmasks for connecting a function to an OSignal. */
-typedef uint32_t OMask;
+#include <stdlib.h>
+#include "include/errdef.h"
+#include "include/OLog.hpp"
+#include "include/CSLArray.hpp"
 
 namespace Orion{
-	/* An enumeration of types of Signals that CSignalDispatchers can dispatch. */
-	enum OSignalType{
-		OSIG_NONE,
-		OSIG_BOOL,
-		OSIG_INT,
-		OSIG_UNSIGNED_INT,
-		OSIG_SHORT,
-		OSIG_UNSIGNED_SHORT,
-		OSIG_FLOAT,
-		OSIG_DOUBLE,
-		OSIG_LONG,
-		OSIG_UNSIGNED_LONG,
-		OSIG_CHAR,
-		OSIG_UNSIGNED_CHAR,
-		OSIG_STRING,
-		OSIG_ARBITRARY,
-		OSIG_OBJECT
-	};
-	
-	/* A container struct for data types emitted on events from a given UI element. */
-	struct OSignal : public CLoggable{
-		/* The object that emitted this Signal. */
-		CBaseUI* emitter;
-		/* The type of data carried by the Signal. See OSignalType. */
-		OSignalType type;
+	CSLArray::~CSLArray(void){ if(arr){free(arr);} }
+	CSLArray::CSLArray(void) : arr{0},count{0},cap{0},step{0} {}
 
-		/* The data carried by the Signal. */
-		union{
-			bool asBool;
-			int asInt;
-			unsigned int asUnsignedInt;
-			short asShort;
-			unsigned short asUnsignedShort;
-			float asFloat;
-			double asDouble;
-			long asLong;
-			unsigned long asUnsignedLong;
-			char asChar;
-			unsigned char asUnsignedChar;
-			struct{
-				char* asText;
-				size_t asLength;
-			}string;
-			void* asArbitrary;
-			CBaseUI* asObject;
-		}get;
+	bool CSLArray::init(unsigned short _cap, unsigned char _step){
+		count=0,cap=_cap,step=_step;
+		arr=(CSignalListener*)malloc(sizeof(CSignalListener)*_cap);
+		if(arr){
+			for(unsigned short i=0;i<cap;i++){
+				arr[i].clear();
+			}
+		}else{
+			OLog("OKIT | ERROR! FAILED TO ALLOCATE MEMORY FOR CSLARRAY!\n");
+			exit(OERR_CANTMALLOC);
+		}
+		return false;
+	}
 
-		/* Logs the information of this Signal to the terminal. Pass true for more verbose information (recommended). */
-		virtual void log(bool verbose=false) override;
+	bool CSLArray::resize(unsigned short newSize){
+		if(arr){
+			arr=(CSignalListener*)realloc(arr,sizeof(CSignalListener)*newSize);
+			if(arr){
+				return true;
+			}else{
+				OLog("OKIT | ERROR! FAILED TO RESIZE ALLOCATED MEMORY FOR CSLARRAY!\n");
+				exit(OERR_CANTMALLOC);
+			}
+		}
+		return false;
+	}
 
-		/* Returns a string version of the type of this Signal. */
-		const char* getTypeAsString(void);
-	};
+	bool CSLArray::connect(CSignalListener& listener){
+		if(!arr){return false;}
+		if(count+1>=cap){ resize(cap+step); }
+		for(unsigned short i=0;i<cap;i++){
+			/* An empty SignalListener is just as useful as no SignalListener. Override. */
+			if(arr[i].mask==0){
+				arr[i]=listener;
+				count++;
+				return true;
+			}else if(arr[i].compare(listener)){ /* This checks if you're linking a function that is already linked, but now with a different mask. */
+				/* Just appends the new mask to the current mask. */
+				arr[i].mask|=listener.mask;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool CSLArray::disconnect(CSignalListener& listener){
+		if(!arr){return false;}
+		for(unsigned short i=0;i<cap;i++){
+			if(arr[i].compare(listener)){
+				arr[i].mask&=listener.mask;
+				if(!arr[i].mask){
+					arr[i].clear();
+					count--;
+					return true;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 }
-
-#endif /* !__ORION_OKIT_OSIGNAL_H__ */
