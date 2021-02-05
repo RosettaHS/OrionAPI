@@ -61,17 +61,13 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
 	OWindow win(CENTER,CENTER,500,500);
-	OContainer container(win,150,150,200,200);
-	// OCol parentCol(255,255,255);
-	// ORect parent(win,0,0,200,200,parentCol);
-	// parent.setScale(2);
+	OMarginContainer marginContainer(win,0,0,500,500);
+	// OContainer container(win,150,150,200,200);
 
-	ORect rect(container,START,CENTRE,FILL,50);
-	// ORect rect2(container,50,50,50,50);
-	// // rect.setScale(2);
+	// ORect rect(container,START,CENTRE,FILL,50);
+	ORect rect(marginContainer,CENTRE,CENTRE,450,450);
 	rect.setCol(255,255,255);
-	// rect2.setCol(125,125,125);
-	// rect.setPos(100,100);
+	// marginContainer.setSize(250,250);
 
 	// container.unlinkThis();
 	// container.linkTo(win);

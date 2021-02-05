@@ -23,22 +23,38 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/CBaseUI.hpp"
+#ifndef __ORION_OKIT_OMARGINCONTAINER_H__
+#define __ORION_OKIT_OMARGINCONTAINER_H__
+
+#include "OContainer.hpp"
 
 namespace Orion{
-	CBaseUI::CBaseUI() : type{OT_ERROR},ready{0} {}
+	namespace DRAW{ void OMarginContainer(CDrawable*); }
 
-	const char* CBaseUI::getTypeAsString(void){
-		switch(type){
-			case OT_ERROR:{return "OT_ERROR";}
-			case OT_CDRAWABLE:{return "OT_CDRAWABLE";}
-			case OT_OCONTAINER:{return "OT_OCONTAINER";}
-			case OT_ORECT:{return "OT_ORECT";}
-			case OT_OMARGINCONTAINER:{return "OT_OMARGINCONTAINER";}
+	class OMarginContainer : public OContainer{ friend void DRAW::OMarginContainer(CDrawable*);
+		protected:
+			unsigned short margin_left,margin_right,margin_top,margin_bottom;
 
-			case OT_OWINDOW:{return "OT_OWINDOW";}
-		}
+			virtual void sort(void) override;
+			virtual void onLink(void) override;
+			virtual void onUnlink(void) override;
+			virtual void onPosChanged(void) override;
+			virtual void onSizeChanged(void) override;
+		public:
+			OMarginContainer(void);
+			OMarginContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h, unsigned short margin=8);
 
-		return 0;
-	}
+			void setMargin(unsigned short);
+			void setLeftMargin(unsigned short);
+			void setRightMargin(unsigned short);
+			void setTopMargin(unsigned short);
+			void setBottomMargin(unsigned short);
+
+			unsigned short getLeftMargin(void);
+			unsigned short getRightMargin(void);
+			unsigned short getTopMargin(void);
+			unsigned short getBottomMargin(void);
+	};
 }
+
+#endif /* !__ORION_OKIT_OMARGINCONTAINER_H__ */

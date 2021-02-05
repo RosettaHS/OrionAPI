@@ -65,6 +65,7 @@ namespace Orion{
 #include "CContainer.hpp"
 #include "ORect.hpp"
 #include "OContainer.hpp"
+#include "OMarginContainer.hpp"
 
 #include "OWindow.hpp"
 

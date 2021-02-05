@@ -26,37 +26,40 @@
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/xservice.hpp"
-#include "include/OContainer.hpp"
+#include "include/OMarginContainer.hpp"
 
 #define DEF_MINW 50
 #define DEF_MINH 50
 
 namespace Orion{
-	OContainer::OContainer(void){
-		type=OT_OCONTAINER;
-	}
+	OMarginContainer::OMarginContainer(void){ type=OT_OMARGINCONTAINER; }
 
-	OContainer::OContainer(CContainer& parent, int _x , int _y, unsigned int _w, unsigned int _h){
+	OMarginContainer::OMarginContainer(CContainer& parent, int _x, int _y, unsigned int _w, unsigned int _h, unsigned short margin){
 		OXONLY{
-			type=OT_OCONTAINER;
+			type=OT_OMARGINCONTAINER;
 			minW=DEF_MINW,minH=DEF_MINH;
 			init(_x,_y,_w,_h);
+			margin_left=margin;
+			margin_right=margin;
+			margin_top=margin;
+			margin_bottom=margin;
 			ready=true;
 
 			internal_link.contextToUse=&selfContext;
 			containerToUse=this;
 			drawableToUse=this;
 			arr.init(10,5);
-			internal.drawPtr=DRAW::OContainer;
+			internal.drawPtr=DRAW::OMarginContainer;
 			
 			parent.link(*this);
 		}else{
-			OLog("OKIT | ERROR! FAILED TO CREATE OCONTAINER BECAUSE X IS NOT INITIALISED!\n");
+			OLog("OKIT | ERROR! FAILED TO CREATE OMARGINCONTAINER BECAUSE X IS NOT INITIALISED!\n");
 			exit(OERR_X11_NOT_INITED);
 		}
 	}
 
-	void OContainer::sort(void){
+	/* Yes this is a cut-and-paste from OContainer, and that's because this is an OContainer, just margined. */
+	void OMarginContainer::sort(void){
 		CDrawable* obj;
 		uint8_t flag;
 		OVec4 oldGeometry;
@@ -76,19 +79,19 @@ namespace Orion{
 				newGeometry={0,0,0,0};
 			/* X Axis */
 				if     (flag & _OUI_X_START) { newGeometry.x=0; }
-				else if(flag & _OUI_X_CENTRE){ newGeometry.x=( (w/2)-(oldGeometry.w/2) ); }
-				else if(flag & _OUI_X_END)   { newGeometry.x=( w-(oldGeometry.w) ); }
+				else if(flag & _OUI_X_CENTRE){ newGeometry.x=( (( w-margin_right*2 )/2)-(oldGeometry.w/2) ); }
+				else if(flag & _OUI_X_END)   { newGeometry.x=( (w-margin_right*2)-(oldGeometry.w) ); }
 				else{ newGeometry.x=oldGeometry.x; }
 			/* Y Axis */
 				if     (flag & _OUI_Y_START) { newGeometry.y=0; }
-				else if(flag & _OUI_Y_CENTRE){ newGeometry.y=( (h/2)-(oldGeometry.h/2) ); }
-				else if(flag & _OUI_Y_END)   { newGeometry.y=( h-(oldGeometry.h) ); }
+				else if(flag & _OUI_Y_CENTRE){ newGeometry.y=( (( h-margin_bottom*2 )/2)-(oldGeometry.h/2) ); }
+				else if(flag & _OUI_Y_END)   { newGeometry.y=( (h-margin_bottom*2)-(oldGeometry.h) ); }
 				else{ newGeometry.y=oldGeometry.y; }
 			/* Width */
-				if     (flag & _OUI_W_FILL){ newGeometry.w=w-newGeometry.x; }
+				if     (flag & _OUI_W_FILL){ newGeometry.w=(w-margin_right*2)-newGeometry.x; }
 				else{ newGeometry.w=oldGeometry.w; }
 			/* Height */
-				if     (flag & _OUI_H_FILL){ newGeometry.h=h-newGeometry.h; }
+				if     (flag & _OUI_H_FILL){ newGeometry.h=(h-margin_bottom*2)-newGeometry.h; }
 				else{ newGeometry.h=oldGeometry.h; }
 
 				obj->setGeometry(newGeometry);
@@ -97,44 +100,50 @@ namespace Orion{
 		}
 	}
 
-	void OContainer::onLink(void){
-		selfContext.init(parentContainer->internal_link.contextToUse,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+
+	void OMarginContainer::onLink(void){
+		selfContext.init(parentContainer->internal_link.contextToUse,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_TOPLEVEL,true,false);
 		tempRelinkAll();
 		sort();
 	}
 
-	void OContainer::onUnlink(void){
+	void OMarginContainer::onUnlink(void){
 		tempUnlinkAll();
 		selfContext.destroy();
 	}
 
-	void OContainer::onPosChanged(void){
-		selfContext.setPos(x, y, true);
+	void OMarginContainer::onPosChanged(void){
+		selfContext.setPos(x+margin_left, y+margin_top, true);
 	}
-	void OContainer::onSizeChanged(void){
-		selfContext.setGeometry(x, y, w, h, true);
+	void OMarginContainer::onSizeChanged(void){
+		selfContext.setGeometry(x+margin_left, y+margin_top, w-(margin_bottom*2), h-(margin_right*2), true);
 		sort();
 	}
 
-	/* Containers can not be scaled. */
-	void OContainer::setScale(float s){
-		OLog("OKIT | WARNING! CANNOT SET THE SCALE OF CONTAINERS! FAILED SETTING CONTAINER %p SCALE TO %f!\n",s);
-	}
+/* Setters */
+	void OMarginContainer::setMargin(unsigned short m){ margin_left=m,margin_right=m,margin_top=m,margin_bottom=m; fullRedraw=true;if(internal.drawPtr){ internal.drawPtr(this); } }
+	void OMarginContainer::setLeftMargin(unsigned short m){ margin_left=m; fullRedraw=true;if(internal.drawPtr){ internal.drawPtr(this); } }
+	void OMarginContainer::setRightMargin(unsigned short m){ margin_right=m; fullRedraw=true;if(internal.drawPtr){ internal.drawPtr(this); } }
+	void OMarginContainer::setTopMargin(unsigned short m){ margin_top=m; fullRedraw=true;if(internal.drawPtr){ internal.drawPtr(this); } }
+	void OMarginContainer::setBottomMargin(unsigned short m){ margin_bottom=m; fullRedraw=true;if(internal.drawPtr){ internal.drawPtr(this); } }
 
-	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){ setThemeSecondaryCol(r,g,b); }
-	void OContainer::setCol(OCol& c){ setThemeSecondaryCol(c.r,c.g,c.b); }
+/* Getters */
+	unsigned short OMarginContainer::getLeftMargin(void){ return margin_left; }
+	unsigned short OMarginContainer::getRightMargin(void){ return margin_right; }
+	unsigned short OMarginContainer::getTopMargin(void){ return margin_top; }
+	unsigned short OMarginContainer::getBottomMargin(void){ return margin_bottom; }
 
 /* Handling */
 
 	namespace DRAW{
-		void OContainer(CDrawable* obj){
-			Orion::OContainer* container=(Orion::OContainer*)obj;
+		void OMarginContainer(CDrawable* obj){
+			Orion::OMarginContainer* container=(Orion::OMarginContainer*)obj;
 			if(!container->ready || !container->selfContext.XWIN){return;}
 			container->selfContext.setCol(container->theme.secondary);
 			if(!container->fullRedraw){return;}
 			container->selfContext.setGeometry(
-				container->x,container->y,
-				container->w,container->h,true
+				container->x+container->margin_left,container->y+container->margin_top,
+				container->w-(container->margin_right*2),container->h-(container->margin_bottom*2),true
 			);
 			container->sort();
 		}
