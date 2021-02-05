@@ -150,7 +150,7 @@ namespace Orion{
 			void setGeometry(int x, int y, unsigned int w, unsigned int h); void setGeometry(OVec4&);
 
 			/* Sets the colour of this Drawable. Some derived classes do not allow this! */
-			virtual void setCol(unsigned char r, unsigned char g, unsigned char b); void setCol(OCol&);
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b); virtual void setCol(OCol&);
 	
 			/* Internal. Sets and overrides the theme of this Drawable. Use with caution! */
 			void setTheme(OTheme&);

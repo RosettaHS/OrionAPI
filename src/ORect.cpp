@@ -86,6 +86,7 @@ namespace Orion{
 	void ORect::setCol(unsigned char r, unsigned char g, unsigned char b){
 		setThemeSecondaryCol(r,g,b);
 	}
+	void ORect::setCol(OCol& c){ setThemeSecondaryCol(c.r,c.g,c.b); }
 
 	namespace DRAW{
 		void ORect(CDrawable* obj){

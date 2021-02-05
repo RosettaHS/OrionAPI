@@ -50,7 +50,7 @@ class CDrawable : public CBaseUI , public CLoggable {
 		virtual void setScale(float);
 		void setRotation(float);
 
-		virtual void setCol(unsigned char r, unsigned char g, unsigned char b); void setCol(OCol&);
+		virtual void setCol(unsigned char r, unsigned char g, unsigned char b); virtual void setCol(OCol&);
 	
 		void setTheme(OTheme&);
 		void setThemePrimaryCol(unsigned char r, unsigned char g, unsigned char b); void setThemePrimaryCol(OCol&);
@@ -388,7 +388,7 @@ void setRotation(float);
 Unused and reserved for potential future implementation.
 ```cpp
 virtual void setCol(unsigned char r, unsigned char g, unsigned char b);
-void setCol(OCol&);
+virtual void setCol(OCol&);
 ```
 Sets the colour of this Drawable to the given values. Some derived classes do not allow this and wil print a warning message to the terminal, please see documentation for the given derived class.
 Also has overload for passing in an [OCol.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md)

@@ -44,7 +44,7 @@ namespace Orion{
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
 			virtual void setScale(float) override;
-			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override; virtual void setCol(OCol&) override;
 	};
 }
 

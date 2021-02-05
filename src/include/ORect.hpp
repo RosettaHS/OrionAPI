@@ -55,7 +55,7 @@ namespace Orion{
 			ORect(CContainer& parent,int x, int y, unsigned int w, unsigned int h, OCol& col=OTHEME_SECONDARY);
 
 			/* Sets the colour of this Rectangle. */
-			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override; virtual void setCol(OCol&) override;
 	};
 }
 

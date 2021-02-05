@@ -123,6 +123,7 @@ namespace Orion{
 	}
 
 	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){ setThemeSecondaryCol(r,g,b); }
+	void OContainer::setCol(OCol& c){ setThemeSecondaryCol(c.r,c.g,c.b); }
 
 /* Handling */
 
