@@ -43,6 +43,10 @@ Modifying other attributes of a Rectangle, such as its position, scale, and size
 ### Structure Breakdown
 #### The following methods and variables are protected, and cannot be accessed by the developer.
 ```cpp
+friend void DRAW::ORect(CDrawable*);
+```
+Allows the external draw function for Rectangles to access the internal, protected data of this Rectangle.
+```cpp
 CContext rect;
 ```
 The actual Rectangle on the screen.
