@@ -23,11 +23,41 @@
 /*                                                                                */
 /**********************************************************************************/
 
+
+/**********************************************************************************/
+/* #                                                                            # */
+/*                   Welcome to the Orion Application Framework                   */
+/*                       Development for Orion, made easy.                        */
+/*                                                                                */
+/**********************************************************************************/
+/*                                                                                */
+/*     OKit is Orion's Application Framework, it's used to create all sorts of    */
+/*   graphical applications and proves loads of useful utilities for developers   */
+/*     to utilise with minimal if any effort at all on the developer's part.      */
+/*                                                                                */
+/*       Documentation on how to use OKit is available at the following link,     */
+/*             alongside the latest release. Get started using OKit now!          */
+/*                                                                                */
+/**********************************************************************************/
+/*                                                                                */
+/*                       https://github.com/RosettaHS/OKit                        */
+/* #                                                                            # */
+/**********************************************************************************/
+
+
 #ifndef __ORION_OKIT_H__
 #define __ORION_OKIT_H__
 
-#define OKIT_VERSION 	0
-#define OKIT_REVISION	0
+/*
+* The current version of OKit installed on this system.
+* For a more up-to-date version of OKit, please visit https://github.com/RosettaHS/OKit to download the latest release.
+*/
+#define OKIT_VERSION  0
+/*
+* The current revision of OKit installed on this system.
+* For a more up-to-date version of OKit, please visit https://github.com/RosettaHS/OKit to download the latest release.
+*/
+#define OKIT_REVISION 0
 
 /* The following are forward declarations for Visual Studio (Code) Tooltips */
 
@@ -42,6 +72,15 @@ namespace Orion{
 	/* OKit - The namespace that contains all internal event handling functions for each class. */
 	namespace HANDLE{}
 }
+
+/*
+*	These following three includes are all the system headerfiles that OKit automatically includes.
+*	No need to worry about too much clutter or contamination!
+*/
+
+#include <stdint.h>
+#include <limits.h>
+#include <sys/types.h>
 
 #include "errdef.h"
 #include "application.hpp"

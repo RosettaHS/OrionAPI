@@ -23,11 +23,26 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* Simple re-route to the real header file. Go to the directory listed for further information. */
+/**********************************************************************************/
+/* #                 Welcome to the Orion Application Framework                 # */
+/*                       Development for Orion, made easy.                        */
+/**********************************************************************************/
+/*                                                                                */
+/*     OKit is Orion's Application Framework, it's used to create all sorts of    */
+/*   graphical applications and proves loads of useful utilities for developers   */
+/*     to utilise with minimal if any effort at all on the developer's part.      */
+/*                                                                                */
+/*       Documentation on how to use OKit is available at the following link,     */
+/*             alongside the latest release. Get started using OKit now!          */
+/*                                                                                */
+/**********************************************************************************/
+/* #                    https://github.com/RosettaHS/OKit                       # */
+/**********************************************************************************/
 
 #ifndef __ORION_OKIT_H_LINK__
 #define __ORION_OKIT_H_LINK__
 
+/* Simple re-route to the real header file. Go to the directory listed for further information. */
 #include "_OKit/OKit.hpp"
 
 #endif /* !__ORION_OKIT_H_LINK__ */
