@@ -23,7 +23,9 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include "include/OLog.hpp"
 #include "include/errdef.h"
@@ -33,9 +35,52 @@
 #include "include/CContext.hpp"
 #include "include/OService.hpp"
 
-
 namespace Orion{
+
+	/* This function is merely for testing and is not final, ignore the sloppy work. */
 	static bool _setThemeFromSystem(){
+		char themepath[OPATH_MAX];
+		sprintf(themepath,"%s/.orion/theme",getenv("HOME"));
+
+		if( access(themepath,F_OK)==0 ){
+			unsigned char place=0;
+			unsigned char section=0;
+			unsigned char line=0;
+			unsigned char rgb[3];
+			OCol* theme[4] = {&OTHEME_PRIMARY,&OTHEME_SECONDARY,&OTHEME_TERTIARY,&OTHEME_ACCENT};
+			char current[4] = {0,0,0,0};
+			FILE* file=fopen(themepath,"r");
+
+			if(file){
+				char c;
+				while( (c=fgetc(file))!=EOF ){
+					switch(c){
+						default:{
+							current[place]=c;
+							place++;
+							continue;
+						}
+						case ' ':{
+							rgb[section]=atoi(current);
+							place=0;
+							section++;
+							continue;
+						}
+						case '\n':{
+							rgb[section]=atoi(current);
+							theme[line]->setTo(rgb[0],rgb[1],rgb[2]);
+							section=0,place=0,line++;continue;
+						}
+					}
+				}
+				rgb[section]=atoi(current);
+				theme[line]->setTo(rgb[0],rgb[1],rgb[2]);
+
+				OVLog("OKIT | Successfully set OApp's theme from system theme!\n");
+				return true;
+			}else{ OVLog("OKIT | OApp theme could not  be set from the system because system theme file exists but could not be opened. Resorting to fallback."); return false; }
+
+		}else{ OLog("OKIT | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
 		return false; /* Add proper support here! */
 	}
 

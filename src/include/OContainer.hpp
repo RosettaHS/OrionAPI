@@ -34,14 +34,12 @@ namespace Orion{
 
 	class OContainer : public CDrawable, public CContainer{ friend void DRAW::OContainer(CDrawable*);
 		protected:
-
 			virtual void onLink(void) override;
 			virtual void onUnlink(void) override;
 			virtual void onPosChanged(void) override;
 			virtual void onSizeChanged(void) override;
 			virtual void sort(void) override;
 		public:
-			// ~OContainer(void);
 			OContainer(void);
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
