@@ -60,7 +60,7 @@ int main(){
 	// context.listenerFunc=myFunc;
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true);
 
-	OWindow win(CENTER,CENTER,500,500);
+	CWindow win(CENTER,CENTER,500,500);
 	OMarginContainer marginContainer(win,0,0,500,500);
 	// OContainer container(win,150,150,200,200);
 

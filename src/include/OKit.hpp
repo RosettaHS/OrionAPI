@@ -67,7 +67,7 @@ namespace Orion{
 #include "OContainer.hpp"
 #include "OMarginContainer.hpp"
 
-#include "OWindow.hpp"
+#include "CWindow.hpp"
 
 #include "OService.hpp"
 

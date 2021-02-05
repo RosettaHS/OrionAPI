@@ -29,28 +29,28 @@
 #include "include/xservice.hpp"
 #include "include/application.hpp"
 #include "include/OLog.hpp"
-#include "include/OWindow.hpp"
+#include "include/CWindow.hpp"
 #include "include/OService.hpp"
 
 #define _OWINDOW_DEFMASK StructureNotifyMask|ButtonPressMask
 
 namespace Orion{
 
-	OWindow::~OWindow(void){
+	CWindow::~CWindow(void){
 		type=OT_ERROR;
 		minW=400,minH=350;
 		title=0;
 		ready=false;
 	}
 
-	OWindow::OWindow(void){
+	CWindow::CWindow(void){
 		type=OT_OWINDOW;
 		minW=400,minH=350;
 		title=0;
 		ready=false;
 	}
 
-	OWindow::OWindow(int _x, int _y, unsigned int _w, unsigned int _h, const char* _t){
+	CWindow::CWindow(int _x, int _y, unsigned int _w, unsigned int _h, const char* _t){
 		OXONLY{
 			type=OT_OWINDOW;
 			OVec _screenSize=OScreenGetSize();
@@ -78,7 +78,7 @@ namespace Orion{
 		/* Context Initialisation */
 			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true,true)){
 				selfContext.listener=(void*)this;
-				selfContext.listenerFunc=HANDLE::OWindow;
+				selfContext.listenerFunc=HANDLE::CWindow;
 				// drawPtr=DRAW::OWindow;
 
 				context=&selfContext;
@@ -97,7 +97,7 @@ namespace Orion{
 		}
 	}
 
-	void OWindow::sort(void){
+	void CWindow::sort(void){
 		arr.drawAll();
 	}
 
@@ -108,8 +108,8 @@ namespace Orion{
 	// }
 
 	namespace HANDLE{
-		void OWindow(void* obj,X::CXEvent* event){
-			Orion::OWindow* win=(Orion::OWindow*)obj;
+		void CWindow(void* obj,X::CXEvent* event){
+			Orion::CWindow* win=(Orion::CWindow*)obj;
 			if(!win->ready){OLog("NOT READY!\n");return;}
 			switch(event->type){
 				default:{OLog("DEFAULT!\n");return;}

@@ -29,20 +29,20 @@
 
 namespace Orion{
 	/* Handling */
-	namespace DRAW{ extern void OWindow(CDrawable*); }
-	namespace HANDLE{ extern void OWindow(void*,X::CXEvent*); }
+	namespace DRAW{ extern void CWindow(CDrawable*); }
+	namespace HANDLE{ extern void CWindow(void*,X::CXEvent*); }
 
 	/* Debug. A top-level window. */
-	class OWindow : public CDrawable, public CContainer{
+	class CWindow : public CDrawable, public CContainer{
 		protected:
 			const char* title;
 		
-			friend void DRAW::OWindow(CDrawable*);
-			friend void HANDLE::OWindow(void*,X::CXEvent*);
+			friend void DRAW::CWindow(CDrawable*);
+			friend void HANDLE::CWindow(void*,X::CXEvent*);
 		public:
 			virtual void sort(void) override;
-			~OWindow(void);
-			OWindow(void);
-			OWindow(int x, int y, unsigned int w, unsigned int h, const char* title=0);
+			~CWindow(void);
+			CWindow(void);
+			CWindow(int x, int y, unsigned int w, unsigned int h, const char* title=0);
 	};
 }
