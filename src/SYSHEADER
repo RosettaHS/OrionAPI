@@ -24,8 +24,10 @@
 /**********************************************************************************/
 
 /**********************************************************************************/
-/* #                 Welcome to the Orion Application Framework                 # */
+/* #                                                                            # */
+/*                   Welcome to the Orion Application Framework                   */
 /*                       Development for Orion, made easy.                        */
+/*                                                                                */
 /**********************************************************************************/
 /*                                                                                */
 /*     OKit is Orion's Application Framework, it's used to create all sorts of    */
@@ -36,7 +38,9 @@
 /*             alongside the latest release. Get started using OKit now!          */
 /*                                                                                */
 /**********************************************************************************/
-/* #                    https://github.com/RosettaHS/OKit                       # */
+/*                                                                                */
+/*                       https://github.com/RosettaHS/OKit                        */
+/* #                                                                            # */
 /**********************************************************************************/
 
 #ifndef __ORION_OKIT_H_LINK__
