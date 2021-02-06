@@ -26,6 +26,8 @@
 #include "include/OLog.hpp"
 #include "include/CContainer.hpp"
 
+#define _CHECKFORCE ( forceSelfOnNext ? this : containerToUse ); forceSelfOnNext=false
+
 namespace Orion{
 	CContainer::~CContainer(void){
 		if(arr.arr){
@@ -80,8 +82,7 @@ namespace Orion{
 		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T LINK A CONTAINER TO ITSELF!\n"); return false; }
 		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T LINK A WINDOW TO ANYTHING!\n"); return false; }
 		if(!obj.ready){ OLog("OKIT | WARNING! CAN'T LINK A NON-INITIALISED OBJECT TO ANYTHING!\n"); return false;}
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
 		if(container->arr.link(&obj)){
 			if(obj.parentContainer){ obj.parentContainer->unlink(obj); }
 			container->childCount=container->arr.count;
@@ -100,8 +101,7 @@ namespace Orion{
 		if((void*)&obj==(void*)this){ OLog("OKIT | WARNING! CAN'T UNLINK A CONTAINER FROM ITSELF!\n"); return false; }
 		if(obj.type==OT_OWINDOW){ OLog("OKIT | WARNING! CAN'T UNLINK A WINDOW FROM ANYTHING!\n"); return false; }
 		if(!obj.ready){ OLog("OKIT | WARNING! CAN'T UNLINK A NON-INITIALISED OBJECT FROM ANYTHING!\n"); return false;}
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
 		if(container->arr.unlink(&obj)){
 			obj.onUnlink();
 			container->childCount=container->arr.count;
@@ -116,8 +116,8 @@ namespace Orion{
 	}
 
 	void CContainer::unlinkAll(void){
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
+		if(!container->arr.arr){ OLog("OKIT | WARNING! CAN'T UNLINK ALL CHILDREN FROM AN UNINITIALISED CONTAINER!\n"); return; }
 		for(unsigned short i=0;i<container->childCount;i++){
 			CDrawable* obj=container->arr.arr[i];
 			obj->onUnlink();
@@ -131,21 +131,26 @@ namespace Orion{
 	}
 
 	int CContainer::getIndexOf(CDrawable& obj){
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
 		if(obj.parentContainer==container){ return container->arr.getIndexOf(&obj); }
 		else{ return -1; }
 	}
 
 	OChildList CContainer::getChildren(void){
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
 		return container->arr.arr;
 	}
 
 	unsigned short CContainer::getChildCount(void){
-		CContainer* container=( forceSelfOnNext ? this : containerToUse );
-		forceSelfOnNext=false;
+		CContainer* container=_CHECKFORCE;
 		return container->arr.count;
 	}
+
+	CDrawable* CContainer::getChildAtIndex(unsigned short i){
+		CContainer* container=_CHECKFORCE;
+		if(i>=container->arr.count){ OLog("OKIT | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",i,container->arr.count-1); return 0; }
+		return container->arr.arr[i];
+	}
+
+	CDrawable* CContainer::operator[](unsigned short i){ return getChildAtIndex(i); }
 }

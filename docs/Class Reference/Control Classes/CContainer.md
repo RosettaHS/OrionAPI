@@ -26,6 +26,7 @@ class CContainer{
 		int getIndexOf(CDrawable&);	
 		OChildList getChildren(void);
 		unsigned short getChildCount(void);
+		CDrawable* getChildAtIndex(unsigned short); CDrawable* operator[](unsigned short);
 };
 ```
 ### Use
@@ -72,6 +73,14 @@ This will iterate through the [Drawable](https://github.com/RosettaHS/OKit/blob/
 You can use this format to do any sort of data modification or method calling on the children owned by a given Container.
 However, do *NOT* attempt to replace, remove. or change the order of any children in that array, as this has a very high likelihood of causing severe problems because the internal child array is a dynamic array that does automatic allocation and ordering.
 If you want to remove all children from a given Container, use `unlinkAll()` instead.
+
+You can get a child directly by using the `getChildAtIndex()` method, or by using the `[]` operator.
+```cpp
+CDrawable* myChild = myContainer.getChildAtIndex(0);
+/* Or */
+CDrawable* myChild = myContainer[0];
+```
+Attempting to index out-of-bounds memory space will return `0` and output a warning message out to the terminal.
 
 ### Structure Breakdown
 #### The following methods and variables are protected, and cannot be accessed by developers.
@@ -157,6 +166,14 @@ OChildList is defined as `Orion::CDrawable**`.
 unsigned short getChildCount(void);
 ```
 Returns the number of children owned by this Container.
+```cpp
+CDrawable* getChildAtIndex(unsigned short);
+CDrawable* operator[](unsigned short);
+```
+Returns a pointer to the child [Drawable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) at the passed index.
+Returns `NULL` if child could not be indexed.
+Also has overload for the `[]` operator.
+
 ### Other Information
 As with all Control classes, you are never to instantiate or create one manually.
 

@@ -75,6 +75,8 @@ namespace Orion{
 			OChildList getChildren(void);
 			/* Returns the amount of children owned by this Drawable. */
 			unsigned short getChildCount(void);
+			/* Returns a pointer to the child at the given index. Returns NULL if child could not be found at that index. */
+			CDrawable* getChildAtIndex(unsigned short); CDrawable* operator[](unsigned short);
 		
 	};
 }
