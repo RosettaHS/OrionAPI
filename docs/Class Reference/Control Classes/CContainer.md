@@ -167,3 +167,9 @@ However some derived classes will sort their children automatically, and overrid
 Another thing to note is that while most [Drawables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) can have their `scale` modifer changed, this is not the case with any Container.
 All Containers cannot have their `scale` modified in any way, and attempting to call the `setScale()` method will result in a discarded scale and a warning to the terminal, alerting you that Containers cannot be scaled.
 They can, however, be resized, which is an entirely different thing all together.
+
+While you can access the internal array of children by using `getChildren()`, this does NOT mean you should modify anything that comes from that array.
+Do NOT attempt to set the position or size of any children gathered from that array, and do NOT attempt to remove, re-order, or replace any children within that array.
+This can and will cause serious problems and will not work as intended. The reason why is because the internal array of Containers is a dynamic array that reallocates new memory whenever it is resized beyond a certain point and,
+it will automatically shuffle and re-order the contents of the internal array whenever an object is linked or unlinked,
+meaning iterating through the children and unlinking them will either cause a crash or cause an unintuitive outcome. If you need to remove all children, please use the `unlinkAll()` method instead.
