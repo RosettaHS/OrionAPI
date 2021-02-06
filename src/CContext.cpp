@@ -83,6 +83,7 @@ namespace Orion{
 				case CCT_PANEL:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_DOCK",False);break;}
 				case CCT_TOOLTIP:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_TOOLTIP",False);attrmask|=CWOverrideRedirect;attr.override_redirect=1;break;}
 				case CCT_MENU:{atomval=XInternAtom(OXDPY,"_NET_WM_WINDOW_TYPE_MENU",False);attrmask|=CWOverrideRedirect;attr.override_redirect=1;break;}
+				case CCT_ELEMENT:{atomval=0;break;}
 			}
 
 			// XWIN=XCreateSimpleWindow(OXDPY,XROOT,x,y,w,h,0,col->XCOL,col->XCOL);

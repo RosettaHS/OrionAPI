@@ -102,7 +102,7 @@ namespace Orion{
 
 
 	void OMarginContainer::onLink(void){
-		selfContext.init(context,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		selfContext.init(context,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_ELEMENT,true,false);
 		tempRelinkAll();
 		sort();
 	}

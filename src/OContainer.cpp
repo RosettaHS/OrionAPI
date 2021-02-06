@@ -98,7 +98,7 @@ namespace Orion{
 	}
 
 	void OContainer::onLink(void){
-		selfContext.init(context,x,y,w,h,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		selfContext.init(context,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT,true,false);
 		tempRelinkAll();
 		sort();
 	}

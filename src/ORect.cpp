@@ -69,7 +69,7 @@ namespace Orion{
 	}
 
 	void ORect::onLink(void){
-		rect.init(context,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,0,CCT_TOPLEVEL,true,false);
+		rect.init(context,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,0,CCT_ELEMENT,true,false);
 	}
 
 	void ORect::onUnlink(void){ rect.destroy(); }

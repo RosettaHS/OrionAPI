@@ -42,7 +42,8 @@ namespace Orion{
 		CCT_DESKTOP,
 		CCT_PANEL,
 		CCT_TOOLTIP,
-		CCT_MENU
+		CCT_MENU,
+		CCT_ELEMENT
 	};
 	/* Internal. Higher-level abstraction of an X Window. */
 	class CContext{
