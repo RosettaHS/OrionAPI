@@ -188,6 +188,7 @@ namespace Orion{
 	void CDrawable::setCol(OCol& c){ setCol(c.r,c.g,c.b); }
 
 	void CDrawable::setTheme(OTheme& newTheme){
+		if(&newTheme==&OTHEME){ resetTheme(); return; }
 		internalTheme=newTheme;
 		theme.primary=&(internalTheme.primary);
 		theme.secondary=&(internalTheme.secondary);
@@ -203,7 +204,10 @@ namespace Orion{
 		themeFlags|=_CTHEME_OVERRIDE_PRIMARY;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setThemePrimaryCol(OCol& c){setThemePrimaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemePrimaryCol(OCol& c){
+		if(&c==&OTHEME_PRIMARY){ theme.primary=&OTHEME_PRIMARY; themeFlags&=~_CTHEME_OVERRIDE_PRIMARY; return; }
+		setThemePrimaryCol(c.r,c.g,c.b);
+	}
 
 	void CDrawable::setThemeSecondaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setSecondary(r,g,b);
@@ -211,7 +215,10 @@ namespace Orion{
 		themeFlags|=_CTHEME_OVERRIDE_SECONDARY;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setThemeSecondaryCol(OCol& c){setThemeSecondaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeSecondaryCol(OCol& c){
+		if(&c==&OTHEME_SECONDARY){ theme.secondary=&OTHEME_SECONDARY; themeFlags&=~_CTHEME_OVERRIDE_SECONDARY; return; }
+		setThemeSecondaryCol(c.r,c.g,c.b);
+	}
 
 	void CDrawable::setThemeTertiaryCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setTertiary(r,g,b);
@@ -219,7 +226,10 @@ namespace Orion{
 		themeFlags|=_CTHEME_OVERRIDE_TERTIARY;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setThemeTertiaryCol(OCol& c){setThemeTertiaryCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeTertiaryCol(OCol& c){
+		if(&c==&OTHEME_TERTIARY){ theme.tertiary=&OTHEME_TERTIARY; themeFlags&=~_CTHEME_OVERRIDE_TERTIARY; return; }
+		setThemeTertiaryCol(c.r,c.g,c.b);
+	}
 
 	void CDrawable::setThemeAccentCol(unsigned char r, unsigned char g, unsigned char b){
 		internalTheme.setAccent(r,g,b);
@@ -227,7 +237,10 @@ namespace Orion{
 		themeFlags|=_CTHEME_OVERRIDE_ACCENT;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
-	void CDrawable::setThemeAccentCol(OCol& c){setThemeAccentCol(c.r,c.g,c.b);}
+	void CDrawable::setThemeAccentCol(OCol& c){
+		if(&c==&OTHEME_ACCENT){ theme.accent=&OTHEME_ACCENT; themeFlags&=~_CTHEME_OVERRIDE_ACCENT; return; }
+		setThemeAccentCol(c.r,c.g,c.b);
+	}
 
 	void CDrawable::resetTheme(void){
 		internalTheme=OTHEME;
