@@ -70,7 +70,7 @@ namespace Orion{
 				return true;
 			}else if(arr[i].compare(listener)){ /* This checks if you're linking a function that is already linked, but now with a different mask. */
 				/* Just appends the new mask to the current mask. */
-				arr[i].mask|=~listener.mask;
+				arr[i].mask|=listener.mask;
 				return true;
 			}
 		}
@@ -81,9 +81,13 @@ namespace Orion{
 		if(!arr){return false;}
 		for(unsigned short i=0;i<cap;i++){
 			if(arr[i].compare(listener)){
-				arr[i].mask&=listener.mask;
+				arr[i].mask&=~listener.mask;
 				if(!arr[i].mask){
 					arr[i].clear();
+					for(unsigned short j=i+1;j<cap;j++){
+						arr[j-1]=arr[j];
+						arr[j].clear();
+					}
 					count--;
 					return true;
 				}

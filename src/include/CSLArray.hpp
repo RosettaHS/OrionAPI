@@ -29,19 +29,30 @@
 #include "CSignalListener.hpp"
 
 namespace Orion{
+	/* A wrapper for an array of SignalListeners. */
 	struct CSLArray{
+		/* The internal array of Listeners. */
 		CSignalListener* arr;
+		/* The current count of Listeners. */
 		unsigned short count;
+		/* The maximum amount of Listeners before the internal array needs to resize. */
 		unsigned short cap;
+		/* The amount at which the internal array resizes by. */
 		unsigned char step;
 
+		/* Destructor. Frees all memory. */
 		~CSLArray(void);
+		/* Empty constructor. Sets all values to 0. */
 		CSLArray(void);
 
+		/* Initialises an SLArray with the given parameters. */
 		bool init(unsigned short cap, unsigned char step);
+		/* Internal, resizes the internal array to the given size. */
 		bool resize(unsigned short);
 
+		/* Connects a Listener to this array. */
 		bool connect(CSignalListener&);
+		/* Disconnects Listener from this array. */
 		bool disconnect(CSignalListener&);
 	};
 }

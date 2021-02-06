@@ -93,7 +93,7 @@ namespace Orion{
 			arr[i]=0;
 		}
 		count--;
-		if(count<=(cap-step*2)){resize(cap-step);}
+		if(count==(cap-step*2)){resize(cap-step);}
 		return true;
 	}
 
