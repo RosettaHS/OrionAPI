@@ -29,6 +29,8 @@
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
 
+typedef Orion::CDrawable** OChildList;
+
 namespace Orion{
 	class CContainer{
 		protected:
@@ -44,6 +46,8 @@ namespace Orion{
 			CDrawable* drawableToUse;
 			/* Internal. The Container that Drawables will link to when using this Container. Some Containers are made of nested Containers so this is necessary. */
 			CContainer* containerToUse;
+			/* Internal. If this is true, then this Container will ignore containerToUse and just use itself next time link() or unlink() is called. */
+			bool forceSelfOnNext;
 			/* Allows Drawables to access internal members of this Container. */
 			friend class CDrawable;
 			/* Calls when this Container gets unlinked. Temporarily unlinks all children but stores them in memory to relink later. */
@@ -62,8 +66,15 @@ namespace Orion{
 			bool link(CDrawable&);
 			/* Unlinks a Drawable from this Container. Returns false if could not unlink Drawable. */
 			bool unlink(CDrawable&);
+			/* Unlinks all the children owned by this Container. Use with caution! */
+			void unlinkAll(void);
+			
 			/* Returns the child index of the passed Drawable. Returns -1 if Drawable is not linked. */
 			int getIndexOf(CDrawable&);
+			/* Returns an array of children (Pointers to Drawables) owned by this Container. */
+			OChildList getChildren(void);
+			/* Returns the amount of children owned by this Drawable. */
+			unsigned short getChildCount(void);
 		
 	};
 }

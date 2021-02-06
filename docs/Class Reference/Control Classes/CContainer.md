@@ -11,6 +11,7 @@ class CContainer{
 		CContext* contextToUse;
 		CDrawable* drawableToUse;
 		CContainer* containerToUse;
+		bool forceSelfOnNext;
 		friend class CDrawable;
 		void tempUnlinkAll(void);
 		void tempRelinkAll(void);
@@ -21,7 +22,10 @@ class CContainer{
 
 		bool link(CDrawable&);
 		bool unlink(CDrawable&);
+		void unlinkAll(void);
 		int getIndexOf(CDrawable&);	
+		OChildList getChildren(void);
+		unsigned short getChildCount(void);
 };
 ```
 ### Use
@@ -45,6 +49,29 @@ This will now remove the UI element as a child from the Container as if it were 
 Do NOT attempt to modify any data on the (former) child element after it has been unlinked, this could cause problems and potentially a crash!
 
 Containers retain information about their children after the Container itself has been unlinked, meaning you can move Containers between other Containers and have its children remain intact.
+
+There are some scenarios where you need to loop through the children owned by a given Container and access or modify the childs' memory.
+In order to access the children of a given Container, use the following syntax.
+```cpp
+OChildList myChildren = myContainer.getChildren();
+```
+This will return an OChildList, which is an array of pointers to [Drawables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) (defined as `CDrawable**`)
+that you can iterate through to access all of the children owned by a give Container.
+
+To access the amount of children of a given Container, use the following syntax.
+```cpp
+unsigned short myChildCount = myContainer.getChildCount();
+```
+This will return an `unsigned short` which contains the number of children owned by a given Container, allowing you to now iterate through the Container's children using the following syntax.
+```cpp
+for(unsigned short i=0; i<myChildCount; i++){
+	myChildren[i]->log(); /* Replace this with something meaningful! */
+}
+```
+This will iterate through the [Drawable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) pointers stored in `myChildren` and, in this example, log their data out to the terminal.
+You can use this format to do any sort of data modification or method calling on the children owned by a given Container.
+However, do *NOT* attempt to replace, remove. or change the order of any children in that array, as this has a very high likelihood of causing severe problems because the internal child array is a dynamic array that does automatic allocation and ordering.
+If you want to remove all children from a given Container, use `unlinkAll()` instead.
 
 ### Structure Breakdown
 #### The following methods and variables are protected, and cannot be accessed by developers.
@@ -73,6 +100,10 @@ CContainer* containerToUse;
 ```
 A pointer to a Container that the `link()` and `unlink()` methods will actually call to.
 This is because some derived Containers consist of numerous Containers strung together to make one, and thus would need a pointer to the one that new children should actually link to.
+```cpp
+bool forceSelfOnNext;
+```
+If this is true, then this Container will ignore `containerToUse` and just use a pointer to itself next time `link()`, `unlink()` or any other method is called.
 ```cpp
 friend class CDrawable;
 ```
@@ -109,11 +140,23 @@ bool unlink(CDrawable&);
 Unlinks a given [Drawable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) from this Container.
 Returns true on success, false if could not unlink, or was never linked in the first place.
 ```cpp
+void unlinkAll(void);
+```
+Unlinks all [Drawables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) owned by this container. Use with caution!
+```cpp
 int getIndexOf(CDrawable&);
 ```
 Returns the child index of the passed [Drawable.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md)
 If return value is `-1`, this means the given [Drawable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) is not linked to this Container.
-
+```cpp
+OChildList getChildren(void);
+```
+Returns an array of pointers to [Drawables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) owned by this Container.
+OChildList is defined as `Orion::CDrawable**`.
+```cpp
+unsigned short getChildCount(void);
+```
+Returns the number of children owned by this Container.
 ### Other Information
 As with all Control classes, you are never to instantiate or create one manually.
 

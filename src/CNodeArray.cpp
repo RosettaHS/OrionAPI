@@ -97,6 +97,13 @@ namespace Orion{
 		return true;
 	}
 
+	void CNodeArray::clear(void){
+		for(unsigned short i=0;i<count;i++){
+			arr[i]=0;
+		}
+		count=0;
+	}
+
 	int CNodeArray::getIndexOf(CDrawable* obj){
 		for(unsigned short i=0;i<count;i++){
 			if(arr[i]==obj){return i;}

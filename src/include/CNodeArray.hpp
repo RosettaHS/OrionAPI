@@ -54,6 +54,8 @@ namespace Orion{
 			bool link(CDrawable*);
 			/* Unlinks a CDrawable to the Node Array. Returns true if successful. */
 			bool unlink(CDrawable*);
+			/* Unlinks all CDrawables. Use with caution! */
+			void clear(void);
 			/* Finds and returns the index of a given CDrawable in the Node Array. Returns -1 on error. */
 			int getIndexOf(CDrawable*);
 			/* Gets the child count of Node Array. */
