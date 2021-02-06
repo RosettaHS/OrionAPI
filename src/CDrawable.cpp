@@ -138,6 +138,7 @@ namespace Orion{
 	}
 	void CDrawable::setPos(OVec& v){ setPos(v.x, v.y); }
 	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
+	void CDrawable::setCentre(OVec& v){ setCentre(v.x,v.y); }
 	void CDrawable::setSize(unsigned int _w, unsigned int _h, bool force){
 		if( !force && (w==_w) && (h==_h) ){return;}
 		if(_w<minW){w=minW;}else{w=_w;}

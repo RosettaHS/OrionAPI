@@ -137,7 +137,7 @@ namespace Orion{
 			/* Sets the position of this Drawable relative to its parent (if it has one). */
 			void setPos(int x, int y); void setPos(OVec&);
 			/* Sets the positional coordinates of the centre of this Drawable relative to the top left. Used during scaling. */
-			void setCentre(int x, int y);
+			void setCentre(int x, int y); void setCentre(OVec&);
 			/* Sets the size of this Drawable. Pass true at the end to force a redraw. */
 			void setSize(unsigned int w,unsigned int h, bool force=false); void setSize(OVec&, bool force=false);
 			/* Sets the minimum allowed size of this Drawable. */
