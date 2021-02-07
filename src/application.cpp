@@ -162,10 +162,10 @@ namespace Orion{
 			_initOAppCheck();
 			_initDataPath();
 			if(verbose){
-				printf("OKIT | Full Binary path is:\t\t%s\n",binpath);
-				printf("OKIT | Full Binary directory is:\t%s\n",bindir);
-				printf("OKIT | Data path is:\t\t\t%s\n",datapath);
-				printf("OKIT | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false"));
+				OLog("OKIT | Full Binary path is:\t\t%s\n",binpath);
+				OLog("OKIT | Full Binary directory is:\t%s\n",bindir);
+				OLog("OKIT | Data path is:\t\t\t%s\n",datapath);
+				OLog("OKIT | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false"));
 			}
 		return true;}
 	}

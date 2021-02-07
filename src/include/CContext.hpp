@@ -106,6 +106,8 @@ namespace Orion{
 
 		/* Internal. Initialises the XHandle Array. Returns true on success, terminates program upon failure (and returns false if that fails). */
 		extern bool CXHA_INIT(void);
+		/* Internal. Frees all memory from the XHandle Array. Returns true on success, terminates program upon failure (and returns false if that fails). */
+		extern bool CXHA_DESTROY(void);
 		/* Internal. Links a Context to an XHandle and adds that to the array. Returns true on success. */
 		extern bool CXHA_LINK(CContext*);
 		/* Internal. Unlinks a Context from the XHandle Array. Returns true on success, false if wasn't present. */

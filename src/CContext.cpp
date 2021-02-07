@@ -25,7 +25,6 @@
 
 #define ORION_INTERNAL
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -124,13 +123,13 @@ namespace Orion{
 				OVLog("OKIT | Successfully created CContext %p with parameters ( %p , %d , %d , %u , %u, %s )\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false"));
 				return true;
 			}else{
-				printf("OKIT | ERROR! FAILED TO CREATE CContext %p WITH PARAMETERS( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+				OLog("OKIT | ERROR! FAILED TO CREATE CContext %p WITH PARAMETERS( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 				exit(OERR_X11_WINDOW_CREATION_FAILURE);
 				return false;
 			}
 		}else{
 			XWIN=0;
-			printf("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+			OLog("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 			exit(OERR_X11_NOT_INITED);
 			return false;
 		}
@@ -240,7 +239,7 @@ namespace Orion{
 		static bool _CXHA_RESIZE(unsigned long size){
 			if(!CXHA){return false;}
 			CXHA=(CXHANDLE*)realloc(CXHA,sizeof(CXHANDLE)*size);
-			if(!CXHA){printf("OKIT | ERROR! CXHA FAILED TO RESIZE!! CAN'T REALLOC!\n");exit(OERR_CANTMALLOC);return false;}
+			if(!CXHA){OLog("OKIT | ERROR! CXHA FAILED TO RESIZE!! CAN'T REALLOC!\n");exit(OERR_CANTMALLOC);return false;}
 			for(unsigned long i=CXHA_COUNT;i<CXHA_CAP;i++){CXHA[i]={0,0};}
 			CXHA_CAP=size;
 			return true;
@@ -249,8 +248,16 @@ namespace Orion{
 		bool CXHA_INIT(void){
 			if(CXHA){return false;}
 			CXHA=(CXHANDLE*)malloc(sizeof(CXHANDLE)*__CXHA_DEFAULT_CAP);
-			if(!CXHA){printf("OKIT | ERROR! CXHA FAILED TO INITALISE! CAN'T MALLOC!\n");exit(OERR_CANTMALLOC);return false;}
+			if(!CXHA){OLog("OKIT | ERROR! CXHA FAILED TO INITALISE! CAN'T MALLOC!\n");exit(OERR_CANTMALLOC);return false;}
 			for(unsigned long i=0;i<__CXHA_DEFAULT_CAP;i++){CXHA[i]={0,0};}
+			return true;
+		}
+
+		bool CXHA_DESTROY(void){
+			if(!CXHA){return false;}
+			free(CXHA);
+			CXHA=0;
+			CXHA_COUNT=0;
 			return true;
 		}
 		

@@ -113,6 +113,7 @@ namespace Orion{
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
+		X::CXHA_DESTROY();
 		OVLog("\nOKIT | Service sucessfully finished!\n\n");
 		return true;
 	}

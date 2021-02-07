@@ -25,8 +25,7 @@
 
 #define ORION_INTERNAL
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <malloc.h>
 #include "include/OString.hpp"
 
 namespace Orion{
@@ -75,8 +74,8 @@ namespace Orion{
 	size_t OString::getLength(void){return length;}
 
 	void OString::log(bool verbose){
-		if(verbose){printf("OString %p | length %lu : %s\n",(void*)this,length,str);}
-		else{printf("%s\n",str);}
+		if(verbose){OLog("OString %p | length %lu : %s\n",(void*)this,length,str);}
+		else{OLog("%s\n",str);}
 	}
 
 	OString::operator char*(void) const{return str;}
