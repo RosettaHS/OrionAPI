@@ -32,6 +32,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "include/application.hpp"
+#include "include/OLog.hpp"
 
 /*Might wanna change this soon once you know what you're actually doing.*/
 #define _MKDIRARG ( S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH )
@@ -44,8 +45,8 @@ namespace Orion{
 		float scale=1.0f;
 		const char* name=0;
 		const char* username=0;
-		void setName(const char* _name){name=_name;}
-		const char* getName(void){return name;}
+		// void setName(const char* _name){name=_name;}
+		// const char* getName(void){return name;}
 
 		bool isNativeOApp=false;
 		pid_t pid=0;
@@ -72,7 +73,7 @@ namespace Orion{
 			int length=readlink(tmp,path,OPATH_MAX-1);
 			if(length!=-1){path[length]='\0';}else{
 				binpath=0;
-				printf("OKIT | ERROR! Failed to get binary path!\n");
+				OVLog("OKIT | WARNING! FAILED TO GET BINARY PATH!\n");
 				return;
 			}
 			binpath=(char*)malloc(OPATH_MAX);
@@ -97,7 +98,7 @@ namespace Orion{
 				extension[5]='\0';
 
 				if(strcmp(extension,".oapp")==0 /*What?*/ ){isNativeOApp=true;}else{isNativeOApp=false;}
-			}else{isNativeOApp=false;printf("OKIT | ERROR! FAILED TO CHANGE TO BINARY PATH %s\n",bindir);}
+			}else{isNativeOApp=false;OVLog("OKIT | WARNING! FAILED TO CHANGE TO BINARY PATH %s\n",bindir);}
 		}
 
 		static void _initDataPath(void){
@@ -110,7 +111,7 @@ namespace Orion{
 					mkdir("data",_MKDIRARG);
 					mkdir(tmp,_MKDIRARG);
 					sprintf((char*)datapath,"%s/data/%s",binpath,username);
-				}else{printf("OKIT | ERROR! FAILED TO ACCESS:\t\t\t%s !\n",bindir);}
+				}else{OVLog("OKIT | WARNING! FAILED TO ACCESS:\t\t\t%s !\n",bindir);}
 			}else{
 				if(name){
 					datapath=(char*)malloc(OPATH_MAX);
@@ -120,8 +121,8 @@ namespace Orion{
 						sprintf(tmp,"%s",name);
 						mkdir(tmp,_MKDIRARG);
 						sprintf((char*)datapath,"%s/.local/share/%s",_env,name);
-					}else{printf("OKIT | ERROR! FAILED TO ACCESS:\t\t\t%s/.local/share !\n",_env);}
-				}else{OVERB_OUT "OKIT | Application name not set, and Application is not Orion-Native. Not creating data folder.\n" OVERB_END}
+					}else{OVLog("OKIT | WARNING! FAILED TO ACCESS:\t\t\t%s/.local/share !\n",_env);}
+				}else{OVLog("OKIT | Application name not set, and Application is not Orion-Native. Not creating data folder.\n");}
 			}
 		}
 	
@@ -141,12 +142,12 @@ namespace Orion{
 			}
 
 			if(verbose){
-				printf("OKIT | Initialising Application.\n");
-				printf("OKIT | Running in verbose mode!\n");
-				printf("OKIT | Application Name:\t\t%s\n",name);
-				printf("OKIT | Username:\t\t\t%s\n",username);
-				printf("OKIT | Current Directory:\t\t%s\n",cwd);
-				printf("OKIT | Are Errors Fatal?:\t\t%s\n",(errorsFatal ? "true" : "false"));
+				OLog("OKIT | Initialising Application.\n");
+				OLog("OKIT | Running in verbose mode!\n");
+				OLog("OKIT | Application Name:\t\t%s\n",name);
+				OLog("OKIT | Username:\t\t\t%s\n",username);
+				OLog("OKIT | Current Directory:\t\t%s\n",cwd);
+				OLog("OKIT | Are Errors Fatal?:\t\t%s\n",(errorsFatal ? "true" : "false"));
 			}
 
 			_env=getenv("O_SCALE");
@@ -154,7 +155,7 @@ namespace Orion{
 				if(atof(_env)>=0.5f){
 					scale=atof(_env);
 				}else{scale=0.5f;}
-				OVERB_OUT "OKIT | OVERRIDE | Global scale is now %.2f instead of %.2f.\n",scale,1.0f OVERB_END
+				OVLog("OKIT | OVERRIDE | Global scale is now %.2f instead of %.2f.\n",scale,1.0f);
 			}
 		/*Sets up paths.*/
 			_initBinPathAndDir();

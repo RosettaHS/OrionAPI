@@ -95,7 +95,7 @@ namespace Orion{
 
 	bool OKitStart(const char* name,bool ForceONative){
 		if(OAPP_INITED){return false;}
-		if(name){Application::setName(name);}
+		if(name){OAPP_NAME=name;}
 		Application::init();
 		if(ForceONative){
 			if(!OAPP_NATIVE){OLog("OKIT | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}

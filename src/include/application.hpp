@@ -28,70 +28,65 @@
 
 #include <sys/types.h>
 
+#ifndef ORION_NOHELPERS
+
 /*Orion implementation for maximum amount of characters allowed in a directory path.*/
 #define OPATH_MAX 1024
 /* Consider changing this ^ at some point, something like pathconf() and _PC_PATH_MAX would be more general. */
 
-/* Wrapper if() statement for exiting upon fatal errors. Include <stdlib.h>! */
-#define OERR_EXIT(errcode) if(Orion::Application::errorsFatal){exit(errcode);}
 /*Wrapper if() statement. Use this as an easier method of checking if application is Orion-Native. Example:
 	ONATIVEONLY{doThings();} */
 #define ONATIVEONLY if(Orion::Application::isNativeOApp)
-/* Wrapper if() statements for printing debug information to the terminal. Include <stdio.h>! */
-#define OVERB_OUT if(Orion::Application::verbose){printf(
-#define OVERB_END );}
 
-/*Quick re-route for Orion::Application::inited.*/
+/* Global generic name for your OApp as opposed to individual OWindow titles. */
+#define OAPP_NAME Orion::Application::name
+/* Username of the user running your OApp. */
+#define OAPP_USERNAME Orion::Application::username
+/* Internal. Are OApp variables initialised? */
 #define OAPP_INITED Orion::Application::inited
-/*Quick re-route for Orion::Application::verbose.*/
+/* Boolean to decide if OKit should print debug messages to the terminal. To utilise this as a developer, see OVLog(). */
 #define OAPP_VERBOSE Orion::Application::verbose
-/*Quick re-route for Orion::Application::errorsFatal.*/
-#define OAPP_FATALERRORS Orion::Application::errorsFatal
-/*Quick re-route for Orion::Application::isNativeOApp.*/
+/* Is the application an Orion-Native OApp? See ONATIVEONLY. */
 #define OAPP_NATIVE Orion::Application::isNativeOApp
-/*Quick re-route for Orion::Application::pid.*/
+/* The PID of your OApp. */
 #define OAPP_PID Orion::Application::pid
-/*Quick re-route for Orion::Application::scale.*/
+/* Global UI scale for your OApp. See OAPP_SCALE. */
 #define OAPP_SCALE Orion::Application::scale
-/*Quick re-route for Orion::Application::cwd.*/
+/* The Current Working Directory; where the OApp was launched from. */
 #define OAPP_CWD Orion::Application::cwd
-/*Quick re-route for Orion::Application::binpath.*/
+/* Global system path to your OApp binary's exact location. */
 #define OAPP_BINPATH Orion::Application::binpath
-/*Quick re-route for Orion::Application::bindir.*/
+/* Global system directory where your OApp binary is located. */
 #define OAPP_BINDIR Orion::Application::bindir
-/*Quick re-route for Orion::Application::datapath.*/
+/* Global system path where OKit will store your data for this OApp. Use this instead of generic write functions! */
 #define OAPP_DATAPATH Orion::Application::datapath
+
+#endif /* !ORION_NOHELPERS */
 
 namespace Orion{
 	namespace Application{
-		/* Internal. Are variables initialised? See OAPP_INITED. */
+		/* Internal. Are OApp variables initialised? */
 		extern bool inited;
-		/* Boolean to decide if OKit should print debug messages to the terminal. To utilise this as a developer, see OVERB_OUT and OVERB_END macros. */
+		/* Boolean to decide if OKit should print debug messages to the terminal. To utilise this as a developer, see OVLog(). */
 		extern bool verbose;
-		/* Boolean to decide if OKit should exit if it encounters an error. */
-		extern bool errorsFatal;
 		/* Global UI scale for your OApp. See OAPP_SCALE. */
 		extern float scale;
 		/* Global generic name for your OApp as opposed to individual OWindow titles. */
 		extern const char* name;
 		/* Username of the user running your OApp. */
 		extern const char* username;
-		/* Sets the global generic name for your OApp. */
-		void setName(const char*);
-		/* Gets the global generic name for your OApp. */
-		const char* getName(void);
 
 		/* Is the application an Orion-Native OApp? See ONATIVEONLY. */
 		extern bool isNativeOApp;
 		/* The PID of your OApp. See OAPP_PID. */
 		extern pid_t pid;
-		/* Current Working Directory; where you launched the OApp. */
+		/* The Current Working Directory; where the OApp was launched from. */
 		extern char* cwd;
-		/* Global system path to your OApp binary */
+		/* Global system path to your OApp binary's exact location. */
 		extern char* binpath;
-		/* Global system directory which your OApp binary is located. */
+		/* Global system directory where your OApp binary is located. */
 		extern char* bindir;
-		/* Global system path where OKit will store your data. Use this instead of generic write functions! */
+		/* Global system path where OKit will store your data for this OApp. Use this instead of generic write functions! */
 		extern char* datapath;
 		
 

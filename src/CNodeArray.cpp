@@ -43,8 +43,8 @@ namespace Orion{
 			for(unsigned short i=0;i<_cap;i++){arr[i]=0;}
 			return true;
 		}else{
-			OLog("OKIT | ERROR! CNodeArray( %us,%u ) CAN'T MALLOC AN ARRAY!\n",_cap,_step);
-			OERR_EXIT(OERR_CANTMALLOC)
+			OLog("OKIT | ERROR! CNODEARRAY( %us,%u ) CAN'T MALLOC AN ARRAY!\n",_cap,_step);
+			exit(OERR_CANTMALLOC);
 			return false;
 		}
 	}
@@ -56,14 +56,13 @@ namespace Orion{
 			for(unsigned short i=count;i<_size;i++){arr[i]=0;}
 			return true;
 		}else{
-			OLog("OKIT | ERROR! CNodeArray( %us,%u ) :: resize( %us ) CAN'T MALLOC AN ARRAY!\n",cap,step,_size);
-			OERR_EXIT(OERR_CANTMALLOC)
+			OLog("OKIT | ERROR! CNODEARRAY( %us,%u ) :: resize( %us ) CAN'T MALLOC AN ARRAY!\n",cap,step,_size);
+			exit(OERR_CANTMALLOC);
 			return false;
 		}
 	}
 
 	bool CNodeArray::link(CDrawable* node){
-		/* printf("Starting. Cap %d | Step %d | Count %d | Node %p\n",cap,step,count,node); */
 		if(count+1>=cap){
 			if(!resize(cap+step)){return false;}
 		}
@@ -76,7 +75,6 @@ namespace Orion{
 				break;
 			}
 		}
-		/* printf("Finished. Cap %d | Step %d | Count %d | Success %s\n",cap,step,count,_completed ? "true" : "false"); */
 		return _completed;
 	}
 

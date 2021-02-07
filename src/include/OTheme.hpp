@@ -29,16 +29,20 @@
 #include "CLoggable.hpp"
 #include "OCol.hpp"
 
-/* Quick re-route for Orion::OTHEME_GLOBAL. */
+#ifndef ORION_NOHELPERS
+
+/* The Global Theme for this OApp. See OTheme. */
 #define OTHEME Orion::OTHEME_GLOBAL
-/* Quick re-route for Orion::OTHEME_GLOBAL.primary. */
+/* The primary colour of this OApp's Global Theme. See OTheme. */
 #define OTHEME_PRIMARY Orion::OTHEME_GLOBAL.primary
-/* Quick re-route for Orion::OTHEME_GLOBAL.secondary. */
+/* The secondary colour of this OApp's Global Theme. See OTheme. */
 #define OTHEME_SECONDARY Orion::OTHEME_GLOBAL.secondary
-/* Quick re-route for Orion::OTHEME_GLOBAL.tertiary. */
+/* The tertiary colour of this OApp's Global Theme. See OTheme. */
 #define OTHEME_TERTIARY Orion::OTHEME_GLOBAL.tertiary
-/* Quick re-route for Orion::OTHEME_GLOBAL.accent. */
+/* The accen colour of this OApp's Global Theme. See OTheme. */
 #define OTHEME_ACCENT Orion::OTHEME_GLOBAL.accent
+
+#endif /* !ORION_NOHELPERS */
 
 namespace Orion{
 	/* Container for multiple OCols. Used for theming UI elements. */
@@ -60,7 +64,7 @@ namespace Orion{
 		virtual void log(bool verbose=false) override;
 	};
 
-	/* The global theme for the OApp. */
+	/* The Global Theme for this OApp. */
 	extern OTheme OTHEME_GLOBAL;
 
 	/* Overrides that prevent Orion from automatically re-theming applications when the system theme changes. Can be overridden by system toggles. */
