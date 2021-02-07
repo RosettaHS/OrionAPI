@@ -270,9 +270,9 @@ namespace Orion{
 
 /* Getters */
 
-	CContainer* CDrawable::getParent(void){ return parentContainer; }
+	CContainer* CDrawable::getParent(void) const{ return parentContainer; }
 
-	OVec CDrawable::getPos(bool globalToWindow){
+	OVec CDrawable::getPos(bool globalToWindow) const{
 		OVec v;
 		if(globalToWindow&&parentDrawable){
 			if(parentDrawable->type!=OT_OWINDOW){
@@ -287,9 +287,9 @@ namespace Orion{
 		return v;
 	}
 
-	OVec CDrawable::getCentre(void){ return OVec(centreX,centreY); }
+	OVec CDrawable::getCentre(void) const{ return OVec(centreX,centreY); }
 
-	OVec4 CDrawable::getSize(bool useScale){
+	OVec4 CDrawable::getSize(bool useScale) const{
 		OVec4 v;
 		if(useScale){
 			float s=getScale();
@@ -300,7 +300,7 @@ namespace Orion{
 		return v;
 	}
 
-	OVec4 CDrawable::getMinSize(bool useScale){
+	OVec4 CDrawable::getMinSize(bool useScale) const{
 		OVec4 v;
 		if(useScale){
 			float s=getScale();
@@ -311,7 +311,7 @@ namespace Orion{
 		return v;
 	}
 
-	float CDrawable::getScale(void){ return scale; }
+	float CDrawable::getScale(void) const{ return scale; }
 	// float CDrawable::getScale(bool includeParents){
 		// float s;
 		// if(includeParents&&parentDrawable){
@@ -322,7 +322,7 @@ namespace Orion{
 		// return s;
 	// }
 
-	float CDrawable::getRotation(bool includeParents){
+	float CDrawable::getRotation(bool includeParents) const{
 		float r;
 		if(includeParents&&parentDrawable){
 			r=rotation+parentDrawable->getRotation(true);
@@ -332,7 +332,7 @@ namespace Orion{
 		return r;
 	}
 
-	OVec4 CDrawable::getGeometry(bool globalToWindow){
+	OVec4 CDrawable::getGeometry(bool globalToWindow) const{
 		OVec4 v;
 		if(globalToWindow&&parentDrawable){
 			if(parentDrawable->type!=OT_OWINDOW){
@@ -351,7 +351,7 @@ namespace Orion{
 		else{ return -1; }
 	}
 
-	OTheme CDrawable::getTheme(void){ return internalTheme; }
+	OTheme CDrawable::getTheme(void) const{ return internalTheme; }
 
 	void CDrawable::log(bool verbose){
 		if(verbose){

@@ -234,7 +234,7 @@ namespace Orion{
 
 	namespace X{
 		CXHANDLE* CXHA=0;
-		unsigned long CXHA_COUNT=0;
+		volatile unsigned long CXHA_COUNT=0;
 		unsigned long CXHA_CAP=__CXHA_DEFAULT_CAP;
 
 		static bool _CXHA_RESIZE(unsigned long size){

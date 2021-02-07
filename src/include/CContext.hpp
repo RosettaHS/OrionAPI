@@ -100,7 +100,7 @@ namespace Orion{
 		/* Internal. This is a global array of all current XHandles. */
 		extern CXHANDLE* CXHA;
 		/* Internal. Current count of XHandles. */
-		extern unsigned long CXHA_COUNT;
+		extern volatile unsigned long CXHA_COUNT;
 		/* Internal. The current cap of XHandles before the array gets resized by the step size provided in 'CContext.cpp". */
 		extern unsigned long CXHA_CAP;
 

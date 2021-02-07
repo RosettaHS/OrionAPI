@@ -170,26 +170,26 @@ namespace Orion{
 			void resetTheme(void);
 
 			/* Returns a pointer to the parent of this Drawable (if it has one). */
-			CContainer* getParent(void);
+			CContainer* getParent(void) const;
 			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
-			OVec getPos(bool globalToWindow=false);
+			OVec getPos(bool globalToWindow=false) const;
 			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */
-			OVec getCentre(void);
+			OVec getCentre(void) const;
 			/* Returns the size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
-			OVec4 getSize(bool useScale=false);
+			OVec4 getSize(bool useScale=false) const;
 			/* Returns the minimum size of this Drawable. Only access the W and H values! Pass true to get the size modified by the UI scale of this Drawable. */
-			OVec4 getMinSize(bool useScale=false);
+			OVec4 getMinSize(bool useScale=false) const;
 			/* Returns the local UI scale of this Drawable. Containers cannot scale. */
-			float getScale(void);
+			float getScale(void) const;
 			/* Unused. Returns the local rotation of this drawable. Pass true to retrieve the global rotation of the Drawable including the rotations of its parents (if it has them). */
-			float getRotation(bool includeParents=false);
+			float getRotation(bool includeParents=false) const;
 			/* Returns the local position and size of this Drawable. Pass true to retrieve the global position relative to the Window. */
-			OVec4 getGeometry(bool globalToWindow=false);
+			OVec4 getGeometry(bool globalToWindow=false) const;
 			/* Returns the child index of this Drawable if it is linked to a Container. Returns -1 if not linked. */
 			int getIndex(void);
 
 			/* Returns a copy of the theme used by this Drawable. */
-			OTheme getTheme(void);
+			OTheme getTheme(void) const;
 
 			/* Log the data of this Drawable to the terminal. Pass true to get more detailed information. */
 			virtual void log(bool verbose=false) override;
