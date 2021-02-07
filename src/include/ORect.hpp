@@ -30,7 +30,7 @@
 #include "CContainer.hpp"
 
 namespace Orion{
-	namespace DRAW{ void ORect(CDrawable*); }
+	namespace DRAW{ extern void ORect(CDrawable*); }
 
 	/* A solid Rectangle with colour. */
 	class ORect : public CDrawable{ friend void DRAW::ORect(CDrawable*);

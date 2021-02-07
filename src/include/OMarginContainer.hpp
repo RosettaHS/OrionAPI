@@ -29,7 +29,7 @@
 #include "OContainer.hpp"
 
 namespace Orion{
-	namespace DRAW{ void OMarginContainer(CDrawable*); }
+	namespace DRAW{ extern void OMarginContainer(CDrawable*); }
 
 	/* A Container for UI elements that has a margin around the edges. */
 	class OMarginContainer : public OContainer{ friend void DRAW::OMarginContainer(CDrawable*);

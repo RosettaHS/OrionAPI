@@ -30,7 +30,7 @@
 #include "CContainer.hpp"
 
 namespace Orion{
-	namespace DRAW{ void OContainer(CDrawable*); }
+	namespace DRAW{ extern void OContainer(CDrawable*); }
 
 	/* A Container for UI elements that does no automatic sorting. */
 	class OContainer : public CDrawable, public CContainer{ friend void DRAW::OContainer(CDrawable*);
