@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include "include/application.hpp"
 #include "include/OLog.hpp"
 #include "include/CLoggable.hpp"

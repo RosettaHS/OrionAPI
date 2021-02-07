@@ -69,10 +69,14 @@ namespace Orion{
 	extern bool OTHEME_TERTIARY_OVERRIDE;
 	extern bool OTHEME_ACCENT_OVERRIDE;
 
-#define _CTHEME_OVERRIDE_PRIMARY	0x1
-#define _CTHEME_OVERRIDE_SECONDARY	0x2
-#define _CTHEME_OVERRIDE_TERTIARY	0x4
-#define _CTHEME_OVERRIDE_ACCENT		0x8
+#ifdef ORION_INTERNAL
+
+	#define _CTHEME_OVERRIDE_PRIMARY	0x1
+	#define _CTHEME_OVERRIDE_SECONDARY	0x2
+	#define _CTHEME_OVERRIDE_TERTIARY	0x4
+	#define _CTHEME_OVERRIDE_ACCENT		0x8
+
+#endif /* !ORION_INTERNAL */
 
 	/* Internal themer for UI elements. Contains pointers to the real values to use and can be overridden. */
 	struct CTheme{

@@ -50,6 +50,8 @@
 	#define FILL (SHRT_MAX-3)
 
 
+#ifdef ORION_INTERNAL
+
 /* Internal Flags */
 	#define _OUI_X_START  0x1
 	#define _OUI_X_END    0x2
@@ -61,6 +63,8 @@
 
 	#define _OUI_W_FILL   0x40
 	#define _OUI_H_FILL   0x80
+
+#endif /* !ORION_INTERNAL */
 
 namespace Orion{
 	class CContainer; /* Forward declaration. See CContainer.hpp for definition. */

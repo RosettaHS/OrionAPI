@@ -26,15 +26,19 @@
 #ifndef __ORION_OKIT_XSERVICE_H__
 #define __ORION_OKIT_XSERVICE_H__
 
-/* Quick re-route to if(Orion::X::DPY). Add a scope and do any calls in this that you only want to occur if X initialises. */
-#define OXONLY if(Orion::X::DPY)
+#ifdef ORION_INTERNAL
 
-/* Quick re-route to Orion::X::DPY. Use this to get the X Display connection instead of writing out the namespaces. */
-#define OXDPY (Display*)Orion::X::DPY
-/* Quick re-route to Orion::X::ROOT. Use this to get the X root window (window manager) instead of writing out the namespaces. */
-#define OXROOT Orion::X::ROOT
-/* Quick re-route to Orion::X::SCR. Use this to get the current X Screen instead of writing out the namespaces. */
-#define OXSCR Orion::X::SCR
+	/* Quick re-route to if(Orion::X::DPY). Add a scope and do any calls in this that you only want to occur if X initialises. */
+	#define OXONLY if(Orion::X::DPY)
+
+	/* Quick re-route to Orion::X::DPY. Use this to get the X Display connection instead of writing out the namespaces. */
+	#define OXDPY (Display*)Orion::X::DPY
+	/* Quick re-route to Orion::X::ROOT. Use this to get the X root window (window manager) instead of writing out the namespaces. */
+	#define OXROOT Orion::X::ROOT
+	/* Quick re-route to Orion::X::SCR. Use this to get the current X Screen instead of writing out the namespaces. */
+	#define OXSCR Orion::X::SCR
+
+#endif /* !ORION_INTERNAL */
 
 namespace Orion{
 	namespace X{

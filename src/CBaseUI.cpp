@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include "include/CBaseUI.hpp"
 
 namespace Orion{

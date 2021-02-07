@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/OString.hpp"

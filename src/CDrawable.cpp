@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include <stdlib.h>
 #include "include/errdef.h"
 #include "include/application.hpp"

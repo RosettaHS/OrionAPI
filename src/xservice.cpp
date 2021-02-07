@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>

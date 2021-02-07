@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include "include/CSignalListener.hpp"
 
 namespace Orion{

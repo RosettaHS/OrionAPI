@@ -23,8 +23,10 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include "include/OLog.hpp"
+#define ORION_INTERNAL
+
 #include <stdlib.h>
+#include "include/OLog.hpp"
 #include "include/errdef.h"
 #include "include/application.hpp"
 #include "include/CDrawable.hpp"

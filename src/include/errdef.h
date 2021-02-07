@@ -26,6 +26,8 @@
 #ifndef __ORION_OKIT_ERRDEF_H__
 #define __ORION_OKIT_ERRDEF_H__
 
+#ifdef ORION_INTERNAL
+
 /* This contains error macros that OKit will use when encountering an error. */
 
 /* GENERIC */
@@ -54,5 +56,8 @@
 
 /* Emits when developer tries to set an invalid axis flag */
 #define OERR_CDRAWABLE_INVALID_FLAG				7
+
+
+#endif /* !ORION_INTERNAL */
 
 #endif /* !__ORION_OKIT_ERRDEF_H__ */

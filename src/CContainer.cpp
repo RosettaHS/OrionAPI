@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#define ORION_INTERNAL
+
 #include "include/OLog.hpp"
 #include "include/CContainer.hpp"
 
