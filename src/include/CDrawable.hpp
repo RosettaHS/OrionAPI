@@ -66,6 +66,13 @@
 
 #endif /* !ORION_INTERNAL */
 
+#ifndef ORION_NOHELPERS
+
+	/* A pointer to the UI element that has the global focus of this OApp. */
+	#define OAPP_FOCUSEDELEMENT Orion::Application::focusedElement
+
+#endif /* !ORION_NOHELPERS */
+
 namespace Orion{
 	class CContainer; /* Forward declaration. See CContainer.hpp for definition. */
 

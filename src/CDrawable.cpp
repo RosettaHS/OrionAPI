@@ -197,16 +197,16 @@ namespace Orion{
 
 	void CDrawable::setFocus(bool newFocus){
 		if(newFocus){
-			if(Application::focusedElement){
-				if(Application::focusedElement==this){ return; }
-				else{ Application::focusedElement->setFocus(false); }
+			if(OAPP_FOCUSEDELEMENT){
+				if(OAPP_FOCUSEDELEMENT==this){ return; }
+				else{ OAPP_FOCUSEDELEMENT->setFocus(false); }
 			}
-			Application::focusedElement=this;
+			OAPP_FOCUSEDELEMENT=this;
 		}else{
-			if(Application::focusedElement && Application::focusedElement!=this){
-				Application::focusedElement->setFocus(false);
+			if(OAPP_FOCUSEDELEMENT && OAPP_FOCUSEDELEMENT!=this){
+				OAPP_FOCUSEDELEMENT->setFocus(false);
 			}
-			Application::focusedElement=0;
+			OAPP_FOCUSEDELEMENT=0;
 		}
 		if(focused==newFocus){ return; }
 
