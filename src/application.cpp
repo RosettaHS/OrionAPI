@@ -45,8 +45,6 @@ namespace Orion{
 		float scale=1.0f;
 		const char* name=0;
 		const char* username=0;
-		// void setName(const char* _name){name=_name;}
-		// const char* getName(void){return name;}
 
 		bool isNativeOApp=false;
 		pid_t pid=0;
