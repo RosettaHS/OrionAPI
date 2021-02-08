@@ -67,7 +67,7 @@ int main(){
 	ORect rect(marginContainer,CENTRE,CENTRE,450,450);
 	rect.setCol(255,255,255);
 	ORect rect2(marginContainer,CENTRE,CENTRE,400,400);
-	// rect2.setCol(0,0,0);
+	rect2.setCol(0,0,0);
 
 	// marginContainer.unlinkAll();
 	// rect.linkTo(marginContainer);

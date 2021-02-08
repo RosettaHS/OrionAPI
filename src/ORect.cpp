@@ -46,6 +46,7 @@ namespace Orion{
 
 	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){
 		OXONLY{
+			type=OT_ORECT;
 			minW=DEF_MINW,minH=DEF_MINH;
 			init(_x,_y,_w,_h);
 			/* ORects use the secondary colour of the OApp theme by default.

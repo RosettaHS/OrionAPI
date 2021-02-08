@@ -217,11 +217,11 @@ namespace Orion{
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemePrimaryCol(OCol& c){
-		if(&c==&OTHEME_PRIMARY){ theme.primary=&OTHEME_PRIMARY; themeFlags&=~_CTHEME_OVERRIDE_PRIMARY; return; }
-		else if(&c==&OTHEME_SECONDARY){ theme.primary=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; return; }
-		else if(&c==&OTHEME_TERTIARY){ theme.primary=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; return; }
-		else if(&c==&OTHEME_ACCENT){ theme.primary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; return; }
-		else{ setThemePrimaryCol(c.r,c.g,c.b); }
+		if(&c==&OTHEME_PRIMARY){ theme.primary=&OTHEME_PRIMARY; themeFlags&=~_CTHEME_OVERRIDE_PRIMARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_SECONDARY){ theme.primary=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_TERTIARY){ theme.primary=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_ACCENT){ theme.primary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_PRIMARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else{ setThemeSecondaryCol(c.r,c.g,c.b); }
 	}
 
 	void CDrawable::setThemeSecondaryCol(unsigned char r, unsigned char g, unsigned char b){
@@ -231,10 +231,10 @@ namespace Orion{
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeSecondaryCol(OCol& c){
-		if(&c==&OTHEME_PRIMARY){ theme.secondary=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; return; }
-		else if(&c==&OTHEME_SECONDARY){ theme.secondary=&OTHEME_SECONDARY; themeFlags&=~_CTHEME_OVERRIDE_SECONDARY; return; }
-		else if(&c==&OTHEME_TERTIARY){ theme.secondary=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; return; }
-		else if(&c==&OTHEME_ACCENT){ theme.primary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; return; }
+		if(&c==&OTHEME_PRIMARY){ theme.secondary=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_SECONDARY){ theme.secondary=&OTHEME_SECONDARY; themeFlags&=~_CTHEME_OVERRIDE_SECONDARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_TERTIARY){ theme.secondary=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_ACCENT){ theme.secondary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_SECONDARY; if(internal.drawPtr){internal.drawPtr(this);}; return; }
 		else{ setThemeSecondaryCol(c.r,c.g,c.b); }
 	}
 
@@ -245,10 +245,10 @@ namespace Orion{
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeTertiaryCol(OCol& c){
-		if(&c==&OTHEME_PRIMARY){ theme.tertiary=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; return; }
-		else if(&c==&OTHEME_SECONDARY){ theme.tertiary=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; return; }
-		else if(&c==&OTHEME_TERTIARY){ theme.tertiary=&OTHEME_TERTIARY; themeFlags&=~_CTHEME_OVERRIDE_TERTIARY; return; }
-		else if(&c==&OTHEME_ACCENT){ theme.tertiary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; return; }
+		if(&c==&OTHEME_PRIMARY){ theme.tertiary=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_SECONDARY){ theme.tertiary=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_TERTIARY){ theme.tertiary=&OTHEME_TERTIARY; themeFlags&=~_CTHEME_OVERRIDE_TERTIARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_ACCENT){ theme.tertiary=&OTHEME_ACCENT; themeFlags|=_CTHEME_OVERRIDE_TERTIARY; if(internal.drawPtr){internal.drawPtr(this);} return; }
 		else{ setThemeTertiaryCol(c.r,c.g,c.b); }
 	}
 
@@ -259,10 +259,10 @@ namespace Orion{
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 	void CDrawable::setThemeAccentCol(OCol& c){
-		if(&c==&OTHEME_PRIMARY){ theme.accent=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; return; }
-		else if(&c==&OTHEME_SECONDARY){ theme.accent=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; return; }
-		else if(&c==&OTHEME_TERTIARY){ theme.accent=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; return; }
-		else if(&c==&OTHEME_ACCENT){ theme.accent=&OTHEME_ACCENT; themeFlags&=~_CTHEME_OVERRIDE_ACCENT; return; }
+		if(&c==&OTHEME_PRIMARY){ theme.accent=&OTHEME_PRIMARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_SECONDARY){ theme.accent=&OTHEME_SECONDARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_TERTIARY){ theme.accent=&OTHEME_TERTIARY; themeFlags|=_CTHEME_OVERRIDE_ACCENT; if(internal.drawPtr){internal.drawPtr(this);} return; }
+		else if(&c==&OTHEME_ACCENT){ theme.accent=&OTHEME_ACCENT; themeFlags&=~_CTHEME_OVERRIDE_ACCENT; if(internal.drawPtr){internal.drawPtr(this);}; return; }
 		else{ setThemeAccentCol(c.r,c.g,c.b); }
 	}
 
@@ -273,7 +273,6 @@ namespace Orion{
 		theme.tertiary=&(OTHEME.tertiary);
 		theme.accent=&(OTHEME.accent);
 		themeFlags=0;
-		fullRedraw=true;
 		if(internal.drawPtr){internal.drawPtr(this);}
 	}
 
@@ -398,7 +397,7 @@ namespace Orion{
 			OLog("\t Theme : secondary (%d, %d, %d)\n",theme.secondary->r,theme.secondary->g,theme.secondary->b);
 			OLog("\t Theme : tertiary (%d, %d, %d)\n",theme.tertiary->r,theme.tertiary->g,theme.tertiary->b);
 			OLog("\t Theme : accent (%d, %d, %d)\n",theme.accent->r,theme.accent->g,theme.accent->b);
-			OLog("\t Theme - Flags (P,S,T,A Overrides) : (%d, %d, %d, %d)\n}\n",(themeFlags>>_CTHEME_OVERRIDE_PRIMARY),(themeFlags>>_CTHEME_OVERRIDE_SECONDARY),(themeFlags>>_CTHEME_OVERRIDE_TERTIARY),(themeFlags>>_CTHEME_OVERRIDE_ACCENT));
+			OLog("\t Theme - Flags (P,S,T,A Overrides) : (%d, %d, %d, %d)\n}\n",(themeFlags & _CTHEME_OVERRIDE_PRIMARY),(themeFlags & _CTHEME_OVERRIDE_SECONDARY),(themeFlags & _CTHEME_OVERRIDE_TERTIARY),(themeFlags & _CTHEME_OVERRIDE_ACCENT));
 		}else{
 			OLog("(x %d, y %d, w %u, h %u)\n",x,y,w,h);
 		}
