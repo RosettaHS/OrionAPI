@@ -29,6 +29,7 @@ class CDrawable : public CBaseUI , public CLoggable {
 		virtual void onUnlink(void);
 		virtual void onPosChanged(void);
 		virtual void onSizeChanged(void);
+		virtual void onFocusChanged(void);
 
 		friend class CContainer;
 	public:
@@ -51,6 +52,8 @@ class CDrawable : public CBaseUI , public CLoggable {
 		void setMinSize(unsigned int w, unsigned int h); void setMinSize(OVec&);
 		virtual void setScale(float);
 		void setRotation(float);
+		void setGeometry(int x, int y, unsigned int w, unsigned int h); void setGeometry(OVec4&);
+		void setFocus(bool);
 
 		virtual void setCol(unsigned char r, unsigned char g, unsigned char b); virtual void setCol(OCol&);
 	
@@ -282,6 +285,10 @@ bool fullRedraw;
 ```
 Should the Drawable do a full wipe and render when its draw function is called? Is always false unless size is modified, or specified otherwise by derived implementations.
 ```cpp
+bool focused;
+```
+Is this Drawable the global focused UI element?
+```cpp
 CContext* context;
 ```
 A pointer to the Context that this Drawable will render its content onto when linked.
@@ -329,6 +336,10 @@ Calls whenever this Drawable gets its position modified. Entirely up to the deri
 virtual void onSizeChanged(void);
 ```
 Calls whenever this Drawable gets its size modified. Entirely up to the derived class for implementation.
+```cpp
+virtual void onFocusChanged(void);
+```
+Calls whenever this Drawable gets its focused changed. Entirely up to the derived class for implementation.
 ```cpp
 friend class CContainer;
 ```
@@ -381,7 +392,7 @@ Also has overload for passing in an [OVec.](https://github.com/RosettaHS/OKit/bl
 void setMinSize(unsigned int w, unsigned int h);
 void setMinSize(OVec&);
 ```
-Sets the minimum allowed size of the Drawable and causes its parent Container to resort.
+Sets the minimum allowed size of the Drawable and causes its parent Container to re-sort.
 Also has overload for passing in an [OVec.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OVec.md)
 ```cpp
 virtual void setScale(float);
@@ -392,6 +403,16 @@ This is NOT allowed on Containers, and will log a warning message to the termina
 void setRotation(float);
 ```
 Unused and reserved for potential future implementation.
+```cpp
+void setGeometry(int x, int y, unsigned int w, unsigned int h);
+void setGeometry(OVec4&);
+```
+Sets both the position and size of this Drawable and cause its parent Container to re-sort.
+Also has overload for passing in an [OVec4.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OVec.md)
+```cpp
+void setFocus(bool);
+```
+Sets the global focused UI element (`Application::focusedElement`) to this, and calls `onFocusChanged()`
 ```cpp
 virtual void setCol(unsigned char r, unsigned char g, unsigned char b);
 virtual void setCol(OCol&);

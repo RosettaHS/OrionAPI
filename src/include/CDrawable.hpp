@@ -90,6 +90,8 @@ namespace Orion{
 			int index;
 			/* Internal. Flag that dictates whether the draw function in drawPtr should do a complete wipe and redraw of this Drawable. */
 			bool fullRedraw;
+			/* Is this Drawable the focused Drawable for this OApp? */
+			bool focused;
 
 			/* The Context that this Drawable can draw to. */
 			CContext* context;
@@ -117,6 +119,8 @@ namespace Orion{
 			virtual void onPosChanged(void);
 			/* Internal. Calls this virtual method when size is modified. */
 			virtual void onSizeChanged(void);
+			/* Internal. Calls this virtual method when focus is changed. */
+			virtual void onFocusChanged(void);
 
 			/* Allows Containers to access internal members of this Drawable. */
 			friend class CContainer;
@@ -155,6 +159,8 @@ namespace Orion{
 			void setRotation(float);
 			/* Sets the position and size of this Drawable with the passed parameters. */
 			void setGeometry(int x, int y, unsigned int w, unsigned int h); void setGeometry(OVec4&);
+			/* Sets the focus of this Drawable and releases the focus of the currently focused Drawable. */
+			void setFocus(bool);
 
 			/* Sets the colour of this Drawable. Some derived classes do not allow this! */
 			virtual void setCol(unsigned char r, unsigned char g, unsigned char b); virtual void setCol(OCol&);
@@ -190,6 +196,8 @@ namespace Orion{
 			OVec4 getGeometry(bool globalToWindow=false) const;
 			/* Returns the child index of this Drawable if it is linked to a Container. Returns -1 if not linked. */
 			int getIndex(void);
+			/* Returns true if this Drawable is the currently focused UI element in the OApp. */
+			bool getFocus(void) const;
 
 			/* Returns a copy of the theme used by this Drawable. */
 			OTheme getTheme(void) const;
@@ -197,6 +205,12 @@ namespace Orion{
 			/* Log the data of this Drawable to the terminal. Pass true to get more detailed information. */
 			virtual void log(bool verbose=false) override;
 	};
+
+	namespace Application{
+		/* A pointer to the UI element that has the global focus of this OApp. */
+		extern CDrawable* focusedElement;
+	}
+
 }
 
 #endif /* !__ORION_OKIT_CDRAWABLE_H__ */

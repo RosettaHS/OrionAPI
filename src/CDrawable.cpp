@@ -48,7 +48,7 @@ namespace Orion{
 		offsetX{0},offsetY{0},
 		w{0},h{0},
 		minW{0},minH{0},
-		scale{1},rotation{0},index{-1},fullRedraw{false},
+		scale{1},rotation{0},index{-1},fullRedraw{false},focused{false},
 		context{0},parentDrawable{0},parentContainer{0},
 		internalTheme{OTHEME},theme{0,0,0,0},themeFlags{0},
 		internal{0,0} {
@@ -74,6 +74,7 @@ namespace Orion{
 	void CDrawable::onPosChanged(void){ return; }
 	void CDrawable::onSizeChanged(void){ return; }
 	void CDrawable::onUnlink(void){ return; }
+	void CDrawable::onFocusChanged(void){ return; }
 
 	bool CDrawable::linkTo(CContainer& container){ return container.link(*this); }
 
@@ -193,6 +194,25 @@ namespace Orion{
 		if(sizeChanged){ onSizeChanged(); }
 	}
 	void CDrawable::setGeometry(OVec4& v){ setGeometry(v.x,v.y,v.w,v.h); }
+
+	void CDrawable::setFocus(bool newFocus){
+		if(newFocus){
+			if(Application::focusedElement){
+				if(Application::focusedElement==this){ return; }
+				else{ Application::focusedElement->setFocus(false); }
+			}
+			Application::focusedElement=this;
+		}else{
+			if(Application::focusedElement && Application::focusedElement!=this){
+				Application::focusedElement->setFocus(false);
+			}
+			Application::focusedElement=0;
+		}
+		if(focused==newFocus){ return; }
+
+		focused=newFocus;
+		onFocusChanged();
+	}
 
 	void CDrawable::setCol(unsigned char r, unsigned char g, unsigned char b){
 		OLog("OKIT | WARNING! %s DOES NOT SUPPORT COLOUR MODIFICATION! FAILED TO SET COLOUR TO (%u, %u, %u)!\n",getTypeAsString(),r,g,b);
@@ -359,6 +379,8 @@ namespace Orion{
 		else{ return -1; }
 	}
 
+	bool CDrawable::getFocus(void) const{ return focused; }
+
 	OTheme CDrawable::getTheme(void) const{ return internalTheme; }
 
 	void CDrawable::log(bool verbose){
@@ -392,6 +414,7 @@ namespace Orion{
 			OLog("\t Draw Pointer : %p\n",(void*)internal.drawPtr);
 			OLog("\t Child Index : %d\n",index);
 			OLog("\t Ready/Initialised : %d\n",ready);
+			OLog("\t Focused : %s\n",(focused ? "true" : "false"));
 			OLog("\t----THEME----\n");
 			OLog("\t Theme : primary (%d, %d, %d)\n",theme.primary->r,theme.primary->g,theme.primary->b);
 			OLog("\t Theme : secondary (%d, %d, %d)\n",theme.secondary->r,theme.secondary->g,theme.secondary->b);
@@ -401,5 +424,9 @@ namespace Orion{
 		}else{
 			OLog("(x %d, y %d, w %u, h %u)\n",x,y,w,h);
 		}
+	}
+
+	namespace Application{
+		CDrawable* focusedElement=0;
 	}
 }
