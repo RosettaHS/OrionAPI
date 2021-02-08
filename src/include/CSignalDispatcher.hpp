@@ -34,6 +34,9 @@ namespace Orion{
 		protected:
 			/* The event manager itself. */
 			CSLArray SIGMGR;
+
+			/* Runs through the event manager and calls the linked functions that match a bit on the passed mask. */
+			void emit(OMask, OSignal&);
 		public:
 			/* Links a function to be called by a specific event mask on the given UI element. */
 			virtual bool connect(OMask&, void(*func)(void));

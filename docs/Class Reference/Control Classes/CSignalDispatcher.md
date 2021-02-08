@@ -6,6 +6,8 @@
 class CSignalDispatcher{
 	protected:
 		CSLArray SIGMGR;
+
+		void emit(OMask, OSignal&);
 	public:
 		virtual bool connect(OMask&, void(*func)(void));
 		virtual bool connect(OMask&, void(*func)(OSignal));
@@ -82,6 +84,10 @@ It is still good practice to review the documentation for the given class to see
 CSLArray SIGMGR;
 ```
 Protected. This is an array that contains linked functions alongside their OMasks.
+```cpp
+void emit(OMask, OSignal&);
+```
+Protected. Runs through the linked functions stored in `SIGMGR` and calls them if the stored mask matches any bits in the passed mask.
 ```cpp
 virtual bool connect(OMask&, void(*func)(void));
 ```
