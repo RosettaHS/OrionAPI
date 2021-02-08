@@ -31,8 +31,9 @@
 /**********************************************************************************/
 /*                                                                                */
 /*     OKit is Orion's Application Framework, it's used to create all sorts of    */
-/*   graphical applications and proves loads of useful utilities for developers   */
-/*     to utilise with minimal if any effort at all on the developer's part.      */
+/*        graphical applications native for the Orion Operating System,           */
+/*       and provides loads of useful utilities for developers to utilise         */
+/*           with minimal, if any effort at all on the developer's part.          */
 /*                                                                                */
 /*       Documentation on how to use OKit is available at the following link,     */
 /*             alongside the latest release. Get started using OKit now!          */
