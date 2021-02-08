@@ -140,7 +140,7 @@ namespace Orion{
 	namespace DRAW{
 		void OMarginContainer(CDrawable* obj){
 			Orion::OMarginContainer* container=(Orion::OMarginContainer*)obj;
-			if(!container->ready || !container->selfContext.XWIN){return;}
+			if(!container->ready || !container->selfContext.XWIN || !container->context){return;}
 			container->selfContext.setCol(container->theme.secondary);
 			if(!container->fullRedraw){return;}
 			container->selfContext.setGeometry(

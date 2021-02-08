@@ -124,14 +124,14 @@ namespace Orion{
 	}
 
 	void OContainer::setCol(unsigned char r, unsigned char g, unsigned char b){ setThemeSecondaryCol(r,g,b); }
-	void OContainer::setCol(OCol& c){ setThemeSecondaryCol(c.r,c.g,c.b); }
+	void OContainer::setCol(OCol& c){ setThemeSecondaryCol(c); }
 
 /* Handling */
 
 	namespace DRAW{
 		void OContainer(CDrawable* obj){
 			Orion::OContainer* container=(Orion::OContainer*)obj;
-			if(!container->ready || !container->selfContext.XWIN){return;}
+			if(!container->ready || !container->selfContext.XWIN || !container->context){return;}
 			container->selfContext.setCol(container->theme.secondary);
 			if(!container->fullRedraw){return;}
 			container->selfContext.setGeometry(

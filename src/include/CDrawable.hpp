@@ -170,7 +170,7 @@ namespace Orion{
 			void resetTheme(void);
 
 			/* Returns a pointer to the parent of this Drawable (if it has one). */
-			CContainer* getParent(void) const;
+			CDrawable* getParent(void) const;
 			/* Returns the position of this Drawable relative to its parent (if it has one). Pass true to retrieve the global position relative to the Window. */
 			OVec getPos(bool globalToWindow=false) const;
 			/* Returns the positional coordinates of the centre of this Drawable relative to the top left. */

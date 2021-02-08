@@ -270,7 +270,7 @@ namespace Orion{
 
 /* Getters */
 
-	CContainer* CDrawable::getParent(void) const{ return parentContainer; }
+	CDrawable* CDrawable::getParent(void) const{ return parentDrawable; }
 
 	OVec CDrawable::getPos(bool globalToWindow) const{
 		OVec v;

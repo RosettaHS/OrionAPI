@@ -26,7 +26,6 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include <X11/Xlib.h>
 #include "include/xservice.hpp"
 #include "include/application.hpp"
 #include "include/errdef.h"
@@ -52,13 +51,8 @@ namespace Orion{
 			/* ORects use the secondary colour of the OApp theme by default.
 			 * This checks if you're inputting another value from the OApp's theme,
 			 * and if it discovers a match, it will set the pointer directly to that instead.
-			 * I'm doing it the YandereDev way because a switch() statement would not work in this situation.
 			 */
-			if(col.XCOL==OTHEME_PRIMARY.XCOL){theme.secondary=&OTHEME_PRIMARY;}
-			else if(col.XCOL==OTHEME_SECONDARY.XCOL){theme.secondary=&OTHEME_SECONDARY;}
-			else if(col.XCOL==OTHEME_TERTIARY.XCOL){theme.secondary=&OTHEME_TERTIARY;}
-			else if(col.XCOL==OTHEME_ACCENT.XCOL){theme.secondary=&OTHEME_ACCENT;}
-			else{setThemeSecondaryCol(col);}
+			setThemeSecondaryCol(col);
 
 			ready=true;
 			parent.link(*this);
@@ -86,12 +80,12 @@ namespace Orion{
 	void ORect::setCol(unsigned char r, unsigned char g, unsigned char b){
 		setThemeSecondaryCol(r,g,b);
 	}
-	void ORect::setCol(OCol& c){ setThemeSecondaryCol(c.r,c.g,c.b); }
+	void ORect::setCol(OCol& c){ setThemeSecondaryCol(c); }
 
 	namespace DRAW{
 		void ORect(CDrawable* obj){
 			Orion::ORect* rect=(Orion::ORect*)obj;
-			if(!rect->ready || !rect->rect.XWIN){return;}
+			if(!rect->ready || !rect->rect.XWIN || !rect->context){return;}
 			rect->rect.setCol(rect->theme.secondary);
 			if(!rect->fullRedraw){return;}
 			rect->rect.setGeometry(

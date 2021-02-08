@@ -74,6 +74,7 @@ namespace Orion{
 	void CContainer::tempUnlinkAll(void){
 		forceSelfOnNext=true;
 		for(unsigned short i=0;i<childCount;i++){
+			arr.arr[i]->context=0;
 			arr.arr[i]->onUnlink();
 		}
 		forceSelfOnNext=false;

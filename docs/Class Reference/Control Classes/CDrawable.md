@@ -59,7 +59,7 @@ class CDrawable : public CBaseUI , public CLoggable {
 		void setThemeAccentCol(unsigned char r, unsigned char g, unsigned char b); void setThemeAccentCol(OCol&);
 		void resetTheme(void);
 
-		CContainer* getParent(void);
+		CDrawable* getParent(void);
 		OVec getPos(bool globalToWindow=false);
 		OVec getCentre(void);
 		OVec4 getSize(bool useScale=false);
@@ -425,11 +425,10 @@ void resetTheme(void);
 ```
 Resets the internal theme back to its default values after the inevitable damage you will cause by messing with the theme overrides.
 ```cpp
-OContainer* getParent(void);
+CDrawable* getParent(void);
 ```
-Returns a pointer to the parent Container if this Drawable is linked.
-If pointer is not `0`, you can cast it back into its original type by first casting it into a [CBaseUI*](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CBaseUI.md)
-and then matching its `type` member to an [enumeration of possible object types](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CBaseUI.md) to cast it back into an appropriate pointer.
+Returns a pointer to the parent Container (in the form of a Drawable) if this Drawable is linked.
+If pointer is not `0`, you can cast it back into its original type by casting it based on its `type` member to an [enumeration of possible object types](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CBaseUI.md) to cast it back into an appropriate pointer.
 ```cpp
 OVec getPos(bool globalToWindow=false);
 ```
