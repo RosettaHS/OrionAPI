@@ -83,7 +83,7 @@ namespace Orion{
 #include <limits.h>
 #include <sys/types.h>
 
-#include "errdef.h"
+#include "errdef.hpp"
 #include "application.hpp"
 #include "xservice.hpp"
 #include "OLog.hpp"

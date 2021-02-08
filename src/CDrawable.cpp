@@ -26,7 +26,7 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include "include/errdef.h"
+#include "include/errdef.hpp"
 #include "include/application.hpp"
 #include "include/OLog.hpp"
 #include "include/CDrawable.hpp"

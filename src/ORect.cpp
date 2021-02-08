@@ -26,9 +26,9 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
+#include "include/errdef.hpp"
 #include "include/xservice.hpp"
 #include "include/application.hpp"
-#include "include/errdef.h"
 #include "include/OLog.hpp"
 #include "include/ORect.hpp"
 
