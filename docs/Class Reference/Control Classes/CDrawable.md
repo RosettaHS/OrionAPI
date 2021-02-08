@@ -39,6 +39,8 @@ class CDrawable : public CBaseUI , public CLoggable {
 
 		CDrawable(void);
 
+		void draw(bool force=true);
+
 		bool linkTo(CContainer&);
 		bool unlinkThis(void);
 
@@ -347,6 +349,10 @@ struct{
 CDrawable(void);
 ```
 Empty constructor. Sets all values to 0.
+```cpp
+void draw(bool force=true);
+```
+Redraws this Drawable. Pass `true` if you want to force the Drawable to recompute important variables during the render process.
 ```cpp
 bool linkTo(CContainer&);
 ```

@@ -92,6 +92,7 @@ namespace Orion{
 				rect->offsetX*rect->scale,rect->offsetY*rect->scale,
 				rect->w*rect->scale,rect->h*rect->scale,true
 			);
+			rect->fullRedraw=false;
 		}
 	}
 

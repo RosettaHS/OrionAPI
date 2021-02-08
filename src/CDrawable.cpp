@@ -60,6 +60,15 @@ namespace Orion{
 			theme.accent=&(OTHEME.accent);
 		}
 
+	void CDrawable::draw(bool force){
+		if(internal.drawPtr){
+			fullRedraw=force;
+			internal.drawPtr(this);
+		}else{
+			OLog("OKIT | WARNING! CAN'T CALL DRAW() ON AN OBJECT THAT HASN'T BEEN INITIALISED YET!\n");
+		}
+	}
+
 	/* Base drawable does nothing when linked or modified. */
 	void CDrawable::onLink(void){ return; }
 	void CDrawable::onPosChanged(void){ return; }
@@ -139,7 +148,7 @@ namespace Orion{
 		onPosChanged();
 	}
 	void CDrawable::setPos(OVec& v){ setPos(v.x, v.y); }
-	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; }
+	void CDrawable::setCentre(int _x, int _y){ centreX=_x,centreY=_y; onPosChanged(); }
 	void CDrawable::setCentre(OVec& v){ setCentre(v.x,v.y); }
 	void CDrawable::setSize(unsigned int _w, unsigned int _h, bool force){
 		if( !force && (w==_w) && (h==_h) ){return;}

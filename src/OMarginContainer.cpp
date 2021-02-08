@@ -148,6 +148,7 @@ namespace Orion{
 				container->w-(container->margin_right*2),container->h-(container->margin_bottom*2),true
 			);
 			container->sort();
+			container->fullRedraw=false;
 		}
 	}
 

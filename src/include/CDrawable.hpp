@@ -133,6 +133,9 @@ namespace Orion{
 			/* Empty constructor. Sets all values to 0. */
 			CDrawable(void);
 
+			/* Rerenders this Drawable. Pass true to ensure a full, thorough redraw. */
+			void draw(bool force=false);
+
 			/* Links this Drawable to the passed Container. Returns false if could not link. */
 			bool linkTo(CContainer&);
 			/* Unlinks this Drawable its parent Container. Returns false if could not unlink. */
