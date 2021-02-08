@@ -33,7 +33,7 @@ namespace Orion{
 	void CSignalDispatcher::emit(OMask mask, OSignal& sig){
 		if(SIGMGR.arr){
 			for(unsigned short i=0;i<SIGMGR.count;i++){
-				if(SIGMGR.arr[i].mask|mask){ SIGMGR.arr[i].call(sig); }
+				if(SIGMGR.arr[i].mask&mask){ SIGMGR.arr[i].call(sig); }
 			}
 		}else{ OLog("OKIT | WARNING! CAN'T EMIT SIGNALS ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 	}
