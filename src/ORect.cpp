@@ -36,12 +36,6 @@
 #define DEF_MINH 50
 
 namespace Orion{
-
-	ORect::~ORect(void){
-		type=OT_ERROR;
-		ready=false;
-	}
-
 	ORect::ORect(void){type=OT_ORECT; }
 
 	ORect::ORect(CContainer& parent,int _x, int _y, unsigned int _w, unsigned int _h, OCol& col){

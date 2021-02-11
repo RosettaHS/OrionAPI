@@ -12,7 +12,6 @@ class ORect : public CDrawable{ friend void DRAW::ORect(CDrawable*);
 		virtual void onPosChanged(void) override;
 		virtual void onSizeChanged(void) override;
 	public:
-		~ORect(void);
 		ORect(void);
 		ORect(CContainer& parent,int x, int y, unsigned int w, unsigned int h, OCol& col=OTHEME_SECONDARY);
 
@@ -67,10 +66,6 @@ virtual void onSizeChanged(void) override;
 ```
 Calls whenever this Rectangle gets its size modified. Resizes the Rectangle to the its new size.
 #### The following methods and variables are public, and can be accessed by the developer.
-```cpp
-~ORect(void);
-```
-Destructor. Frees all memory and unlinks from its parent.
 ```cpp
 ORect(void);
 ```
