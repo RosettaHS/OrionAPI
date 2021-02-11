@@ -25,6 +25,7 @@ class OString : public CLoggable {
 		OString& operator+=(const char*);
 		OString operator+(const char*);
 		OString& operator=(const char*);
+		char operator[](size_t);
 };
 ```
 ### Use
@@ -148,6 +149,11 @@ OString& operator=(const char*);
 ```
 Override. Copies the data of the right OString/String literal to the left OString.
 Example: `OString newString="Assigned from a String Literal!";`
+```cpp
+char operator[](size_t);
+```
+Override. Returns the character at the given index using the `[]` operator.
+Example: `char myChar=myString[4];`
 
 ### Other Information
 OStrings are often used internally in UI Elements such as `OTextEntry` (coming soon).
