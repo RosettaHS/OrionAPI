@@ -39,8 +39,6 @@ namespace Orion{
 			size_t length;
 			/* Internal. Was the memory dynamically allocated? */
 			bool isMemStatic;
-			/* Internal. Calculates the length of another string. */
-			size_t calcLength(const char*);
 		public:
 			/* Frees all memory (if dynamically allocated) and sets all values to 0. */
 			~OString(void);

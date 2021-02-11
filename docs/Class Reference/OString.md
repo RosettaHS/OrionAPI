@@ -8,7 +8,6 @@ class OString : public CLoggable {
 		char* str;
 		size_t length;
 		bool isMemStatic;
-		size_t calcLength(const char*);
 	public:
 		~OString(void);
 		OString(void);
@@ -86,11 +85,6 @@ bool isMemStatic;
 ```
 Private. Was the memory dynamically allocated or does it come from a string literal? The purpose of this is to prevent OString from freeing a string literal
 when the OString comes out of scope. If the OString dynamically allocated memory (such as with `append()`), it will free the newly-allocated memory upon deletion.
-```cpp
-size_t calcLength(const char*);
-```
-Private and Internal. Calculates the length of the internal string and sets `length` to that.
-This is called internally whenever the internal string is modified.
 ```cpp
 ~OString(void);
 ```

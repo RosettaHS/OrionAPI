@@ -29,6 +29,14 @@
 #include "include/OString.hpp"
 
 namespace Orion{
+	static size_t calcLength(const char* t){
+		size_t l=0;
+		while(true){
+			if(t[l]!='\0'){l++;}else{break;}
+		}
+		return l;
+	}
+
 	OString::~OString(void){
 		if(!isMemStatic){if(str){free(str);str=0;}}
 	}
@@ -36,14 +44,6 @@ namespace Orion{
 	OString::OString(const char* text) : str{(char*)text} {
 		length=calcLength(text);
 		isMemStatic=true;
-	}
-
-	size_t OString::calcLength(const char* t){
-		size_t l=0;
-		while(true){
-			if(t[l]!='\0'){l++;}else{break;}
-		}
-		return l;
 	}
 
 	void OString::setTo(const char* text){
