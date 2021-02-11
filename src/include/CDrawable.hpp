@@ -64,7 +64,7 @@
 	#define _OUI_W_FILL   0x40
 	#define _OUI_H_FILL   0x80
 
-#endif /* !ORION_INTERNAL */
+#endif /* ORION_INTERNAL */
 
 #ifndef ORION_NOHELPERS
 

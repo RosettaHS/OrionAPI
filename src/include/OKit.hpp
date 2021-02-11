@@ -103,6 +103,7 @@ namespace Orion{
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
 #include "ORect.hpp"
+#include "OLabel.hpp"
 #include "OContainer.hpp"
 #include "OMarginContainer.hpp"
 

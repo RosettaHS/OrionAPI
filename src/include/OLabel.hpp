@@ -23,57 +23,21 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlib.h>
-#include "include/OKit.hpp"
-// using namespace Orion;
+#ifndef __ORION_OKIT_OLABEL_H__
+#define __ORION_OKIT_OLABEL_H__
 
-int border=8;
+#include "OString.hpp"
+#include "CDrawable.hpp"
 
-CContext context;
-CContext context2;
+namespace Orion{
+	namespace DRAW{ extern void OLabel(CDrawable*); }
 
-void myFunc(void* listener, X::CXEvent* event){
-	printf("Printing from event listener! Values | Listener %p | Event %p\n",(void*)listener,(void*)event);
-	if(event->type==X::CXE_MOUSECLICK&&event->mouse.button==1){
-		OCol c;
-		if(event->mouse.pressed){c.setTo(30,27,27);}else{c.setTo(255,86,15);}
-		((CContext*)listener)->setCol(&c);
-	}else if(event->type==X::CXE_CONFIGURE){
-		context2.setSize(event->configure.w-(border*2*OAPP_SCALE),event->configure.h-(border*2*OAPP_SCALE),false);
-	}
+	class OLabel : public CDrawable{ friend void DRAW::OLabel(CDrawable*);
+		protected:
+			OString text;
+			CContext back;
+		public:
+	};
 }
 
-// void myFunc2(void* listener, void* event){
-	// printf("Printing from event listener 2 2 2! Values | Listener %p | Event %p\n",listener,event);
-// }
-
-int main(){
-	OKitStart("MyOApp");
-	OCol col(255,86,15);
-	OCol col2(30,27,27);
-
-	// context.init(0,100,100,400,350,"My OApp",&col,ButtonPressMask|ButtonReleaseMask|StructureNotifyMask,CCT_TOPLEVEL,true,true);
-	// context.listener=&context;
-	// context.listenerFunc=myFunc;
-	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true,false);
-
-	CWindow win(CENTER,CENTER,500,500);
-	OMarginContainer marginContainer(win,0,0,500,500);
-	// OContainer container(win,150,150,200,200);
-
-	ORect rect(marginContainer,CENTRE,CENTRE,50,50);
-	rect.setCol(255,255,255);
-	// ORect rect2(marginContainer,CENTRE,CENTRE,400,400);
-	// rect2.setCol(0,0,0);
-
-	// marginContainer.unlinkAll();
-	// rect.linkTo(marginContainer);
-	// rect2.linkTo(marginContainer);
-
-	// container.unlinkThis();
-	// container.linkTo(win);
-	OKitEventLoop();
-}
+#endif /* !__ORION_OKIT_OLABEL_H__ */
