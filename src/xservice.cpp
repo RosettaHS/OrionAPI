@@ -34,9 +34,9 @@
 
 namespace Orion{
 	namespace X{
-		void* 			DPY=0;
-		unsigned long 	ROOT=0;
-		int	 			SCR=0;
+		void* DPY=0;
+		unsigned long ROOT=0;
+		int SCR=0;
 
 		bool connect(void){
 			if(DPY){return false;}

@@ -43,11 +43,11 @@
 namespace Orion{
 	namespace X{
 		/* The connection to the X server, used in every graphics call. */
-		extern void* 			DPY;
+		extern void* DPY;
 		/* The root window (window manager), used when creating an OWindow, or other top level Contexts. */
-		extern unsigned long 	ROOT;
+		extern unsigned long ROOT;
 		/* The X Screen to use in certain graphics calls. */
-		extern int	 			SCR;
+		extern int SCR;
 		/* Initialises a connection to the X display. Returns true on success, false if the X connection is already initalised, or crashes the program if X is not found. */
 		extern bool connect(void);
 		/* Disconnects from the X service. Returns true on succcess, false if couldn't disconnect or X connection hasn't been initialised. */

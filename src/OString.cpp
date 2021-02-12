@@ -30,6 +30,7 @@
 
 namespace Orion{
 	static size_t calcLength(const char* t){
+		if(!t){ return 0; }
 		size_t l=0;
 		while(true){
 			if(t[l]!='\0'){l++;}else{break;}

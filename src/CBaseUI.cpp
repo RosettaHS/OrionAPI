@@ -36,6 +36,7 @@ namespace Orion{
 			case OT_CDRAWABLE:{return "OT_CDRAWABLE";}
 			case OT_OCONTAINER:{return "OT_OCONTAINER";}
 			case OT_ORECT:{return "OT_ORECT";}
+			case OT_OLABEL:{return "OT_OLABEL";}
 			case OT_OMARGINCONTAINER:{return "OT_OMARGINCONTAINER";}
 
 			case OT_OWINDOW:{return "OT_OWINDOW";}

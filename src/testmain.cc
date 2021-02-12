@@ -61,11 +61,13 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true,false);
 
 	CWindow win(CENTER,CENTER,500,500);
-	OMarginContainer marginContainer(win,0,0,500,500);
+	OMarginContainer marginContainer(win,0,0,500,500,4);
+	marginContainer.setCol(OTHEME_PRIMARY);
 	// OContainer container(win,150,150,200,200);
 
-	ORect rect(marginContainer,CENTRE,CENTRE,50,50);
-	rect.setCol(255,255,255);
+	// ORect rect(marginContainer,CENTRE,CENTRE,50,50);
+	// rect.setCol(255,255,255);
+	CLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<<>>>>");
 	// ORect rect2(marginContainer,CENTRE,CENTRE,400,400);
 	// rect2.setCol(0,0,0);
 

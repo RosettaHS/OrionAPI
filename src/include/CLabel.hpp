@@ -23,20 +23,40 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OLABEL_H__
-#define __ORION_OKIT_OLABEL_H__
+#ifndef __ORION_OKIT_CLABEL_H__
+#define __ORION_OKIT_CLABEL_H__
 
 #include "OString.hpp"
 #include "CDrawable.hpp"
+#include "CContainer.hpp"
 
 namespace Orion{
-	namespace DRAW{ extern void OLabel(CDrawable*); }
+	namespace DRAW{ extern void CLabel(CDrawable*); }
+	namespace HANDLE{ extern void CLabel(void*, X::CXEvent*); }
 
-	class OLabel : public CDrawable{ friend void DRAW::OLabel(CDrawable*);
+	class CLabel : public CDrawable{ friend void DRAW::CLabel(CDrawable*); friend void HANDLE::CLabel(void*, X::CXEvent*);
 		protected:
-			OString text;
-			CContext back;
+			struct{
+				OString string;
+				const char* fontName;
+				void* XFONT;
+				void* XGC;
+			}XTEXT;
+			CContext rect;
+
+			virtual void onLink(void) override;
+			virtual void onUnlink(void) override;
+			virtual void onPosChanged(void) override;
+			virtual void onSizeChanged(void) override;
 		public:
+			CLabel(void);
+			CLabel(CContainer&, int x, int y, unsigned int w, unsigned int h, const char* label=0);
+
+			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
+			virtual void setCol(OCol&) override;
+
+			void setBackgroundCol(unsigned char r, unsigned char g, unsigned char b);
+			void setBackgroundCol(OCol&);
 	};
 }
 
