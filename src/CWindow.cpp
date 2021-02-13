@@ -67,7 +67,7 @@ namespace Orion{
 				case START:{ x=0; break; }
 				case END:{ x=((_screenSize.x)-(_w)*OAPP_SCALE); break; }
 				case CENTER:{ x=((_screenSize.x/2)-(_w/2)*OAPP_SCALE); break; }
-				case FILL:{ x=0; OLog("OKIT | WARNING! CAN'T SET X POSITION WITH FILL FLAG!\n"); break;}
+				case FILL:{ x=0; OLog("ORIONAPI | WARNING! CAN'T SET X POSITION WITH FILL FLAG!\n"); break;}
 			}
 
 			switch(_y){
@@ -75,7 +75,7 @@ namespace Orion{
 				case START:{ y=0; break; }
 				case END:{ y=((_screenSize.y)-(_h)*OAPP_SCALE); break; }
 				case CENTER:{ y=((_screenSize.y/2)-(_h/2)*OAPP_SCALE); break; }
-				case FILL:{ y=0; OLog("OKIT | WARNING! CAN'T SET Y POSITION WITH FILL FLAG!\n"); break;}
+				case FILL:{ y=0; OLog("ORIONAPI | WARNING! CAN'T SET Y POSITION WITH FILL FLAG!\n"); break;}
 			}
 		/* Context Initialisation */
 			if(selfContext.init(0,x,y,w,h,title,theme.accent,_OWINDOW_DEFMASK,CCT_TOPLEVEL,true,true)){
@@ -93,7 +93,7 @@ namespace Orion{
 			
 			
 		}else{
-			OLog("OKIT | ERROR! FAILED TO CREATE OWINDOW(%d %d %u %u %s) BECAUSE X IS NOT INITIALISED!\n",_x,_y,_w,_h,_t);
+			OLog("ORIONAPI | ERROR! FAILED TO CREATE OWINDOW(%d %d %u %u %s) BECAUSE X IS NOT INITIALISED!\n",_x,_y,_w,_h,_t);
 			type=OT_ERROR;
 			exit(OERR_X11_NOT_INITED);
 		}

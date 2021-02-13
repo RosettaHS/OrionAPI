@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_XSERVICE_H__
-#define __ORION_OKIT_XSERVICE_H__
+#ifndef __ORION_OAPI_XSERVICE_H__
+#define __ORION_OAPI_XSERVICE_H__
 
 #ifdef ORION_INTERNAL
 
@@ -57,4 +57,4 @@ namespace Orion{
 	}
 }
 
-#endif /* !__ORION_OKIT_XSERVICE_H__ */
+#endif /* !__ORION_OAPI_XSERVICE_H__ */

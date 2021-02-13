@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OSIGNAL_H__
-#define __ORION_OKIT_OSIGNAL_H__
+#ifndef __ORION_OAPI_OSIGNAL_H__
+#define __ORION_OAPI_OSIGNAL_H__
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -91,4 +91,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_OSIGNAL_H__ */
+#endif /* !__ORION_OAPI_OSIGNAL_H__ */

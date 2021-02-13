@@ -23,13 +23,13 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OVEC_H__
-#define __ORION_OKIT_OVEC_H__
+#ifndef __ORION_OAPI_OVEC_H__
+#define __ORION_OAPI_OVEC_H__
 
 #include "CLoggable.hpp"
 
 namespace Orion{
-	/* Used to hold position data for any OKit object. */
+	/* Used to hold position data for any OrionUI object. */
 	struct OVec  : public CLoggable {
 		/* The X and Y positions on the screen or of the object.*/
 		int x,y;
@@ -42,7 +42,7 @@ namespace Orion{
 		virtual void log(bool verbose=false) override;
 	};
 
-	/* Used to hold position and size data for any OKit object. */
+	/* Used to hold position and size data for any OrionUI object. */
 	struct OVec4 : public CLoggable {
 		/* The X and Y positions on the screen or of the object. */
 		int x,y;
@@ -57,4 +57,4 @@ namespace Orion{
 		virtual void log(bool verbose=false) override;
 	};
 }
-#endif /* !__ORION_OKIT_OVEC_H__ */
+#endif /* !__ORION_OAPI_OVEC_H__ */

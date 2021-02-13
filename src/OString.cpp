@@ -97,7 +97,7 @@ namespace Orion{
 
 	char OString::operator[](size_t pos){
 		if(pos>=length){
-			OLog("OKIT | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",pos,length-1);
+			OLog("ORIONAPI | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",pos,length-1);
 			return 0;
 		}else{
 			return str[pos];

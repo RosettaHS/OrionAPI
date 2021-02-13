@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_ORECT_H__
-#define __ORION_OKIT_ORECT_H__
+#ifndef __ORION_OAPI_ORECT_H__
+#define __ORION_OAPI_ORECT_H__
 
 #include "CDrawable.hpp"
 #include "CContainer.hpp"
@@ -57,4 +57,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_ORECT_H__ */
+#endif /* !__ORION_OAPI_ORECT_H__ */

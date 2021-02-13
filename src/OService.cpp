@@ -78,11 +78,11 @@ namespace Orion{
 				rgb[section]=atoi(current);
 				theme[line]->setTo(rgb[0],rgb[1],rgb[2]);
 
-				OVLog("OKIT | Successfully set OApp's theme from system theme!\n");
+				OVLog("ORIONAPI | Successfully set OApp's theme from system theme!\n");
 				return true;
-			}else{ OVLog("OKIT | OApp theme could not be set from the system because system theme file exists but could not be opened. Resorting to fallback.\n"); return false; }
+			}else{ OVLog("ORIONAPI | OApp theme could not be set from the system because system theme file exists but could not be opened. Resorting to fallback.\n"); return false; }
 
-		}else{ OVLog("OKIT | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
+		}else{ OVLog("ORIONAPI | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
 		return false; /* Add proper support here! */
 	}
 
@@ -93,28 +93,28 @@ namespace Orion{
 		OTHEME_ACCENT.setTo(255,86,15);
 	}
 
-	bool OKitStart(const char* name,bool ForceONative){
+	bool OAppStart(const char* name,bool ForceONative){
 		if(OAPP_INITED){return false;}
 		if(name){OAPP_NAME=name;}
 		Application::init();
 		if(ForceONative){
-			if(!OAPP_NATIVE){OLog("OKIT | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
-			if(OAPP_BINPATH==0||OAPP_BINDIR==0||OAPP_DATAPATH==0){OLog("OKIT | ERROR! SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");exit(OERR_NOT_NATIVE_OAPP);}
+			if(!OAPP_NATIVE){OLog("ORIONAPI | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
+			if(OAPP_BINPATH==0||OAPP_BINDIR==0||OAPP_DATAPATH==0){OLog("ORIONAPI | ERROR! SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");exit(OERR_NOT_NATIVE_OAPP);}
 		}
 		X::connect();
 		X::CXHA_INIT();
 		if(!_setThemeFromSystem()){_setThemeToFallback();}
-		OVLog("OKIT | Service sucessfully initialised!\n\n");
+		OVLog("ORIONAPI | Service sucessfully initialised!\n\n");
 		OAPP_INITED=true;
 		return true;
 	}
 
-	bool OKitEventLoop(void){
+	bool OAppEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
 		X::CXHA_DESTROY();
-		OVLog("\nOKIT | Service sucessfully finished!\n\n");
+		OVLog("\nORIONAPI | Service sucessfully finished!\n\n");
 		return true;
 	}
 

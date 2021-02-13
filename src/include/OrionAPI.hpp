@@ -31,51 +31,51 @@
 /*                                                                                */
 /**********************************************************************************/
 /*                                                                                */
-/*     OKit is Orion's Application Framework, it's used to create all sorts of    */
+/*    This is Orion's Application Framework, it's used to create all sorts of     */
 /*        graphical applications native for the Orion Operating System,           */
 /*       and provides loads of useful utilities for developers to utilise         */
 /*           with minimal, if any effort at all on the developer's part.          */
 /*                                                                                */
-/*       Documentation on how to use OKit is available at the following link,     */
-/*             alongside the latest release. Get started using OKit now!          */
+/*    Documentation on how to use OrionAPI is available at the following link,    */
+/*      alongside the latest release. Get started developing  for Orion now!      */
 /*                                                                                */
 /**********************************************************************************/
 /*                                                                                */
-/*                       https://github.com/RosettaHS/OKit                        */
+/*                     https://github.com/RosettaHS/OrionAPI                      */
 /* #                                                                            # */
 /**********************************************************************************/
 
 
-#ifndef __ORION_OKIT_H__
-#define __ORION_OKIT_H__
+#ifndef __ORION_OAPI_H__
+#define __ORION_OAPI_H__
 
 /*
-* The current version of OKit installed on this system.
-* For a more up-to-date version of OKit, please visit https://github.com/RosettaHS/OKit to download the latest release.
+* The current version of the OrionAPI installed on this system.
+* For a more up-to-date version of the OrionAPI, please visit https://github.com/RosettaHS/OrionAPI to download the latest release.
 */
-#define OKIT_VERSION  0
+#define OAPI_VERSION  0
 /*
-* The current revision of OKit installed on this system.
-* For a more up-to-date version of OKit, please visit https://github.com/RosettaHS/OKit to download the latest release.
+* The current revision of the OrionAPI installed on this system.
+* For a more up-to-date version of the OrionAPI, please visit https://github.com/RosettaHS/OrionAPI to download the latest release.
 */
-#define OKIT_REVISION 0
+#define OAPI_REVISION 0
 
 /* The following are forward declarations for Visual Studio (Code) Tooltips */
 
 /* The OrionAPI Namespace. */
 namespace Orion{
-	/* OKit - The namespace that contains all functions and global variables for the OApp. */
+	/* OrionAPI - The namespace that contains all functions and global variables for the OApp. */
 	namespace Application{}
-	/* OKit - The namespace that contains all internal X connection information. */
+	/* OrionAPI - The namespace that contains all internal X connection information. */
 	namespace X{}
-	/* OKit - The namespace that contains all internal render functions for each class. */
+	/* OrionAPI - The namespace that contains all internal render functions for each class. */
 	namespace DRAW{}
-	/* OKit - The namespace that contains all internal event handling functions for each class. */
+	/* OrionAPI - The namespace that contains all internal event handling functions for each class. */
 	namespace HANDLE{}
 }
 
 /*
-*	These following three includes are all the system headerfiles that OKit automatically includes.
+*	These following three includes are all the system headerfiles that the OrionAPI automatically includes.
 *	No need to worry about too much clutter or contamination!
 */
 
@@ -118,11 +118,11 @@ namespace Orion{
 *	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
 *	it might make more sense to force "using namespace Orion;" on and allow it to be disabled,
 *	rather than force everyone to write "using namespace Orion;" in each of their files,
-*	as is dictated in each tutorial and example for OKit. 
+*	as is dictated in each tutorial and example for the OrionAPI. 
 */
 
 #ifndef ORION_UNUSE_NAMESPACE
 using namespace Orion;
 #endif /* !ORION_UNUSE_NAMESPACE */
 
-#endif /* !__ORION_OKIT_H__ */
+#endif /* !__ORION_OAPI_H__ */

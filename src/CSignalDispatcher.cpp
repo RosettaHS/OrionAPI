@@ -35,7 +35,7 @@ namespace Orion{
 			for(unsigned short i=0;i<SIGMGR.count;i++){
 				if(SIGMGR.arr[i].mask&mask){ SIGMGR.arr[i].call(sig); }
 			}
-		}else{ OLog("OKIT | WARNING! CAN'T EMIT SIGNALS ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		}else{ OLog("ORIONAPI | WARNING! CAN'T EMIT SIGNALS ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 	}
 
 	bool CSignalDispatcher::connect(OMask& mask, void(*func)(void)){
@@ -43,7 +43,7 @@ namespace Orion{
 			CSignalListener listener;
 			listener.compose(func,mask);
 			return SIGMGR.connect(listener);
-		}else{ OLog("OKIT | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		}else{ OLog("ORIONAPI | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 		return false;
 	}
 
@@ -52,7 +52,7 @@ namespace Orion{
 			CSignalListener listener;
 			listener.compose(func,mask);
 			return SIGMGR.connect(listener);
-		}else{ OLog("OKIT | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		}else{ OLog("ORIONAPI | WARNING! CAN'T CONNECT FUNCTION TO SIGNAL ON OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 		return false;
 	}
 
@@ -61,7 +61,7 @@ namespace Orion{
 			CSignalListener listener;
 			listener.compose(func,mask);
 			return SIGMGR.disconnect(listener);
-		}else{ OLog("OKIT | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		}else{ OLog("ORIONAPI | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 		return false;
 	}
 
@@ -70,7 +70,7 @@ namespace Orion{
 			CSignalListener listener;
 			listener.compose(func,mask);
 			return SIGMGR.disconnect(listener);
-		}else{ OLog("OKIT | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
+		}else{ OLog("ORIONAPI | WARNING! CAN'T DISCONNECT FUNCTION FROM SIGNAL ON AN OBJECT THAT HAS NOT BEEN INITIALISED YET!\n"); }
 		return false;
 	}
 }

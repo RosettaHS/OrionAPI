@@ -23,31 +23,31 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_ERRDEF_H__
-#define __ORION_OKIT_ERRDEF_H__
+#ifndef __ORION_OAPI_ERRDEF_H__
+#define __ORION_OAPI_ERRDEF_H__
 
 #ifdef ORION_INTERNAL
 
-/* This contains error macros that OKit will use when encountering an error. */
+/* This contains error macros that the OrionAPI will use when encountering an error. */
 
 /* GENERIC */
 
-/* Emits when OKit has encountered an error but can't resolve the type.  */
+/* Emits when the OrionAPI has encountered an error but can't resolve the type.  */
 #define OERR_UNKNOWN							-1
-/* Emits when OKit successfully exits. */
+/* Emits when the OrionAPI successfully exits. */
 #define OERR_NONE								0
-/* Emits when OKit can't malloc() any more memory. */
+/* Emits when the OrionAPI can't malloc() any more memory. */
 #define OERR_CANTMALLOC							1
-/* Emits when OKit is forced to NativeOnly mode, and OApp boots as standalone binary. */
+/* Emits when the OrionAPI is forced to NativeOnly mode, and OApp boots as standalone binary. */
 #define OERR_NOT_NATIVE_OAPP					2
 
 /* X11 */
 
-/* Emits when OKit fails to connect with X11. */
+/* Emits when the OrionAPI fails to connect with X11. */
 #define OERR_X11_CONNECTION_FAILURE				3
-/* Emits when OKit's X11 connection gets interrupted but can't resolve the type. */
+/* Emits when the OrionAPI's X11 connection gets interrupted but can't resolve the type. */
 #define OERR_X11_CONNECTION_INTERRUPTED			4
-/* Emits when OKit tries to create an object while X11 is not initialised. */
+/* Emits when the OrionAPI tries to create an object while X11 is not initialised. */
 #define OERR_X11_NOT_INITED						5
 /* Emits when X fails to return a valid Window. */
 #define OERR_X11_WINDOW_CREATION_FAILURE		6
@@ -62,4 +62,4 @@
 
 #endif /* !ORION_INTERNAL */
 
-#endif /* !__ORION_OKIT_ERRDEF_H__ */
+#endif /* !__ORION_OAPI_ERRDEF_H__ */

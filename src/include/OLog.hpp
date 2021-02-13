@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OLOG_H__
-#define __ORION_OKIT_OLOG_H__
+#ifndef __ORION_OAPI_OLOG_H__
+#define __ORION_OAPI_OLOG_H__
 
 namespace Orion{
 	/* Logs the formatted string out to the terminal. */
@@ -82,4 +82,4 @@ namespace Orion{
 	extern void OVLog(void*);
 }
 
-#endif /* !__ORION_OKIT_OLOG_H__ */
+#endif /* !__ORION_OAPI_OLOG_H__ */

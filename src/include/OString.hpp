@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_OSTRING_H__
-#define __ORION_OKIT_OSTRING_H__
+#ifndef __ORION_OAPI_OSTRING_H__
+#define __ORION_OAPI_OSTRING_H__
 
 #include <sys/types.h>
 #include "CLoggable.hpp"
@@ -71,4 +71,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_OSTRING_H__ */
+#endif /* !__ORION_OAPI_OSTRING_H__ */

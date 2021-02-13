@@ -42,7 +42,7 @@ namespace Orion{
 				arr[i].clear();
 			}
 		}else{
-			OLog("OKIT | ERROR! FAILED TO ALLOCATE MEMORY FOR CSLARRAY!\n");
+			OLog("ORIONAPI | ERROR! FAILED TO ALLOCATE MEMORY FOR CSLARRAY!\n");
 			exit(OERR_CANTMALLOC);
 		}
 		return false;
@@ -54,7 +54,7 @@ namespace Orion{
 			if(arr){
 				return true;
 			}else{
-				OLog("OKIT | ERROR! FAILED TO RESIZE ALLOCATED MEMORY FOR CSLARRAY!\n");
+				OLog("ORIONAPI | ERROR! FAILED TO RESIZE ALLOCATED MEMORY FOR CSLARRAY!\n");
 				exit(OERR_CANTMALLOC);
 			}
 		}

@@ -23,6 +23,7 @@
 /*                                                                                */
 /**********************************************************************************/
 
+
 /**********************************************************************************/
 /* #                                                                            # */
 /*                   Welcome to the Orion Application Framework                   */
@@ -30,24 +31,24 @@
 /*                                                                                */
 /**********************************************************************************/
 /*                                                                                */
-/*     OKit is Orion's Application Framework, it's used to create all sorts of    */
+/*    This is Orion's Application Framework, it's used to create all sorts of     */
 /*        graphical applications native for the Orion Operating System,           */
 /*       and provides loads of useful utilities for developers to utilise         */
 /*           with minimal, if any effort at all on the developer's part.          */
 /*                                                                                */
-/*       Documentation on how to use OKit is available at the following link,     */
-/*             alongside the latest release. Get started using OKit now!          */
+/*    Documentation on how to use OrionAPI is available at the following link,    */
+/*      alongside the latest release. Get started developing  for Orion now!      */
 /*                                                                                */
 /**********************************************************************************/
 /*                                                                                */
-/*                       https://github.com/RosettaHS/OKit                        */
+/*                     https://github.com/RosettaHS/OrionAPI                      */
 /* #                                                                            # */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_H_LINK__
-#define __ORION_OKIT_H_LINK__
+#ifndef __ORION_OAPI_H_LINK__
+#define __ORION_OAPI_H_LINK__
 
 /* Simple re-route to the real header file. Go to the directory listed for further information. */
-#include "_OKit/OKit.hpp"
+#include "_OrionAPI/OrionAPI.hpp"
 
-#endif /* !__ORION_OKIT_H_LINK__ */
+#endif /* !__ORION_OAPI_H_LINK__ */

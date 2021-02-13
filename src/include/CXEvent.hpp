@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CXEVENT_H__
-#define __ORION_OKIT_CXEVENT_H__
+#ifndef __ORION_OAPI_CXEVENT_H__
+#define __ORION_OAPI_CXEVENT_H__
 
 namespace Orion{
 	namespace X{
@@ -89,4 +89,4 @@ namespace Orion{
 	}
 }
 
-#endif /* !__ORION_OKIT_CXEVENT_H__ */
+#endif /* !__ORION_OAPI_CXEVENT_H__ */

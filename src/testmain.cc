@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
-#include "include/OKit.hpp"
+#include "include/OrionAPI.hpp"
 // using namespace Orion;
 
 int border=8;
@@ -51,7 +51,7 @@ void myFunc(void* listener, X::CXEvent* event){
 // }
 
 int main(){
-	OKitStart("MyOApp");
+	OAppStart("MyOApp");
 	OCol col(255,86,15);
 	OCol col2(30,27,27);
 
@@ -79,5 +79,5 @@ int main(){
 
 	// container.unlinkThis();
 	// container.linkTo(win);
-	OKitEventLoop();
+	OAppEventLoop();
 }

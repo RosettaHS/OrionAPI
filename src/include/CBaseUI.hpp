@@ -23,11 +23,11 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CBASEUI_H__
-#define __ORION_OKIT_CBASEUI_H__
+#ifndef __ORION_OAPI_CBASEUI_H__
+#define __ORION_OAPI_CBASEUI_H__
 
 namespace Orion{
-	/* An enumeration of all deferrable class types used in OKit. */
+	/* An enumeration of all deferrable class types used in the OrionAPI. */
 	enum OType{
 		OT_ERROR,
 		OT_CDRAWABLE,
@@ -39,7 +39,7 @@ namespace Orion{
 		OT_OWINDOW,
 	};
 
-	/* Base derivable class that all OKit UI elements derive from. */
+	/* Base derivable class that all OrionUI elements derive from. */
 	class CBaseUI{
 		public:
 			/* The type of this Object. */
@@ -55,4 +55,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_CBASEUI_H__ */
+#endif /* !__ORION_OAPI_CBASEUI_H__ */

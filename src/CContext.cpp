@@ -35,7 +35,7 @@
 
 namespace Orion{
 	CContext::~CContext(void){
-		if(destroy()){ OVLog("OKIT | CContext %p destroyed.\n",(void*)this); }
+		if(destroy()){ OVLog("ORIONAPI | CContext %p destroyed.\n",(void*)this); }
 	}
 	CContext::CContext(void) : XWIN{0},XROOT{0},XCOL{0},XMASK{0},XTITLE{0},listener{0},listenerFunc{0} {}
 
@@ -120,16 +120,16 @@ namespace Orion{
 
 				XChangeWindowAttributes(OXDPY,XWIN,attrmask,&attr);
 				if(link){X::CXHA_LINK(this);}
-				OVLog("OKIT | Successfully created CContext %p with parameters ( %p , %d , %d , %u , %u, %s )\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false"));
+				OVLog("ORIONAPI | Successfully created CContext %p with parameters ( %p , %d , %d , %u , %u, %s )\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false"));
 				return true;
 			}else{
-				OLog("OKIT | ERROR! FAILED TO CREATE CContext %p WITH PARAMETERS( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+				OLog("ORIONAPI | ERROR! FAILED TO CREATE CContext %p WITH PARAMETERS( %p , %d , %d , %u , %u, %s ) BECAUSE XCreateSimpleWindow DID NOT RETURN A VALID WINDOW!\n",(void*)this,(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 				exit(OERR_X11_WINDOW_CREATION_FAILURE);
 				return false;
 			}
 		}else{
 			XWIN=0;
-			OLog("OKIT | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
+			OLog("ORIONAPI | ERROR! FAILED TO CREATE CContext( %p , %d , %d , %u , %u, %s ) BECAUSE X IS NOT INITIALISED!\n",(void*)root,_x,_y,_w,_h, (useScale ? "true" : "false") );
 			exit(OERR_X11_NOT_INITED);
 			return false;
 		}
@@ -150,7 +150,7 @@ namespace Orion{
 	}
 
 	void CContext::setCol(OCol* col){
-		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETCOL ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
+		if(!XWIN){OLog("ORIONAPI | WARNING! CAN'T RUN SETCOL ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		if(col->XCOL==XCOL){return;}
 		XSetWindowBackground(OXDPY,XWIN,col->XCOL);
 		XClearWindow(OXDPY,XWIN);
@@ -164,7 +164,7 @@ namespace Orion{
 	}
 
 	void CContext::setPos(int _x, int _y, bool useScale){
-		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETPOS ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
+		if(!XWIN){OLog("ORIONAPI | WARNING! CAN'T RUN SETPOS ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int x,y;
 		if(useScale){	if(XROOT!=OXROOT){x=(int)_x*OAPP_SCALE,y=(int)_y*OAPP_SCALE;}else{x=_x,y=_y;}	}else{x=_x,y=_y;}
 		XMoveWindow(OXDPY,XWIN,x,y);
@@ -178,7 +178,7 @@ namespace Orion{
 	}
 
 	void CContext::setSize(unsigned int _w, unsigned int _h, bool useScale){
-		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETSIZE ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
+		if(!XWIN){OLog("ORIONAPI | WARNING! CAN'T RUN SETSIZE ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int w,h;
 		if(useScale){	w=(unsigned int)_w*OAPP_SCALE,h=(unsigned int)_h*OAPP_SCALE;	}else{w=_w,h=_h;}
 		if(w<=1){w=1;}
@@ -194,7 +194,7 @@ namespace Orion{
 	}
 
 	void CContext::setGeometry(int _x, int _y, unsigned int _w, unsigned int _h, bool useScale){
-		if(!XWIN){OLog("OKIT | WARNING! CAN'T RUN SETGEOMETRY ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
+		if(!XWIN){OLog("ORIONAPI | WARNING! CAN'T RUN SETGEOMETRY ON OBJECT THAT HAS NOT BEEN LINKED YET!\n"); return;}
 		int x,y;
 		unsigned int w,h;
 		if(useScale){
@@ -215,7 +215,7 @@ namespace Orion{
 	}
 
 	void CContext::reparent(CContext* root, int _x, int _y, bool useScale){
-		if(!XWIN){OLog("OKIT | WARNING! CAN'T REPARENT CONTEXT THAT HAS NOT BEEN INITIALISED YET!\n"); return;}
+		if(!XWIN){OLog("ORIONAPI | WARNING! CAN'T REPARENT CONTEXT THAT HAS NOT BEEN INITIALISED YET!\n"); return;}
 		if(root->XWIN==XROOT){return;}
 		int x,y;
 		if(useScale){
@@ -244,7 +244,7 @@ namespace Orion{
 		static bool _CXHA_RESIZE(unsigned long size){
 			if(!CXHA){return false;}
 			CXHA=(CXHANDLE*)realloc(CXHA,sizeof(CXHANDLE)*size);
-			if(!CXHA){OLog("OKIT | ERROR! CXHA FAILED TO RESIZE!! CAN'T REALLOC!\n");exit(OERR_CANTMALLOC);return false;}
+			if(!CXHA){OLog("ORIONAPI | ERROR! CXHA FAILED TO RESIZE!! CAN'T REALLOC!\n");exit(OERR_CANTMALLOC);return false;}
 			for(unsigned long i=CXHA_COUNT;i<CXHA_CAP;i++){CXHA[i]={0,0};}
 			CXHA_CAP=size;
 			return true;
@@ -253,7 +253,7 @@ namespace Orion{
 		bool CXHA_INIT(void){
 			if(CXHA){return false;}
 			CXHA=(CXHANDLE*)malloc(sizeof(CXHANDLE)*__CXHA_DEFAULT_CAP);
-			if(!CXHA){OLog("OKIT | ERROR! CXHA FAILED TO INITALISE! CAN'T MALLOC!\n");exit(OERR_CANTMALLOC);return false;}
+			if(!CXHA){OLog("ORIONAPI | ERROR! CXHA FAILED TO INITALISE! CAN'T MALLOC!\n");exit(OERR_CANTMALLOC);return false;}
 			for(unsigned long i=0;i<__CXHA_DEFAULT_CAP;i++){CXHA[i]={0,0};}
 			return true;
 		}

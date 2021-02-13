@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CSLARRAY_H__
-#define __ORION_OKIT_CSLARRAY_H__
+#ifndef __ORION_OAPI_CSLARRAY_H__
+#define __ORION_OAPI_CSLARRAY_H__
 
 #include "CSignalListener.hpp"
 
@@ -57,4 +57,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_CSLARRAY_H__ */
+#endif /* !__ORION_OAPI_CSLARRAY_H__ */

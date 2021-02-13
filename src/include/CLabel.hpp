@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CXLABEL_H__
-#define __ORION_OKIT_CXLABEL_H__
+#ifndef __ORION_OAPI_CXLABEL_H__
+#define __ORION_OAPI_CXLABEL_H__
 
 #include "CContext.hpp"
 
@@ -61,4 +61,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_CXLABEL_H__ */
+#endif /* !__ORION_OAPI_CXLABEL_H__ */

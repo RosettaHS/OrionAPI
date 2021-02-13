@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CNODEARRAY_H__
-#define __ORION_OKIT_CNODEARRAY_H__
+#ifndef __ORION_OAPI_CNODEARRAY_H__
+#define __ORION_OAPI_CNODEARRAY_H__
 
 #include "CDrawable.hpp"
 
@@ -67,4 +67,4 @@ namespace Orion{
 		};
 }
 
-#endif /* !__ORION_OKIT_CNODEARRAY_H__ */
+#endif /* !__ORION_OAPI_CNODEARRAY_H__ */

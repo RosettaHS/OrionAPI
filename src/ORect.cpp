@@ -54,7 +54,7 @@ namespace Orion{
 			internal.drawPtr=DRAW::ORect;
 			
 		}else{
-			OLog("OKIT | ERROR! FAILED TO CREATE ORECT BECAUSE X HAS NOT BEEN INITIALISED!\n");
+			OLog("ORIONAPI | ERROR! FAILED TO CREATE ORECT BECAUSE X HAS NOT BEEN INITIALISED!\n");
 			exit(OERR_X11_NOT_INITED);
 		}
 	}
