@@ -99,11 +99,12 @@ namespace Orion{
 #include "CSignalDispatcher.hpp"
 #include "CXEvent.hpp"
 #include "CContext.hpp"
+#include "CLabel.hpp"
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
 #include "ORect.hpp"
-#include "CLabel.hpp"
+#include "OLabel.hpp"
 #include "OContainer.hpp"
 #include "OMarginContainer.hpp"
 

@@ -74,9 +74,11 @@ namespace Orion{
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);
 			/* Initialiser. Call this with your given parameters after creating an empty CContext. */
-			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask,CCType type, bool useScale, bool link);
+			bool init(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, CXMask mask, CCType type, bool useScale, bool link);
 			/* Disconnects from the X service. */
 			bool destroy(void);
+			/* Clears any content from this Context as long as it's not another Context. */
+			void clear(void);
 			/* Changes the colour of the CContext to the given OCol. */
 			void setCol(OCol*);
 			/* Changes the title of the CContext if it is a top-level Context. */

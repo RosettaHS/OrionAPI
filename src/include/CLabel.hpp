@@ -23,41 +23,42 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CLABEL_H__
-#define __ORION_OKIT_CLABEL_H__
+#ifndef __ORION_OKIT_CXLABEL_H__
+#define __ORION_OKIT_CXLABEL_H__
 
-#include "OString.hpp"
-#include "CDrawable.hpp"
-#include "CContainer.hpp"
+#include "CContext.hpp"
 
 namespace Orion{
-	namespace DRAW{ extern void CLabel(CDrawable*); }
-	namespace HANDLE{ extern void CLabel(void*, X::CXEvent*); }
-
-	class CLabel : public CDrawable{ friend void DRAW::CLabel(CDrawable*); friend void HANDLE::CLabel(void*, X::CXEvent*);
-		protected:
-			struct{
-				OString string;
-				const char* fontName;
-				void* XFONT;
-				void* XGC;
-			}XTEXT;
-			CContext rect;
-
-			virtual void onLink(void) override;
-			virtual void onUnlink(void) override;
-			virtual void onPosChanged(void) override;
-			virtual void onSizeChanged(void) override;
+	/* Internal. Higher-level abstraction for basic text rendering with X. */
+	class CLabel{
 		public:
+			/* The name of the font being used. Fallback is "fixed". */
+			const char* XFONTNAME;
+			/* A pointer to the XFontStruct owned by this Label. */
+			void* XFONT;
+			/* The ID of the font stored in XFONT. */
+			unsigned long XFID;
+			/* The colour of the text rendered by X. */
+			unsigned long XCOL;
+			/* A pointer to an X Graphics Context owned by this Label. */
+			void* XGC;
+			/* The X and Y positions of the raw text relative to its parent Context. */
+			int XT_X, XT_Y;
+			/* The direction (right/left), ascent above baseline, and descent below baseline respectively. */
+			int XT_DIR, XT_ASC, XT_DES;
+
+			/* Destructor. Frees all memory. */
+			~CLabel(void);
+			/* Empty constructor. Sets all values to 0. */
 			CLabel(void);
-			CLabel(CContainer&, int x, int y, unsigned int w, unsigned int h, const char* label=0);
 
-			virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
-			virtual void setCol(OCol&) override;
-
-			void setBackgroundCol(unsigned char r, unsigned char g, unsigned char b);
-			void setBackgroundCol(OCol&);
+			/* Initialises (but does not draw) this Label with the following parameters. */
+			bool init(CContext* drawBody, OCol* col, const char* font);
+			/* Destroys this Label and frees all memory. Called by the destructor. */
+			bool destroy(void);
+			/* Renders the text on the given Context with the given parameters. */
+			void draw(CContext* drawBody, OCol* col, unsigned int contextWidth, unsigned int contextHeight, const char* string);
 	};
 }
 
-#endif /* !__ORION_OKIT_OLABEL_H__ */
+#endif /* !__ORION_OKIT_CXLABEL_H__ */

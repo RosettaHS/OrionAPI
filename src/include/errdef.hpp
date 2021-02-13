@@ -51,11 +51,13 @@
 #define OERR_X11_NOT_INITED						5
 /* Emits when X fails to return a valid Window. */
 #define OERR_X11_WINDOW_CREATION_FAILURE		6
+/* Emits when X can't load the fallback "fixed" font. */
+#define OERR_X11_FONTFALLBACK					7
 
 /* CDRAWABLE */
 
 /* Emits when developer tries to set an invalid axis flag */
-#define OERR_CDRAWABLE_INVALID_FLAG				7
+#define OERR_CDRAWABLE_INVALID_FLAG				8
 
 
 #endif /* !ORION_INTERNAL */

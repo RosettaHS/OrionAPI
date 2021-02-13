@@ -101,7 +101,7 @@ namespace Orion{
 		}
 		
 		if(_w<minW){minW=_w;}
-		if(_w<minH){minH=_h;}
+		if(_h<minH){minH=_h;}
 		centreX=w/2,centreY=h/2;
 		offsetX=( (x-(centreX*(scale-1)) )/scale );
 		offsetY=( (y-(centreY*(scale-1)) )/scale );

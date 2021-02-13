@@ -61,7 +61,7 @@
 /* Global system path where OKit will store your data for this OApp. Use this instead of generic write functions! */
 #define OAPP_DATAPATH Orion::Application::datapath
 
-#endif /* !ORION_NOHELPERS */
+#endif /* ORION_NOHELPERS */
 
 namespace Orion{
 	namespace Application{

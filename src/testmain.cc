@@ -67,7 +67,9 @@ int main(){
 
 	// ORect rect(marginContainer,CENTRE,CENTRE,50,50);
 	// rect.setCol(255,255,255);
-	CLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<<>>>>");
+	OLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<< My Label >>>>");
+	label.setCol(255,255,255);
+	// label.setSize(150,60);
 	// ORect rect2(marginContainer,CENTRE,CENTRE,400,400);
 	// rect2.setCol(0,0,0);
 

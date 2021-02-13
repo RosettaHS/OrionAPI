@@ -135,6 +135,11 @@ namespace Orion{
 		}
 	}
 
+	void CContext::clear(void){
+		if(!XWIN){ return; }
+		XClearWindow(OXDPY,XWIN);
+	}
+
 	void CContext::setTitle(const char* title){
 		int length=0;
 		while(true){
