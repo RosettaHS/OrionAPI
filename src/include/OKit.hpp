@@ -83,6 +83,7 @@ namespace Orion{
 #include <limits.h>
 #include <sys/types.h>
 
+/* Core Modules */
 #include "errdef.hpp"
 #include "application.hpp"
 #include "xservice.hpp"
@@ -103,12 +104,13 @@ namespace Orion{
 #include "CDrawable.hpp"
 #include "CNodeArray.hpp"
 #include "CContainer.hpp"
+/* Element Modules */
 #include "ORect.hpp"
 #include "OLabel.hpp"
 #include "OContainer.hpp"
 #include "OMarginContainer.hpp"
 
-#include "CWindow.hpp"
+#include "CWindow.hpp" /* Debug */
 
 #include "OService.hpp"
 
