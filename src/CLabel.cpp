@@ -24,7 +24,9 @@
 /**********************************************************************************/
 
 #define ORION_INTERNAL
+#define BUFFER 5
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include "include/errdef.hpp"
@@ -45,15 +47,21 @@ namespace Orion{
 
 	CLabel::~CLabel(void){ destroy(); }
 
-	CLabel::CLabel(void) : XFONTNAME{0},XFONT{0},XFID{0},XCOL{0},XGC{0},XT_X{0},XT_Y{0},XT_ASC{0},XT_DES{0} {}
+	CLabel::CLabel(void) : XFONTNAMERAW{0},XFONTNAME{0},XFONT{0},XFID{0},XCOL{0},XFONTSIZE{0},XGC{0},XT_X{0},XT_Y{0},XT_ASC{0},XT_DES{0} {}
 
-	bool CLabel::init(CContext* drawBody, OCol* col, const char* font){
+	bool CLabel::init(CContext* drawBody, OCol* col, const char* font, unsigned short fontSize){
 		if(!drawBody->XWIN || XFONT){ return false; }
-		XFONTNAME=font;
+		XFONTNAMERAW=font;
+		XFONTSIZE=fontSize;
+		XFONTNAME=(char*)malloc(sizeof(char)*calcLength(font)+BUFFER);
+		sprintf(XFONTNAME,XFONTNAMERAW,__SCALEFONTSIZE(fontSize,OAPP_SCALE));
 		XFONT=XLoadQueryFont(OXDPY,XFONTNAME);
 		if(!XFONT){
 			OLog("ORIONAPI | WARNING! FAILED TO LOAD FONT \"%s\"! RESORTING TO FALLBACKK FONT \"fixed\"!\n",XFONTNAME);
-			XFONT=XLoadQueryFont(OXDPY,"fixed");
+			if(XFONTNAME){ free(XFONTNAME); }
+			XFONTNAME=(char*)malloc(sizeof(char)*calcLength(XFONTNAMERAW)+BUFFER);
+			sprintf(XFONTNAME,__DEFAULTFONT,__SCALEFONTSIZE(__DEFAULTFONTSIZE,OAPP_SCALE));
+			XFONT=XLoadQueryFont(OXDPY,XFONTNAME);
 			if(!XFONT){ OLog("ORIONAPI | ERROR! FAILED TO LOAD FALLBACK FONT \"fixed\"! CANNOT RENDER ANY TEXT!\n"); exit(OERR_X11_FONTFALLBACK); }
 		}
 		XFID=((XFontStruct*)XFONT)->fid;
@@ -69,6 +77,8 @@ namespace Orion{
 		if(!XFONT){ return false; }
 		if( XFreeFont(OXDPY,(XFontStruct*)XFONT) ){
 			XFreeGC(OXDPY,(GC)XGC);
+			if(XFONTNAME){ free(XFONTNAME); }
+			XFONTNAMERAW=0;
 			XFONTNAME=0;
 			XFONT=0;
 			XFID=0;
@@ -78,9 +88,33 @@ namespace Orion{
 		}else{ return false; }
 	}
 
-	void CLabel::draw(CContext* drawBody, OCol* col, unsigned int contextWidth, unsigned int contextHeight, const char* string){
+	bool CLabel::setFont(const char* font, unsigned short fontSize){
+		if(!XFONT){ return false; }
+		if(XFONTNAME){ free(XFONTNAME); }
+		XFONTNAME=(char*)malloc(sizeof(char)*calcLength(font)+BUFFER);
+		sprintf(XFONTNAME,font,__SCALEFONTSIZE(fontSize,OAPP_SCALE));
+		XFONT=XLoadQueryFont(OXDPY,XFONTNAME);
+		if(XFONT){
+			XFONTNAMERAW=font;
+			XFONTSIZE=fontSize;
+			XFID=((XFontStruct*)XFONT)->fid;
+			XSetFont(OXDPY,(GC)XGC,XFID);
+			return true;
+		}else{
+			if(XFONTNAME){ free(XFONTNAME); }
+			XFONTNAME=(char*)malloc(sizeof(char)*calcLength(XFONTNAMERAW)+BUFFER);
+			sprintf(XFONTNAME,font,__SCALEFONTSIZE(fontSize,OAPP_SCALE));
+			XFONT=XLoadQueryFont(OXDPY,XFONTNAME);
+			XFID=((XFontStruct*)XFONT)->fid;
+			XSetFont(OXDPY,(GC)XGC,XFID);
+			return false;
+		}
+	}
+
+	void CLabel::draw(CContext* drawBody, OCol* col, unsigned int contextWidth, unsigned int contextHeight, const char* string, unsigned short fontSize){
 		if(!drawBody->XWIN){ return; }
 		if(col->XCOL!=XCOL){ XCOL=col->XCOL; XSetForeground(OXDPY,(GC)XGC,XCOL); }
+		if(fontSize!=XFONTSIZE){ setFont(XFONTNAMERAW,fontSize); }
 		XCharStruct XT_OVA;
 		size_t stringLength=calcLength(string);
 

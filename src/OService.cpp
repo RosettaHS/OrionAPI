@@ -112,7 +112,7 @@ namespace Orion{
 	bool OAppEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
-		OAppClose();
+		return OAppClose();
 	}
 
 	bool OAppClose(void){
