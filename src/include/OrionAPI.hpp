@@ -84,35 +84,35 @@ namespace Orion{
 #include <sys/types.h>
 
 /* Core Modules */
-#include "errdef.hpp"
-#include "application.hpp"
-#include "xservice.hpp"
-#include "OLog.hpp"
-#include "CLoggable.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "OString.hpp"
-#include "CBaseUI.hpp"
-#include "OSignal.hpp"
-#include "CSignalListener.hpp"
-#include "CSLArray.hpp"
-#include "CSignalDispatcher.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CLabel.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
+#include "errdef.hpp"				/* OrionAPI */
+#include "application.hpp"			/* OrionAPI */
+#include "xservice.hpp"				/* OKit */
+#include "OLog.hpp"					/* OSL */
+#include "CLoggable.hpp"			/* OSL */
+#include "OString.hpp"				/* OSL */
+#include "OVec.hpp"					/* OKit */
+#include "OCol.hpp"					/* OKit */
+#include "OTheme.hpp"				/* OKit */
+#include "CBaseUI.hpp"				/* OKit */
+#include "OSignal.hpp"				/* OKit */
+#include "CSignalListener.hpp"		/* OKit */
+#include "CSLArray.hpp"				/* OKit */
+#include "CSignalDispatcher.hpp"	/* OKit */
+#include "CXEvent.hpp"				/* OKit */
+#include "CContext.hpp"				/* OKit */
+#include "CLabel.hpp"				/* OKit */
+#include "CDrawable.hpp"			/* OKit */
+#include "CNodeArray.hpp"			/* OKit */
+#include "CContainer.hpp"			/* OKit */
 /* Element Modules */
-#include "ORect.hpp"
-#include "OLabel.hpp"
-#include "OContainer.hpp"
-#include "OMarginContainer.hpp"
+#include "ORect.hpp"				/* OKit */
+#include "OLabel.hpp"				/* OKit */
+#include "OContainer.hpp"			/* OKit */
+#include "OMarginContainer.hpp"		/* OKit */
 
-#include "CWindow.hpp" /* Debug */
+#include "CWindow.hpp" 				/* OKit - Debug */
 
-#include "OService.hpp"
+#include "OService.hpp"				/* OrionAPI */
 
 /*
 *	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
