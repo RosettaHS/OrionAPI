@@ -112,8 +112,14 @@ namespace Orion{
 	bool OAppEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
+		OAppClose();
+	}
+
+	bool OAppClose(void){
+		if(!OAPP_INITED){return false;}
 		X::disconnect();
 		X::CXHA_DESTROY();
+		OAPP_INITED=false;
 		OVLog("\nORIONAPI | Service sucessfully finished!\n\n");
 		return true;
 	}
