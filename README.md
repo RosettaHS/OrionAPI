@@ -41,7 +41,9 @@ OKit isn't Orion-Exclusive either, it can be used on other Linux-based systems a
 ### How do I start developing with the OrionAPI?
 If you're on an Orion-based operating system, your system automatically comes with all libraries required for developing with OrionAPI.
 Follow the tutorials and compile your Applications with the following library flag:
-    -lO
+```
+-lO
+```
 ### When will the OrionAPI be complete?
 There is no known time at the moment, however keep an eye on this repository as updates are very frequent to OrionAPI and its sub-frameworks.
 New features and elements are being added daily, progress is steady!
