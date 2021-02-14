@@ -6,7 +6,7 @@ FLAGS=-Wall -Wextra -Wpedantic
 
 TESTMAIN=src/testmain.cc
 OUTNAME=OApp
-LIBNAME=libOKit.so
+LIBNAME=libO.so
 
 all: output
 

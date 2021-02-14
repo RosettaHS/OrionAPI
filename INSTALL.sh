@@ -13,12 +13,12 @@ do
 done
 
 if [ ! -e "INSTALL.sh" ]; then
-	echo "Orion | OKit : Please run inside the directory this script is located in."
+	echo "OrionAPI | : Please run inside the directory this script is located in."
 	exit 1
 fi
 
 if [ "$(id -u)" -ne 0 ]; then
-	echo "Orion | OKit : Please run as root."
+	echo "OrionAPI | : Please run as root."
 	exit 1
 fi
 

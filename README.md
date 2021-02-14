@@ -1,25 +1,40 @@
-# Welcome to OrionAPI.	Luxury + Linux. For Everyone.
-The Application Framework for the Orion Operating System.
+# Welcome to OrionAPI. Luxury + Linux, for everyone.
+The Application Framework for the Orion Operating System
+### This toolkit is in development and currently does not work!
 
-## /// THIS TOOLKIT IS UNDER DEVELOPMENT AND DOES NOT WORK YET! ///
+## What is the OrionAPI?
+The OrionAPI is a bundle of different frameworks used for creating Applications native to the Orion Operating System.
 
-## What is OrionAPI?
+OrionAPI contains the following frameworks:
 
-The OrionAPI is the toolkit for creating Orion-Native applications for the Orion Operating System.
-It is a generic toolkit that handles efficient GUI and other system functions without requiring developers to use other libraries.
+* OKit - The Window Widget Toolkit for the Orion Operating System
 
-## Why should I use the OrionAPI?
+These frameworks make development for the Orion Operating System easier than ever, and easier than using the alternatives.
+Some frameworks, such as OKit, work perfectly on non-Orion systems, such as Ubuntu or Debian.
+### What is OKit?
+OKit is OrionAPI's implementation for a graphical user interface. It allows for making easy GUI-based Applications with minimal overhead and
+quick boot times.
+OKit is meant to be Orion's replacement for GTK and Qt. Built from the ground up using [Xlib](https://en.wikipedia.org/wiki/Xlib), it is highly minimal and designed for performance and network transparency.
+Alongside performance, Applications made with OKit will look and feel just like the rest of the Orion Operating System.
+#### Could I see a code sample?
+Writing a graphical Application using OKit is very simple. The following code is all that is required to get a Window on the screen:
+```cpp
+#include <OrionAPI>
 
-The OrionAPI is meant to be the replacement for GTK and Qt for Orion-based operating systems. 
-It provides an easier method of creating efficient GUI Applications and native integration with the Orion Operating System.
+int main(void){
+	OAppStart(); /* Initialises the OrionAPI Service. */
 
-## How do I get started developing with the OrionAPI?
+	OWindow myWindow(CENTRE,CENTRE,450,300,"My Window"); /* Creates a Window 450px wide and 350px tall in the centre of the screen. */
 
+	OAppEventLoop(); /* Runs OKit. */
+}
+```
+#### Why should I use OKit?
+OKit is designed for extreme ease of use, but also maximum performance. OKit is a brand new [widget toolkit](https://en.wikipedia.org/wiki/Widget_toolkit) utilising the least amount of code possible internally while providing the highest abstraction for the developer.
+Making useful graphical Applications will be a breeze when using OKit. Follow the documentation for examples and tutorials!
+### How do I start developing with the OrionAPI?
 If you're on an Orion-based operating system, your system automatically comes with all libraries required for developing with OrionAPI.
-Follow the tutorials and compile your application with library flag
-
-	-lOAPI
-
-## Luxury + Linux is right around the corner.
-
-Start now by developing with the OrionAPI!
+Follow the tutorials and compile your Applications with the following library flag:
+    -lO
+### When will the OrionAPI be complete?
+There is no known time at the moment, however keep an eye on this repository as updates are very frequent to OrionAPI and its sub-frameworks.

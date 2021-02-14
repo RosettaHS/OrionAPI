@@ -1,5 +1,5 @@
 # Class Reference: Generic Information
-## General information for all classes and types used in OKit
+## General information for all classes and types used in the OrionAPI
 
 ### C- Prefix VS O- Prefix
 Class documentation is only available for classes with the O- Prefix, with few exceptions.
