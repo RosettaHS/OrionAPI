@@ -6,13 +6,9 @@ PREV_INST=false
 
 ### Startup
 
-if [ ! -e "INSTALL.sh" ]; then
-	echo "OrionAPI : Please run inside the directory this script is located in."; exit 1
-fi
+[ ! -e "INSTALL.sh" ] && { echo "OrionAPI : Please run inside the directory this script is located in."; exit 1; }
 
-if [ "$(id -u)" -ne 0 ]; then
-	echo "OrionAPI : Please run as root."; exit 1
-fi
+[ "$(id -u)" -ne 0 ] && { echo "OrionAPI : Please run as root."; exit 1; }
 
 while getopts qy flag; do
 	case $flag in
@@ -50,11 +46,8 @@ if ! dpkg -s "make" >/dev/null 2>&1; then
 	fi
 
 	echo "OrionAPI : Working on installing Make."
-	if apt-get install "make" -y; then
-		echo "OrionAPI : Make successfully installed."
-	else
-		echo "OrionAPI | ERROR! : Make could not be installed! Aborting."; exit 1
-	fi
+	apt-get install "make" -y || { echo "OrionAPI | ERROR! : Make could not be installed! Aborting."; exit 1; }
+	echo "OrionAPI : Make successfully installed."
 fi
 
 # Check if system has "libx11-dev", and if not, install it.
@@ -68,8 +61,8 @@ if ! dpkg -s "libx11-dev" >/dev/null 2>&1; then
 		esac
 	fi
 
-	echo "OrionAPI : Working on installing Xlib." || { echo "OrionAPI | ERROR! : Xlib could not be installed! Aborting."; exit 1; }
-	apt-get install "libx11-dev" -y
+	echo "OrionAPI : Working on installing Xlib." 
+	apt-get install "libx11-dev" -y || { echo "OrionAPI | ERROR! : Xlib could not be installed! Aborting."; exit 1; }
 	printf "\nOrionAPI : Xlib successfully installed.\n"
 fi
 

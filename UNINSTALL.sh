@@ -5,13 +5,9 @@ QUIET=false
 
 ### Startup
 
-if [ ! -e "UNINSTALL.sh" ]; then
-	echo "OrionAPI : Please run inside the directory this script is located in."; exit 1
-fi
+[ ! -e "UNINSTALL.sh" ] && { echo "OrionAPI : Please run inside the directory this script is located in."; exit 1; }
 
-if [ "$(id -u)" -ne 0 ]; then
-	echo "OrionAPI : Please run as root."; exit 1
-fi
+[ "$(id -u)" -ne 0 ] && { echo "OrionAPI : Please run as root."; exit 1; }
 
 while getopts qy flag; do
 	case $flag in
