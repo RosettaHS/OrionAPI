@@ -69,6 +69,11 @@ namespace Orion{
 			/* Overload. Gets the character at the given index. */
 			char operator[](size_t);
 	};
+
+	/* Returns the length of the passed String. */
+	extern size_t OStringLength(const char*);
+	/* Compares the two strings and returns true if they are identical. */
+	extern bool OStringCompare(const char*, const char*);
 }
 
 #endif /* !__ORION_OAPI_OSTRING_H__ */

@@ -29,13 +29,26 @@
 #include "include/OString.hpp"
 
 namespace Orion{
-	static size_t calcLength(const char* t){
-		if(!t){ return 0; }
+	size_t OStringLength(const char* s){
+		if(!s){ return 0; }
 		size_t l=0;
 		while(true){
-			if(t[l]!='\0'){l++;}else{break;}
+			if(s[l]!='\0'){l++;}else{break;}
 		}
 		return l;
+	}
+
+	bool OStringCompare(const char* s1, const char* s2){
+		size_t l1=OStringLength(s1);
+		size_t l2=OStringLength(s2);
+		bool comp=false;
+		if(l1==l2){
+			comp=true;
+			for(size_t i=0;i<l1;i++){
+				if(s1[i]!=s2[i]){ comp=false; }
+			}
+		}
+		return comp;
 	}
 
 	OString::~OString(void){
@@ -43,18 +56,18 @@ namespace Orion{
 	}
 	OString::OString(void) : str{0},length{0},isMemStatic{false} {}
 	OString::OString(const char* text) : str{(char*)text} {
-		length=calcLength(text);
+		length=OStringLength(text);
 		isMemStatic=true;
 	}
 
 	void OString::setTo(const char* text){
 		if(!isMemStatic){free(str);}
 		str=(char*)text;
-		length=calcLength(text);
+		length=OStringLength(text);
 	}
 
 	void OString::append(const char* text){
-		size_t appendLength=calcLength(text);
+		size_t appendLength=OStringLength(text);
 		size_t newLength=0;
 		char* tmp=(char*)malloc(sizeof(char)*(length+appendLength)+1);
 		while(newLength<length+appendLength){
