@@ -109,14 +109,9 @@ namespace Orion{
 		return true;
 	}
 
-	bool OAppEventLoop(void){
-		if(!OAPP_INITED){return false;}
-		X::eventLoop(); /* TODO: Actually add something to this!! */
-		return OAppEnd();
-	}
-
 	bool OAppEnd(void){
 		if(!OAPP_INITED){return false;}
+		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
 		X::CXHA_DESTROY();
 		OAPP_INITED=false;

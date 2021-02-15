@@ -79,5 +79,5 @@ int main(){
 
 	// container.unlinkThis();
 	// container.linkTo(win);
-	OAppEventLoop();
+	OAppEnd();
 }

@@ -31,9 +31,7 @@
 namespace Orion{
 	/* Starts the OrionAPI service. This is required to use any Orion UI elements. Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity. */
 	extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
-	/* Runs the OrionAPI - OKit service. Blocks function execution until the service ends. Place this at the bottom of main(). */
-	extern bool OAppEventLoop(void);
-	/* Frees all memory allocated by the OrionAPI service. Place this at the bottom of main(). Automatically called by OAppEventLoop(), do not call this manually if that is present! */
+	/* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service. Blocks function execution until the service ends. Place this at the bottom of main(). */
 	extern bool OAppEnd(void);
 
 	/* Returns the current screen size. */
