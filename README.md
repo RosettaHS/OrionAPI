@@ -28,10 +28,10 @@ Writing a graphical Application using OKit is very simple. The following code is
 int main(void){
 	OAppStart(); /* Initialises the OrionAPI Service. */
 
-	/* Creates a Window 450px wide and 350px tall in the centre of the screen. */
+	/* Creates a Window 450px wide and 300px tall in the centre of the screen. */
 	OWindow myWindow(CENTRE,CENTRE,450,300,"My Window");
 
-	OAppEventLoop(); /* Runs OKit. */
+	OAppEnd(); /* Runs OKit, and ends the OrionAPI Service. */
 }
 ```
 #### Why should I use OKit?

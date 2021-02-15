@@ -2,7 +2,7 @@ CC=c++
 SRCS=src/*.cpp
 BINS=*.o
 LIBS=-lX11
-FLAGS=-Wall -Wextra -Wpedantic
+FLAGS=-Wall -Wextra -Wpedantic -O2
 
 TESTMAIN=src/testmain.cc
 OUTNAME=OApp
