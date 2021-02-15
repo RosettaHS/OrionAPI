@@ -34,7 +34,7 @@ namespace Orion{
 	/* Runs the OrionAPI - OKit service. Blocks function execution until the service ends. Place this at the bottom of main(). */
 	extern bool OAppEventLoop(void);
 	/* Frees all memory allocated by the OrionAPI service. Place this at the bottom of main(). Automatically called by OAppEventLoop(), do not call this manually if that is present! */
-	extern bool OAppClose(void);
+	extern bool OAppEnd(void);
 
 	/* Returns the current screen size. */
 	extern OVec OScreenGetSize(void);

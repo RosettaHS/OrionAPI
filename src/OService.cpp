@@ -112,10 +112,10 @@ namespace Orion{
 	bool OAppEventLoop(void){
 		if(!OAPP_INITED){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
-		return OAppClose();
+		return OAppEnd();
 	}
 
-	bool OAppClose(void){
+	bool OAppEnd(void){
 		if(!OAPP_INITED){return false;}
 		X::disconnect();
 		X::CXHA_DESTROY();
