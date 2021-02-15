@@ -49,6 +49,6 @@
 #define __ORION_OAPI_H_LINK__
 
 /* Simple re-route to the real header file. Go to the directory listed for further information. */
-#include "_OrionAPI/OrionAPI.hpp"
+#include ".OrionAPI/OrionAPI.hpp"
 
 #endif /* !__ORION_OAPI_H_LINK__ */
