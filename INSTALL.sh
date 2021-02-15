@@ -34,7 +34,6 @@ if [ "$QUIET" = false ]; then
 	echo "O     O     O OooO' O  O     O   o  O  o  o OooO'         O   O   o       o       O  o     o  O   o  o   O O      o o           O            "
 	echo "\`o   O o   O' O     o  o     o   O  o  O  O O             o   o   O       \`o     O'  O     O  o   O  O   o o      O O           O          Oo"
  	echo " \`OoO' \`OoO'  \`OoO' Oo \`OoO' \`OoO'  O  o  o \`OoO'         \`oO \`OoO'        \`OoooO'   o     o' \`OoO'  o   O O.     O o'       ooOOoOo       oO"
-	# Add more here later!
 fi
 
 echo ""
@@ -69,12 +68,9 @@ if ! dpkg -s "libx11-dev" >/dev/null 2>&1; then
 		esac
 	fi
 
-	echo "OrionAPI : Working on installing Xlib."
-	if apt-get install "libx11-dev" -y; then
-		echo "OrionAPI : Xlib successfully installed."
-	else
-		echo "OrionAPI | ERROR! : Xlib could not be installed! Aborting."; exit 1
-	fi
+	echo "OrionAPI : Working on installing Xlib." || { echo "OrionAPI | ERROR! : Xlib could not be installed! Aborting."; exit 1; }
+	apt-get install "libx11-dev" -y
+	printf "\nOrionAPI : Xlib successfully installed.\n"
 fi
 
 # Check if OrionAPI currently exists on this system, and if it does, remove the current version. 
@@ -92,8 +88,8 @@ if [ -e "/usr/lib/libO.so" ]; then
 		rm "/usr/include/OrionAPI" >/dev/null 2>&1		|| echo 'OrionAPI | WARNING! : Current version header file "/usr/include/OrionAPI" not found, failed to remove.'
 		rm "/usr/lib/libO.so" >/dev/null 2>&1			|| echo 'OrionAPI | WARNING! : Current version source library "/usr/lib/libO.so" not found, failed to remove.'
 	fi
+	echo "OrionAPI : Current version successfully removed."
 fi
-echo "OrionAPI : Current version successfully removed. "
 
 # Ready to be installed. If flag "-y" is not set, ask for permisson to proceed.
 if [ "$AUTO_Y" = false -a "$PREV_INST" = false ]; then
