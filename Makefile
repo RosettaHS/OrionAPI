@@ -1,8 +1,7 @@
 CC=c++
-SRCS=src/*.cpp
 BINS=*.o
 LIBS=-lX11
-FLAGS=-Wall -Wextra -Wpedantic -O2
+FLAGS=-Wall -Wextra -Wpedantic
 
 TESTMAIN=src/testmain.cc
 OUTNAME=OApp
@@ -15,9 +14,9 @@ output: $(BINS)
 	$(CC) $(FLAGS) $(BINS) -no-pie -o $(OUTNAME) $(LIBS)
 
 shared: $(BINS)
-	$(CC) -shared -fPIC $(FLAGS) $(BINS) -o $(LIBNAME) $(LIBS)
+	$(CC) -shared -fPIC -O2 $(FLAGS) $(BINS) -o $(LIBNAME) $(LIBS)
 
-%.o: src/%.cpp
+%.o: src/%.cpp src/OKit/%.cpp src/OSL/%.cpp
 	$(CC) $(FLAGS) -fPIC -c $^ $(LIBS)
 
 run:

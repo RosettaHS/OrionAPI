@@ -74,56 +74,31 @@ namespace Orion{
 	namespace HANDLE{}
 }
 
-/*
-*	These following three includes are all the system headerfiles that the OrionAPI automatically includes.
-*	No need to worry about too much clutter or contamination!
-*/
+/* Includes */
+	/* System */
+	#include <stdint.h>
+	#include <limits.h>
+	#include <sys/types.h>
 
-#include <stdint.h>
-#include <limits.h>
-#include <sys/types.h>
+	/* OrionAPI */
+	#include "errdef.hpp"
+	#include "application.hpp"
 
-/* OrionAPI */
-#include "errdef.hpp"
-#include "application.hpp"
-
-/* OSL */
-#include "OLog.hpp"
-#include "CLoggable.hpp"
-#include "OString.hpp"
-
-/* OKit - Internal */
-#include "xservice.hpp"
-#include "OVec.hpp"
-#include "OCol.hpp"
-#include "OTheme.hpp"
-#include "CBaseUI.hpp"
-#include "OSignal.hpp"
-#include "CSignalListener.hpp"
-#include "CSLArray.hpp"
-#include "CSignalDispatcher.hpp"
-#include "CXEvent.hpp"
-#include "CContext.hpp"
-#include "CLabel.hpp"
-#include "CDrawable.hpp"
-#include "CNodeArray.hpp"
-#include "CContainer.hpp"
-/* OKit */
-#include "ORect.hpp"
-#include "OLabel.hpp"
-#include "OContainer.hpp"
-#include "OMarginContainer.hpp"
-#include "CWindow.hpp"	/* Debug */
-
+	/* Sub-libraries */
+	#include "OSL/OSL.hpp"   /* The Orion Standard Library. */
+	#include "OKit/OKit.hpp" /* The Window Widget Toolkit for the Orion Operating System. */
 
 /* Service Functions */
-
 namespace Orion{
-	/* Starts the OrionAPI service. This is required to use any Orion UI elements. 
-		Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity. */
+	/*
+	* Starts the OrionAPI service. This is required to use any Orion UI elements. 
+	* Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity.
+	*/
 	extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
-	/* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
-		Blocks function execution until the service ends. Place this at the bottom of main(). */
+	/*
+	* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
+	* Blocks function execution until the service ends. Place this at the bottom of main().
+	*/
 	extern bool OAppEnd(void);
 
 	/* Returns the current screen size. */

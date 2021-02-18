@@ -32,7 +32,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "include/application.hpp"
-#include "include/OLog.hpp"
+#include "include/OSL/OLog.hpp"
 
 /*Might wanna change this soon once you know what you're actually doing.*/
 #define _MKDIRARG ( S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH )

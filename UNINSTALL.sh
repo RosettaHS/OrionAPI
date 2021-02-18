@@ -72,7 +72,7 @@ if dpkg -s "libx11-dev" > /dev/null 2>&1; then
 				echo 'OrionAPI : "libx11-dev" successfully uninstalled.';;
 		esac
 	else
-		echo "OrionAPI: Xlib was installed alongside OrionAPI and is no longer needed. Uninstalling."
+		echo "OrionAPI : Xlib was installed alongside OrionAPI and is no longer needed. Uninstalling."
 
 		echo 'OrionAPI : Working on uninstalling "libx11-dev".'
 		apt-get purge "libx11-dev" -y || { echo 'OrionAP | ERROR! : Failed to uninstall "libx11-dev"! Aborting.'; exit 1; }
