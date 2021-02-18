@@ -31,12 +31,14 @@
 #include "include/xservice.hpp"
 #include "include/application.hpp"
 #include "include/OLog.hpp"
+#include "include/OVec.hpp"
 #include "include/CWindow.hpp"
-#include "include/OService.hpp"
 
 #define _OWINDOW_DEFMASK StructureNotifyMask|ButtonPressMask
 
 namespace Orion{
+	/* Since OService is no longer a thing... */
+	extern OVec OScreenGetSize(void);
 
 	CWindow::~CWindow(void){
 		type=OT_ERROR;

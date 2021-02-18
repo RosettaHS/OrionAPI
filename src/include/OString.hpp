@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_OSTRING_H__
-#define __ORION_OAPI_OSTRING_H__
+#ifndef __ORIONAPI_OSTRING_H__
+#define __ORIONAPI_OSTRING_H__
 
 #include <sys/types.h>
 #include "CLoggable.hpp"
@@ -76,4 +76,4 @@ namespace Orion{
 	extern bool OStringCompare(const char*, const char*);
 }
 
-#endif /* !__ORION_OAPI_OSTRING_H__ */
+#endif /* !__ORIONAPI_OSTRING_H__ */

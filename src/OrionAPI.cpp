@@ -29,13 +29,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
-#include "include/errdef.hpp"
-#include "include/application.hpp"
-#include "include/xservice.hpp"
-#include "include/OLog.hpp"
-#include "include/OTheme.hpp"
-#include "include/CContext.hpp"
-#include "include/OService.hpp"
+#include "include/OrionAPI.hpp"
 
 namespace Orion{
 

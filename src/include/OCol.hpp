@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_OCOL_H__
-#define __ORION_OAPI_OCOL_H__
+#ifndef __ORIONAPI_OCOL_H__
+#define __ORIONAPI_OCOL_H__
 
 #include "CLoggable.hpp"
 
@@ -47,4 +47,4 @@ namespace Orion{
 	};
 	
 }
-#endif /* !__ORION_OAPI_OCOL_H__ */
+#endif /* !__ORIONAPI_OCOL_H__ */

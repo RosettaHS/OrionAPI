@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_CCONTEXT_H__
-#define __ORION_OAPI_CCONTEXT_H__
+#ifndef __ORIONAPI_CCONTEXT_H__
+#define __ORIONAPI_CCONTEXT_H__
 
 #include "CXEvent.hpp"
 #include "OCol.hpp"
@@ -119,4 +119,4 @@ namespace Orion{
 	}
 }
 
-#endif /* !__ORION_OAPI_CCONTEXT_H__ */
+#endif /* !__ORIONAPI_CCONTEXT_H__ */

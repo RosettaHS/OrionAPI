@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_OMARGINCONTAINER_H__
-#define __ORION_OAPI_OMARGINCONTAINER_H__
+#ifndef __ORIONAPI_OMARGINCONTAINER_H__
+#define __ORIONAPI_OMARGINCONTAINER_H__
 
 #include "OContainer.hpp"
 
@@ -81,4 +81,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OAPI_OMARGINCONTAINER_H__ */
+#endif /* !__ORIONAPI_OMARGINCONTAINER_H__ */

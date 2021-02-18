@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_OCONTAINER_H__
-#define __ORION_OAPI_OCONTAINER_H__
+#ifndef __ORIONAPI_OCONTAINER_H__
+#define __ORIONAPI_OCONTAINER_H__
 
 #include "CDrawable.hpp"
 #include "CContainer.hpp"
@@ -58,4 +58,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OAPI_OCONTAINER_H__ */
+#endif /* !__ORIONAPI_OCONTAINER_H__ */

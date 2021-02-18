@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_APPLICATION_H__
-#define __ORION_OAPI_APPLICATION_H__
+#ifndef __ORIONAPI_APPLICATION_H__
+#define __ORIONAPI_APPLICATION_H__
 
 #include <sys/types.h>
 
@@ -95,4 +95,4 @@ namespace Orion{
 	}
 }
 
-#endif /* !__ORION_OAPI_APPLICATION_H__ */
+#endif /* !__ORIONAPI_APPLICATION_H__ */

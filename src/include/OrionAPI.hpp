@@ -46,19 +46,19 @@
 /**********************************************************************************/
 
 
-#ifndef __ORION_OAPI_H__
-#define __ORION_OAPI_H__
+#ifndef __ORIONAPI_H__
+#define __ORIONAPI_H__
 
 /*
 * The current version of the OrionAPI installed on this system.
 * For a more up-to-date version of the OrionAPI, please visit https://github.com/RosettaHS/OrionAPI to download the latest release.
 */
-#define OAPI_VERSION  0
+#define ORIONAPI_VERSION  0
 /*
 * The current revision of the OrionAPI installed on this system.
 * For a more up-to-date version of the OrionAPI, please visit https://github.com/RosettaHS/OrionAPI to download the latest release.
 */
-#define OAPI_REVISION 0
+#define ORIONAPI_REVISION 0
 
 /* The following are forward declarations for Visual Studio (Code) Tooltips */
 
@@ -83,36 +83,53 @@ namespace Orion{
 #include <limits.h>
 #include <sys/types.h>
 
-/* Core Modules */
-#include "errdef.hpp"				/* OrionAPI */
-#include "application.hpp"			/* OrionAPI */
-#include "xservice.hpp"				/* OKit */
-#include "OLog.hpp"					/* OSL */
-#include "CLoggable.hpp"			/* OSL */
-#include "OString.hpp"				/* OSL */
-#include "OVec.hpp"					/* OKit */
-#include "OCol.hpp"					/* OKit */
-#include "OTheme.hpp"				/* OKit */
-#include "CBaseUI.hpp"				/* OKit */
-#include "OSignal.hpp"				/* OKit */
-#include "CSignalListener.hpp"		/* OKit */
-#include "CSLArray.hpp"				/* OKit */
-#include "CSignalDispatcher.hpp"	/* OKit */
-#include "CXEvent.hpp"				/* OKit */
-#include "CContext.hpp"				/* OKit */
-#include "CLabel.hpp"				/* OKit */
-#include "CDrawable.hpp"			/* OKit */
-#include "CNodeArray.hpp"			/* OKit */
-#include "CContainer.hpp"			/* OKit */
-/* Element Modules */
-#include "ORect.hpp"				/* OKit */
-#include "OLabel.hpp"				/* OKit */
-#include "OContainer.hpp"			/* OKit */
-#include "OMarginContainer.hpp"		/* OKit */
+/* OrionAPI */
+#include "errdef.hpp"
+#include "application.hpp"
 
-#include "CWindow.hpp" 				/* OKit - Debug */
+/* OSL */
+#include "OLog.hpp"
+#include "CLoggable.hpp"
+#include "OString.hpp"
 
-#include "OService.hpp"				/* OrionAPI */
+/* OKit - Internal */
+#include "xservice.hpp"
+#include "OVec.hpp"
+#include "OCol.hpp"
+#include "OTheme.hpp"
+#include "CBaseUI.hpp"
+#include "OSignal.hpp"
+#include "CSignalListener.hpp"
+#include "CSLArray.hpp"
+#include "CSignalDispatcher.hpp"
+#include "CXEvent.hpp"
+#include "CContext.hpp"
+#include "CLabel.hpp"
+#include "CDrawable.hpp"
+#include "CNodeArray.hpp"
+#include "CContainer.hpp"
+/* OKit */
+#include "ORect.hpp"
+#include "OLabel.hpp"
+#include "OContainer.hpp"
+#include "OMarginContainer.hpp"
+#include "CWindow.hpp"	/* Debug */
+
+
+/* Service Functions */
+
+namespace Orion{
+	/* Starts the OrionAPI service. This is required to use any Orion UI elements. 
+		Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity. */
+	extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
+	/* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
+		Blocks function execution until the service ends. Place this at the bottom of main(). */
+	extern bool OAppEnd(void);
+
+	/* Returns the current screen size. */
+	extern OVec OScreenGetSize(void);
+}
+
 
 /*
 *	Since "using namespace Orion;" is so common in OApps, and since everything is prefixed anyway,
@@ -125,4 +142,4 @@ namespace Orion{
 using namespace Orion;
 #endif /* !ORION_UNUSE_NAMESPACE */
 
-#endif /* !__ORION_OAPI_H__ */
+#endif /* !__ORIONAPI_H__ */

@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_CLABEL_H__
-#define __ORION_OAPI_CLABEL_H__
+#ifndef __ORIONAPI_CLABEL_H__
+#define __ORIONAPI_CLABEL_H__
 
 #include "OString.hpp"
 #include "CDrawable.hpp"
@@ -78,4 +78,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OAPI_OLABEL_H__ */
+#endif /* !__ORIONAPI_OLABEL_H__ */

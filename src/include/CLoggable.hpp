@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_CLOGGABLE_H__
-#define __ORION_OAPI_CLOGGABLE_H__
+#ifndef __ORIONAPI_CLOGGABLE_H__
+#define __ORIONAPI_CLOGGABLE_H__
 
 #include "OLog.hpp"
 
@@ -41,4 +41,4 @@ namespace Orion{
 	extern void OVLog(CLoggable*,bool passVerbose=true);
 }
 
-#endif /* !__ORION_OAPI_CLOGGABLE_H__ */
+#endif /* !__ORIONAPI_CLOGGABLE_H__ */

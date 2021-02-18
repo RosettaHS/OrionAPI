@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_CSIGNALISTENER_H__
-#define __ORION_OAPI_CSIGNALISTENER_H__
+#ifndef __ORIONAPI_CSIGNALISTENER_H__
+#define __ORIONAPI_CSIGNALISTENER_H__
 
 #include "OSignal.hpp"
 
@@ -65,4 +65,4 @@ namespace Orion{
 }
 
 
-#endif /* !__ORION_OAPI_CSIGNALISTENER_H__ */
+#endif /* !__ORIONAPI_CSIGNALISTENER_H__ */

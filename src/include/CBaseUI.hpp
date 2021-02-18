@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OAPI_CBASEUI_H__
-#define __ORION_OAPI_CBASEUI_H__
+#ifndef __ORIONAPI_CBASEUI_H__
+#define __ORIONAPI_CBASEUI_H__
 
 namespace Orion{
 	/* An enumeration of all deferrable class types used in the OrionAPI. */
@@ -55,4 +55,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OAPI_CBASEUI_H__ */
+#endif /* !__ORIONAPI_CBASEUI_H__ */
