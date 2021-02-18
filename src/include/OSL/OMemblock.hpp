@@ -30,6 +30,7 @@
 
 #include <sys/types.h>
 #include <malloc.h>
+#include "OLog.hpp"
 
 namespace Orion{
 /*** Declarations ***/
@@ -68,6 +69,9 @@ namespace Orion{
 			 * Passing true will return the exact size in bytes, otherwise returning the amount of this type allocated ( size/sizeof(givenType) ).
 			 */
 			size_t getSize(bool raw=false);
+
+			/* Gets the value at the given index if this is an array. */
+			TYPE& operator[](size_t);
 	};
 
 /*** Definitions ***/
@@ -100,6 +104,12 @@ namespace Orion{
 	_OTMPBEGIN size_t OMemblock<TYPE>::getSize(bool raw){
 		if(allocRaw){ return (raw ? size : size/sizeof(TYPE)); }
 		else{ return (raw ? size/sizeof(TYPE) : size); }
+	}
+
+	_OTMPBEGIN TYPE& OMemblock<TYPE>::operator[](size_t s){
+		size_t tmpSize=getSize(false);
+		if(s>tmpSize){ OLog("ORIONAPI | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",s,tmpSize); return 0;}
+		else{ return ptr[s]; }
 	}
 }
 
