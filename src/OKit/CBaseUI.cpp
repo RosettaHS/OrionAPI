@@ -25,7 +25,7 @@
 
 #define ORION_INTERNAL
 
-#include "include/OKit/CBaseUI.hpp"
+#include "../include/OKit/CBaseUI.hpp"
 
 namespace Orion{
 	CBaseUI::CBaseUI() : type{OT_ERROR},ready{0} {}

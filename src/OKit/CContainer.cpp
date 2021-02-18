@@ -25,8 +25,8 @@
 
 #define ORION_INTERNAL
 
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/CContainer.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/CContainer.hpp"
 
 #define _CHECKFORCE ( forceSelfOnNext ? this : containerToUse ); forceSelfOnNext=false
 

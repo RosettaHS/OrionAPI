@@ -25,9 +25,9 @@
 
 #define ORION_INTERNAL
 
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OSL/CLoggable.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OSL/CLoggable.hpp"
 
 namespace Orion{
 	void CLoggable::log(bool verbose){

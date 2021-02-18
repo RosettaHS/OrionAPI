@@ -27,8 +27,8 @@
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/CXEvent.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/CXEvent.hpp"
 
 namespace Orion{
 	namespace X{

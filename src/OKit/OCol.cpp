@@ -25,8 +25,8 @@
 
 #define ORION_INTERNAL
 
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/OCol.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/OCol.hpp"
 
 namespace Orion{
 	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}

@@ -27,12 +27,12 @@
 
 #include <stdlib.h>
 #include <X11/Xlib.h>
-#include "include/errdef.hpp"
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/xservice.hpp"
-#include "include/OKit/OVec.hpp"
-#include "include/OKit/CWindow.hpp"
+#include "../include/errdef.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/xservice.hpp"
+#include "../include/OKit/OVec.hpp"
+#include "../include/OKit/CWindow.hpp"
 
 
 #define _OWINDOW_DEFMASK StructureNotifyMask|ButtonPressMask

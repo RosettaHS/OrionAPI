@@ -26,11 +26,11 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include "include/errdef.hpp"
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/xservice.hpp"
-#include "include/OKit/ORect.hpp"
+#include "../include/errdef.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/xservice.hpp"
+#include "../include/OKit/ORect.hpp"
 
 #define DEF_MINW 50
 #define DEF_MINH 50

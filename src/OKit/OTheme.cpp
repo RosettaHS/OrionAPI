@@ -25,9 +25,9 @@
 
 #define ORION_INTERNAL
 
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/OTheme.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/OTheme.hpp"
 
 namespace Orion{
 	void OTheme::setPrimary(unsigned char r, unsigned char g, unsigned char b){primary.setTo(r,g,b);}

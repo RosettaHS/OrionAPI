@@ -26,11 +26,11 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include "include/errdef.hpp"
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/CDrawable.hpp"
-#include "include/OKit/CNodeArray.hpp"
+#include "../include/errdef.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/CDrawable.hpp"
+#include "../include/OKit/CNodeArray.hpp"
 
 namespace Orion{
 	CNodeArray::~CNodeArray(void){if(arr){free(arr);arr=0;}}

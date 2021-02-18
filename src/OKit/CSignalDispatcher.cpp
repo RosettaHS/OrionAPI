@@ -25,8 +25,8 @@
 
 #define ORION_INTERNAL
 
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/CSignalDispatcher.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/CSignalDispatcher.hpp"
 
 namespace Orion{
 

@@ -26,7 +26,7 @@
 #define ORION_INTERNAL
 
 #include <malloc.h>
-#include "include/OSL/OString.hpp"
+#include "../include/OSL/OString.hpp"
 
 namespace Orion{
 	size_t OStringLength(const char* s){

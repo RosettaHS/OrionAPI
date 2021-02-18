@@ -27,8 +27,8 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
 
 /* Modification and simplification of GNU's implementation for printf(). */
 

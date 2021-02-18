@@ -25,7 +25,7 @@
 
 #define ORION_INTERNAL
 
-#include "include/OKit/CSignalListener.hpp"
+#include "../include/OKit/CSignalListener.hpp"
 
 namespace Orion{
 	CSignalListener::CSignalListener(void) :type{CSLT_NONE},mask{0} {ptr.VOID=0;}

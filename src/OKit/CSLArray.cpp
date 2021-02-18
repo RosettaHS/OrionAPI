@@ -26,9 +26,9 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include "include/errdef.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/CSLArray.hpp"
+#include "../include/errdef.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/CSLArray.hpp"
 
 namespace Orion{
 	CSLArray::~CSLArray(void){ if(arr){free(arr);} }

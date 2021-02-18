@@ -27,10 +27,10 @@
 
 #include <stdlib.h>
 #include <X11/Xlib.h>
-#include "include/errdef.hpp"
-#include "include/OKit/xservice.hpp"
-#include "include/OKit/CXEvent.hpp"
-#include "include/OKit/CContext.hpp"
+#include "../include/errdef.hpp"
+#include "../include/OKit/xservice.hpp"
+#include "../include/OKit/CXEvent.hpp"
+#include "../include/OKit/CContext.hpp"
 
 namespace Orion{
 	namespace X{

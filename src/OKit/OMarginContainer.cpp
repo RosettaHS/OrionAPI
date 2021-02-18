@@ -26,9 +26,9 @@
 #define ORION_INTERNAL
 
 #include <stdlib.h>
-#include "include/errdef.hpp"
-#include "include/OKit/xservice.hpp"
-#include "include/OKit/OMarginContainer.hpp"
+#include "../include/errdef.hpp"
+#include "../include/OKit/xservice.hpp"
+#include "../include/OKit/OMarginContainer.hpp"
 
 #define DEF_MINW 50
 #define DEF_MINH 50

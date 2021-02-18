@@ -27,11 +27,11 @@
 
 #include <stdlib.h>
 #include <X11/Xlib.h>
-#include "include/errdef.hpp"
-#include "include/application.hpp"
-#include "include/OSL/OLog.hpp"
-#include "include/OKit/xservice.hpp"
-#include "include/OKit/OLabel.hpp"
+#include "../include/errdef.hpp"
+#include "../include/application.hpp"
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/xservice.hpp"
+#include "../include/OKit/OLabel.hpp"
 
 #define DEF_MINW 50
 #define DEF_MINH 50
