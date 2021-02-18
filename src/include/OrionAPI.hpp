@@ -77,7 +77,6 @@ namespace Orion{
 /* Includes */
 	/* System */
 	#include <stdint.h>
-	#include <limits.h>
 	#include <sys/types.h>
 
 	/* OrionAPI */

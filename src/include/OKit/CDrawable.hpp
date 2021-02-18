@@ -27,7 +27,6 @@
 #define __ORIONAPI_OKIT_CDRAWABLE_H__
 
 #include <stdint.h>
-#include <limits.h>
 #include "../OSL/CLoggable.hpp"
 #include "OVec.hpp"
 #include "OCol.hpp"
@@ -35,19 +34,22 @@
 #include "CBaseUI.hpp"
 #include "CContext.hpp"
 
+/* Internal. The base for flag definitions. Random number (that won't ever be accidentally used) that is commonly below SHRT_MAX. */
+#define _OUI_FLAGDEFBASE 25678
+
 /* Position Flag Definitions */
 	/* Positional Only. Aligns to the start of the given axis. */
-	#define START (SHRT_MAX)
+	#define START (_OUI_FLAGDEFBASE)
 	/* Positional Only. Aligns to the end of the given axis. */
-	#define END (SHRT_MAX-1)
+	#define END (_OUI_FLAGDEFBASE-1)
 	/* Positional Only. Aligns to the center of the given axis. */
-	#define CENTER (SHRT_MAX-2)
+	#define CENTER (_OUI_FLAGDEFBASE-2)
 	/* Positional Only. Aligns to the centre of the given axis. */
-	#define CENTRE (SHRT_MAX-2)
+	#define CENTRE (_OUI_FLAGDEFBASE-2)
 
 /* Size Flag Definitions */
-	/* Size Only. Fills to the end of the given axis. */
-	#define FILL (SHRT_MAX-3)
+	/* Sizing Only. Fills to the end of the given axis. */
+	#define FILL (_OFLAGDEFBASE-3)
 
 
 #ifdef ORION_INTERNAL
