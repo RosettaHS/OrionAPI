@@ -3,7 +3,7 @@ The Application Framework for the Orion Operating System
 ### This toolkit is in development and currently does not work!
 
 ## What is the OrionAPI?
-The OrionAPI is a bundle of different frameworks used for creating Applications native to the Orion Operating System.
+The OrionAPI is a bundle of different frameworks used for creating Applications native to the Orion Operating System, handling basic Orion-Native Application management for its sub-libraries.
 
 OrionAPI contains the following frameworks:
 
@@ -14,7 +14,7 @@ These frameworks make development for the Orion Operating System easier than eve
 Some frameworks, such as OKit and parts of OSL, work perfectly on non-Orion systems, such as Ubuntu or Debian.
 ### What is OSL?
 OSL is a set of functions and classes built as a replacement or wrapper to some functions and classes found in C and C++, including things like [OStrings,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Class%20Reference/OString.md) and [logging functionality](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OLog.md)
-Currently incomplete, but serves as the basis for all of OrionAPI.
+Currently incomplete, but will serve as the basis for all of OrionAPI's sub-libraries.
 ### What is OKit?
 OKit is OrionAPI's implementation for a graphical user interface. It allows for making easy GUI-based Applications with minimal overhead and
 quick boot times.
