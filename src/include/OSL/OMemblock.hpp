@@ -72,6 +72,8 @@ namespace Orion{
 
 			/* Gets the value at the given index if this is an array. */
 			TYPE& operator[](size_t);
+			/* Converts this into a pointer to the given allocatd memory. */
+			operator TYPE*(void) const;
 	};
 
 /*** Definitions ***/
@@ -108,9 +110,11 @@ namespace Orion{
 
 	_OTMPBEGIN TYPE& OMemblock<TYPE>::operator[](size_t s){
 		size_t tmpSize=getSize(false);
-		if(s>tmpSize){ OLog("ORIONAPI | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",s,tmpSize); return 0;}
-		else{ return ptr[s]; }
+		if(s>tmpSize){ OLog("ORIONAPI | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",s,tmpSize); }
+		return ptr[s];
 	}
+
+	_OTMPBEGIN OMemblock<TYPE>::operator TYPE*(void) const { return ptr; }
 }
 
 #undef _OTMPBEGIN
