@@ -49,7 +49,7 @@
 
 /* Size Flag Definitions */
 	/* Sizing Only. Fills to the end of the given axis. */
-	#define FILL (_OFLAGDEFBASE-3)
+	#define FILL (_OUI_FLAGDEFBASE-3)
 
 
 #ifdef ORION_INTERNAL
@@ -113,8 +113,6 @@ namespace Orion{
 			OTheme internalTheme;
 			/* Internal. Pointers to the actual colour values used by this Drawable. */
 			CTheme theme;
-			/* Internal. Override values for the theme of this Drawable. */
-			uint8_t themeFlags;
 
 			/* Internal. Sets the raw flags of internal.modFlags. Sets one at a time! Returns true if flag was valid. */
 			bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
