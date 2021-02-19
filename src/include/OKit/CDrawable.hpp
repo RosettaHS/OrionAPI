@@ -76,7 +76,10 @@
 #endif /* !ORION_NOHELPERS */
 
 namespace Orion{
-	class CContainer; /* Forward declaration. See CContainer.hpp for definition. */
+	/* The following is a forward declaration. See CContainer.hpp for definition. */
+
+	/* Base class for elements that contain and sort child Drawables. */
+	class CContainer;
 
 	/* Base class for all drawable and containable UI elements. */
 	class CDrawable : public CBaseUI , public CLoggable {

@@ -32,6 +32,7 @@
 typedef Orion::CDrawable** OChildList;
 
 namespace Orion{
+	/* Base class for elements that contain and sort child Drawables. */
 	class CContainer{
 		protected:
 			/* Internal. The Context that this Container creates to draw its content on. */
