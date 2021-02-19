@@ -17,14 +17,15 @@ class OContainer : public CDrawable, public CContainer{
 		OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
 		virtual void setScale(float) override;
-		virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override; virtual void setCol(OCol&) override;
+		virtual void setCol(unsigned char r, unsigned char g, unsigned char b) override;
+		virtual void setCol(OCol&) override;
 };
 ```
 ### Use
 OContainer is a [Container](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CContainer.md) that does stores and displays child [Drawables.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md)
 It does not do any automatic sorting, and lets the [Drawables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) either use positional and sizing flags for automatic handling, or lets them use their own positional and sizing values.
 
-OContainer extends from [CDrawable,](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) and [CContainer,](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CContainer.md) thus inherents its methods. Review the documentation the base classes for more details.
+OContainer extends from [CDrawable,](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CDrawable.md) and [CContainer,](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CContainer.md) thus inherents its methods. Review the documentation of the base classes for more details.
 
 To create an OContainer for use, use the following syntax:
 ```cpp
