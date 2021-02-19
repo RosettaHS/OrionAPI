@@ -21,7 +21,6 @@ class CDrawable : public CBaseUI , public CLoggable {
 
 		OTheme internalTheme;
 		CTheme theme;
-		uint8_t themeFlags;
 
 		bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
 		void init(int, int, unsigned int, unsigned int);
@@ -308,10 +307,6 @@ A collection of [OCols](https://github.com/RosettaHS/OKit/blob/main/docs/Class%2
 CTheme theme;
 ```
 A collection of pointers to [OCols](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md) that this Drawable's render function will actually use to draw onto the screen.
-```cpp
-uint8_t themeFlags;
-```
-4(out of 8) bits to store whether the internal theme has been modified by any setTheme- methods.
 ```cpp
 bool setFlag(short xFlag, short yFlag, short wFlag, short hFlag);
 ```
