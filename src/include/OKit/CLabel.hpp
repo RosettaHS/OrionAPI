@@ -30,9 +30,9 @@
 
 #ifdef ORION_INTERNAL
 
-	#define __DEFAULTFONT "-misc-fixed-medium-r-normal--%u-*-*-*-*-*-iso8859-15"
-	#define __DEFAULTFONTSIZE 12
-	#define __SCALEFONTSIZE(x,y) ((unsigned short)((float)x*y))
+	#define _DEFAULTFONT "-misc-fixed-medium-r-normal--%u-*-*-*-*-*-iso8859-15"
+	#define _DEFAULTFONTSIZE 12
+	#define _SCALEFONTSIZE(x,y) ((unsigned short)((float)x*y))
 
 #endif /* ORION_INTERNAL */
 
@@ -52,6 +52,8 @@ namespace Orion{
 			unsigned long XCOL;
 			/* The size of the font being used (without OAPP_SCALE) */
 			unsigned short XFONTSIZE;
+			/* The size of the font being used (WITH OAPP_SCALE) */
+			unsigned short XFONTSIZERAW;
 			/* A pointer to an X Graphics Context owned by this Label. */
 			void* XGC;
 			/* The X and Y positions of the raw text relative to its parent Context. */

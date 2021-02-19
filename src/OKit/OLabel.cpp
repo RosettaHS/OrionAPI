@@ -46,7 +46,7 @@ namespace Orion{
 			init(_x,_y,_w,_h);
 			string=label;
 			setCol(labelCol);
-			font=__DEFAULTFONT;
+			font=_DEFAULTFONT;
 
 			ready=true;
 			parent.link(*this);
@@ -61,8 +61,8 @@ namespace Orion{
 		rect.init(context,offsetX*scale,offsetY*scale,w*scale,h*scale,0,theme.secondary,ExposureMask,CCT_ELEMENT,true,true);
 		rect.listener=(void*)this;
 		rect.listenerFunc=HANDLE::OLabel;
-		XLABEL.init(&rect,textCol,font,__DEFAULTFONTSIZE*scale);
-		XLABEL.draw(&rect,textCol,w*scale,h*scale,string,__SCALEFONTSIZE(__DEFAULTFONTSIZE,scale));
+		XLABEL.init(&rect,textCol,font,_DEFAULTFONTSIZE*scale);
+		XLABEL.draw(&rect,textCol,w*scale,h*scale,string,_SCALEFONTSIZE(_DEFAULTFONTSIZE,scale));
 	}
 
 	void OLabel::onUnlink(void){ rect.destroy(); XLABEL.destroy(); }
@@ -78,7 +78,7 @@ namespace Orion{
 		font=newFont;
 		if(rect.XWIN){
 			XLABEL.destroy();
-			XLABEL.init(&rect,textCol,font,__SCALEFONTSIZE(__DEFAULTFONTSIZE,scale));
+			XLABEL.init(&rect,textCol,font,_SCALEFONTSIZE(_DEFAULTFONTSIZE,scale));
 			if(internal.drawPtr){ internal.drawPtr(this); }
 		}
 	}
@@ -115,7 +115,7 @@ namespace Orion{
 			if(!label->ready || !label->rect.XWIN || !label->context){return;}
 			label->rect.setCol(label->theme.secondary);
 			label->rect.clear();
-			label->XLABEL.draw(&(label->rect),label->textCol,label->w*label->scale,label->h*label->scale,label->string,__SCALEFONTSIZE(__DEFAULTFONTSIZE,label->scale));
+			label->XLABEL.draw(&(label->rect),label->textCol,label->w*label->scale,label->h*label->scale,label->string,_SCALEFONTSIZE(_DEFAULTFONTSIZE,label->scale));
 			if(!label->fullRedraw){return;}
 
 			label->rect.setGeometry(
