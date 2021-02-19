@@ -46,9 +46,10 @@ namespace Orion{
 			virtual void onPosChanged(void) override;
 			/* Internal. Calls this virtual method when position is modified. */
 			virtual void onSizeChanged(void) override;
-		public:
+
 			/* Empty constructor. Sets all values to 0. */
 			ORect(void);
+		public:
 			/* Creates a Rectangle with the given parameters on the parent container. Pass an OCol on the last value to override the theme. */
 			ORect(CContainer& parent,int x, int y, unsigned int w, unsigned int h, OCol& col=OTHEME_SECONDARY);
 

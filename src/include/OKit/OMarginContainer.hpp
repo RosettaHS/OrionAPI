@@ -53,9 +53,10 @@ namespace Orion{
 			virtual void onSizeChanged(void) override;
 			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
 			virtual void sort(void) override;
-		public:
+
 			/* Empty constructor. Sets all values to 0. */
 			OMarginContainer(void);
+		public:
 			/* Creates and links a MarginContainer to the passed parent with the given parameters. A 6th argument can be passed to set the default margin. */
 			OMarginContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h, unsigned short margin=8);
 

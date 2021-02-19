@@ -60,9 +60,10 @@ namespace Orion{
 			virtual void onPosChanged(void) override;
 			/* Internal. Calls this virtual method when position is modified. */
 			virtual void onSizeChanged(void) override;
-		public:
+
 			/* Empty constructor. Sets all values to 0. */
 			OLabel(void);
+		public:
 			/* Creates and initialises a Label with the given parameters.
 				Pass the text you want to be displayed as the 6th parameter, or the colour you want the text to be as the 7th parameter. */
 			OLabel(CContainer&, int x, int y, unsigned int w, unsigned int h, const char* label=0, OCol& labelCol=OTHEME_ACCENT);

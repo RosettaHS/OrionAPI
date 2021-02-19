@@ -45,9 +45,10 @@ namespace Orion{
 			virtual void onSizeChanged(void) override;
 			/* Sorts the children of this Container. Automatically calls whenever the Container redraws. */
 			virtual void sort(void) override;
-		public:
+
 			/* Empty constructor. Sets all values to 0. */
 			OContainer(void);
+		public:
 			/* Creates and links an OContainer to the passed parent with the given arguments */
 			OContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h);
 
