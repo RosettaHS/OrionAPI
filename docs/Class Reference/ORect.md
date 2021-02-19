@@ -53,7 +53,7 @@ The actual Rectangle on the screen.
 ```cpp
 virtual void onLink(void) override;
 ```
-Calls whenever this Rectangle gets linked to a parent. Initialises some varaibles and creates the actual Rectangle on the screen.
+Calls whenever this Rectangle gets linked to a parent. Initialises some variables and creates the actual Rectangle on the screen.
 ```cpp
 virtual void onUnlink(void) override;
 ```
