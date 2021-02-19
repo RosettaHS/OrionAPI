@@ -61,8 +61,9 @@ int main(){
 	// context2.init(&context,border,border,400-border*2,350-border*2,0,&col2,0,CCT_TOPLEVEL,true,false);
 
 	CWindow win(CENTER,CENTER,500,500);
-	OMarginContainer marginContainer(win,0,0,500,500,4);
+	OMarginContainer marginContainer(win,0,0,500,500,4,false);
 	marginContainer.setCol(OTHEME_PRIMARY);
+	ORect rect(marginContainer,0,0,50,50);
 	// OContainer container(win,150,150,200,200);
 
 	// ORect rect(marginContainer,CENTRE,CENTRE,50,50);

@@ -42,6 +42,10 @@ namespace Orion{
 			unsigned short margin_top;
 			/* The margin along the bottom. */
 			unsigned short margin_bottom;
+			/* The backkground for this Container that extends to its actual sizing limits only if "expand" is true. */
+			CContext expandedBackground;
+			/* Should this Container's visible background expand to its actual size values? */
+			bool expand;
 
 			/* Internal. This method is called when this Container is linked from its parent. */
 			virtual void onLink(void) override;
@@ -57,9 +61,11 @@ namespace Orion{
 			/* Empty constructor. Sets all values to 0. */
 			OMarginContainer(void);
 		public:
-			/* Creates and links a MarginContainer to the passed parent with the given parameters. A 6th argument can be passed to set the default margin. */
-			OMarginContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h, unsigned short margin=8);
+			/* Creates and links a MarginContainer to the passed parent with the given parameters. A 6th argument can be passed to set the default margin, and the 7th would allow for background expansion. */
+			OMarginContainer(CContainer& parent, int x, int y, unsigned int w, unsigned int h, unsigned short margin=8, bool expand=true);
 
+			/* Decides if the background of this Container should fit its size values or shrink to its margin, much like its children do. */
+			void setEdgeExpansion(bool);
 			/* Sets the margin across all sides to the passed value. */
 			void setMargin(unsigned short);
 			/* Sets the margin along the left side to the passed value. */

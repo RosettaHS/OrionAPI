@@ -36,7 +36,7 @@
 namespace Orion{
 	OMarginContainer::OMarginContainer(void){ type=OT_OMARGINCONTAINER; }
 
-	OMarginContainer::OMarginContainer(CContainer& parent, int _x, int _y, unsigned int _w, unsigned int _h, unsigned short margin){
+	OMarginContainer::OMarginContainer(CContainer& parent, int _x, int _y, unsigned int _w, unsigned int _h, unsigned short margin, bool _expand){
 		OXONLY{
 			type=OT_OMARGINCONTAINER;
 			minW=DEF_MINW,minH=DEF_MINH;
@@ -45,6 +45,7 @@ namespace Orion{
 			margin_right=margin;
 			margin_top=margin;
 			margin_bottom=margin;
+			expand=_expand;
 			ready=true;
 
 			contextToUse=&selfContext;
@@ -58,6 +59,15 @@ namespace Orion{
 			OLog("ORIONAPI | ERROR! FAILED TO CREATE OMARGINCONTAINER BECAUSE X IS NOT INITIALISED!\n");
 			exit(OERR_X11_NOT_INITED);
 		}
+	}
+
+	void OMarginContainer::setEdgeExpansion(bool value){
+		if(expand==value){ return; }
+		if(parentContainer){
+			onUnlink();
+			expand=value;
+			onLink();
+		}else{ expand=value; }
 	}
 
 	/* Yes this is a cut-and-paste from OContainer, and that's because this is an OContainer, just margined. */
@@ -104,6 +114,7 @@ namespace Orion{
 
 
 	void OMarginContainer::onLink(void){
+		if(expand){ expandedBackground.init(context,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT,true,false); }
 		selfContext.init(context,x+margin_left,y+margin_top,w-(margin_bottom*2),h-(margin_right*2),0,theme.secondary,0,CCT_ELEMENT,true,false);
 		tempRelinkAll();
 		sort();
@@ -111,13 +122,16 @@ namespace Orion{
 
 	void OMarginContainer::onUnlink(void){
 		tempUnlinkAll();
+		if(expand){ expandedBackground.destroy(); }
 		selfContext.destroy();
 	}
 
 	void OMarginContainer::onPosChanged(void){
+		if(expand){ expandedBackground.setPos(x,y,true); }
 		selfContext.setPos(x+margin_left, y+margin_top, true);
 	}
 	void OMarginContainer::onSizeChanged(void){
+		if(expand){ expandedBackground.setGeometry(x,y,w,h,true); }
 		selfContext.setGeometry(x+margin_left, y+margin_top, w-(margin_bottom*2), h-(margin_right*2), true);
 		sort();
 	}
@@ -142,7 +156,11 @@ namespace Orion{
 			Orion::OMarginContainer* container=(Orion::OMarginContainer*)obj;
 			if(!container->ready || !container->selfContext.XWIN || !container->context){return;}
 			container->selfContext.setCol(container->theme.secondary);
+			if(container->expand){ container->expandedBackground.setCol(container->theme.secondary); }
 			if(!container->fullRedraw){return;}
+			if(container->expand){
+				container->expandedBackground.setGeometry(container->x,container->y,container->w,container->h,true);
+			}
 			container->selfContext.setGeometry(
 				container->x+container->margin_left,container->y+container->margin_top,
 				container->w-(container->margin_right*2),container->h-(container->margin_bottom*2),true
