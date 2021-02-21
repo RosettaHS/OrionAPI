@@ -33,6 +33,19 @@
 #define _CONV(x) ((FILE*)x)
 
 namespace Orion{
+	static char* concat(const char* directory, const char* file){
+		char* dir=realpath(directory,0);
+		if(dir){
+			size_t l1=OStringLength(directory);
+			size_t l2=OStringLength(file);
+
+			char* path=(char*)malloc(sizeof(char)*(l1+l2)+1);
+			sprintf(path,"%s/%s",dir,file);
+			free(dir);
+			return path;
+		}else{ return 0; }
+	}
+
 	OFile::~OFile(void){ close(); }
 	OFile::OFile(void) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
 
@@ -59,19 +72,10 @@ namespace Orion{
 
 	bool OFile::open(const char* directory, const char* file, OFileAction _action){
 		if(!directory || !file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
-		char* dir=realpath(directory,0);
-		if(dir){
-			size_t l1=OStringLength(directory);
-			size_t l2=OStringLength(file);
-
-			char* tmp=(char*)malloc(sizeof(char)*(l1+l2)+1);
-			sprintf(tmp,"%s/%s",dir,file);
-			bool result=open(tmp,_action);
-
-			free(dir);
-			free(tmp);
-			return result;
-		}else{ return false; }
+		char* dir=concat(directory,file);
+		bool result=open(dir,_action);
+		if(dir){ free(dir); }
+		return result;
 	}
 
 	bool OFile::close(void){
@@ -81,6 +85,23 @@ namespace Orion{
 			FILERAW=0;
 			FILEDESC=0;
 			return true;
+		}else{ return false; }
+	}
+
+
+
+	bool OFileExists(const char* file){
+		FILE* f=fopen(file,"r");
+		if(f){ fclose(f); return true; }
+		else{ return false; }
+	}
+
+	bool OFileExists(const char* directory, const char* file){
+		char* path=concat(directory,file);
+		if(path){
+			bool result=OFileExists(path);
+			free(path);
+			return result;
 		}else{ return false; }
 	}
 
