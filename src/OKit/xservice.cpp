@@ -41,7 +41,7 @@ namespace Orion{
 		bool connect(void){
 			if(DPY){return false;}
 			DPY=XOpenDisplay(0);
-			if(!DPY){OLog("OKIT | ERROR! FAILED TO CONNECT TO X DISPLAY!\n"),exit(OERR_X11_CONNECTION_FAILURE);return false;}
+			if(!DPY){ OVLog("ORIONAPI | WARNING! FAILED TO CONNECT TO X DISPLAY!\n"); return false;}
 			SCR=DefaultScreen(DPY);
 			ROOT=RootWindow(DPY,SCR);
 			return true;
@@ -55,7 +55,8 @@ namespace Orion{
 		}
 
 		void eventLoop(void){
-			if(CXHA_COUNT==0){return;}
+			if(!DPY){ return; }
+			if(CXHA_COUNT==0){ return; }
 			XEvent event;
 			CContext* context;
 			CXEvent wrapper;
