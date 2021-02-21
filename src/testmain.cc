@@ -67,7 +67,7 @@ int main(){
 	OLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<< My Label >>>>");
 	label.setCol(255,255,255);
 
-	OFile file("test.txt",OFILE_READ);
+	OFile file(OAPP_DATAPATH,"test.txt",OFILE_WRITE);
 
 	OAppEnd();
 }

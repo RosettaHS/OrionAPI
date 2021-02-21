@@ -37,6 +37,7 @@ namespace Orion{
 	OFile::OFile(void) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
 
 	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(file,_action); }
+	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(directory,file,_action); }
 
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
@@ -51,7 +52,25 @@ namespace Orion{
 		if(FILERAW){
 			FILEDESC=fileno( _CONV(FILERAW) );
 			path=realpath(file,0);
+			OLog("%s\n",path);
 			return true;
+		}else{ return false; }
+	}
+
+	bool OFile::open(const char* directory, const char* file, OFileAction _action){
+		if(!directory || !file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
+		char* dir=realpath(directory,0);
+		if(dir){
+			size_t l1=OStringLength(directory);
+			size_t l2=OStringLength(file);
+
+			char* tmp=(char*)malloc(sizeof(char)*(l1+l2)+1);
+			sprintf(tmp,"%s/%s",dir,file);
+			bool result=open(tmp,_action);
+
+			free(dir);
+			free(tmp);
+			return result;
 		}else{ return false; }
 	}
 

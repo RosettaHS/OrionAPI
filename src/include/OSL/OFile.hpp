@@ -59,7 +59,7 @@ namespace Orion{
 			~OFile(void);
 			OFile(void);
 
-			// bool open(const char* directory, const char* file, OFileAction); OFile(const char* directory, const char* file, OFileAction);
+			bool open(const char* directory, const char* file, OFileAction); OFile(const char* directory, const char* file, OFileAction);
 			bool open(const char* file, OFileAction); OFile(const char* file, OFileAction);
 			bool close(void);
 	};
