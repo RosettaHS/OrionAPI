@@ -63,22 +63,11 @@ int main(){
 	CWindow win(CENTER,CENTER,500,500);
 	OMarginContainer marginContainer(win,0,0,500,500,4,false);
 	marginContainer.setCol(OTHEME_PRIMARY);
-	ORect rect(marginContainer,0,0,50,50);
-	// OContainer container(win,150,150,200,200);
-
-	// ORect rect(marginContainer,CENTRE,CENTRE,50,50);
-	// rect.setCol(255,255,255);
+	
 	OLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<< My Label >>>>");
 	label.setCol(255,255,255);
-	// label.setSize(150,60);
-	// ORect rect2(marginContainer,CENTRE,CENTRE,400,400);
-	// rect2.setCol(0,0,0);
 
-	// marginContainer.unlinkAll();
-	// rect.linkTo(marginContainer);
-	// rect2.linkTo(marginContainer);
+	OFile file("test.txt",OFILE_READ);
 
-	// container.unlinkThis();
-	// container.linkTo(win);
 	OAppEnd();
 }

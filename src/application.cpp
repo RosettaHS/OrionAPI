@@ -165,6 +165,7 @@ namespace Orion{
 				OLog("ORIONAPI | Data path is:\t\t\t%s\n",datapath);
 				OLog("ORIONAPI | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false"));
 			}
+			chdir(cwd);
 		return true;}
 	}
 }

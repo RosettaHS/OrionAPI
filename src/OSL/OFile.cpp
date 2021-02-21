@@ -23,15 +23,46 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OSL - The Orion Standard Library.*/
+#define ORION_INTERNAL
 
-#ifndef __ORIONAPI_OSL_H__
-#define __ORIONAPI_OSL_H__
+#include <stdio.h>
+#include <stdlib.h>
+#include "../include/OSL/OString.hpp"
+#include "../include/OSL/OFile.hpp"
 
-#include "OLog.hpp"
-#include "CLoggable.hpp"
-#include "OString.hpp"
-#include "OMemblock.hpp"
-#include "OFile.hpp"
+#define _CONV(x) ((FILE*)x)
 
-#endif /* !__ORIONAPI_OSL_H__ */
+namespace Orion{
+	OFile::~OFile(void){ close(); }
+	OFile::OFile(void) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
+
+	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_READ},path{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(file,_action); }
+
+	bool OFile::open(const char* file, OFileAction _action){
+		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
+		if(FILERAW){ close(); }
+		action=_action;
+		switch(action){
+			case OFILE_READ:     { FILERAW=fopen(file,"r"); break; }
+			case OFILE_WRITE:    { FILERAW=fopen(file,"w"); break; }
+			case OFILE_READWRITE:{ FILERAW=fopen(file,"r+"); break; }
+		}
+
+		if(FILERAW){
+			FILEDESC=fileno( _CONV(FILERAW) );
+			path=realpath(file,0);
+			return true;
+		}else{ return false; }
+	}
+
+	bool OFile::close(void){
+		if(!FILERAW){ return false; }
+		if( fclose( _CONV(FILERAW) ) ){ /* Oy Vey! */
+			if(path){ free(path); }
+			FILERAW=0;
+			FILEDESC=0;
+			return true;
+		}else{ return false; }
+	}
+
+}

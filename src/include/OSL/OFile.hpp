@@ -23,15 +23,46 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OSL - The Orion Standard Library.*/
+#ifndef __ORIONAPI_OSL_OFILE_H__
+#define __ORIONAPI_OSL_OFILE_H__
 
-#ifndef __ORIONAPI_OSL_H__
-#define __ORIONAPI_OSL_H__
-
-#include "OLog.hpp"
+#include "../application.hpp"
 #include "CLoggable.hpp"
-#include "OString.hpp"
-#include "OMemblock.hpp"
-#include "OFile.hpp"
 
-#endif /* !__ORIONAPI_OSL_H__ */
+namespace Orion{
+	enum OFileType : char{
+		OFT_UNKNOWN=-1,
+		OFT_ERROR,
+		OFT_TEXT,
+		OFT_IMAGE,
+		OFT_VIDEO,
+		OFT_FONT,
+		OFT_BINARY
+	};
+
+	enum OFileAction : char{
+		OFILE_READ,
+		OFILE_WRITE,
+		OFILE_READWRITE,
+		// OFILE_APPEND
+	};
+
+	class OFile : public CLoggable {
+		protected:
+			OFileAction action;
+			char* path;
+			void* FILERAW;
+			int FILEDESC;
+		public:
+			OFileType type;
+
+			~OFile(void);
+			OFile(void);
+
+			// bool open(const char* directory, const char* file, OFileAction); OFile(const char* directory, const char* file, OFileAction);
+			bool open(const char* file, OFileAction); OFile(const char* file, OFileAction);
+			bool close(void);
+	};
+}
+
+#endif /* !__ORIONAPI_OSL_OFILE_H__ */
