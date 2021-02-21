@@ -13,8 +13,13 @@ output: $(BINS)
 	$(CC) $(FLAGS) -c $(TESTMAIN) $(LIBS)
 	$(CC) $(FLAGS) $(BINS) -no-pie -o $(OUTNAME) $(LIBS)
 
-shared: $(BINS)
-	$(CC) -shared -fPIC -O2 $(FLAGS) $(BINS) -o $(LIBNAME) $(LIBS)
+shared:
+	$(CC) $(FLAGS) -fPIC -O2 -c src/*.cpp $(LIBS)
+	$(CC) $(FLAGS) -fPIC -O2 -c src/OSL/*.cpp $(LIBS)
+	$(CC) $(FLAGS) -fPIC -O2 -c src/OKit/*.cpp $(LIBS)
+	
+	$(CC) $(FLAGS) -shared -fPIC -O2 $(BINS) -o $(LIBNAME) $(LIBS)
+	strip --strip-all $(LIBNAME)
 
 %.o: src/%.cpp src/OKit/%.cpp src/OSL/%.cpp
 	$(CC) $(FLAGS) -fPIC -c $^ $(LIBS)
