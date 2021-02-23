@@ -62,6 +62,8 @@ namespace Orion{
 			bool open(const char* directory, const char* file, OFileAction); OFile(const char* directory, const char* file, OFileAction);
 			bool open(const char* file, OFileAction); OFile(const char* file, OFileAction);
 			bool close(void);
+
+			bool valid(void) const; operator bool(void) const;
 	};
 
 	extern bool OFileExists(const char* file);

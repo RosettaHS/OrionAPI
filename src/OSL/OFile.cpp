@@ -89,6 +89,12 @@ namespace Orion{
 	}
 
 
+ // operator bool(void) const
+
+	bool OFile::valid(void) const{ return ( FILERAW ? true : false ); }
+	OFile::operator bool(void) const{ return (FILERAW ? true : false); }
+
+/* Generic */
 
 	bool OFileExists(const char* file){
 		FILE* f=fopen(file,"r");
