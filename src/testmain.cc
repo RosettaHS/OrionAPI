@@ -67,11 +67,12 @@ int main(){
 	OLabel label(marginContainer,CENTRE,CENTRE,150,30,"<<<< My Label >>>>");
 	label.setCol(255,255,255);
 
-	// OFile file(OAPP_DATAPATH,"test.txt",OFILE_WRITE);
+	OFile file(OAPP_DATAPATH,"test.txt",OFILE_WRITE);
+	OLog("%s\n",file.getExtension());
 
-	const char* s1="My name is Shake Zula, the mic rulah";
-	const char* s2="e";
-	OLog("%lu\n",OStringFindLast(s1,s2));
+	// const char* s1="My name is Shake Zula, the mic rulah";
+	// const char* s2="e";
+	// OLog("%lu\n",OStringFindLast(s1,s2));
 
 	OAppEnd();
 }

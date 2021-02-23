@@ -51,6 +51,7 @@ namespace Orion{
 		protected:
 			OFileAction action;
 			char* path;
+			char* ext;
 			void* FILERAW;
 			int FILEDESC;
 		public:
@@ -64,6 +65,8 @@ namespace Orion{
 			bool close(void);
 
 			bool valid(void) const; operator bool(void) const;
+
+			const char* getExtension(void) const;
 	};
 
 	extern bool OFileExists(const char* file);
