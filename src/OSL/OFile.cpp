@@ -69,7 +69,7 @@ namespace Orion{
 			size_t pathl=OStringLength(path);
 			size_t extPos=OStringFindLast(path,".")+1;
 			size_t extl=(pathl-extPos);
-			if(extPos){
+			if(extPos!=OSTRING_NOTFOUND){
 				if(extPos==OStringFindFirst(path,".")){ ext=0;} /* Prevents weird issues with hidden files */
 				else{
 					ext=(char*)malloc(sizeof(char)*(extl+1));
