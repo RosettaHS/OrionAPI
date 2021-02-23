@@ -78,6 +78,7 @@ namespace Orion{
 	/* System */
 	#include <stdint.h>
 	#include <sys/types.h>
+	#include <limits.h>
 
 	/* OrionAPI */
 	#include "errdef.hpp"

@@ -29,32 +29,11 @@
 #include "../include/OSL/OString.hpp"
 
 namespace Orion{
-	size_t OStringLength(const char* s){
-		if(!s){ return 0; }
-		size_t l=0;
-		while(true){
-			if(s[l]!='\0'){l++;}else{break;}
-		}
-		return l;
-	}
-
-	bool OStringCompare(const char* s1, const char* s2){
-		size_t l1=OStringLength(s1);
-		size_t l2=OStringLength(s2);
-		bool comp=false;
-		if(l1==l2){
-			comp=true;
-			for(size_t i=0;i<l1;i++){
-				if(s1[i]!=s2[i]){ comp=false; }
-			}
-		}
-		return comp;
-	}
-
+/* OString class methods. */
 	OString::~OString(void){
 		if(!isMemStatic){if(str){free(str);str=0;}}
 	}
-	OString::OString(void) : str{0},length{0},isMemStatic{false} {}
+	OString::OString(void) : str{0},length{0},isMemStatic{true} {}
 	OString::OString(const char* text) : str{(char*)text} {
 		length=OStringLength(text);
 		isMemStatic=true;
@@ -116,4 +95,43 @@ namespace Orion{
 			return str[pos];
 		}
 	}
+
+/* Generic String functions. */
+
+	size_t OStringLength(const char* s){
+		if(!s){ return 0; }
+		size_t l=0;
+		while(true){
+			if(s[l]!='\0'){l++;}else{break;}
+		}
+		return l;
+	}
+
+	bool OStringCompare(const char* s1, const char* s2){
+		size_t l1=OStringLength(s1);
+		size_t l2=OStringLength(s2);
+		bool comp=false;
+		if(l1==l2){
+			comp=true;
+			for(size_t i=0;i<l1;i++){
+				if(s1[i]!=s2[i]){ comp=false; }
+			}
+		}
+		return comp;
+	}
+
+	size_t OStringFindFirst(const char* string, const char* substring){
+		size_t l1=OStringLength(string);
+		size_t l2=OStringLength(substring);
+		size_t i=0,j=0,place=-1;
+
+		for(i=0;i<l1;i++){
+			if(j==l2){ return place; }
+			if(string[i]==substring[j]){ if(!j){ place=i; } j++; }
+			else{ j=0,place=-1; }
+		}
+
+		return OSTRING_NOTFOUND;
+	}
+
 }

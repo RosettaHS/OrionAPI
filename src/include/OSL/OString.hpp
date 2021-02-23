@@ -27,7 +27,10 @@
 #define __ORIONAPI_OSL_OSTRING_H__
 
 #include <sys/types.h>
+#include <limits.h>
 #include "CLoggable.hpp"
+
+#define OSTRING_NOTFOUND ULONG_MAX
 
 namespace Orion{
 	/* Minimal wrapper for strings. */
@@ -72,6 +75,8 @@ namespace Orion{
 
 	/* Returns the length of the passed String. */
 	extern size_t OStringLength(const char*);
+	/* Returns the starting index of the first occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
+	extern size_t OStringFindFirst(const char* string, const char* substring);
 	/* Compares the two strings and returns true if they are identical. */
 	extern bool OStringCompare(const char*, const char*);
 }
