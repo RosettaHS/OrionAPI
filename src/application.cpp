@@ -108,7 +108,7 @@ namespace Orion{
 					sprintf(tmp,"data/%s",username);
 					mkdir("data",_MKDIRARG);
 					mkdir(tmp,_MKDIRARG);
-					sprintf((char*)datapath,"%s/data/%s",binpath,username);
+					sprintf((char*)datapath,"%s/data/%s",bindir,username);
 				}else{OVLog("ORIONAPI | WARNING! FAILED TO ACCESS:\t\t\t%s !\n",bindir);}
 			}else{
 				if(name){
@@ -162,10 +162,10 @@ namespace Orion{
 			if(verbose){
 				OLog("ORIONAPI | Full Binary path is:\t\t%s\n",binpath);
 				OLog("ORIONAPI | Full Binary directory is:\t%s\n",bindir);
-				OLog("ORIONAPI | Data path is:\t\t\t%s\n",datapath);
-				OLog("ORIONAPI | Is Native OApp?\t\t\t%s\n",(isNativeOApp ? "true" : "false"));
+				OLog("ORIONAPI | Data path is:\t\t%s\n",datapath);
+				OLog("ORIONAPI | Is Native OApp?\t\t%s\n",(isNativeOApp ? "true" : "false"));
 			}
-			if( !chdir(cwd) ){ OVLog("ORIONAPI | WARNING! FAILED TO CHANGE DIRECTORY BACK TO CWD!\n"); }
+			if( chdir(cwd)!=0 ){ OVLog("ORIONAPI | WARNING! FAILED TO CHANGE DIRECTORY BACK TO CWD!\n"); }
 		return true;}
 	}
 }
