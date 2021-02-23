@@ -79,6 +79,8 @@ namespace Orion{
 	extern size_t OStringLength(const char*);
 	/* Returns the starting index of the first occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
 	extern size_t OStringFindFirst(const char* string, const char* substring);
+	/* Returns the starting index of the last occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
+	extern size_t OStringFindLast(const char* string, const char* substring);
 	/* Compares the two strings and returns true if they are identical. */
 	extern bool OStringCompare(const char*, const char*);
 }

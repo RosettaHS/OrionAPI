@@ -70,8 +70,8 @@ int main(){
 	// OFile file(OAPP_DATAPATH,"test.txt",OFILE_WRITE);
 
 	const char* s1="My name is Shake Zula, the mic rulah";
-	const char* s2="Shake Zula";
-	OLog("%lu\n",OStringFindFirst(s1,s2));
+	const char* s2="e";
+	OLog("%lu\n",OStringFindLast(s1,s2));
 
 	OAppEnd();
 }

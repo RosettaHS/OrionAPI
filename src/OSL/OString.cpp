@@ -127,15 +127,29 @@ namespace Orion{
 	size_t OStringFindFirst(const char* string, const char* substring){
 		size_t l1=OStringLength(string);
 		size_t l2=OStringLength(substring);
-		size_t i=0,j=0,place=-1;
+		size_t i=0,j=0,place=OSTRING_NOTFOUND;
 
 		for(i=0;i<l1;i++){
 			if(j==l2){ return place; }
 			if(string[i]==substring[j]){ if(!j){ place=i; } j++; }
-			else{ j=0,place=-1; }
+			else{ j=0,place=OSTRING_NOTFOUND; }
 		}
 
 		return OSTRING_NOTFOUND;
+	}
+
+	size_t OStringFindLast(const char* string, const char* substring){
+		size_t l1=OStringLength(string);
+		size_t l2=OStringLength(substring);
+		size_t i=0,j=0,occurances=0,place=OSTRING_NOTFOUND;
+
+		for(i=0;i<l1;i++){
+			if(j==l2){ j=0,occurances++; }
+			if(string[i]==substring[j]){ if(!j){ place=i; } j++; }
+			else{ j=0; }
+		}
+
+		return ( occurances ? place : OSTRING_NOTFOUND );
 	}
 
 }
