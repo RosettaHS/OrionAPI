@@ -87,6 +87,10 @@ namespace Orion{
 		return *this;
 	}
 
+	bool OString::operator==(const char* other){
+		return OStringCompare(*this,other);
+	}
+
 	char OString::operator[](size_t pos){
 		if(pos>=length){
 			OLog("ORIONAPI | WARNING! TRYING TO INDEX UNALLOCATED OR OUT-OF-BOUNDS MEMORY COULD CAUSE A SEGFAULT! ATTEMPTED INDEX : %u | MAXIMUM ALLOWED INDEX : %u\n",pos,length);

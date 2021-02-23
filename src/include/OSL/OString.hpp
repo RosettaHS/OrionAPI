@@ -69,6 +69,8 @@ namespace Orion{
 			OString operator+(const char*);
 			/* Overload. Same as setTo(const char*). */
 			OString& operator=(const char*);
+			/* Overload. Same as OStringCompare(const char*, const char*) */
+			bool operator==(const char* other);
 			/* Overload. Gets the character at the given index. */
 			char operator[](size_t);
 	};
