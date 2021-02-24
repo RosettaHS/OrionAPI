@@ -53,6 +53,37 @@ namespace Orion{
 		}else{ return 0; }
 	}
 
+	/* FIXME: This is incredibly intensive, and fucking stupid, so if you can find a better solution, please replace this. */
+	static OFileType getTypeFromExtension(char* ext){
+		/*
+		 * This pains me to do but I can't really think of an easier solution that works as intended,
+		 * so we're going to have to do this the YandereDev way... please forgive me for this.
+		 */
+	/* Initial fallback */
+		if(!ext){ return OFT_UNKNOWN; }
+	/* Text files */
+		if     ( OStringFindFirst("txt text md",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_TEXT; }
+	/* Config files */
+		else if( OStringFindFirst("cfg conf json ini",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_CONFIG; }
+	/* Image files */
+		else if( OStringFindFirst("png jpg jpeg svg bmp xbm",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_IMAGE; }
+	/* Video files */
+		else if( OStringFindFirst("mpeg mp4 webm mkv mov avi",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_VIDEO; }
+	/* Font files */
+		else if( OStringFindFirst("ttf otf",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_FONT; }
+	/* Binary files */
+		else if( OStringFindFirst("out oapp bin exe",ext)!=OSTRING_NOTFOUND )
+		{ return OFT_BINARY; }
+	/* Fallback */
+		else
+		{return OFT_UNKNOWN; }
+	}
+
 /* Initialisation */
 
 	OFile::~OFile(void){ close(); }
@@ -109,10 +140,12 @@ namespace Orion{
 					 for(size_t i=0;i<pathl;i++){ name[i]=path[i]; }
 					 name[pathl+1]=0;
 				}
+			/* Store the type of the file */
+				type=getTypeFromExtension(ext);
 			}
 
 			return true;
-		}else{ return false; }
+		}else{ type=OFT_ERROR; return false; }
 	}
 
 	bool OFile::open(const char* directory, const char* file, OFileAction _action){
@@ -131,6 +164,7 @@ namespace Orion{
 			if(ext) { free(ext); }
 			FILERAW=0;
 			FILEDESC=0;
+			type=OFT_ERROR;
 			return true;
 		}else{ return false; }
 	}

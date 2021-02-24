@@ -35,6 +35,7 @@ namespace Orion{
 		OFT_UNKNOWN=-1,
 		OFT_ERROR,
 		OFT_TEXT,
+		OFT_CONFIG,
 		OFT_IMAGE,
 		OFT_VIDEO,
 		OFT_FONT,
