@@ -36,7 +36,7 @@ namespace Orion{
 	static char* concat(const char* directory, const char* file){
 		char* dir=realpath(directory,0);
 		if(dir){
-			size_t l1=OStringLength(directory);
+			size_t l1=OStringLength(dir);
 			size_t l2=OStringLength(file);
 
 			char* path=(char*)malloc(sizeof(char)*(l1+l2)+2); /* You wouldn't know it, but this line caused days of headache... */
