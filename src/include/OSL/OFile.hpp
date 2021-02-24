@@ -93,6 +93,8 @@ namespace Orion{
 			const char* getName(void) const;
 			/* Returns the full path pointing to this File. */
 			const char* getFullPath(void) const;
+			/* Returns the C FILE struct used by this File internally. */
+			void* getCFile(void) const;
 	};
 
 	/* Does the given File exist relative to the OApp's working directory? */

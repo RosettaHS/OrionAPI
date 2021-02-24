@@ -33,6 +33,7 @@
 #define _CONV(x) ((FILE*)x)
 
 namespace Orion{
+/* Internal */
 	static char* concat(const char* directory, const char* file){
 		char* dir=realpath(directory,0);
 		if(dir){
@@ -51,6 +52,8 @@ namespace Orion{
 			return path;
 		}else{ return 0; }
 	}
+
+/* Initialisation */
 
 	OFile::~OFile(void){ close(); }
 	OFile::OFile(void) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
@@ -127,6 +130,11 @@ namespace Orion{
 		}else{ return false; }
 	}
 
+/* File modifcation */
+
+	/* TODO: Add abstracted functionality*/
+
+/* Getters/misc ops */
 
 	bool OFile::valid(void) const{ return ( FILERAW ? true : false ); }
 	OFile::operator bool(void) const{ return (FILERAW ? true : false); }
@@ -134,6 +142,7 @@ namespace Orion{
 	const char* OFile::getExtension(void) const { return (const char*)ext; }
 	const char* OFile::getName(void) const { return (const char*)name; }
 	const char* OFile::getFullPath(void) const { return (const char*) path; }
+	void* OFile::getCFile(void) const { return FILERAW; }
 
 /* Generic */
 
