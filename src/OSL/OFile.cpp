@@ -121,7 +121,7 @@ namespace Orion{
 					else{
 						ext=(char*)malloc(sizeof(char)*(optl+1));
 						for(size_t i=optPos;i<pathl;i++){ ext[i-optPos]=path[i]; }
-						ext[optl+1]=0;
+						ext[optl]=0;
 					}
 				}else{ ext=0; }
 			/* Store the filename (with extension) */
@@ -130,7 +130,7 @@ namespace Orion{
 				if((optPos-1)!=OSTRING_NOTFOUND){
 					name=(char*)malloc(sizeof(char)*(optl+1));
 						for(size_t i=optPos;i<pathl;i++){ name[i-optPos]=path[i]; }
-						name[optl+1]=0;
+						name[optl]=0;
 				}else{
 					/*
 					 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
@@ -138,7 +138,7 @@ namespace Orion{
 					 */
 					 name=(char*)malloc(sizeof(char)*(pathl+1));
 					 for(size_t i=0;i<pathl;i++){ name[i]=path[i]; }
-					 name[pathl+1]=0;
+					 name[pathl]=0;
 				}
 			/* Store the type of the file */
 				type=getTypeFromExtension(ext);
