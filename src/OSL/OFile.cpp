@@ -39,7 +39,13 @@ namespace Orion{
 			size_t l1=OStringLength(directory);
 			size_t l2=OStringLength(file);
 
-			char* path=(char*)malloc(sizeof(char)*(l1+l2)+1);
+			char* path=(char*)malloc(sizeof(char)*(l1+l2)+2); /* You wouldn't know it, but this line caused days of headache... */
+			/*
+			 * Basically depending on how you inputted "directory", it would allocate less memory than it actually needed,
+			 * so that later on in open(const char*, const char*) when it would call free() on the returned "path",
+			 * it would fucking crash and give absolutely no hint at what was wrong. Apparently all I needed to do
+			 * was change a "1" to a "2"... you gotta be fucking kidding me.
+			 */
 			sprintf(path,"%s/%s",dir,file);
 			free(dir);
 			return path;

@@ -32,6 +32,6 @@
 #include "CLoggable.hpp"
 #include "OString.hpp"
 #include "OMemblock.hpp"
-// #include "OFile.hpp"
+#include "OFile.hpp"
 
 #endif /* !__ORIONAPI_OSL_H__ */
