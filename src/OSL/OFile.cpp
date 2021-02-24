@@ -56,10 +56,10 @@ namespace Orion{
 /* Initialisation */
 
 	OFile::~OFile(void){ close(); }
-	OFile::OFile(void) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
+	OFile::OFile(void) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} {}
 
-	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(file,_action); }
-	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(directory,file,_action); }
+	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} { open(file,_action); }
+	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} { open(directory,file,_action); }
 
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
@@ -73,39 +73,44 @@ namespace Orion{
 		}
 
 		if(FILERAW){
-		/* Store some data regarding the path, and keep some variables for use later in this block. */
 			FILEDESC=fileno( _CONV(FILERAW) );
 			path=realpath(file,0);
-			size_t pathl=OStringLength(path);
-			size_t optPos;
-			size_t optl;
-		/* Store the file's raw extension. */
-			optPos=OStringFindLast(path,".")+1;
-			optl=(pathl-optPos);
-			if((optPos-1)!=OSTRING_NOTFOUND){
-				if(optPos==OStringFindFirst(path,".")){ ext=0;} /* Prevents weird issues with hidden files */
-				else{
-					ext=(char*)malloc(sizeof(char)*(optl+1));
-					for(size_t i=optPos;i<pathl;i++){ ext[i-optPos]=path[i]; }
-					ext[optl+1]=0;
+
+			/* If this File cares about misc data, allocate and initalise them. */
+			if(careAboutMisc){
+			/* Store some data regarding the path, and keep some variables for use later in this scope. */
+				size_t pathl=OStringLength(path);
+				size_t optPos;
+				size_t optl;
+			/* Store the file's raw extension. */
+				optPos=OStringFindLast(path,".")+1;
+				optl=(pathl-optPos);
+				if((optPos-1)!=OSTRING_NOTFOUND){
+					if(optPos==OStringFindFirst(path,".")){ ext=0;} /* Prevents weird issues with hidden files */
+					else{
+						ext=(char*)malloc(sizeof(char)*(optl+1));
+						for(size_t i=optPos;i<pathl;i++){ ext[i-optPos]=path[i]; }
+						ext[optl+1]=0;
+					}
+				}else{ ext=0; }
+			/* Store the filename (with extension) */
+				optPos=OStringFindLast(path,"/");
+				optl=(pathl-optPos);
+				if((optPos-1)!=OSTRING_NOTFOUND){
+					name=(char*)malloc(sizeof(char)*(optl+1));
+						for(size_t i=optPos;i<pathl;i++){ name[i-optPos]=path[i]; }
+						name[optl+1]=0;
+				}else{
+					/*
+					 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
+					 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
+					 */
+					 name=(char*)malloc(sizeof(char)*(pathl+1));
+					 for(size_t i=0;i<pathl;i++){ name[i]=path[i]; }
+					 name[pathl+1]=0;
 				}
-			}else{ ext=0; }
-		/* Store the filename (with extension) */
-			optPos=OStringFindLast(path,"/");
-			optl=(pathl-optPos);
-			if((optPos-1)!=OSTRING_NOTFOUND){
-				name=(char*)malloc(sizeof(char)*(optl+1));
-					for(size_t i=optPos;i<pathl;i++){ name[i-optPos]=path[i]; }
-					name[optl+1]=0;
-			}else{
-				/*
-				 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
-				 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
-				 */
-				 name=(char*)malloc(sizeof(char)*(pathl+1));
-				 for(size_t i=0;i<pathl;i++){ name[i]=path[i]; }
-				 name[pathl+1]=0;
 			}
+
 			return true;
 		}else{ return false; }
 	}
@@ -129,6 +134,8 @@ namespace Orion{
 			return true;
 		}else{ return false; }
 	}
+
+	void OFile::shouldInitMisc(bool v){ careAboutMisc=v; }
 
 /* File modifcation */
 

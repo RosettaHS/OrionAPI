@@ -68,6 +68,8 @@ namespace Orion{
 			void* FILERAW;
 			/* The descriptor of this File that the operating system uses to locate it. */
 			int FILEDESC;
+			/* Should this File care about allocating and initialising miscellaneous information such as the name and extension? */
+			bool careAboutMisc;
 		public:
 			/* The type of the File. */
 			OFileType type;
@@ -86,6 +88,11 @@ namespace Orion{
 
 			/* Has the File been opened properly, and is ready for use? */
 			bool valid(void) const; operator bool(void) const;
+			/*
+			 * Should this File care about allocating and initialising miscellaneous information?
+			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
+			 */
+			void shouldInitMisc(bool);
 
 			/* Returns the extension of this File (if it has one). */
 			const char* getExtension(void) const;
