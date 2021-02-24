@@ -53,19 +53,20 @@ namespace Orion{
 	}
 
 	OFile::~OFile(void){ close(); }
-	OFile::OFile(void) : action{OFILE_READ},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
+	OFile::OFile(void) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} {}
 
-	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_READ},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(file,_action); }
-	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_READ},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(directory,file,_action); }
+	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(file,_action); }
+	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},type{OFT_ERROR} { open(directory,file,_action); }
 
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
 		if(FILERAW){ close(); }
 		action=_action;
 		switch(action){
-			case OFILE_READ:     { FILERAW=fopen(file,"r"); break; }
-			case OFILE_WRITE:    { FILERAW=fopen(file,"w"); break; }
-			case OFILE_READWRITE:{ FILERAW=fopen(file,"r+"); break; }
+			case OFILE_OPEN:              { FILERAW=fopen(file,"r+"); break; }
+			case OFILE_OPEN_READONLY:     { FILERAW=fopen(file,"r");  break; }
+			case OFILE_NEW:               { FILERAW=fopen(file,"w+"); break; }
+			case OFILE_NEW_WRITEONLY:     { FILERAW=fopen(file,"w");  break; }
 		}
 
 		if(FILERAW){
@@ -132,6 +133,7 @@ namespace Orion{
 
 	const char* OFile::getExtension(void) const { return (const char*)ext; }
 	const char* OFile::getName(void) const { return (const char*)name; }
+	const char* OFile::getFullPath(void) const { return (const char*) path; }
 
 /* Generic */
 
