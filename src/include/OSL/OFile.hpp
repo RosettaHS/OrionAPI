@@ -105,9 +105,9 @@ namespace Orion{
 			OFile(void);
 
 			/* Opens the given File relative to the OApp's working directory with the given action. */
-			bool open(const char* file, OFileAction); OFile(const char* file, OFileAction);
+			bool open(const char* file, OFileAction=OFILE_OPEN); OFile(const char* file, OFileAction=OFILE_OPEN);
 			/* Opens the File relative to the given directory with the given action. */
-			bool open(const char* directory, const char* file, OFileAction); OFile(const char* directory, const char* file, OFileAction);
+			bool open(const char* directory, const char* file, OFileAction=OFILE_OPEN); OFile(const char* directory, const char* file, OFileAction=OFILE_OPEN);
 			/* Closes the file and applies any pending modifications. */
 			bool close(void);
 
