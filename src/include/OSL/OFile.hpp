@@ -59,18 +59,24 @@ namespace Orion{
 		protected:
 			/* The action which was used for this File. */
 			OFileAction action;
-			/* The path to the File itself. */
-			char* path;
-			/* The name of the File (plus extension if it has one). */
-			char* name;
-			/* The raw extension of the File (if it has one) */
-			char* ext;
-			/* A pointer to the C FILE struct. */
-			void* FILERAW;
-			/* The descriptor of this File that the operating system uses to locate it. */
-			int FILEDESC;
-			/* Should this File care about allocating and initialising miscellaneous information such as the name and extension? */
-			bool careAboutMisc;
+			/* Important, internal information regarding the File. */
+			struct{
+				/* The path to the File itself. */
+				char* PATH;
+				/* A pointer to the C FILE struct. */
+				void* RAW;
+				/* The descriptor of this File that the operating system uses to locate it. */
+				int DESC;
+			}FILEINF;
+			/* Miscellaneous information regarding the File. */
+			struct{
+				/* The name of the File (plus extension if it has one). */
+				char* name;
+				/* The raw extension of the File (if it has one) */
+				char* ext;
+				/* Should this File care about allocating and initialising miscellaneous information such as the name and extension? */
+				bool careAboutMisc;
+			}misc;
 		public:
 			/* The type of the File. */
 			OFileType type;

@@ -83,6 +83,8 @@ namespace Orion{
 	extern size_t OStringFindLast(const char* string, const char* substring);
 	/* Compares the two strings and returns true if they are identical. */
 	extern bool OStringCompare(const char*, const char*);
+	// /* Checks if the first passed string is found inside the second array of strings. Returns true if found. */
+	// extern bool OStringCompareList(const char* stringToCheck, const char** listOfStrings, size_t listLength);
 }
 
 #endif /* !__ORIONAPI_OSL_OSTRING_H__ */

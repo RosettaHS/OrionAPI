@@ -87,62 +87,80 @@ namespace Orion{
 /* Initialisation */
 
 	OFile::~OFile(void){ close(); }
-	OFile::OFile(void) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} {}
 
-	OFile::OFile(const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} { open(file,_action); }
-	OFile::OFile(const char* directory, const char* file, OFileAction _action) : action{OFILE_OPEN},path{0},name{0},ext{0},FILERAW{0},FILEDESC{0},careAboutMisc{true},type{OFT_ERROR} { open(directory,file,_action); }
+	OFile::OFile(void) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0},misc{0,0,0},
+		type{OFT_ERROR}
+		{}
+
+	OFile::OFile(const char* file, OFileAction _action) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0},misc{0,0,0},
+		type{OFT_ERROR}
+		{ open(file,_action); }
+
+	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0},misc{0,0,0},
+		type{OFT_ERROR}
+		{ open(directory,file,_action); }
 
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
-		if(FILERAW){ close(); }
+		if(FILEINF.RAW){ close(); }
 		action=_action;
 		switch(action){
-			case OFILE_OPEN:              { FILERAW=fopen(file,"r+"); break; }
-			case OFILE_OPEN_READONLY:     { FILERAW=fopen(file,"r");  break; }
-			case OFILE_NEW:               { FILERAW=fopen(file,"w+"); break; }
-			case OFILE_NEW_WRITEONLY:     { FILERAW=fopen(file,"w");  break; }
+			case OFILE_OPEN:              { FILEINF.RAW=fopen(file,"r+"); break; }
+			case OFILE_OPEN_READONLY:     { FILEINF.RAW=fopen(file,"r");  break; }
+			case OFILE_NEW:               { FILEINF.RAW=fopen(file,"w+"); break; }
+			case OFILE_NEW_WRITEONLY:     { FILEINF.RAW=fopen(file,"w");  break; }
 		}
 
-		if(FILERAW){
-			FILEDESC=fileno( _CONV(FILERAW) );
-			path=realpath(file,0);
+		if(FILEINF.RAW){
+			FILEINF.DESC=fileno( _CONV(FILEINF.RAW) );
+			FILEINF.PATH=realpath(file,0);
 
 			/* If this File cares about misc data, allocate and initalise them. */
-			if(careAboutMisc){
+			if(misc.careAboutMisc){
+
 			/* Store some data regarding the path, and keep some variables for use later in this scope. */
-				size_t pathl=OStringLength(path);
+				size_t pathl=OStringLength(FILEINF.PATH);
 				size_t optPos;
 				size_t optl;
+
 			/* Store the file's raw extension. */
-				optPos=OStringFindLast(path,".")+1;
+				optPos=OStringFindLast(FILEINF.PATH,".")+1;
 				optl=(pathl-optPos);
 				if((optPos-1)!=OSTRING_NOTFOUND){
-					if(optPos==OStringFindFirst(path,".")){ ext=0;} /* Prevents weird issues with hidden files */
+					if(optPos==OStringFindFirst(FILEINF.PATH,".")){ misc.ext=0;} /* Prevents weird issues with hidden files */
 					else{
-						ext=(char*)malloc(sizeof(char)*(optl+1));
-						for(size_t i=optPos;i<pathl;i++){ ext[i-optPos]=path[i]; }
-						ext[optl]=0;
+						misc.ext=(char*)malloc(sizeof(char)*(optl+1));
+						for(size_t i=optPos;i<pathl;i++){ misc.ext[i-optPos]=FILEINF.PATH[i]; }
+						misc.ext[optl]=0;
 					}
-				}else{ ext=0; }
+				}else{ misc.ext=0; }
+
 			/* Store the filename (with extension) */
-				optPos=OStringFindLast(path,"/");
+				optPos=OStringFindLast(FILEINF.PATH,"/");
 				optl=(pathl-optPos);
 				if((optPos-1)!=OSTRING_NOTFOUND){
-					name=(char*)malloc(sizeof(char)*(optl+1));
-						for(size_t i=optPos;i<pathl;i++){ name[i-optPos]=path[i]; }
-						name[optl]=0;
+					misc.name=(char*)malloc(sizeof(char)*(optl+1));
+						for(size_t i=optPos;i<pathl;i++){ misc.name[i-optPos]=FILEINF.PATH[i]; }
+						misc.name[optl]=0;
 				}else{
 					/*
 					 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
 					 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
 					 */
-					 name=(char*)malloc(sizeof(char)*(pathl+1));
-					 for(size_t i=0;i<pathl;i++){ name[i]=path[i]; }
-					 name[pathl]=0;
+					 misc.name=(char*)malloc(sizeof(char)*(pathl+1));
+					 for(size_t i=0;i<pathl;i++){ misc.name[i]=FILEINF.PATH[i]; }
+					 misc.name[pathl]=0;
 				}
+
 			/* Store the type of the file */
-				type=getTypeFromExtension(ext);
-			}
+				type=getTypeFromExtension(misc.ext);
+			}else{ type=OFT_UNKNOWN; }
 
 			return true;
 		}else{ type=OFT_ERROR; return false; }
@@ -157,19 +175,19 @@ namespace Orion{
 	}
 
 	bool OFile::close(void){
-		if(!FILERAW){ return false; }
-		if( fclose( _CONV(FILERAW) ) ){ /* Oy Vey! */
-			if(path){ free(path); }
-			if(name){ free(name); }
-			if(ext) { free(ext); }
-			FILERAW=0;
-			FILEDESC=0;
+		if(!FILEINF.RAW){ return false; }
+		if( fclose( _CONV(FILEINF.RAW) ) ){ /* Oy Vey! */
+			if(FILEINF.PATH){ free(FILEINF.PATH); }
+			if(misc.name)   { free(misc.name); }
+			if(misc.ext)    { free(misc.ext); }
+			FILEINF.RAW=0;
+			FILEINF.DESC=0;
 			type=OFT_ERROR;
 			return true;
 		}else{ return false; }
 	}
 
-	void OFile::shouldInitMisc(bool v){ careAboutMisc=v; }
+	void OFile::shouldInitMisc(bool v){ misc.careAboutMisc=v; }
 
 /* File modifcation */
 
@@ -177,13 +195,13 @@ namespace Orion{
 
 /* Getters/misc ops */
 
-	bool OFile::valid(void) const{ return ( FILERAW ? true : false ); }
-	OFile::operator bool(void) const{ return (FILERAW ? true : false); }
+	bool OFile::valid(void) const{ return ( FILEINF.RAW ? true : false ); }
+	OFile::operator bool(void) const{ return (FILEINF.RAW ? true : false); }
 
-	const char* OFile::getExtension(void) const { return (const char*)ext; }
-	const char* OFile::getName(void) const { return (const char*)name; }
-	const char* OFile::getFullPath(void) const { return (const char*) path; }
-	void* OFile::getCFile(void) const { return FILERAW; }
+	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
+	const char* OFile::getName(void) const { return (const char*)misc.name; }
+	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
+	void* OFile::getCFile(void) const { return FILEINF.RAW; }
 
 /* Generic */
 
