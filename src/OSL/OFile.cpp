@@ -90,21 +90,77 @@ namespace Orion{
 
 	OFile::OFile(void) : 
 		action{OFILE_OPEN},
-		FILEINF{0,0,0},misc{0,0,0},
+		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
 		type{OFT_ERROR}
 		{}
 
 	OFile::OFile(const char* file, OFileAction _action) : 
 		action{OFILE_OPEN},
-		FILEINF{0,0,0},misc{0,0,0},
+		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
 		type{OFT_ERROR}
 		{ open(file,_action); }
 
 	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
 		action{OFILE_OPEN},
-		FILEINF{0,0,0},misc{0,0,0},
+		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
 		type{OFT_ERROR}
 		{ open(directory,file,_action); }
+
+	void OFile::init(void){
+	/* Initialise file content characteristics */
+		contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
+		contents.charCount=0;
+		contents.lines=0;
+		OFileHash tmpHash=0;
+		int c;
+		/*
+		 * Sloppily generate a simplistic hash from the sum of the square of characters of this File in numeric form.
+		 * It is quite sloppy, but it's really fast and only used for internal comparison between Files.
+		 */
+		while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
+			tmpHash+=(c*c);
+			if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
+		}
+		FILEINF.HASH=tmpHash/2;
+
+	/* If this File cares about misc data, allocate and initalise them. */
+		if(misc.careAboutMisc){
+		/* Store some data regarding the path, and keep some variables for use later in this scope. */
+			size_t pathl=OStringLength(FILEINF.PATH);
+			size_t optPos;
+			size_t optl;
+		/* Store the file's raw extension. */
+			optPos=OStringFindLast(FILEINF.PATH,".")+1;
+			optl=(pathl-optPos);
+			if((optPos-1)!=OSTRING_NOTFOUND){
+				if(optPos==OStringFindFirst(FILEINF.PATH,".")){ misc.ext=0;} /* Prevents weird issues with hidden files */
+				else{
+					misc.ext=(char*)malloc(sizeof(char)*(optl+1));
+					for(size_t i=optPos;i<pathl;i++){ misc.ext[i-optPos]=FILEINF.PATH[i]; }
+					misc.ext[optl]=0;
+				}
+			}else{ misc.ext=0; }
+		/* Store the filename (with extension) */
+			optPos=OStringFindLast(FILEINF.PATH,"/")+1;
+			optl=(pathl-optPos);
+			if((optPos-1)!=OSTRING_NOTFOUND){
+				misc.name=(char*)malloc(sizeof(char)*(optl+1));
+					for(size_t i=optPos;i<pathl;i++){ misc.name[i-optPos]=FILEINF.PATH[i]; }
+					misc.name[optl]=0;
+			}else{
+				/*
+				 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
+				 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
+				 */
+				 misc.name=(char*)malloc(sizeof(char)*(pathl+1));
+				 for(size_t i=0;i<pathl;i++){ misc.name[i]=FILEINF.PATH[i]; }
+				 misc.name[pathl]=0;
+			}
+		/* Store the type of the file */
+			type=getTypeFromExtension(misc.ext);
+		}else{ misc.ext=0; misc.name=0; type=OFT_UNKNOWN; }
+	}
+
 
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
@@ -120,50 +176,21 @@ namespace Orion{
 		if(FILEINF.RAW){
 			FILEINF.DESC=fileno( _CONV(FILEINF.RAW) );
 			FILEINF.PATH=realpath(file,0);
-
-			/* If this File cares about misc data, allocate and initalise them. */
-			if(misc.careAboutMisc){
-
-			/* Store some data regarding the path, and keep some variables for use later in this scope. */
-				size_t pathl=OStringLength(FILEINF.PATH);
-				size_t optPos;
-				size_t optl;
-
-			/* Store the file's raw extension. */
-				optPos=OStringFindLast(FILEINF.PATH,".")+1;
-				optl=(pathl-optPos);
-				if((optPos-1)!=OSTRING_NOTFOUND){
-					if(optPos==OStringFindFirst(FILEINF.PATH,".")){ misc.ext=0;} /* Prevents weird issues with hidden files */
-					else{
-						misc.ext=(char*)malloc(sizeof(char)*(optl+1));
-						for(size_t i=optPos;i<pathl;i++){ misc.ext[i-optPos]=FILEINF.PATH[i]; }
-						misc.ext[optl]=0;
-					}
-				}else{ misc.ext=0; }
-
-			/* Store the filename (with extension) */
-				optPos=OStringFindLast(FILEINF.PATH,"/");
-				optl=(pathl-optPos);
-				if((optPos-1)!=OSTRING_NOTFOUND){
-					misc.name=(char*)malloc(sizeof(char)*(optl+1));
-						for(size_t i=optPos;i<pathl;i++){ misc.name[i-optPos]=FILEINF.PATH[i]; }
-						misc.name[optl]=0;
-				}else{
-					/*
-					 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
-					 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
-					 */
-					 misc.name=(char*)malloc(sizeof(char)*(pathl+1));
-					 for(size_t i=0;i<pathl;i++){ misc.name[i]=FILEINF.PATH[i]; }
-					 misc.name[pathl]=0;
-				}
-
-			/* Store the type of the file */
-				type=getTypeFromExtension(misc.ext);
-			}else{ type=OFT_UNKNOWN; }
-
+			init();
 			return true;
-		}else{ type=OFT_ERROR; return false; }
+		}else{ 
+			FILEINF.PATH=0;
+			FILEINF.RAW=0;
+			FILEINF.DESC=0;
+			FILEINF.HASH=0;
+			misc.name=0;
+			misc.ext=0;
+			contents.lineCount=0;
+			contents.charCount=0;
+			contents.lines=0;
+			type=OFT_ERROR;
+			return false;
+		}
 	}
 
 	bool OFile::open(const char* directory, const char* file, OFileAction _action){
@@ -180,8 +207,19 @@ namespace Orion{
 			if(FILEINF.PATH){ free(FILEINF.PATH); }
 			if(misc.name)   { free(misc.name); }
 			if(misc.ext)    { free(misc.ext); }
+			if(contents.lines){
+				for(size_t i=0;i<contents.lineCount;i++){ free(contents.lines[i]); }
+				free(contents.lines);
+			}
+			FILEINF.PATH=0;
 			FILEINF.RAW=0;
 			FILEINF.DESC=0;
+			FILEINF.HASH=0;
+			misc.name=0;
+			misc.ext=0;
+			contents.lineCount=0;
+			contents.charCount=0;
+			contents.lines=0;
 			type=OFT_ERROR;
 			return true;
 		}else{ return false; }
@@ -198,10 +236,17 @@ namespace Orion{
 	bool OFile::valid(void) const{ return ( FILEINF.RAW ? true : false ); }
 	OFile::operator bool(void) const{ return (FILEINF.RAW ? true : false); }
 
-	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
-	const char* OFile::getName(void) const { return (const char*)misc.name; }
+	bool OFile::equalTo(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
+	bool OFile::operator==(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
+
 	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
+	const char* OFile::getName(void) const { return (const char*)misc.name; }
+	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
 	void* OFile::getCFile(void) const { return FILEINF.RAW; }
+	OFileHash OFile::getHash(void) const { return FILEINF.HASH; }
+	size_t OFile::getLineCount(void) const { return contents.lineCount; }
+	size_t OFile::getCharCount(void) const { return contents.charCount; }
+	const char** OFile::getLines(void) const { return (const char**)contents.lines; }
 
 /* Generic */
 

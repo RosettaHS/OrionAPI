@@ -26,6 +26,7 @@
 #ifndef __ORIONAPI_OSL_OFILE_H__
 #define __ORIONAPI_OSL_OFILE_H__
 
+#include <stdint.h>
 #include "../application.hpp"
 #include "CLoggable.hpp"
 
@@ -54,6 +55,9 @@ namespace Orion{
 		OFILE_NEW_WRITEONLY
 	};
 
+	/* A simple numeric hash of a File's contents. */
+	typedef uint64_t OFileHash;
+
 	/* An Orion-Native implementation for easily reading and writing to files. */
 	class OFile : public CLoggable {
 		protected:
@@ -67,6 +71,8 @@ namespace Orion{
 				void* RAW;
 				/* The descriptor of this File that the operating system uses to locate it. */
 				int DESC;
+				/* A simple hash of the File. Used for internal comparisons between Files. */
+				OFileHash HASH;
 			}FILEINF;
 			/* Miscellaneous information regarding the File. */
 			struct{
@@ -74,9 +80,21 @@ namespace Orion{
 				char* name;
 				/* The raw extension of the File (if it has one) */
 				char* ext;
-				/* Should this File care about allocating and initialising miscellaneous information such as the name and extension? */
+				/* Should this File care about allocating and initialising miscellaneous information such as the name, extension, and type? */
 				bool careAboutMisc;
 			}misc;
+			/* The internal contents of this File. */
+			struct{
+				/* The total count of lines in this File (starting at 1). */
+				size_t lineCount;
+				/* The total count of characters in this File. */
+				size_t charCount;
+				/* The actual lines of this File. */
+				char** lines;
+			}contents;
+
+			/* Initialises most of the internal variables. */
+			void init(void);
 		public:
 			/* The type of the File. */
 			OFileType type;
@@ -100,13 +118,23 @@ namespace Orion{
 			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
 			 */
 			void shouldInitMisc(bool);
+			/* Do the two Files share the same content? */
+			bool equalTo(OFile&) const; bool operator==(OFile&) const;
 
-			/* Returns the extension of this File (if it has one). */
-			const char* getExtension(void) const;
-			/* Returns the name of this File. */
-			const char* getName(void) const;
 			/* Returns the full path pointing to this File. */
 			const char* getFullPath(void) const;
+			/* Returns the name of this File. */
+			const char* getName(void) const;
+			/* Returns the extension of this File (if it has one). */
+			const char* getExtension(void) const;
+			/* Returns the simplistic numerical hash of this File. */
+			OFileHash getHash(void) const;
+			/* Returns the count of lines of this File starting at 1. */
+			size_t getLineCount(void) const;
+			/* Returns the count of characters in this File. */
+			size_t getCharCount(void) const;
+			/* Returns an array of characters corrisponding to each line of this File. */
+			const char** getLines(void) const;
 			/* Returns the C FILE struct used by this File internally. */
 			void* getCFile(void) const;
 	};
