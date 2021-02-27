@@ -95,6 +95,8 @@ namespace Orion{
 				size_t charCount;
 				/* The actual lines of this File. */
 				char** lines;
+				/* Have the contents been modified from when changes were last applied, or when the File was last opened? */
+				bool modified;
 			}contents;
 
 			/* Initialises most of the internal variables. */
@@ -109,8 +111,10 @@ namespace Orion{
 			bool open(const char* file, OFileAction=OFILE_OPEN); OFile(const char* file, OFileAction=OFILE_OPEN);
 			/* Opens the File relative to the given directory with the given action. */
 			bool open(const char* directory, const char* file, OFileAction=OFILE_OPEN); OFile(const char* directory, const char* file, OFileAction=OFILE_OPEN);
-			/* Closes the file and applies any pending modifications. */
-			bool close(void);
+			/* Applies the current modifications. Returns true if there were any modifications to apply, and the process was a success. */
+			bool apply(void);
+			/* Closes the File and if true is passed, applies any pending modifications. */
+			bool close(bool applyChanges);
 
 			/* Has the File been opened properly, and is ready for use? */
 			bool valid(void) const; operator bool(void) const;
@@ -119,6 +123,8 @@ namespace Orion{
 			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
 			 */
 			void shouldInitMisc(bool);
+			/* Has the File been modified since when changes were last applied, or when the File was last opened? */
+			bool hasBeenModified(void) const;
 			/* Do the two Files share the same content? */
 			bool equalTo(OFile&) const; bool operator==(OFile&) const;
 

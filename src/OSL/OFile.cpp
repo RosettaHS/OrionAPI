@@ -90,6 +90,7 @@ namespace Orion{
 		contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
 		contents.charCount=0;
 		contents.lines=0;
+		contents.modified=0;
 		OFileHash tmpHash=0;
 		int c;
 		/*
@@ -143,30 +144,30 @@ namespace Orion{
 	}
 
 /* Constructors */
-	OFile::~OFile(void){ close(); }
+	OFile::~OFile(void){ close(false); }
 
 	OFile::OFile(void) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
 		{}
 
 	OFile::OFile(const char* file, OFileAction _action) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
 		{ open(file,_action); }
 
 	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
 		{ open(directory,file,_action); }
 
 /* Management - Opening */
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
-		if(FILEINF.RAW){ close(); }
+		if(FILEINF.RAW){ close(false); }
 		action=_action;
 		switch(action){
 			case OFILE_OPEN:              { FILEINF.RAW=fopen(file,"r+"); break; }
@@ -190,6 +191,7 @@ namespace Orion{
 			contents.lineCount=0;
 			contents.charCount=0;
 			contents.lines=0;
+			contents.modified=false;
 			type=OFT_ERROR;
 			return false;
 		}
@@ -204,8 +206,9 @@ namespace Orion{
 	}
 
 /* Management - Closing */
-	bool OFile::close(void){
+	bool OFile::close(bool applyChanges){
 		if(!FILEINF.RAW){ return false; }
+		if(applyChanges){ apply(); }
 		if( fclose( _CONV(FILEINF.RAW) )==0 ){ /* Oy Vey! */
 			if(FILEINF.PATH){ free(FILEINF.PATH); }
 			if(misc.name)   { free(misc.name); }
@@ -224,6 +227,7 @@ namespace Orion{
 			contents.lineCount=0;
 			contents.charCount=0;
 			contents.lines=0;
+			contents.modified=false;
 			type=OFT_ERROR;
 			return true;
 		}else{ return false; }
@@ -231,12 +235,41 @@ namespace Orion{
 
 /* File modifcation */
 
+	/* Applying current fileContent */
+	bool OFile::apply(void){
+		if(action!=OFILE_OPEN && action!=OFILE_NEW && action!=OFILE_NEW_WRITEONLY){ return false; }
+		if(contents.modified){
+			FILE* F;
+			if(action==OFILE_OPEN){ F=fopen(FILEINF.PATH,"w"); }
+			else{ F=_CONV(FILEINF.RAW); rewind(_CONV(FILEINF.RAW)); }
+			if(F){
+				for(size_t i=0;i<contents.lineCount;i++){
+					/* TODO: Write the contents of the lines before putting newlines. */
+					fputc('O',F); /* Debug */
+					if(i!=contents.lineCount-1){ fputc('\n',F); }
+				}
+				if(action==OFILE_OPEN){
+					fclose(_CONV(FILEINF.RAW));
+					fclose(F);
+					FILEINF.RAW=fopen(FILEINF.PATH,"r+");
+				}else{
+					fclose(F);
+					if(action==OFILE_NEW){ FILEINF.RAW=fopen(FILEINF.PATH,"w+"); }
+					else if(action==OFILE_NEW_WRITEONLY){ FILEINF.RAW=fopen(FILEINF.PATH,"w"); }
+				}
+				contents.modified=false;
+				return true;
+			}
+		}
+		return false;
+	}
 	/* TODO: Add abstracted functionality*/
 
 /* Getters/misc ops */
 
 	void OFile::shouldInitMisc(bool v){ misc.careAboutMisc=v; }
 	bool OFile::valid(void) const{ return ( FILEINF.RAW ? true : false ); }
+	bool OFile::hasBeenModified(void) const { return contents.modified; }
 	OFile::operator bool(void) const{ return (FILEINF.RAW ? true : false); }
 
 	bool OFile::equalTo(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
