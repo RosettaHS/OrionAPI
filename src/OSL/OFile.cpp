@@ -85,27 +85,6 @@ namespace Orion{
 	}
 
 /* Initialisation */
-
-	OFile::~OFile(void){ close(); }
-
-	OFile::OFile(void) : 
-		action{OFILE_OPEN},
-		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
-		{}
-
-	OFile::OFile(const char* file, OFileAction _action) : 
-		action{OFILE_OPEN},
-		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
-		{ open(file,_action); }
-
-	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
-		action{OFILE_OPEN},
-		FILEINF{0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
-		{ open(directory,file,_action); }
-
 	void OFile::init(void){
 	/* Initialise file content characteristics */
 		contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
@@ -122,6 +101,8 @@ namespace Orion{
 			if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
 		}
 		FILEINF.HASH=tmpHash/2;
+		FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
+		rewind(_CONV(FILEINF.RAW));
 
 	/* If this File cares about misc data, allocate and initalise them. */
 		if(misc.careAboutMisc){
@@ -161,7 +142,28 @@ namespace Orion{
 		}else{ misc.ext=0; misc.name=0; type=OFT_UNKNOWN; }
 	}
 
+/* Constructors */
+	OFile::~OFile(void){ close(); }
 
+	OFile::OFile(void) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
+		type{OFT_ERROR}
+		{}
+
+	OFile::OFile(const char* file, OFileAction _action) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
+		type{OFT_ERROR}
+		{ open(file,_action); }
+
+	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
+		action{OFILE_OPEN},
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
+		type{OFT_ERROR}
+		{ open(directory,file,_action); }
+
+/* Management */
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
 		if(FILEINF.RAW){ close(); }
@@ -203,7 +205,7 @@ namespace Orion{
 
 	bool OFile::close(void){
 		if(!FILEINF.RAW){ return false; }
-		if( fclose( _CONV(FILEINF.RAW) ) ){ /* Oy Vey! */
+		if( fclose( _CONV(FILEINF.RAW) )==0 ){ /* Oy Vey! */
 			if(FILEINF.PATH){ free(FILEINF.PATH); }
 			if(misc.name)   { free(misc.name); }
 			if(misc.ext)    { free(misc.ext); }
@@ -211,9 +213,10 @@ namespace Orion{
 				for(size_t i=0;i<contents.lineCount;i++){ free(contents.lines[i]); }
 				free(contents.lines);
 			}
-			FILEINF.PATH=0;
 			FILEINF.RAW=0;
+			FILEINF.PATH=0;
 			FILEINF.DESC=0;
+			FILEINF.SIZE=0;
 			FILEINF.HASH=0;
 			misc.name=0;
 			misc.ext=0;
@@ -244,6 +247,7 @@ namespace Orion{
 	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
 	void* OFile::getCFile(void) const { return FILEINF.RAW; }
 	OFileHash OFile::getHash(void) const { return FILEINF.HASH; }
+	size_t OFile::getSize(void) const { return FILEINF.SIZE; }
 	size_t OFile::getLineCount(void) const { return contents.lineCount; }
 	size_t OFile::getCharCount(void) const { return contents.charCount; }
 	const char** OFile::getLines(void) const { return (const char**)contents.lines; }

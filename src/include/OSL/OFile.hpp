@@ -71,6 +71,8 @@ namespace Orion{
 				void* RAW;
 				/* The descriptor of this File that the operating system uses to locate it. */
 				int DESC;
+				/* The size of the File in bytes. */
+				size_t SIZE;
 				/* A simple hash of the File. Used for internal comparisons between Files. */
 				OFileHash HASH;
 			}FILEINF;
@@ -127,6 +129,8 @@ namespace Orion{
 			const char* getName(void) const;
 			/* Returns the extension of this File (if it has one). */
 			const char* getExtension(void) const;
+			/* Returns the size of the File in bytes. */
+			size_t getSize(void) const;
 			/* Returns the simplistic numerical hash of this File. */
 			OFileHash getHash(void) const;
 			/* Returns the count of lines of this File starting at 1. */
