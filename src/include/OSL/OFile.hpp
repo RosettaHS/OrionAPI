@@ -179,8 +179,12 @@ namespace Orion{
 
 	/* Does the given File exist relative to the OApp's working directory? */
 	extern bool OFileExists(const char* file);
-	/* Does the given File exist relative to the given directory? */
+	/* Does the File exist relative to the given directory? */
 	extern bool OFileExists(const char* directory, const char* file);
+	/* Returns the FileHash of the given file relative to the OApp's working directory. */
+	extern OFileHash OFileGetHash(const char* file);
+	/* Returns the FileHash of the file relative to the given directory. */
+	extern OFileHash OFileGetHash(const char* directory, const char* file);
 }
 
 #endif /* !__ORIONAPI_OSL_OFILE_H__ */

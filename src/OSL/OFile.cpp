@@ -353,4 +353,24 @@ namespace Orion{
 		}else{ return false; }
 	}
 
+	extern OFileHash OFileGetHash(const char* file){
+		FILE* f=fopen(file,"r");
+		if(f){
+			OFileHash r=0;
+			int c;
+			while( (c=fgetc(_CONV(f)))!=EOF ){ r+=(c*c); }
+			fclose(f);
+			return r/2;
+		}else{ return 0; }
+	}
+
+	extern OFileHash OFileGetHash(const char* directory, const char* file){
+		char* path=concat(directory,file);
+		if(path){
+			bool result=OFileGetHash(path);
+			free(path);
+			return result;
+		}else{ return 0; }
+	}
+
 }
