@@ -156,7 +156,7 @@ namespace Orion{
 			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
 				if(c=='\n' || c==EOF){
 					if(i){
-						contents.lines[l]={ i, (int*)malloc(sizeof(int)*i) };
+						contents.lines[l]={ i, (int*)malloc(sizeof(int)*(i+1)) };
 					}else{ contents.lines[l]={0,0}; }
 					i=0; l++;
 					if(c==EOF){ break; }
@@ -166,7 +166,7 @@ namespace Orion{
 		/* Go back and store the line information. */
 			c=0,l=0,i=0;
 			while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
-				if(c=='\n'){ contents.lines[l].length=i; i=0; l++; }
+				if(c=='\n'){ contents.lines[l].length=i; if(contents.lines[l].str){ contents.lines[l].str[i+1]=0; } i=0; l++; }
 				else{
 					if(contents.lines[l].str){
 						contents.lines[l].str[i]=c;
