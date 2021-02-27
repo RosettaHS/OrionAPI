@@ -61,6 +61,8 @@ namespace Orion{
 	/* An Orion-Native implementation for easily reading and writing to files. */
 	class OFile : public CLoggable {
 		protected:
+			/* The type of the File. */
+			OFileType type;
 			/* The action which was used for this File. */
 			OFileAction action;
 			/* Important, internal information regarding the File. */
@@ -98,9 +100,6 @@ namespace Orion{
 			/* Initialises most of the internal variables. */
 			void init(void);
 		public:
-			/* The type of the File. */
-			OFileType type;
-
 			/* Destructor. Frees all allocated memory and closes the file. */
 			~OFile(void);
 			/* Empty constructor. Sets all values to 0. */
@@ -123,6 +122,8 @@ namespace Orion{
 			/* Do the two Files share the same content? */
 			bool equalTo(OFile&) const; bool operator==(OFile&) const;
 
+			/* Returns the type of the File if it could be determined. */
+			OFileType getType(void) const;
 			/* Returns the full path pointing to this File. */
 			const char* getFullPath(void) const;
 			/* Returns the name of this File. */

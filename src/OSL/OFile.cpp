@@ -146,24 +146,24 @@ namespace Orion{
 	OFile::~OFile(void){ close(); }
 
 	OFile::OFile(void) : 
+		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
 		{}
 
 	OFile::OFile(const char* file, OFileAction _action) : 
+		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
 		{ open(file,_action); }
 
 	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
+		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0},
-		type{OFT_ERROR}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0}
 		{ open(directory,file,_action); }
 
-/* Management */
+/* Management - Opening */
 	bool OFile::open(const char* file, OFileAction _action){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN OPENING A FILE!\n"); return false; }
 		if(FILEINF.RAW){ close(); }
@@ -203,6 +203,7 @@ namespace Orion{
 		return result;
 	}
 
+/* Management - Closing */
 	bool OFile::close(void){
 		if(!FILEINF.RAW){ return false; }
 		if( fclose( _CONV(FILEINF.RAW) )==0 ){ /* Oy Vey! */
@@ -210,7 +211,7 @@ namespace Orion{
 			if(misc.name)   { free(misc.name); }
 			if(misc.ext)    { free(misc.ext); }
 			if(contents.lines){
-				for(size_t i=0;i<contents.lineCount;i++){ free(contents.lines[i]); }
+				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i]){ free(contents.lines[i]); } }
 				free(contents.lines);
 			}
 			FILEINF.RAW=0;
@@ -228,20 +229,20 @@ namespace Orion{
 		}else{ return false; }
 	}
 
-	void OFile::shouldInitMisc(bool v){ misc.careAboutMisc=v; }
-
 /* File modifcation */
 
 	/* TODO: Add abstracted functionality*/
 
 /* Getters/misc ops */
 
+	void OFile::shouldInitMisc(bool v){ misc.careAboutMisc=v; }
 	bool OFile::valid(void) const{ return ( FILEINF.RAW ? true : false ); }
 	OFile::operator bool(void) const{ return (FILEINF.RAW ? true : false); }
 
 	bool OFile::equalTo(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 	bool OFile::operator==(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 
+	OFileType OFile::getType(void) const { return type; }
 	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
 	const char* OFile::getName(void) const { return (const char*)misc.name; }
 	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
