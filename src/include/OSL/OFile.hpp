@@ -55,6 +55,38 @@ namespace Orion{
 		OFILE_NEW_WRITEONLY
 	};
 
+	/* An individual Line of a File. */
+	struct OFileLine{
+		/* The length of this Line. */
+		size_t length;
+		/* The string stored in this Line. */
+		int* str;
+
+		/* Allows for if() checking on this Line. */
+		operator bool(void) const;
+		/* Allows for getting a character from a given index without having to use the "str" member. */
+		int operator [](size_t) const;
+		/* Allows for converting to a string. */
+		operator char*(void) const;
+	};
+
+	/* The internal Content of a FIle. */
+	struct OFileContent{
+		/* The total count of lines in this File (starting at 1). */
+		size_t lineCount;
+		/* The total count of characters in this File. */
+		size_t charCount;
+		/* The actual lines of this File. */
+		OFileLine* lines;
+		/* Have the contents been modified from when changes were last applied, or when the File was last opened? */
+		bool modified;
+
+		/* Allows for if() checking on this Content without having to check "lines" member manually. */
+		operator bool(void) const;
+		/* Allows for getting a Line from a given index without having to use the "lines" member. */
+		OFileLine operator [](size_t) const;
+	};
+
 	/* A simple numeric hash of a File's contents. */
 	typedef uint64_t OFileHash;
 
@@ -88,19 +120,12 @@ namespace Orion{
 				bool careAboutMisc;
 			}misc;
 			/* The internal contents of this File. */
-			struct{
-				/* The total count of lines in this File (starting at 1). */
-				size_t lineCount;
-				/* The total count of characters in this File. */
-				size_t charCount;
-				/* The actual lines of this File. */
-				char** lines;
-				/* Have the contents been modified from when changes were last applied, or when the File was last opened? */
-				bool modified;
-			}contents;
+			OFileContent contents;
 
 			/* Initialises most of the internal variables. */
 			void init(void);
+			/* Stores the File's contents to memory. Handled during init(). */
+			void storeToMem(void);
 		public:
 			/* Destructor. Frees all allocated memory and closes the file. */
 			~OFile(void);
@@ -144,8 +169,10 @@ namespace Orion{
 			size_t getLineCount(void) const;
 			/* Returns the count of characters in this File. */
 			size_t getCharCount(void) const;
-			/* Returns an array of characters corrisponding to each line of this File. */
-			const char** getLines(void) const;
+			/* Returns a struct containing the content of this File. See OFileContent. */
+			OFileContent getContent(void) const;
+			/* Returns a specific line of this File. */
+			OFileLine getLine(size_t line) const;
 			/* Returns the C FILE struct used by this File internally. */
 			void* getCFile(void) const;
 	};

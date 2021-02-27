@@ -104,6 +104,7 @@ namespace Orion{
 		FILEINF.HASH=tmpHash/2;
 		FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
 		rewind(_CONV(FILEINF.RAW));
+		storeToMem();
 
 	/* If this File cares about misc data, allocate and initalise them. */
 		if(misc.careAboutMisc){
@@ -141,6 +142,41 @@ namespace Orion{
 		/* Store the type of the file */
 			type=getTypeFromExtension(misc.ext);
 		}else{ misc.ext=0; misc.name=0; type=OFT_UNKNOWN; }
+	}
+
+	/* Storing File to memory. */
+	void OFile::storeToMem(void){
+		if(FILEINF.RAW && contents.lines==0){
+		/* Allocate an array of strings so we can store our file's lines to. */
+			contents.lines=(OFileLine*)malloc(sizeof(OFileLine)*(contents.lineCount));
+			for(size_t i=0;i<contents.lineCount;i++){ contents.lines[i]={0,0}; }
+		/* Search and see the size of each line so we can allocate enough memory for each line string. */
+			int c=0;
+			size_t l=0,i=0;
+			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
+				if(c=='\n' || c==EOF){
+					if(i){
+						contents.lines[l]={ i, (int*)malloc(sizeof(int)*i) };
+					}else{ contents.lines[l]={0,0}; }
+					i=0; l++;
+					if(c==EOF){ break; }
+				}else{ i++; }
+			}
+			rewind(_CONV(FILEINF.RAW));
+		/* Go back and store the line information. */
+			c=0,l=0,i=0;
+			while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
+				if(c=='\n'){ contents.lines[l].length=i; i=0; l++; }
+				else{
+					if(contents.lines[l].str){
+						contents.lines[l].str[i]=c;
+						i++;
+					}	
+				}
+			}
+		/* Clean up for the warcrime-level attrocity that was committed the past few lines */
+			rewind(_CONV(FILEINF.RAW));
+		}
 	}
 
 /* Constructors */
@@ -214,7 +250,7 @@ namespace Orion{
 			if(misc.name)   { free(misc.name); }
 			if(misc.ext)    { free(misc.ext); }
 			if(contents.lines){
-				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i]){ free(contents.lines[i]); } }
+				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
 				free(contents.lines);
 			}
 			FILEINF.RAW=0;
@@ -244,8 +280,9 @@ namespace Orion{
 			else{ F=_CONV(FILEINF.RAW); rewind(_CONV(FILEINF.RAW)); }
 			if(F){
 				for(size_t i=0;i<contents.lineCount;i++){
-					/* TODO: Write the contents of the lines before putting newlines. */
-					fputc('O',F); /* Debug */
+					for(size_t j=0;j<contents.lines[i].length;j++){
+						fputc(contents.lines[i].str[j],F);
+					}
 					if(i!=contents.lineCount-1){ fputc('\n',F); }
 				}
 				if(action==OFILE_OPEN){
@@ -267,10 +304,10 @@ namespace Orion{
 
 /* Getters/misc ops */
 
-	void OFile::shouldInitMisc(bool v){ misc.careAboutMisc=v; }
-	bool OFile::valid(void) const{ return ( FILEINF.RAW ? true : false ); }
+	void OFile::shouldInitMisc(bool v) { misc.careAboutMisc=v; }
+	bool OFile::valid(void) const { return ( FILEINF.RAW ? true : false ); }
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
-	OFile::operator bool(void) const{ return (FILEINF.RAW ? true : false); }
+	OFile::operator bool(void) const { return (FILEINF.RAW ? true : false); }
 
 	bool OFile::equalTo(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 	bool OFile::operator==(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
@@ -284,7 +321,20 @@ namespace Orion{
 	size_t OFile::getSize(void) const { return FILEINF.SIZE; }
 	size_t OFile::getLineCount(void) const { return contents.lineCount; }
 	size_t OFile::getCharCount(void) const { return contents.charCount; }
-	const char** OFile::getLines(void) const { return (const char**)contents.lines; }
+	OFileContent OFile::getContent(void) const { return contents; }
+	OFileLine OFile::getLine(size_t line) const {
+		if(line<contents.lineCount){
+			return contents.lines[line];
+		}else { return {0,0}; }
+	}
+
+/* Sub-struct definitions */
+	OFileLine::operator bool(void) const { return (str ? true : false); }
+	int OFileLine::operator [](size_t i) const { return str[i]; }
+	OFileLine::operator char*(void) const { return (char*)str; }
+
+	OFileContent::operator bool(void) const { return (lines ? true : false); }
+	OFileLine OFileContent::operator [](size_t i) const { return lines[i]; }
 
 /* Generic */
 
