@@ -159,7 +159,7 @@ namespace Orion{
 			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
 				if(c=='\n' || c==EOF){
 					if(i){
-						contents.lines[l]={ i, (int*)malloc(sizeof(int)*(i+1)) };
+						contents.lines[l]={ i, (int*)malloc(sizeof(int)*(i+2)) };
 					}else{ contents.lines[l]={0,0}; }
 					i=0; l++;
 					if(c==EOF){ break; }
