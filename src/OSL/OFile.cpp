@@ -337,6 +337,8 @@ namespace Orion{
 			FILEINF.RAW=0;
 			bool result=false;
 			if(OFileRename(FILEINF.PATH,newName)){
+				if(FILEINF.PATH){ free(FILEINF.PATH); }
+				FILEINF.PATH=realpath(newName,0);
 				init(true);
 				result=true;
 			}
