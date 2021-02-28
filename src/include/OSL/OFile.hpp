@@ -123,7 +123,7 @@ namespace Orion{
 			OFileContent contents;
 
 			/* Initialises most of the internal variables. */
-			void init(void);
+			void init(bool skipGen);
 			/* Stores the File's contents to memory. Handled during init(). */
 			void storeToMem(void);
 		public:
@@ -142,6 +142,8 @@ namespace Orion{
 			bool saveAs(const char* file);
 			/* Saves a copy of the current File to the filename relative to the given directory. */
 			bool saveAs(const char* directory, const char* file);
+			/* Renames the current File to the given name. */
+			bool rename(const char* newName);
 			/* Closes the File, and if true is passed, applies any pending modifications. */
 			bool close(bool applyChanges);
 			/* Deletes the current File. Returns true on success. */
@@ -191,6 +193,10 @@ namespace Orion{
 	extern bool OFileDelete(const char* file);
 	/* Deletes the File relative to the given directory. */
 	extern bool OFileDelete(const char* directory, const char* file);
+	/* Renames the File (relative to the OApp's working directory) to the given name. Returns true on success. */
+	extern bool OFileRename(const char* file, const char* newName);
+	/* Renames the File (relative to the given directory) to the given name. Returns true on success. */
+	extern bool OFileRename(const char* directory, const char* file, const char* newName);
 	/* Returns the FileHash of the given file relative to the OApp's working directory. */
 	extern OFileHash OFileGetHash(const char* file);
 	/* Returns the FileHash of the file relative to the given directory. */

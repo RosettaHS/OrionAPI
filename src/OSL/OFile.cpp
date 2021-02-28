@@ -85,26 +85,29 @@ namespace Orion{
 	}
 
 /* Initialisation */
-	void OFile::init(void){
-	/* Initialise file content characteristics */
-		contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
-		contents.charCount=0;
-		contents.lines=0;
-		contents.modified=0;
-		OFileHash tmpHash=0;
-		int c;
-		/*
-		 * Sloppily generate a simplistic hash from the sum of the square of characters of this File in numeric form.
-		 * It is quite sloppy, but it's really fast and only used for internal comparison between Files.
-		 */
-		while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
-			tmpHash+=(c*c);
-			if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
+	void OFile::init(bool skipGen){
+		/* Since this can be called through some other methods, we need to be ablle to skip this intensive stuff if it's already been done. */
+		if(!skipGen){
+		/* Initialise file content characteristics */
+			contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
+			contents.charCount=0;
+			contents.lines=0;
+			contents.modified=0;
+			OFileHash tmpHash=0;
+			int c;
+			/*
+			 * Sloppily generate a simplistic hash from the sum of the square of characters of this File in numeric form.
+			 * It is quite sloppy, but it's really fast and only used for internal comparison between Files.
+			 */
+			while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
+				tmpHash+=(c*c);
+				if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
+			}
+			FILEINF.HASH=tmpHash/2;
+			FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
+			rewind(_CONV(FILEINF.RAW));
+			storeToMem();
 		}
-		FILEINF.HASH=tmpHash/2;
-		FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
-		rewind(_CONV(FILEINF.RAW));
-		storeToMem();
 
 	/* If this File cares about misc data, allocate and initalise them. */
 		if(misc.careAboutMisc){
@@ -215,7 +218,7 @@ namespace Orion{
 		if(FILEINF.RAW){
 			FILEINF.DESC=fileno( _CONV(FILEINF.RAW) );
 			FILEINF.PATH=realpath(file,0);
-			init();
+			init(false);
 			return true;
 		}else{ 
 			FILEINF.PATH=0;
@@ -327,6 +330,27 @@ namespace Orion{
 		return result;
 	}
 
+	/* Renaming the current File. */
+	bool OFile::rename(const char* newName){
+		if(FILEINF.RAW){
+			fclose(_CONV(FILEINF.RAW));
+			FILEINF.RAW=0;
+			bool result=false;
+			if(OFileRename(FILEINF.PATH,newName)){
+				init(true);
+				result=true;
+			}
+			switch(action){
+				case OFILE_OPEN:              { FILEINF.RAW=fopen(FILEINF.PATH,"r+"); break; }
+				case OFILE_OPEN_READONLY:     { FILEINF.RAW=fopen(FILEINF.PATH,"r");  break; }
+				case OFILE_NEW:               { FILEINF.RAW=fopen(FILEINF.PATH,"w+"); break; }
+				case OFILE_NEW_WRITEONLY:     { FILEINF.RAW=fopen(FILEINF.PATH,"w");  break; }
+			}
+			return result;
+		}
+		return false;
+	}
+
 	/* Deleting the current File. */
 	bool OFile::deleteCurrent(void){
 		if(FILEINF.RAW){
@@ -398,7 +422,6 @@ namespace Orion{
 		if(f){ fclose(f); return true; }
 		else{ return false; }
 	}
-
 	bool OFileExists(const char* directory, const char* file){
 		char* path=concat(directory,file);
 		if(path){
@@ -416,6 +439,14 @@ namespace Orion{
 		return result;
 	}
 
+	extern bool OFileRename(const char* file, const char* newName){ return ( (!rename(file,newName)) ? true : false ); }
+	extern bool OFileRename(const char* directory, const char* file, const char* newName){
+		char* path=concat(directory,file);
+		bool result=OFileRename(path,newName);
+		if(path) { free(path); }
+		return result;
+	}
+
 	extern OFileHash OFileGetHash(const char* file){
 		FILE* f=fopen(file,"r");
 		if(f){
@@ -426,7 +457,6 @@ namespace Orion{
 			return r/2;
 		}else{ return 0; }
 	}
-
 	extern OFileHash OFileGetHash(const char* directory, const char* file){
 		char* path=concat(directory,file);
 		if(path){
