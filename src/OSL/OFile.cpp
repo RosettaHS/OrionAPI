@@ -463,23 +463,23 @@ namespace Orion{
 		}else{ return false; }
 	}
 
-	extern bool OFileDelete(const char* file){ return ( (!remove(file) ) ? true : false ); }
-	extern bool OFileDelete(const char* directory, const char* file){
+	bool OFileDelete(const char* file){ return ( (!remove(file) ) ? true : false ); }
+	bool OFileDelete(const char* directory, const char* file){
 		char* path=concat(directory,file);
 		bool result=OFileDelete(path);
 		if(path) { free(path); }
 		return result;
 	}
 
-	extern bool OFileRename(const char* file, const char* newName){ return ( (!rename(file,newName)) ? true : false ); }
-	extern bool OFileRename(const char* directory, const char* file, const char* newName){
-		char* path=concat(directory,file);
+	bool OFileRename(const char* file, const char* newName){ return ( (!rename(file,newName)) ? true : false ); }
+	bool OFileRename(const char* directory, const char* file, const char* newName){
+	char* path=concat(directory,file);
 		bool result=OFileRename(path,newName);
 		if(path) { free(path); }
 		return result;
 	}
 
-	extern OFileHash OFileGetHash(const char* file){
+	OFileHash OFileGetHash(const char* file){
 		FILE* f=fopen(file,"r");
 		if(f){
 			OFileHash r=0;
@@ -489,7 +489,7 @@ namespace Orion{
 			return r/2;
 		}else{ return 0; }
 	}
-	extern OFileHash OFileGetHash(const char* directory, const char* file){
+	OFileHash OFileGetHash(const char* directory, const char* file){
 		char* path=concat(directory,file);
 		if(path){
 			bool result=OFileGetHash(path);
