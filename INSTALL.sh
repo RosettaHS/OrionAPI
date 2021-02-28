@@ -101,11 +101,10 @@ if [ -e "/usr/lib/libO.so" ]; then
 		case ${conf} in
 			[!Yy]) echo "OrionAPI : Aborted."; exit 1;;
 		esac
-
+	fi
 		rm -rf "/usr/include/.OrionAPI" >/dev/null 2>&1 || echo 'OrionAPI | WARNING! : Current version include folder "/usr/include/.OrionAPI" not found, failed to remove.'
 		rm "/usr/include/OrionAPI" >/dev/null 2>&1		|| echo 'OrionAPI | WARNING! : Current version header file "/usr/include/OrionAPI" not found, failed to remove.'
 		rm "/usr/lib/libO.so" >/dev/null 2>&1			|| echo 'OrionAPI | WARNING! : Current version source library "/usr/lib/libO.so" not found, failed to remove.'
-	fi
 	echo "OrionAPI : Current version successfully removed."
 fi
 
