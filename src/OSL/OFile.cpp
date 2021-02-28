@@ -168,9 +168,13 @@ namespace Orion{
 			rewind(_CONV(FILEINF.RAW));
 		/* Go back and store the line information. */
 			c=0,l=0,i=0;
-			while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
-				if(c=='\n'){ contents.lines[l].length=i; if(contents.lines[l].str){ contents.lines[l].str[i+1]=0; } i=0; l++; }
-				else{
+			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
+				if(c=='\n' || c==EOF){
+					contents.lines[l].length=i;
+					if(contents.lines[l].str){ contents.lines[l].str[i+1]=0; }
+					i=0; l++;
+					if(c==EOF){ break; }
+				}else{
 					if(contents.lines[l].str){
 						contents.lines[l].str[i]=c;
 						i++;
