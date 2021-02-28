@@ -60,7 +60,7 @@ namespace Orion{
 		/* The length of this Line. */
 		size_t length;
 		/* The string stored in this Line. */
-		int* str;
+		char* str;
 
 		/* Allows for if() checking on this Line. */
 		operator bool(void) const;
@@ -163,6 +163,8 @@ namespace Orion{
 
 			/* Returns the type of the File if it could be determined. */
 			OFileType getType(void) const;
+			/* Returns the type of the File as a String if it could be determined. */
+			const char* getTypeAsString(void) const;
 			/* Returns the full path pointing to this File. */
 			const char* getFullPath(void) const;
 			/* Returns the name of this File. */
@@ -173,16 +175,21 @@ namespace Orion{
 			size_t getSize(void) const;
 			/* Returns the simplistic numerical hash of this File. */
 			OFileHash getHash(void) const;
-			/* Returns the count of lines of this File starting at 1. */
+			/* Returns the count of lines of this File. */
 			size_t getLineCount(void) const;
 			/* Returns the count of characters in this File. */
 			size_t getCharCount(void) const;
 			/* Returns a struct containing the content of this File. See OFileContent. */
 			OFileContent getContent(void) const;
-			/* Returns a specific line of this File. */
+			/* Returns a specific line (starting at 0) of this File as an OFileLine. */
 			OFileLine getLine(size_t line) const;
+			/* Returns a specific line (starting at 0) of this File as a string. */
+			char* operator [](size_t) const;
 			/* Returns the C FILE struct used by this File internally. */
 			void* getCFile(void) const;
+
+			/* Logs this File out to the terminal. Pass true to get File information rather than content. */
+			virtual void log(bool verbose=false) override;
 	};
 
 	/* Does the given File exist relative to the OApp's working directory? */

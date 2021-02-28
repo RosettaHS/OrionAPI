@@ -159,7 +159,7 @@ namespace Orion{
 			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
 				if(c=='\n' || c==EOF){
 					if(i){
-						contents.lines[l]={ i, (int*)malloc(sizeof(int)*(i+2)) };
+						contents.lines[l]={ i, (char*)malloc(sizeof(char)*(i+2)) };
 					}else{ contents.lines[l]={0,0}; }
 					i=0; l++;
 					if(c==EOF){ break; }
@@ -171,7 +171,7 @@ namespace Orion{
 			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
 				if(c=='\n' || c==EOF){
 					contents.lines[l].length=i;
-					if(contents.lines[l].str){ contents.lines[l].str[i+1]=0; }
+					if(contents.lines[l].str){ contents.lines[l].str[i]=0; }
 					i=0; l++;
 					if(c==EOF){ break; }
 				}else{
@@ -398,6 +398,18 @@ namespace Orion{
 	bool OFile::operator==(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 
 	OFileType OFile::getType(void) const { return type; }
+	const char* OFile::getTypeAsString(void) const {
+		switch(type){
+			case OFT_UNKNOWN:{ return "OFT_UNKNOWN"; }
+			case OFT_ERROR:{ return "OFT_ERROR"; }
+			case OFT_TEXT:{ return "OFT_TEXT"; }
+			case OFT_CONFIG:{ return "OFT_CONFIG"; }
+			case OFT_IMAGE:{ return "OFT_IMAGE"; }
+			case OFT_VIDEO:{ return "OFT_VIDEO"; }
+			case OFT_FONT:{ return "OFT_FONT"; }
+			case OFT_BINARY:{ return "OFT_BINARY"; }
+		}
+	}
 	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
 	const char* OFile::getName(void) const { return (const char*)misc.name; }
 	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
@@ -411,6 +423,20 @@ namespace Orion{
 		if(line<contents.lineCount){
 			return contents.lines[line];
 		}else { return {0,0}; }
+	}
+	char* OFile::operator [](size_t line) const { return getLine(line); }
+
+	void OFile::log(bool verbose){
+		if(verbose){
+			OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Modified : %s\n",
+				FILEINF.PATH,getTypeAsString(),getExtension(),
+				getLineCount(),getCharCount(),getSize(),
+				( contents.modified ? true : false ));
+		}else{
+			for(size_t i=0;i<contents.lineCount;i++){
+				OLog("%s\n",(char*)contents.lines[i]);
+			}
+		}
 	}
 
 /* Sub-struct definitions */
