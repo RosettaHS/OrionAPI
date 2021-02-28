@@ -137,7 +137,11 @@ namespace Orion{
 			/* Opens the File relative to the given directory with the given action. */
 			bool open(const char* directory, const char* file, OFileAction=OFILE_OPEN); OFile(const char* directory, const char* file, OFileAction=OFILE_OPEN);
 			/* Applies the current modifications. Returns true if there were any modifications to apply, and the process was a success. */
-			bool apply(void);
+			bool save(void);
+			/* Saves a copy of the current File to the given filename relative to the OApp's working directory. */
+			bool saveAs(const char* file);
+			/* Saves a copy of the current File to the filename relative to the given directory. */
+			bool saveAs(const char* directory, const char* file);
 			/* Closes the File and if true is passed, applies any pending modifications. */
 			bool close(bool applyChanges);
 

@@ -244,7 +244,7 @@ namespace Orion{
 /* Management - Closing */
 	bool OFile::close(bool applyChanges){
 		if(!FILEINF.RAW){ return false; }
-		if(applyChanges){ apply(); }
+		if(applyChanges){ save(); }
 		if( fclose( _CONV(FILEINF.RAW) )==0 ){ /* Oy Vey! */
 			if(FILEINF.PATH){ free(FILEINF.PATH); }
 			if(misc.name)   { free(misc.name); }
@@ -272,7 +272,7 @@ namespace Orion{
 /* File modifcation */
 
 	/* Applying current fileContent */
-	bool OFile::apply(void){
+	bool OFile::save(void){
 		if(action!=OFILE_OPEN && action!=OFILE_NEW && action!=OFILE_NEW_WRITEONLY){ return false; }
 		if(contents.modified){
 			FILE* F;
@@ -299,6 +299,31 @@ namespace Orion{
 			}
 		}
 		return false;
+	}
+
+	bool OFile::saveAs(const char* file){
+		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN SAVING FILE UNDER ANOTHER NAME!\n"); return false; }
+		if(FILEINF.RAW){
+			FILE* F=fopen(file,"w");
+			if(F){
+				for(size_t i=0;i<contents.lineCount;i++){
+					for(size_t j=0;j<contents.lines[i].length;j++){
+						fputc(contents.lines[i].str[j],F);
+					}
+					if(i!=contents.lineCount-1){ fputc('\n',F); }
+				}
+				fclose(F);
+				return true;
+			}
+		}
+		return false;
+	}
+	bool OFile::saveAs(const char* directory, const char* file){
+		if(!directory || !file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN SAVING FILE UNDER ANOTHER NAME!\n"); return false; }
+		char* path=concat(directory,file);
+		bool result=saveAs(path);
+		if(path){ free(path); }
+		return result;
 	}
 	/* TODO: Add abstracted functionality*/
 
