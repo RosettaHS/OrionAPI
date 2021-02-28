@@ -142,8 +142,10 @@ namespace Orion{
 			bool saveAs(const char* file);
 			/* Saves a copy of the current File to the filename relative to the given directory. */
 			bool saveAs(const char* directory, const char* file);
-			/* Closes the File and if true is passed, applies any pending modifications. */
+			/* Closes the File, and if true is passed, applies any pending modifications. */
 			bool close(bool applyChanges);
+			/* Deletes the current File. Returns true on success. */
+			bool deleteCurrent(void);
 
 			/* Has the File been opened properly, and is ready for use? */
 			bool valid(void) const; operator bool(void) const;
@@ -185,6 +187,10 @@ namespace Orion{
 	extern bool OFileExists(const char* file);
 	/* Does the File exist relative to the given directory? */
 	extern bool OFileExists(const char* directory, const char* file);
+	/* Deletes the given File relative to the OApp's working directory. */
+	extern bool OFileDelete(const char* file);
+	/* Deletes the File relative to the given directory. */
+	extern bool OFileDelete(const char* directory, const char* file);
 	/* Returns the FileHash of the given file relative to the OApp's working directory. */
 	extern OFileHash OFileGetHash(const char* file);
 	/* Returns the FileHash of the file relative to the given directory. */

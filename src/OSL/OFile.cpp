@@ -301,6 +301,7 @@ namespace Orion{
 		return false;
 	}
 
+	/* Saving File under different name */
 	bool OFile::saveAs(const char* file){
 		if(!file){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN SAVING FILE UNDER ANOTHER NAME!\n"); return false; }
 		if(FILEINF.RAW){
@@ -324,6 +325,35 @@ namespace Orion{
 		bool result=saveAs(path);
 		if(path){ free(path); }
 		return result;
+	}
+
+	/* Deleting the current File. */
+	bool OFile::deleteCurrent(void){
+		if(FILEINF.RAW){
+			if( !remove(FILEINF.PATH) ){
+				if(FILEINF.PATH){ free(FILEINF.PATH); }
+				if(misc.name)   { free(misc.name); }
+				if(misc.ext)    { free(misc.ext); }
+				if(contents.lines){
+					for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
+					free(contents.lines);
+				}
+				FILEINF.RAW=0;
+				FILEINF.PATH=0;
+				FILEINF.DESC=0;
+				FILEINF.SIZE=0;
+				FILEINF.HASH=0;
+				misc.name=0;
+				misc.ext=0;
+				contents.lineCount=0;
+				contents.charCount=0;
+				contents.lines=0;
+				contents.modified=false;
+				type=OFT_ERROR;
+				return true;
+			}
+		}
+		return false;
 	}
 	/* TODO: Add abstracted functionality*/
 
@@ -376,6 +406,14 @@ namespace Orion{
 			free(path);
 			return result;
 		}else{ return false; }
+	}
+
+	extern bool OFileDelete(const char* file){ return ( (!remove(file) ) ? true : false ); }
+	extern bool OFileDelete(const char* directory, const char* file){
+		char* path=concat(directory,file);
+		bool result=OFileDelete(path);
+		if(path) { free(path); }
+		return result;
 	}
 
 	extern OFileHash OFileGetHash(const char* file){
