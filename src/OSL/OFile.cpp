@@ -158,9 +158,7 @@ namespace Orion{
 			size_t l=0,i=0;
 			while( (c=fgetc(_CONV(FILEINF.RAW))) ){
 				if(c=='\n' || c==EOF){
-					if(i){
-						contents.lines[l]={ i, (char*)malloc(sizeof(char)*(i+2)) };
-					}else{ contents.lines[l]={0,0}; }
+					contents.lines[l]={ i, (char*)malloc(sizeof(char)*(i+1)) };
 					i=0; l++;
 					if(c==EOF){ break; }
 				}else{ i++; }
@@ -431,7 +429,7 @@ namespace Orion{
 			OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Modified : %s\n",
 				FILEINF.PATH,getTypeAsString(),getExtension(),
 				getLineCount(),getCharCount(),getSize(),
-				( contents.modified ? true : false ));
+				( contents.modified ? "true" : "false" ));
 		}else{
 			for(size_t i=0;i<contents.lineCount;i++){
 				OLog("%s\n",(char*)contents.lines[i]);
