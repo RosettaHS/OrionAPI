@@ -125,7 +125,7 @@ namespace Orion{
 			/* Initialises most of the internal variables. */
 			void init(bool skipGen);
 			/* Stores the File's contents to memory. Handled during init(). */
-			void storeToMem(void);
+			bool storeToMem(void);
 		public:
 			/* Destructor. Frees all allocated memory and closes the file. */
 			~OFile(void);
@@ -160,6 +160,9 @@ namespace Orion{
 			bool hasBeenModified(void) const;
 			/* Do the two Files share the same content? */
 			bool equalTo(OFile&) const; bool operator==(OFile&) const;
+
+			/* Sets the given line of the File (starting at 0) to the new text. Returns true on success. */
+			bool setLine(size_t line, const char* newText);
 
 			/* Returns the type of the File if it could be determined. */
 			OFileType getType(void) const;

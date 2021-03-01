@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/errdef.hpp"
 #include "../include/OSL/OString.hpp"
 #include "../include/OSL/OFile.hpp"
 
@@ -148,7 +149,7 @@ namespace Orion{
 	}
 
 	/* Storing File to memory. */
-	void OFile::storeToMem(void){
+	bool OFile::storeToMem(void){
 		if(FILEINF.RAW && contents.lines==0){
 		/* Allocate an array of strings so we can store our file's lines to. */
 			contents.lines=(OFileLine*)malloc(sizeof(OFileLine)*(contents.lineCount));
@@ -161,7 +162,7 @@ namespace Orion{
 					contents.lines[l]={ i, (char*)malloc(sizeof(char)*(i+1)) };
 					i=0; l++;
 					if(c==EOF){ break; }
-				}else{ i++; }
+				}else{  i++; }
 			}
 			rewind(_CONV(FILEINF.RAW));
 		/* Go back and store the line information. */
@@ -181,7 +182,9 @@ namespace Orion{
 			}
 		/* Clean up for the warcrime-level attrocity that was committed the past few lines */
 			rewind(_CONV(FILEINF.RAW));
+			return true;
 		}
+		return false;
 	}
 
 /* Constructors */
@@ -280,9 +283,7 @@ namespace Orion{
 	bool OFile::save(void){
 		if(action!=OFILE_OPEN && action!=OFILE_NEW && action!=OFILE_NEW_WRITEONLY){ return false; }
 		if(contents.modified){
-			FILE* F;
-			if(action==OFILE_OPEN){ F=fopen(FILEINF.PATH,"w"); }
-			else{ F=_CONV(FILEINF.RAW); rewind(_CONV(FILEINF.RAW)); }
+			FILE* F=fopen(FILEINF.PATH,"w");
 			if(F){
 				for(size_t i=0;i<contents.lineCount;i++){
 					for(size_t j=0;j<contents.lines[i].length;j++){
@@ -290,15 +291,7 @@ namespace Orion{
 					}
 					if(i!=contents.lineCount-1){ fputc('\n',F); }
 				}
-				if(action==OFILE_OPEN){
-					fclose(_CONV(FILEINF.RAW));
-					fclose(F);
-					FILEINF.RAW=fopen(FILEINF.PATH,"r+");
-				}else{
-					fclose(F);
-					if(action==OFILE_NEW){ FILEINF.RAW=fopen(FILEINF.PATH,"w+"); }
-					else if(action==OFILE_NEW_WRITEONLY){ FILEINF.RAW=fopen(FILEINF.PATH,"w"); }
-				}
+				fclose(F);
 				contents.modified=false;
 				return true;
 			}
@@ -383,7 +376,44 @@ namespace Orion{
 		}
 		return false;
 	}
-	/* TODO: Add abstracted functionality*/
+
+	/* Setting a specific line. */
+	bool OFile::setLine(size_t line, const char* newText){
+		if(FILEINF.RAW && contents.lines){
+		/* Checks if the given Line is actually available, and if not, resize the File for it to be available. */
+			if(line>=contents.lineCount){
+				contents.lines=(OFileLine*)realloc(contents.lines,sizeof(OFileLine)*(line+1));
+				if(!contents.lines){
+					OLog("ORIONAPI | ERROR! COULD NOT ALLOCATE EXTRA LINES FOR FILE! CURRENT COUNT : %lu | ATTEMPTED ALLOCATION : %lu\n",contents.lineCount,line);
+					exit(OERR_CANTMALLOC);
+					return false;
+				}
+				for(size_t i=contents.lineCount;i<line+1;i++){
+					contents.lines[i]={ 0,(char*)malloc(sizeof(char)) };
+					contents.lines[i].str[0]=0;
+				}
+				contents.lineCount=(line+1);
+			}
+		/* Actually sets the Line data */
+			OFileLine* lineToSet=&contents.lines[line];
+			if(!lineToSet->str){ return false; }
+			size_t l1=lineToSet->length;
+			size_t l2=OStringLength(newText);
+			if(l2>l1){ lineToSet->str=(char*)realloc(lineToSet->str,sizeof(char)*(l2+1)); }
+			if(!lineToSet->str){
+				OLog("ORIONAPI | ERROR! COULD NOT RESIZE FILE LINE %lu OF LENGTH %lu TO LENGTH %lu!\n",line,l1,l2);
+				exit(OERR_CANTMALLOC);
+			}
+			for(size_t i=0;i<l2;i++){
+				lineToSet->str[i]=newText[i];
+			}
+			lineToSet->length=l2;
+			lineToSet->str[l2]=0;
+			contents.modified=true;
+			return true;
+		}
+		return false;
+	}
 
 /* Getters/misc ops */
 
