@@ -45,14 +45,14 @@ namespace Orion{
 
 	/* Possible file actions. */
 	enum OFileAction : char{
-		/* Open an existing file for both reading and writing. */
+		/* Open an existing File for both reading and writing. */
 		OFILE_OPEN,
-		/* Open an existing file for reading only. Useful for files where you do not have write privileges. */
+		/* Open an existing File for reading only. Useful for files where you do not have write privileges. */
 		OFILE_OPEN_READONLY,
-		/* Creates a file (or overrides an existing one) for both reading and writing. */
+		/* Creates a File (or overrides an existing one) for both reading and writing. */
 		OFILE_NEW,
-		/* Creates a file (or overrides an existing one) for writing only. */
-		OFILE_NEW_WRITEONLY
+		/* Automatically opens a File (read/write or read-only) or creates a File given on the availability of the File. */
+		OFILE_AUTO
 	};
 
 	/* An individual Line of a File. */
@@ -133,9 +133,9 @@ namespace Orion{
 			OFile(void);
 
 			/* Opens the given File relative to the OApp's working directory with the given action. */
-			bool open(const char* file, OFileAction=OFILE_OPEN); OFile(const char* file, OFileAction=OFILE_OPEN);
+			bool open(const char* file, OFileAction=OFILE_AUTO); OFile(const char* file, OFileAction=OFILE_AUTO);
 			/* Opens the File relative to the given directory with the given action. */
-			bool open(const char* directory, const char* file, OFileAction=OFILE_OPEN); OFile(const char* directory, const char* file, OFileAction=OFILE_OPEN);
+			bool open(const char* directory, const char* file, OFileAction=OFILE_AUTO); OFile(const char* directory, const char* file, OFileAction=OFILE_AUTO);
 			/* Applies the current modifications. Returns true if there were any modifications to apply, and the process was a success. */
 			bool save(void);
 			/* Saves a copy of the current File to the given filename relative to the OApp's working directory. */

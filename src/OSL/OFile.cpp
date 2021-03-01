@@ -219,8 +219,17 @@ namespace Orion{
 		switch(action){
 			case OFILE_OPEN:              { FILEINF.RAW=fopen(file,"r+"); break; }
 			case OFILE_OPEN_READONLY:     { FILEINF.RAW=fopen(file,"r");  break; }
-			case OFILE_NEW:               { FILEINF.RAW=fopen(file,"w+"); break; }
-			case OFILE_NEW_WRITEONLY:     { FILEINF.RAW=fopen(file,"w");  break; }
+			case OFILE_NEW:               { FILEINF.RAW=fopen(file,"w"); break; }
+			case OFILE_AUTO:{
+				if(OFileExists(file)){
+					FILEINF.RAW=fopen(file,"r+");
+					if(FILEINF.RAW){ action=OFILE_OPEN; }
+					else{ FILEINF.RAW=fopen(file,"r"); action=OFILE_OPEN_READONLY; }
+				}else{
+					FILEINF.RAW=fopen(file,"w");
+					action=OFILE_NEW;
+				}
+			}
 		}
 
 		if(FILEINF.RAW){
@@ -284,7 +293,7 @@ namespace Orion{
 
 	/* Applying current fileContent */
 	bool OFile::save(void){
-		if(action!=OFILE_OPEN && action!=OFILE_NEW && action!=OFILE_NEW_WRITEONLY){ return false; }
+		if(action!=OFILE_OPEN && action!=OFILE_NEW){ return false; }
 		if(contents.modified){
 			FILE* F=fopen(FILEINF.PATH,"w");
 			if(F){
@@ -344,7 +353,11 @@ namespace Orion{
 				case OFILE_OPEN:              { FILEINF.RAW=fopen(FILEINF.PATH,"r+"); break; }
 				case OFILE_OPEN_READONLY:     { FILEINF.RAW=fopen(FILEINF.PATH,"r");  break; }
 				case OFILE_NEW:               { FILEINF.RAW=fopen(FILEINF.PATH,"w+"); break; }
-				case OFILE_NEW_WRITEONLY:     { FILEINF.RAW=fopen(FILEINF.PATH,"w");  break; }
+					/* THIS IS NOT A VALID TYPE! If this is detected, there is something very wrong. */
+				case OFILE_AUTO:{
+					OLog("ORIONAPI | WARNING! OFILE DETECTED WITH TYPE OFILE_AUTO! THIS IS A HELPER TYPE, IF IT'S ACTUALLY SET TO THIS THEN SOMETHING HAS GONE WRONG! GO GET MARK!\n");
+					break;
+				}
 			}
 			return result;
 		}
