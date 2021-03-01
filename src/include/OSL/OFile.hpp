@@ -146,6 +146,8 @@ namespace Orion{
 			bool rename(const char* newName);
 			/* Closes the File, and if true is passed, applies any pending modifications. */
 			bool close(bool applyChanges);
+			/* Discards any modifications and reloads the File. Returns true if there were modifications to discard. */
+			bool reset(void);
 			/* Deletes the current File. Returns true on success. */
 			bool deleteCurrent(void);
 
@@ -160,6 +162,11 @@ namespace Orion{
 			bool hasBeenModified(void) const;
 			/* Do the two Files share the same content? */
 			bool equalTo(OFile&) const; bool operator==(OFile&) const;
+			/*
+			 * Recalculates the File's hash. Do this after setLine() operations if you need to compare the modified File
+			 * against another File, as this is NOT called after the File has been modified!
+			 */
+			OFileHash recalcHash(void);
 
 			/* Sets the given line of the File (starting at 0) to the new text. Returns true on success. */
 			bool setLine(size_t line, const char* newText);

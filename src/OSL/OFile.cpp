@@ -101,7 +101,7 @@ namespace Orion{
 			 * It is quite sloppy, but it's really fast and only used for internal comparison between Files.
 			 */
 			while( (c=fgetc(_CONV(FILEINF.RAW)))!=EOF ){
-				tmpHash+=(c*c);
+				tmpHash+=((char)c*(char)c);
 				if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
 			}
 			FILEINF.HASH=tmpHash/2;
@@ -122,7 +122,8 @@ namespace Orion{
 			if((optPos-1)!=OSTRING_NOTFOUND){
 				if(optPos==OStringFindFirst(FILEINF.PATH,".")){ misc.ext=0;} /* Prevents weird issues with hidden files */
 				else{
-					misc.ext=(char*)malloc(sizeof(char)*(optl+1));
+					if(misc.ext){ free(misc.ext); misc.ext=0; }
+					else{ misc.ext=(char*)malloc(sizeof(char)*(optl+1)); }
 					for(size_t i=optPos;i<pathl;i++){ misc.ext[i-optPos]=FILEINF.PATH[i]; }
 					misc.ext[optl]=0;
 				}
@@ -131,17 +132,19 @@ namespace Orion{
 			optPos=OStringFindLast(FILEINF.PATH,"/")+1;
 			optl=(pathl-optPos);
 			if((optPos-1)!=OSTRING_NOTFOUND){
-				misc.name=(char*)malloc(sizeof(char)*(optl+1));
-					for(size_t i=optPos;i<pathl;i++){ misc.name[i-optPos]=FILEINF.PATH[i]; }
-					misc.name[optl]=0;
+				if(misc.name){ free(misc.name); misc.name=0; }
+				else{ misc.name=(char*)malloc(sizeof(char)*(optl+1)); }
+				for(size_t i=optPos;i<pathl;i++){ misc.name[i-optPos]=FILEINF.PATH[i]; }
+				misc.name[optl]=0;
 			}else{
 				/*
 				 * We still have to allocate a new block of memory for "name" even if "name" is the same as "path"
 				 * because close() will free them both separately, and if "name" points to "path" this will cause a segfault.
 				 */
-				 misc.name=(char*)malloc(sizeof(char)*(pathl+1));
-				 for(size_t i=0;i<pathl;i++){ misc.name[i]=FILEINF.PATH[i]; }
-				 misc.name[pathl]=0;
+				if(misc.name){ free(misc.name); misc.name=0; }
+				else{ misc.name=(char*)malloc(sizeof(char)*(pathl+1)); }
+				for(size_t i=0;i<pathl;i++){ misc.name[i]=FILEINF.PATH[i]; }
+				misc.name[pathl]=0;
 			}
 		/* Store the type of the file */
 			type=getTypeFromExtension(misc.ext);
@@ -348,6 +351,20 @@ namespace Orion{
 		return false;
 	}
 
+	bool OFile::reset(void){
+		if(FILEINF.RAW && contents.modified){
+			if(contents.lines){
+				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
+				free(contents.lines);
+			}
+			contents.lines=0;
+			init(false);
+			contents.modified=false;
+			return true;
+		}
+		return false;
+	}
+
 	/* Deleting the current File. */
 	bool OFile::deleteCurrent(void){
 		if(FILEINF.RAW){
@@ -423,6 +440,22 @@ namespace Orion{
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
 	OFile::operator bool(void) const { return (FILEINF.RAW ? true : false); }
 
+	OFileHash OFile::recalcHash(void){
+		OFileHash tmpHash=0;
+		contents.charCount=0;
+		int c=0;
+		for(size_t i=0;i<contents.lineCount;i++){
+			for(size_t j=0;j<contents.lines[i].length;j++){
+				c=(contents.lines[i].str[j]);
+				tmpHash+=(c*c);
+				contents.charCount++;
+			}
+		}
+		FILEINF.HASH=tmpHash/2;
+		FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
+		return FILEINF.HASH;
+	}
+
 	bool OFile::equalTo(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 	bool OFile::operator==(OFile& other) const { return (other.getHash() == FILEINF.HASH); }
 
@@ -457,9 +490,9 @@ namespace Orion{
 
 	void OFile::log(bool verbose){
 		if(verbose){
-			OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Modified : %s\n",
+			OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Hash : %lu | Modified : %s\n",
 				FILEINF.PATH,getTypeAsString(),getExtension(),
-				getLineCount(),getCharCount(),getSize(),
+				getLineCount(),getCharCount(),getSize(),FILEINF.HASH,
 				( contents.modified ? "true" : "false" ));
 		}else{
 			for(size_t i=0;i<contents.lineCount;i++){
