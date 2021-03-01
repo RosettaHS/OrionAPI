@@ -380,6 +380,7 @@ namespace Orion{
 	/* Setting a specific line. */
 	bool OFile::setLine(size_t line, const char* newText){
 		if(FILEINF.RAW && contents.lines){
+			if(action==OFILE_OPEN_READONLY){ return false; }
 		/* Checks if the given Line is actually available, and if not, resize the File for it to be available. */
 			if(line>=contents.lineCount){
 				contents.lines=(OFileLine*)realloc(contents.lines,sizeof(OFileLine)*(line+1));
@@ -469,7 +470,7 @@ namespace Orion{
 
 /* Sub-struct definitions */
 	OFileLine::operator bool(void) const { return (str ? true : false); }
-	int OFileLine::operator [](size_t i) const { return str[i]; }
+	char OFileLine::operator [](size_t i) const { return str[i]; }
 	OFileLine::operator char*(void) const { return (char*)str; }
 
 	OFileContent::operator bool(void) const { return (lines ? true : false); }

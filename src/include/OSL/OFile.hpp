@@ -65,7 +65,7 @@ namespace Orion{
 		/* Allows for if() checking on this Line. */
 		operator bool(void) const;
 		/* Allows for getting a character from a given index without having to use the "str" member. */
-		int operator [](size_t) const;
+		char operator [](size_t) const;
 		/* Allows for converting to a string. */
 		operator char*(void) const;
 	};
@@ -186,7 +186,7 @@ namespace Orion{
 			OFileContent getContent(void) const;
 			/* Returns a specific line (starting at 0) of this File as an OFileLine. */
 			OFileLine getLine(size_t line) const;
-			/* Returns a specific line (starting at 0) of this File as a string. */
+			/* Returns a specific line (starting at 0) of this File as a string. Do NOT modify this! Use setLine() instead! */
 			char* operator [](size_t) const;
 			/* Returns the C FILE struct used by this File internally. */
 			void* getCFile(void) const;
