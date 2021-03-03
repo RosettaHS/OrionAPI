@@ -23,6 +23,7 @@ bool result=OFileExists("/usr/lib","libO.so");
 ```
 In this example, it will check the Filesystem for `/usr/lib/libO.so` (which is the library file for OrionAPI) and return `true` if it can be found,
 automatically [concatenating](https://www.thefreedictionary.com/concatenating) the Directory and the Filename together to produce a true, valid path.
+This isn't required in this case, since if you know the initial Directory and the File relative to it, you can just pass it entirely as `/usr/lib/libO.so` as just one argument for this example.
 
 This can also be used in conjunction with the OApp's allocated DataPath, as shown in the following example:
 ```cpp
@@ -39,3 +40,6 @@ This will now check within the `OAPP_DATAPATH` for a Folder named `myFolder`, an
 ### Other Information
 While it isn't required, it's often useful to check if a given File exists before trying to create or open it using OFile.
 `OAPP_DATAPATH` is allocated by OrionAPI, but it may sometimes be `NULL` if a user DataPath could not be determined. It is also ONLY allocated when `OAppStart()` is ran.
+
+See Also:
+[OFileDelete](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileDelete.md)
