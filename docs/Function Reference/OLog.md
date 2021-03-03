@@ -3,13 +3,13 @@
 
 ### Declarations
 ```cpp
-	void OLog(const char* string, ...);
-	void OVLog(const char* string, ...);
+void OLog(const char* string, ...);
+void OVLog(const char* string, ...);
 
-	void OLog(CLoggable&);
-	void OLog(CLoggable*);
-	void OVLog(CLoggable&,bool passVerbose=true);
-	void OVLog(CLoggable*,bool passVerbose=true);
+void OLog(CLoggable&);
+void OLog(CLoggable*);
+void OVLog(CLoggable&,bool passVerbose=true);
+void OVLog(CLoggable*,bool passVerbose=true);
 ```
 ### Use
 OLog and OVLog are OKit's solution for logging things easily to the terminal.
