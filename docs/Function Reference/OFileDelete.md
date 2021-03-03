@@ -14,7 +14,7 @@ or passing in a Directory as the first argument and the Filename as the second a
 
 To delete a File relative to the CWD, use the following syntax:
 ```cpp
-bool result=OFileDelete("testfile.txt");
+OFileDelete("testfile.txt");
 ```
 OFileDelete will attempt to delete `testfile.txt`, and if it could be deleted, will return `true`.
 If the File does not exist, or could not be deleted, it will return `false`.
@@ -22,14 +22,14 @@ However this is deleting a File relative to the CWD, which could be dangerous.
 
 If you want to delete a File relative to another Directory, use the following syntax:
 ```cpp
-bool result=OFileDelete(OAPP_DATAPATH,"testfile.txt");
+OFileDelete(OAPP_DATAPATH,"testfile.txt");
 ```
 Any absolute or relative path can be passed as the first argument, but in this case we're using `OAPP_DATAPATH`, a Directory automatically determined by OrionAPI for storing user data for your OApp.
 In this case, it will delete `testfile.txt` if it exists within `OAPP_DATAPATH`, returning `true` on success.
 
 Since the second argument is relative to the first, deleting a File within a Folder relative to a given Directory is possible like this:
 ```cpp
-bool result=OFileDelete(OAPP_DATAPATH,"myFolder/testfile.txt");
+OFileDelete(OAPP_DATAPATH,"myFolder/testfile.txt");
 ```
 This will then attempt to delete `testfile.txt`, which is inside of `myFolder`, which itself is inside of `OAPP_DATAPATH`, returning `true` on success.
 
