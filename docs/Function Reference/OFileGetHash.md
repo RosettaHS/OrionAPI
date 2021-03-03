@@ -43,6 +43,7 @@ This will now attempt to calculate the Hash of `testfile.txt`, which is inside o
 
 ### Other Information
 While it isn't required, it's often useful to check if a given File exists before trying to get the Hash of it, since an empty File and a non-existant File will both return the same hash (`0`)
+
 `OAPP_DATAPATH` is allocated by OrionAPI, but it may sometimes be `NULL` if a user DataPath could not be determined. It is also ONLY allocated when `OAppStart()` is ran.
 
 See also:

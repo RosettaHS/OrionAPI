@@ -40,6 +40,7 @@ This will now check within the `OAPP_DATAPATH` for a Folder named `myFolder`, an
 
 ### Other Information
 While it isn't required, it's often useful to check if a given File exists before trying to create or open it using OFile.
+
 `OAPP_DATAPATH` is allocated by OrionAPI, but it may sometimes be `NULL` if a user DataPath could not be determined. It is also ONLY allocated when `OAppStart()` is ran.
 
 See Also:
