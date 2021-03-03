@@ -107,7 +107,7 @@ namespace Orion{
 			FILEINF.HASH=tmpHash/2;
 			FILEINF.SIZE=contents.charCount+(contents.lineCount-1);
 			rewind(_CONV(FILEINF.RAW));
-			storeToMem();
+			if(careAboutMemStore){ storeToMem(); }
 		}
 
 	/* If this File cares about misc data, allocate and initalise them. */
@@ -196,19 +196,19 @@ namespace Orion{
 	OFile::OFile(void) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0},careAboutMemStore{1}
 		{}
 
 	OFile::OFile(const char* file, OFileAction _action) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0},careAboutMemStore{1}
 		{ open(file,_action); }
 
 	OFile::OFile(const char* directory, const char* file, OFileAction _action) : 
 		type{OFT_ERROR},
 		action{OFILE_OPEN},
-		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0}
+		FILEINF{0,0,0,0,0},misc{0,0,1},contents{0,0,0,0},careAboutMemStore{1}
 		{ open(directory,file,_action); }
 
 /* Management - Opening */
@@ -449,6 +449,10 @@ namespace Orion{
 /* Getters/misc ops */
 
 	void OFile::shouldInitMisc(bool v) { misc.careAboutMisc=v; }
+	void OFile::shouldStoreToMem(bool v){
+		careAboutMemStore=v;
+		if(careAboutMemStore && FILEINF.RAW && !contents.lines){ storeToMem(); }
+	}
 	bool OFile::valid(void) const { return ( FILEINF.RAW ? true : false ); }
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
 	OFile::operator bool(void) const { return (FILEINF.RAW ? true : false); }

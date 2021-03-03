@@ -119,8 +119,10 @@ namespace Orion{
 				/* Should this File care about allocating and initialising miscellaneous information such as the name, extension, and type? */
 				bool careAboutMisc;
 			}misc;
-			/* The internal contents of this File. */
+			/* The internal Contents of this File. */
 			OFileContent contents;
+			/* Should the File's Contents be stored to memory? */
+			bool careAboutMemStore;
 
 			/* Initialises most of the internal variables. */
 			void init(bool skipGen);
@@ -158,6 +160,14 @@ namespace Orion{
 			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
 			 */
 			void shouldInitMisc(bool);
+			/*
+			 * Should this File store all of its Contents to memory?
+			 * This is true by default, and is required to be on if you want to access or modify a File's Contents.
+			 * But it is very intensive storing all Contents to memory, so if you just need to hold generic File information,
+			 * then turn this off. Indexing Contents will require this to be turned on.
+			 * If you need to turn this off, turn this off BEFORE you open a File.
+			 */
+			void shouldStoreToMem(bool);
 			/* Has the File been modified since when changes were last applied, or when the File was last opened? */
 			bool hasBeenModified(void) const;
 			/* Do the two Files share the same content? */
