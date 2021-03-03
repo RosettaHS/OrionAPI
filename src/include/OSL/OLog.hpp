@@ -27,7 +27,7 @@
 #define __ORIONAPI_OSL_OLOG_H__
 
 #ifndef ORION_NODEBUG
-	#define _DEBUGLOG(...) Orion::OLog("%s - LINE : %d\t",__FILE__,__LINE__), OLog(__VA_ARGS__)
+	#define _DEBUGLOG(...) Orion::OLog("%s - LINE : %d\t",__FILE__,__LINE__), Orion::OLog(__VA_ARGS__)
 #else
 	#define _DEBUGLOG(...)
 #endif /* !ORION_NODEBUG */
