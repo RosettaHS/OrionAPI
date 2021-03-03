@@ -26,6 +26,17 @@
 #ifndef __ORIONAPI_OSL_OLOG_H__
 #define __ORIONAPI_OSL_OLOG_H__
 
+#ifndef ORION_NODEBUG
+	#define _DEBUGLOG(...) Orion::OLog("%s - LINE : %d\t",__FILE__,__LINE__), OLog(__VA_ARGS__)
+#else
+	#define _DEBUGLOG(...)
+#endif /* !ORION_NODEBUG */
+
+#ifndef ORION_NOHELPERS
+	/* Logs the formatted string out to the terminal, alongside the name of the File and the Line at which this is called for debugging. */
+	#define ODLog(...) _DEBUGLOG(__VA_ARGS__)
+#endif /* !ORION_NOHELPERS */
+
 namespace Orion{
 	/* Logs the formatted string out to the terminal. */
 	extern void OLog(const char* string, ...);
