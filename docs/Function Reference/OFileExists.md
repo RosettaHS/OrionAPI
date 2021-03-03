@@ -17,6 +17,7 @@ To check a File exists relative to the CWD, use the following syntax:
 bool result=OFileExists("testfile.txt");
 ```
 If `testfile.txt` exists relative to the CWD, `result` will be `true`, otherwise it will return `false`.
+
 If however you need to check if a File exists relative to a separate Directory, use the following syntax:
 ```cpp
 bool result=OFileExists("/usr/lib","libO.so");
@@ -43,3 +44,5 @@ While it isn't required, it's often useful to check if a given File exists befor
 
 See Also:
 [OFileDelete](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileDelete.md)
+[OFileRename](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileRename.md)
+[OFileGetHash](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileGetHash.md)
