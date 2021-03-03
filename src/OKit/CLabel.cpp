@@ -37,6 +37,10 @@
 #include "../include/OKit/xservice.hpp"
 
 namespace Orion{
+	namespace X{
+		const char* DEFAULTFONT="-misc-fixed-medium-r-normal--%u-*-*-*-*-*-iso8859-15";
+	}
+
 	CLabel::~CLabel(void){ destroy(); }
 
 	CLabel::CLabel(void) :

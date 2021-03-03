@@ -488,6 +488,7 @@ namespace Orion{
 			case OFT_FONT:{ return "OFT_FONT"; }
 			case OFT_BINARY:{ return "OFT_BINARY"; }
 		}
+		return 0;
 	}
 	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
 	const char* OFile::getName(void) const { return (const char*)misc.name; }

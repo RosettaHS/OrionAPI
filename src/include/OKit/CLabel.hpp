@@ -30,7 +30,7 @@
 
 #ifdef ORION_INTERNAL
 
-	#define _DEFAULTFONT "-misc-fixed-medium-r-normal--%u-*-*-*-*-*-iso8859-15"
+	#define _DEFAULTFONT Orion::X::DEFAULTFONT
 	#define _DEFAULTFONTSIZE 12
 	#define _SCALEFONTSIZE(x,y) ((unsigned short)((float)x*y))
 
@@ -75,6 +75,10 @@ namespace Orion{
 			/* Renders the text on the given Context with the given parameters. */
 			void draw(CContext* drawBody, OCol* col, unsigned int contextWidth, unsigned int contextHeight, const char* string, unsigned short fontSize);
 	};
+
+	namespace X{
+		extern const char* DEFAULTFONT;
+	}
 }
 
 #endif /* !__ORIONAPI_OKIT_CXLABEL_H__ */
