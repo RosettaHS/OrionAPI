@@ -1,10 +1,12 @@
-# Function Reference: OLog / OVLog
+# Function Reference: OLog / OVLog / ODLog
 ## Orion-Native Logging
 
 ### Declarations
 ```cpp
 void OLog(const char* string, ...);
 void OVLog(const char* string, ...);
+#define ODLog(...) _DEBUGLOG(__VA_ARGS__)
+
 
 void OLog(CLoggable&);
 void OLog(CLoggable*);
@@ -18,7 +20,7 @@ Both functions allow for logging [CLoggables](https://github.com/RosettaHS/OKit/
 OLog and OVLog act identically to `printf`, and is interchangable with it.
 They are meant to reduce the need to include `<stdio.h>` or `<iostream>` in your projects soley for the ability to log information out to the terminal.
 
-To log "Hello World" out to the terminal, use the following syntax.
+To log "Hello World" out to the terminal, use the following syntax:
 ```cpp
 OLog("Hello World!\n");
 ```
@@ -30,7 +32,7 @@ This is where OVLog comes in.
 OVLog will ONLY print the formatted string to the terminal if `OAPP_VERBOSE` has been set to true.
 `OAPP_VERBOSE` is set to true whenever the application is started with the environment variable `O_VERBOSE=1` in the command line.
 
-To log conditionally, use the following syntax.
+To log conditionally, use the following syntax:
 ```cpp
 OVLog("This will only print if OAPP_VERBOSE is true!\n");
 ```
@@ -55,6 +57,17 @@ Passing a [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20R
 This would result in a different, more verbose output. To prevent this from happening, you may pass `false` after passing the [CLoggable](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) through OVLog.
 
 Passing `myCol` through OVLog would appear as `OCol <Memory Address> : R 255 | G 255 | B 255 | XCOL 16777215`, if `OAPP_VERBOSE` is `true`. (With `<Memory Address>` being the actual memory address of the [OCol.](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/OCol.md))
+
+In some cases, you might need to log debug information about the state of your Application out to the termimal during development,
+information such as the given File and Line during execution to see where an error might be occuring. ODLog is meant for this purpose.
+
+To log a debug message out to the terminal, use the following syntax:
+```cpp
+ODLog("This will print this message, alongside the Line and File in which this is being called at!\n");
+```
+This is very useful for finding bugs, or tracking the execution of your program. It functions identically to OLog and OVLog, but this is not a function, rather it is a macro.
+If you define `ORION_NODEBUG` before including `<OrionAPI>`, it will replace all instances of ODLog with nothing,
+meaning it's incredibly useful for packaging your Application for release without having to remove all instances of ODLog manually, or having it waste execution time checking a variable like OVLog.
 
 ### Breakdown
 ```cpp
