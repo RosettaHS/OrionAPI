@@ -33,58 +33,33 @@
 
 namespace Orion{
 
-	/* This function is merely for testing and is not final, ignore the sloppy work. */
-	static bool _setThemeFromSystem(){
+	static OTheme OTHEME_FALLBACK;
+
+	static bool _setThemeFromSystem(void){
+	/* Setting the fallback. */
+		OTHEME_FALLBACK.primary.setTo(30,25,25);
+		OTHEME_FALLBACK.secondary.setTo(40,35,35);
+		OTHEME_FALLBACK.tertiary.setTo(25,15,15);
+		OTHEME_FALLBACK.accent.setTo(255,86,15);
+	/* Generate the potential path for the ThemeFile. */
 		char themepath[OPATH_MAX];
-		sprintf(themepath,"%s/.orion/theme",getenv("HOME"));
-
-		if( access(themepath,F_OK)==0 ){
-			unsigned char place=0;
-			unsigned char section=0;
-			unsigned char line=0;
-			unsigned char rgb[3];
-			OCol* theme[4] = {&OTHEME_PRIMARY,&OTHEME_SECONDARY,&OTHEME_TERTIARY,&OTHEME_ACCENT};
-			char current[4] = {0,0,0,0};
-			FILE* file=fopen(themepath,"r");
-
-			if(file){
-				char c;
-				while( (c=fgetc(file))!=EOF ){
-					switch(c){
-						default:{
-							current[place]=c;
-							place++;
-							continue;
-						}
-						case ' ':{
-							rgb[section]=atoi(current);
-							place=0;
-							section++;
-							continue;
-						}
-						case '\n':{
-							rgb[section]=atoi(current);
-							theme[line]->setTo(rgb[0],rgb[1],rgb[2]);
-							section=0,place=0,line++;continue;
-						}
-					}
-				}
-				rgb[section]=atoi(current);
-				theme[line]->setTo(rgb[0],rgb[1],rgb[2]);
-
-				OVLog("ORIONAPI | Successfully set OApp's theme from system theme!\n");
-				return true;
-			}else{ OVLog("ORIONAPI | OApp theme could not be set from the system because system theme file exists but could not be opened. Resorting to fallback.\n"); return false; }
-
-		}else{ OVLog("ORIONAPI | OApp theme could not be set from the system because system theme file does not exist. Resorting to fallback.\n"); }
-		return false; /* Add proper support here! */
-	}
-
-	static void _setThemeToFallback(){
-		OTHEME_PRIMARY.setTo(30,25,25);
-		OTHEME_SECONDARY.setTo(40,35,35);
-		OTHEME_TERTIARY.setTo(25,15,15);
-		OTHEME_ACCENT.setTo(255,86,15);
+		OFile themefile;
+		OFormat(themepath,"%s/.orion/theme",getenv("HOME"));
+	/* Check if ThemeFile exists. */
+		if( themefile.open(themepath,OFILE_OPEN_READONLY) ){
+	/* Run through the Lines of the ThemeFile and attempt to set the OApp's Theme. */
+			for(size_t i=0;i<themefile.getLineCount();i++){
+				char* line=themefile[i];
+				if     ( OStringFindFirst(line,"[PRIMARY]")!=OSTRING_NOTFOUND )   { if(!OTHEME.primary.setTo(line)){ OTHEME.primary=OTHEME_FALLBACK.primary; } continue; }
+				else if( OStringFindFirst(line,"[SECONDARY]")!=OSTRING_NOTFOUND ) { if(!OTHEME.secondary.setTo(line)){ OTHEME.secondary=OTHEME_FALLBACK.secondary; } continue; }
+				else if( OStringFindFirst(line,"[TERTIARY]")!=OSTRING_NOTFOUND )  { if(!OTHEME.tertiary.setTo(line)){ OTHEME.tertiary=OTHEME_FALLBACK.tertiary; } continue; }
+				else if( OStringFindFirst(line,"[ACCENT]")!=OSTRING_NOTFOUND )    { if(!OTHEME.accent.setTo(line)){ OTHEME.accent=OTHEME_FALLBACK.accent; } continue; }
+			}
+			return true;
+		}
+	/* On total failure, set it to fallback and return false. */
+		OTHEME=OTHEME_FALLBACK;
+		return false;
 	}
 
 	bool OAppStart(const char* name,bool ForceONative){
@@ -97,7 +72,7 @@ namespace Orion{
 		}
 		X::connect();
 		X::CXHA_INIT();
-		if(!_setThemeFromSystem()){_setThemeToFallback();}
+		_setThemeFromSystem();
 		OVLog("ORIONAPI | Service sucessfully initialised!\n\n");
 		OAPP_INITED=true;
 		return true;
