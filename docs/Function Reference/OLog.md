@@ -14,10 +14,10 @@ void OVLog(CLoggable&,bool passVerbose=true);
 void OVLog(CLoggable*,bool passVerbose=true);
 ```
 ### Use
-OLog and OVLog are OKit's solution for logging things easily to the terminal.
+OLog and OVLog are OSL's solution for logging formatted Strings easily to the terminal.
 Both functions allow for logging [CLoggables](https://github.com/RosettaHS/OKit/blob/main/docs/Class%20Reference/Control%20Classes/CLoggable.md) to the terminal.
 
-OLog and OVLog act identically to `printf`, and is interchangable with it.
+OLog and OVLog act identically to [printf,](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm) and is interchangable with it.
 They are meant to reduce the need to include `<stdio.h>` or `<iostream>` in your projects soley for the ability to log information out to the terminal.
 
 To log "Hello World" out to the terminal, use the following syntax:
@@ -25,6 +25,12 @@ To log "Hello World" out to the terminal, use the following syntax:
 OLog("Hello World!\n");
 ```
 This will print `"Hello World!"` out to the terminal and then creates a new line, identically to how `printf` would.
+
+More complex formatting is possible, as shown here:
+```cpp
+OLog("The price of a %s is %d dollars and %d cents.\n", "pizza", 5, 99);
+```
+This will print `"The price of a pizza is 5 dollars and 99 cents."` out to the terminal and creates a new line as well.
 
 Sometimes you need to print debugging information, but you don't want it to clutter the terminal and obscure more useful information.
 This is where OVLog comes in.

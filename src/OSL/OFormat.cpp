@@ -23,16 +23,19 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OSL - The Orion Standard Library.*/
+#define ORION_INTERNAL
 
-#ifndef __ORIONAPI_OSL_H__
-#define __ORIONAPI_OSL_H__
+#include <stdio.h>
+#include <stdarg.h>
+#include "../include/OSL/OLog.hpp"
+#include "../include/OSL/OFormat.hpp"
 
-#include "OLog.hpp"
-#include "OFormat.hpp"
-#include "CLoggable.hpp"
-#include "OString.hpp"
-#include "OMemblock.hpp"
-#include "OFile.hpp"
-
-#endif /* !__ORIONAPI_OSL_H__ */
+namespace Orion{
+	void OFormat(char* output, const char* format, ...){
+		if(!output){ OLog("ORIONAPI | WARNING! CANNOT PASS NULL WHEN FORMATTING A STRING TO A BUFFER!\n"); return; }
+		va_list arg;
+		va_start(arg,format);
+		vsprintf(output,format,arg);
+		va_end(arg);
+	}
+}

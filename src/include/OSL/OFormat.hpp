@@ -23,16 +23,12 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OSL - The Orion Standard Library.*/
+#ifndef __ORIONAPI_OSL_OFORMAT_H__
+#define __ORIONAPI_OSL_OFORMAT_H__
 
-#ifndef __ORIONAPI_OSL_H__
-#define __ORIONAPI_OSL_H__
+namespace Orion{
+	/* Writes the formatted String to the output. */
+	void OFormat(char* output, const char* format, ...);
+}
 
-#include "OLog.hpp"
-#include "OFormat.hpp"
-#include "CLoggable.hpp"
-#include "OString.hpp"
-#include "OMemblock.hpp"
-#include "OFile.hpp"
-
-#endif /* !__ORIONAPI_OSL_H__ */
+#endif /* !__ORIONAPI_OSL_OFORMAT_H__ */
