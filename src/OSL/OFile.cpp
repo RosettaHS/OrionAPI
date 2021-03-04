@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "../include/errdef.hpp"
 #include "../include/OSL/OString.hpp"
 #include "../include/OSL/OFile.hpp"
@@ -529,11 +530,8 @@ namespace Orion{
 
 /* Generic */
 
-	bool OFileExists(const char* file){
-		FILE* f=fopen(file,"r");
-		if(f){ fclose(f); return true; }
-		else{ return false; }
-	}
+	bool OFileExists(const char* file){ return ( !access(file,F_OK) ? true : false ); }
+
 	bool OFileExists(const char* directory, const char* file){
 		char* path=concat(directory,file);
 		if(path){

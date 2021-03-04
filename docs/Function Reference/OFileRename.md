@@ -27,7 +27,7 @@ In this case, it will rename `testfile.txt` to `renamedfile.txt` if it exists wi
 
 Since the second argument is relative to the first, renaming a File within a Folder relative to a given Directory is possible like this:
 ```cpp
-OFileRename(OAPP_DATAPATH,"myFolder/testfile.txt","renamedfile.txt");
+OFileRename(OAPP_DATAPATH,"myFolder/testfile.txt","myFolder/renamedfile.txt");
 ```
 This will then attempt to attempt to rename `testfile.txt` within `myFolder` (which itself is inside of `OAPP_DATAPATH`) to `renamedfile.txt`, returning `true` on success.
 
