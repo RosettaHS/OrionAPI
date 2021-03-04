@@ -29,19 +29,21 @@
 #include "../OSL/CLoggable.hpp"
 
 namespace Orion{
-	/* Allows you to use colours with OKit. Takes in RGB values.*/
+	/* Allows you to use colours with OrionAPI UI Elements. Takes in RGB values.*/
 	struct OCol : public CLoggable{
 		/* The Red, Green, and Blue values (respectively) of the OCol.*/
 		unsigned char r,g,b;
 		/* Internal. Representation of the RGB values that X can use. */
 		unsigned long XCOL;
-	/* General Handling */
+
 		/* Empty contructor. Sets all values to 0. */
 		OCol(void);
 		/* Creates an OCol with the given parameters. */
 		OCol(unsigned char r, unsigned char g, unsigned char b);
 		/* Sets the OCol to use the given parameters. */
 		void setTo(unsigned char r, unsigned char g, unsigned char b);
+		/* Internal. Attempts to set this OCol's values from the given formatted String. Returns true on success. */
+		bool setTo(const char*);
 		/* Logs the information of this Col to the terminal. Pass true for more verbose information. */
 		virtual void log(bool verbose=false) override;
 	};
