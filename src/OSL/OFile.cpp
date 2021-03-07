@@ -491,7 +491,8 @@ namespace Orion{
 		}
 		return 0;
 	}
-	const char* OFile::getFullPath(void) const { return (const char*) FILEINF.PATH; }
+	const char* OFile::getPath(void) const { return (const char*) FILEINF.PATH; }
+	OFile::operator const char*(void) const { return (const char*) FILEINF.PATH; }
 	const char* OFile::getName(void) const { return (const char*)misc.name; }
 	const char* OFile::getExtension(void) const { return (const char*)misc.ext; }
 	void* OFile::getCFile(void) const { return FILEINF.RAW; }

@@ -186,7 +186,7 @@ namespace Orion{
 			/* Returns the type of the File as a String if it could be determined. */
 			const char* getTypeAsString(void) const;
 			/* Returns the full path pointing to this File. */
-			const char* getFullPath(void) const;
+			const char* getPath(void) const; operator const char*(void) const;
 			/* Returns the name of this File. */
 			const char* getName(void) const;
 			/* Returns the extension of this File (if it has one). */
