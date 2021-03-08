@@ -81,7 +81,7 @@ namespace Orion{
 				OAPP_BINDIR[i]=path[i];
 			}
 			OAPP_BINPATH[length]=0;
-			OAPP_BINDIR[dirEnd]=0;
+			if(dirEnd!=OSTRING_NOTFOUND){ OAPP_BINDIR[dirEnd]=0; }
 		/* Orion-Native checking */
 			if(OStringFindFirst(path,".oapp")!=OSTRING_NOTFOUND){ OAPP_NATIVE=true; }else{ OAPP_NATIVE=false; }
 		}else{ OAPP_BINPATH=0; OAPP_BINDIR=0; OVLog("ORIONAPI | WARNING! FAILED TO GET BINARY PATH!\n");	}
@@ -128,6 +128,7 @@ namespace Orion{
 				/* Library Folder */
 					OAPP_LIBPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
 					OFormat(OAPP_LIBPATH,"%s/libs",path);
+					OVLog("ORIONAPI | WARNING! NON-NATIVE APPLICATIONS WILL NOT HAVE A STATIC DATA DIRECTORY!\n");
 				}else{ OVLog("ORIONAPI | WARNING! FAILED TO ACCESS:\t\t\t%s !\n",path); }
 			}else{ OVLog("ORIONAPI | Application name not set, and is not Orion-Native. Not creating data directories."); }
 		}
