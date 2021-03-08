@@ -82,7 +82,7 @@ namespace Orion{
 
 	/* OrionAPI */
 	#include "errdef.hpp"
-	#include "application.hpp"
+	#include "Application.hpp"
 
 	/* Sub-libraries */
 	#include "OSL/OSL.hpp"   /* The Orion Standard Library. */

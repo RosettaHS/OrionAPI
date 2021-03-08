@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include "../include/errdef.hpp"
-#include "../include/application.hpp"
+#include "../include/Application.hpp"
 #include "../include/OSL/OLog.hpp"
 #include "../include/OKit/xservice.hpp"
 #include "../include/OKit/OVec.hpp"

@@ -25,7 +25,7 @@
 
 #define ORION_INTERNAL
 
-#include "../include/application.hpp"
+#include "../include/Application.hpp"
 #include "../include/OSL/OLog.hpp"
 #include "../include/OSL/CLoggable.hpp"
 

@@ -63,9 +63,9 @@ namespace Orion{
 	}
 
 	bool OAppStart(const char* name,bool ForceONative){
-		if(OAPP_INITED){return false;}
+		if(OAPP_RUNNING){return false;}
 		if(name){OAPP_NAME=name;}
-		Application::init();
+		Application::init(name);
 		if(ForceONative){
 			if(!OAPP_NATIVE){OLog("ORIONAPI | ERROR! SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");exit(OERR_NOT_NATIVE_OAPP);}
 			if(OAPP_BINPATH==0||OAPP_BINDIR==0||OAPP_DATAPATH==0){OLog("ORIONAPI | ERROR! SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");exit(OERR_NOT_NATIVE_OAPP);}
@@ -74,16 +74,17 @@ namespace Orion{
 		X::CXHA_INIT();
 		_setThemeFromSystem();
 		OVLog("ORIONAPI | Service sucessfully initialised!\n\n");
-		OAPP_INITED=true;
+		OAPP_RUNNING=true;
 		return true;
 	}
 
 	bool OAppEnd(void){
-		if(!OAPP_INITED){return false;}
+		if(!OAPP_RUNNING){return false;}
 		X::eventLoop(); /* TODO: Actually add something to this!! */
 		X::disconnect();
 		X::CXHA_DESTROY();
-		OAPP_INITED=false;
+		Application::wipe();
+		OAPP_RUNNING=false;
 		OVLog("\nORIONAPI | Service sucessfully finished!\n\n");
 		return true;
 	}
