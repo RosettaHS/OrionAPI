@@ -64,8 +64,6 @@
 
 /* The OrionAPI Namespace. */
 namespace Orion{
-	/* OrionAPI - The namespace that contains all functions and global variables for the OApp. */
-	namespace Application{}
 	/* OrionAPI - The namespace that contains all internal X connection information. */
 	namespace X{}
 	/* OrionAPI - The namespace that contains all internal render functions for each class. */
@@ -80,13 +78,6 @@ namespace Orion{
 	#include <sys/types.h>
 	#include <limits.h>
 
-	/* OrionAPI */
-	#include "errdef.hpp"
-	#include "Application.hpp"
-
-	/* Sub-libraries */
-	#include "OSL/OSL.hpp"   /* The Orion Standard Library. */
-	#include "OKit/OKit.hpp" /* The Window Widget Toolkit for the Orion Operating System. */
 
 /* Service Functions */
 namespace Orion{
@@ -94,15 +85,15 @@ namespace Orion{
 	* Starts the OrionAPI service. This is required to use any Orion UI elements. 
 	* Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity.
 	*/
-	extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
+	// extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
 	/*
 	* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
 	* Blocks function execution until the service ends. Place this at the bottom of main().
 	*/
-	extern bool OAppEnd(void);
+	// extern bool OAppEnd(void);
 
 	/* Returns the current screen size. */
-	extern OVec OScreenGetSize(void);
+	// extern OVec OScreenGetSize(void);
 }
 
 
