@@ -27,7 +27,7 @@
 #define __ORIONAPI_OSL_OFILE_H__
 
 #include <stdint.h>
-#include "../application.hpp"
+#include "../Application.hpp"
 #include "CLoggable.hpp"
 
 namespace Orion{
