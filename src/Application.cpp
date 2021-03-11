@@ -68,13 +68,19 @@ namespace Orion{
 		/* Orion-Native checking */
 			if(OStringFindFirst(path,".oapp")!=OSTRING_NOTFOUND){ OAPP_NATIVE=true; }else{ OAPP_NATIVE=false; }
 		}
+	/* Create the .orion and OIPC Folder in the user's /home/ directory */
+	/* TODO: Do checks here to skip this step when on the Orion Operating System! */
+		if(!chdir(OAPP_HOME)){
+			mkdir(".orion",_MKDIRARG);
+			mkdir(".orion/AppIDs",_MKDIRARG);
+		}
 	}
 
 	/* Initialise the Storage Directories for this OApp. */
 	static void CAppInitStorage(void){ /* TODO: Upgrade this using ODirectory after you've finished it. */
 	/* Orion-Native */
 		ONATIVEONLY{
-			if(chdir(OAPP_BINDIR)==0){
+			if(!chdir(OAPP_BINDIR)){
 			/* Create the storage Folders */
 				mkdir("data",_MKDIRARG);
 				mkdir("libs",_MKDIRARG);
@@ -100,24 +106,23 @@ namespace Orion{
 		}else{
 			if(OAPP_NAME){				
 				char path[OPATH_MAX];
-				OFormat(path,"%s/.local/%s",OAPP_HOME,OAPP_NAME);
+				OFormat(path,"%s/.local/share/%s",OAPP_HOME,OAPP_NAME);
 				mkdir(path,_MKDIRARG);
-				if(chdir(path)==0){
+				if(!chdir(path)){
 				/* Create the storage Folders */
-					mkdir("data",_MKDIRARG);
-					mkdir("libs",_MKDIRARG);
-					mkdir("static",_MKDIRARG);
+					mkdir(".libs",_MKDIRARG);
+					mkdir(".static",_MKDIRARG);
 					mkdir(".SYS",_MKDIRARG);
 				/* User-specific Folder - Since this is in the user's /home/ directory, we don't need a substructure. */
 					OAPP_DATAPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
-					OFormat(OAPP_DATAPATH,"%s/data",path);
+					OFormat(OAPP_DATAPATH,"%s",path);
 				/* Static data Folder */
 					OAPP_STATICPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
-					OFormat(OAPP_STATICPATH,"%s/static",path);
-					OVLog("ORIONAPI | WARNING! NON-NATIVE APPLICATIONS WILL NOT HAVE A STATIC DATA DIRECTORY!\n");
+					OFormat(OAPP_STATICPATH,"%s/.static",path);
+					OVLog("ORIONAPI | WARNING! NON-NATIVE APPLICATIONS WILL NOT HAVE A PROPER STATIC DATA DIRECTORY!\n");
 				/* Library Folder */
 					OAPP_LIBPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
-					OFormat(OAPP_LIBPATH,"%s/libs",path);
+					OFormat(OAPP_LIBPATH,"%s/.libs",path);
 				/* OrionAPI Internal */
 					OAPP_INTPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
 					OFormat(OAPP_INTPATH,"%s/.SYS",OAPP_BINDIR);
