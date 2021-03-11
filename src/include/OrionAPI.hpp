@@ -78,6 +78,11 @@ namespace Orion{
 	#include <sys/types.h>
 	#include <limits.h>
 
+	/* Core */
+	#include "Application.hpp"
+
+	/* Sub-libraries */
+	#include "OSL/OSL.hpp"
 
 /* Service Functions */
 namespace Orion{

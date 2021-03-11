@@ -118,7 +118,7 @@ fi
 
 # Compiles the source code.
 echo "OrionAPI : Compiling source code..."
-make shared >/dev/null 2>&1 || { echo "OrionAPI : ERROR! Failed to compile source code! Aborting."; exit 1; }
+make shared >/dev/null || { echo "OrionAPI : ERROR! Failed to compile source code! Aborting."; exit 1; }
 echo "OrionAPI : Successfully compiled OKit source code."
 
 # Moves it to the "/usr/lib" directory.
