@@ -54,7 +54,7 @@ namespace Orion{
 		OLog("ORIONAPI | ERROR! [%lu] | ",errcode);
 		va_list arg;
 		va_start(arg,string);
-		vfprintf(stdout,string,arg);
+		vfprintf(stderr,string,arg);
 		va_end(arg);
 		if(autoQuit){ exit(errcode); }
 	}
@@ -64,7 +64,7 @@ namespace Orion{
 		OLog("ORIONAPI | WARNING! [%lu] | ",warncode);
 		va_list arg;
 		va_start(arg,string);
-		vfprintf(stdout,string,arg);
+		vfprintf(stderr,string,arg);
 		va_end(arg);
 	}
 }
