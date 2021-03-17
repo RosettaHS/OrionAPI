@@ -101,6 +101,9 @@ namespace Orion{
 		virtual void log(bool verbose=false) override;
 	};
 
+	/* Analyses the UTF8 header of the given character and returns the corrisponding Unicode Header type (OUnicodeType). */
+	extern OUnicodeType OCharGetUnicodeType(char);
+
 /*** Strings ***/
 	/* Writes the formatted String to the output. */
 	extern void OFormat(char* output, const char* format, ...);

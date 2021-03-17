@@ -48,12 +48,10 @@ namespace Orion{
 			unsigned char c=multibyte[i];
 			if(c!=0){
 				get.asMultiByte[i]=c;
-				unsigned char uniflags=0;
-				while(1){ if(c&bits[uniflags]){ uniflags++; }else{ break; } }
-				bd[i]=( (uniflags<=6) ? (OUnicodeType)uniflags : OUNI_UNKNOWN );
+				bd[i]=OCharGetUnicodeType(c);
 				byteCount++;
 				/* Only store the first character of a multi-byte "character"  if it's not actually UTF-8. */
-				if(uniflags==OUNI_ASCII && byteCount<=1){ isUnicode=false; break; }
+				if(bd[i]==OUNI_ASCII && byteCount<=1){ isUnicode=false; break; }
 				else                                    { isUnicode=true; }
 			}else{ bd[i]=OUNI_NULL; break; }
 		}
@@ -94,7 +92,11 @@ namespace Orion{
 
 /** Generic Character functions **/
 
-/* TODO: Add them. */
+	OUnicodeType OCharGetUnicodeType(char c){
+		unsigned char uniflags=0;
+		while(1){ if(c&bits[uniflags]){ uniflags++; }else{ break; } }
+		return ( (uniflags<=6) ? (OUnicodeType)uniflags : OUNI_UNKNOWN );
+	}
 
 /*** Strings ***/
 
