@@ -59,6 +59,13 @@ namespace Orion{
 		}
 	}
 
+	void OChar::setTo(char singlebyte){
+		clear();
+		get.asSingleByte=singlebyte;
+		byteCount=1;
+		isUnicode=false;
+	}
+
 	void OChar::log(bool verbose){
 		if(verbose){
 			for(unsigned char i=0;i<OCHARBYTES;i++){

@@ -41,7 +41,7 @@
 #define CHARBIT_UTF8_5X (0x4)
 #define CHARBIT_UTF8_6X (0x2) /* Invalid! Only used for calculation. */
 
-/*** String #defines *///
+/*** String #defines ***/
 
 /* If any String lookup function returns this, it means the lookup failed. */
 #define OSTRING_NOTFOUND ULONG_MAX
@@ -83,7 +83,7 @@ namespace Orion{
 		bool          isUnicode;
 
 		/* Empty constructor. Sets all values to 0. */
-		inline OChar(void) : get{0}, bd{OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL}, byteCount{0}, isUnicode{0} {}
+		OChar(void) : get{0}, bd{OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL}, byteCount{0}, isUnicode{0} {}
 		/* Sets this Char's contents to the given multi-byte character [string]. */
 		OChar(const char*); void setTo(const char*); OChar& operator=(const char*);
 		/* Sets this Char's contents to the given single-byte character. */
