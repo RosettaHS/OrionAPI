@@ -75,15 +75,15 @@ namespace Orion{
 				}
 				switch(bd[i]){
 					default:            { OLog(" | ERROR "); break; }
-					case OUNI_NULL:     { OLog(" | UCBD_NULL "); break; }
-					case OUNI_ASCII:    { OLog(" | UCBD_ASCII "); break; }
-					case OUNI_HEADER_1X:{ OLog(" | UCBD_HEADER_1X "); break; }
-					case OUNI_HEADER_2X:{ OLog(" | UCBD_HEADER_2X "); break; }
-					case OUNI_HEADER_3X:{ OLog(" | UCBD_HEADER_3X "); break; }
-					case OUNI_HEADER_4X:{ OLog(" | UCBD_HEADER_4X "); break; }
-					case OUNI_HEADER_5X:{ OLog(" | UCBD_HEADER_5X "); break; }
-					case OUNI_CONTINUE: { OLog(" | UCBD_CONT "); break; }
-					case OUNI_UNKNOWN:  { OLog(" | UCBD_CONT "); break; }
+					case OUNI_NULL:     { OLog(" | OUNI_NULL "); break; }
+					case OUNI_ASCII:    { OLog(" | OUNI_ASCII "); break; }
+					case OUNI_HEADER_1X:{ OLog(" | OUNI_HEADER_1X "); break; }
+					case OUNI_HEADER_2X:{ OLog(" | OUNI_HEADER_2X "); break; }
+					case OUNI_HEADER_3X:{ OLog(" | OUNI_HEADER_3X "); break; }
+					case OUNI_HEADER_4X:{ OLog(" | OUNI_HEADER_4X "); break; }
+					case OUNI_HEADER_5X:{ OLog(" | OUNI_HEADER_5X "); break; }
+					case OUNI_CONTINUE: { OLog(" | OUNI_CONTINUE "); break; }
+					case OUNI_UNKNOWN:  { OLog(" | OUNI_UNKNOWN "); break; }
 				}
 				OLog("]\n");
 			}
