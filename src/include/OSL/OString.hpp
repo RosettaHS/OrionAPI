@@ -105,10 +105,64 @@ namespace Orion{
 	extern OUnicodeType OCharGetUnicodeType(char);
 
 /*** Strings ***/
+	/* An Orion-Native wrapper for Unicode Strings. */
+	struct OString : CLoggable{
+		protected:
+			/* The actual String stored in memory. */
+			char*  raw;
+			/* A struct containing two different interpretations of this String's length. */
+			struct{
+				/* The apparent length of this String (without Unicode continuation bytes.) */
+				uint32_t apparent;
+				/* The real length of this String (with all non-null bytes.) */
+				uint32_t real;
+			}length;
+			/* The actual memory being used by this String (including null terminator.) */
+			uint32_t memuse;
+		public:
+			/* Destructor. Frees all memory. */
+			~OString(void);
+			/* Empty constructor. Sets all values to 0. */
+			inline OString(void) : raw{0}, length{0,0}, memuse{0} {};
+			/* Initialises this String with the given text. */
+			inline OString(const char* text) : raw{0}, length{0,0}, memuse{0} { setTo(text); };
+			/* Frees all memory. Returns true if there was memory to free. */
+			bool clear(void);
+
+			/* Sets the exact memory (including terminator) to the given value. Truncates String if the new memory is smaller than the length. */
+			bool setMemory(uint32_t);
+			
+			/* Sets this String to the given text. */
+			bool setTo(const char*); OString& operator=(const char*);
+			/* Appends the given text to the end of this String. */
+			bool append(const char*); OString& operator+=(const char*);
+
+			/* Returns the pointer to the acutal String stored in memory. */
+			char* getText(void) const; operator char*(void) const;
+			/*
+			 * Gets and returns the character at the given index.
+			 * Passing true on the second argument causes the index operation to occur based on the apparent length, skipping over Unicode continuation bytes.
+			 */
+			OChar getChar(uint32_t index, bool indexApparentOnly=false); OChar operator[](uint32_t);
+			/* Returns the length of this String. Pass true to get only the apparent length, ignoring Unicode continuation bytes. */
+			uint32_t getLength(bool apparentLength=false);
+
+			/* Is this String equal to the given String? */
+			bool equalTo(const char*) const; bool operator==(const char*) const;
+			/* Creates a new String that is the combination of this String and the given text. */
+			OString operator+(const char*) const;
+
+			/* Logs this String to the terminal. Pass true to get more verbose information. */
+ 			virtual void log(bool verbose=false) override;
+	};
+
 	/* Writes the formatted String to the output. */
 	extern void OFormat(char* output, const char* format, ...);
-	/* Returns the length of the passed String. */
-	extern size_t OStringLength(const char*);
+	/*
+	 * Returns the length of the passed String. 
+	 * Pass true as the second parameter to return the apparent length of the String (subtracting UTF-8 continuation bytes).
+	 */
+	extern size_t OStringLength(const char*, bool getApparentLength=false);
 	/* Returns the starting index of the first occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
 	extern size_t OStringFindFirst(const char* string, const char* substring);
 	/* Returns the starting index of the last occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
