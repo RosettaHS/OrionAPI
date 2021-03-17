@@ -82,4 +82,12 @@ namespace Orion{
 		vfprintf(stderr,string,arg);
 		va_end(arg);
 	}
+
+
+	/* Base class for all Loggable Types. */
+	void CLoggable::log(bool verbose){ ( (verbose) ? OLog("Nothing to log...\n") : OLog("%p - Nothing to log...\n",(void*)this) ); }
+	void OLog(CLoggable& obj, bool verbose)  { obj.log(verbose); }
+	void OLog(CLoggable* obj, bool verbose)  { obj->log(verbose); }
+	void OVLog(CLoggable& obj, bool verbose) { if(OAPP_VERBOSE){ obj.log(verbose); } }
+	void OVLog(CLoggable* obj, bool verbose) { if(OAPP_VERBOSE){ obj->log(verbose); } }
 }

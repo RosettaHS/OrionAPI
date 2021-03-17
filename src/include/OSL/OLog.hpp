@@ -40,6 +40,7 @@
 #endif /* !ORION_NOHELPERS */
 
 namespace Orion{
+/*** Base logging ***/
 	/* Logs the formatted string out to the terminal. */
 	extern void OLog(const char* string, ...);
 	/* Logs the formatted string out to the terminal ONLY if OAPP_VERBOSE is true. */
@@ -53,6 +54,17 @@ namespace Orion{
 	extern void OELog(unsigned long errcode, bool autoQuit, const char* string, ...);
 	/* Internal. Logs the formatted string out to the terminal. If verboseOnly is true then this will only log if OAPP_VERBOSE is true. */
 	extern void OWLog(bool verboseOnly, const char* string, ...);
+
+/*** Loggable Types **/
+	/* Base class for all Loggable Types. */
+	struct CLoggable{
+		/* Logs the information of this Type to the terminal. Pass true for more verbose information. */
+		virtual void log(bool verbose=false);
+	};
+	/* Logs this Loggable Type out to the terminal. Pass true on the second parameter to log verbose information. */
+	extern void OLog(CLoggable&, bool verbose=false); extern void OLog(CLoggable*, bool verbose=false);
+	/* Logs this Loggable Type out to the terminal ONLY if OAPP_VERBOSE is true. Pass true on the second parameter to log verbose information. */
+	extern void OVLog(CLoggable&, bool verbose=false); extern void OVLog(CLoggable*, bool verbose=false);
 }
 
 #endif /* !__ORIONAPI_OSL_OLOG_H__ */
