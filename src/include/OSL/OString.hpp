@@ -26,8 +26,7 @@
 #ifndef __ORIONAPI_OSL_OSTRING_H__
 #define __ORIONAPI_OSL_OSTRING_H__
 
-#include <sys/types.h>
-#include <limits.h>
+#include "common.hpp"
 
 #define OSTRING_NOTFOUND ULONG_MAX
 

@@ -26,6 +26,8 @@
 #ifndef __ORIONAPI_OSL_OLOG_H__
 #define __ORIONAPI_OSL_OLOG_H__
 
+#include "common.hpp"
+
 #ifndef ORION_NODEBUG
 	#define _DEBUGLOG(...) Orion::OLog("%s - LINE : %d\t",__FILE__,__LINE__), Orion::OLog(__VA_ARGS__)
 #else
@@ -42,10 +44,15 @@ namespace Orion{
 	extern void OLog(const char* string, ...);
 	/* Logs the formatted string out to the terminal ONLY if OAPP_VERBOSE is true. */
 	extern void OVLog(const char* string, ...);
+	/*
+	 * Logs the individual bits of the given amount of bytes at the given memory address. 
+	 * Pass a boolean as a third argument to determine whether a new line should be created or not.
+	 */
+	extern void OLogBits(const void* data, size_t bytes, bool newLine=true);
 	/* Internal. Logs the formatted string out to the terminal alongside the error code, and if "autoQuit" is true, will quit with the error code. */
 	extern void OELog(unsigned long errcode, bool autoQuit, const char* string, ...);
-	/* Internal. Logs the formatted string out to the terminal alongside the warn code ONLY if OAPP_VERBOSE is true.*/
-	extern void OWLog(unsigned long warncode, bool verboseOnly, const char* string, ...);
+	/* Internal. Logs the formatted string out to the terminal. If verboseOnly is true then this will only log if OAPP_VERBOSE is true. */
+	extern void OWLog(bool verboseOnly, const char* string, ...);
 }
 
 #endif /* !__ORIONAPI_OSL_OLOG_H__ */

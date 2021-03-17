@@ -23,63 +23,14 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#define ORION_INTERNAL
+#ifndef __ORIONAPI_OSL_COMMON_H__
+#define __ORIONAPI_OSL_COMMON_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "../include/Application.hpp"
-#include "../include/OSL/OLog.hpp"
+#include <sys/types.h>
+#include <stdint.h>
+#include <limits.h>
 
-/* Modification and simplification of GNU's implementation for printf(). */
+/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
+#define MAXCONST static constexpr const
 
-namespace Orion{
-	void OLog(const char* string, ...){
-		va_list arg;
-		va_start(arg,string);
-		vfprintf(stdout,string,arg);
-		va_end(arg);
-	}
-
-	void OVLog(const char* string, ...){
-		if(OAPP_VERBOSE){
-			va_list arg;
-			va_start(arg,string);
-			vfprintf(stdout,string,arg);
-			va_end(arg);
-		}
-	}
-
-	#define BITCOUNT 8
-	void OLogBits(const void* data, size_t bytes, bool newLine){
-		MAXCONST unsigned char bits[BITCOUNT]={0x80,0x40,0x20,0x10,0x8,0x4,0x2,0x1};
-		char* c=(char*)data;
-		OLog("[ ");
-		for(size_t i=0;i<bytes;i++){
-			for(size_t j=0;j<BITCOUNT;j++){
-				( ((c[i])&bits[j]) ? OLog("1") : OLog("0") );
-			}
-			OLog(" ");
-		}
-		OLog("]");
-		if(newLine){ OLog("\n"); }else{ OLog(" "); }
-	}
-
-	void OELog(unsigned long errcode, bool autoQuit, const char* string, ...){
-		OLog("ORIONAPI | ERROR! [%lu] | ",errcode);
-		va_list arg;
-		va_start(arg,string);
-		vfprintf(stderr,string,arg);
-		va_end(arg);
-		if(autoQuit){ exit(errcode); }
-	}
-
-	void OWLog(bool verboseOnly, const char* string, ...){
-		if(verboseOnly && !OAPP_VERBOSE){ return; }
-		OLog("ORIONAPI | WARNING! ");
-		va_list arg;
-		va_start(arg,string);
-		vfprintf(stderr,string,arg);
-		va_end(arg);
-	}
-}
+#endif /* !__ORIONAPI_OSL_COMMON_H__ */

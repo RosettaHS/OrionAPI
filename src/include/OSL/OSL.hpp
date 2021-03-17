@@ -28,6 +28,7 @@
 #ifndef __ORIONAPI_OSL_H__
 #define __ORIONAPI_OSL_H__
 
+#include "common.hpp"
 #include "OLog.hpp"
 #include "OString.hpp"
 
