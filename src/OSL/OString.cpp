@@ -168,6 +168,8 @@ namespace Orion{
 	}
 	OString& OString::operator+=(const char* text){ append(text); return *this; }
 
+	void OString::setCharFast(uint32_t index, char c){ raw[index]=c; }
+
 	char* OString::getText(void) const { return raw; }
 	OString::operator char*(void) const{ return raw; }
 
@@ -199,10 +201,16 @@ namespace Orion{
 	}
 	OChar OString::operator[](uint32_t index){ return getChar(index); }
 
+	char OString::getCharFast(uint32_t index){ return raw[index]; }
+
 	uint32_t OString::getLength(bool apparentLength){ return ( apparentLength ? length.apparent : length.real); }
 
 	bool OString::equalTo(const char* text) const     { return OStringCompare(raw,text); }
 	bool OString::operator==(const char* text ) const { return OStringCompare(raw,text); }
+
+	bool OString::ready(void) const    { return ( raw ? true : false ); }
+	OString::operator bool(void) const { return ( raw ? true : false ); }
+	
 	OString OString::operator+(const char* text) const{
 		OString str;
 		str.setMemory( (length.real+OStringLength(text))+1 ); /* It's one less memory operation this way. */

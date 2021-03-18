@@ -136,6 +136,8 @@ namespace Orion{
 			bool setTo(const char*); OString& operator=(const char*);
 			/* Appends the given text to the end of this String. */
 			bool append(const char*); OString& operator+=(const char*);
+			/* Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers. */
+			void setCharFast(uint32_t index, char);
 
 			/* Returns the pointer to the acutal String stored in memory. */
 			char* getText(void) const; operator char*(void) const;
@@ -144,11 +146,15 @@ namespace Orion{
 			 * Passing true on the second argument causes the index operation to occur based on the apparent length, skipping over Unicode continuation bytes.
 			 */
 			OChar getChar(uint32_t index, bool indexApparentOnly=false); OChar operator[](uint32_t);
+			/* Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers. */
+			char getCharFast(uint32_t index);
 			/* Returns the length of this String. Pass true to get only the apparent length, ignoring Unicode continuation bytes. */
 			uint32_t getLength(bool apparentLength=false);
 
 			/* Is this String equal to the given String? */
 			bool equalTo(const char*) const; bool operator==(const char*) const;
+			/* Is this String ready for use / does it point to valid memory? */
+			bool ready(void) const; operator bool(void) const;
 			/* Creates a new String that is the combination of this String and the given text. */
 			OString operator+(const char*) const;
 
