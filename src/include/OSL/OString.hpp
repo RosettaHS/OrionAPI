@@ -83,14 +83,14 @@ namespace Orion{
 		bool          isUnicode;
 
 		/* Empty constructor. Sets all values to 0. */
-		inline OChar(void) : get{0}, bd{OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL}, byteCount{0}, isUnicode{0} {}
+		inline OChar(void) : get{0}, bd{OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL}, byteCount{1}, isUnicode{0} {}
 		/* Sets this Char's contents to the given multi-byte character [string]. */
 		OChar(const char*); void setTo(const char*); OChar& operator=(const char*);
 		/* Sets this Char's contents to the given single-byte character. */
 		OChar(char); void setTo(char); OChar& operator=(char);
 
 		/* Clears this Char's contents. */
-		inline void clear(void){ byteCount=0; isUnicode=0; for(unsigned char i=0;i<OCHARBYTES;i++){ get.asMultiByte[i]=0; bd[i]=OUNI_NULL; } }
+		inline void clear(void){ byteCount=1; isUnicode=0; for(unsigned char i=0;i<OCHARBYTES;i++){ get.asMultiByte[i]=0; bd[i]=OUNI_NULL; } }
 
 		/* Converts this Char into a standard single-byte character, or the first byte of the multi-byte character if this is Unicode. */
 		inline operator char(void)       { return get.asSingleByte; }
@@ -119,6 +119,8 @@ namespace Orion{
 			}length;
 			/* The actual memory being used by this String (including null terminator.) */
 			uint32_t memuse;
+			/* Converts an apparent index (as is inputted in setChar and getChar) to a real index used for computation. */
+			uint32_t apparentToReal(uint32_t index);
 		public:
 			/* Destructor. Frees all memory. */
 			~OString(void);
@@ -136,20 +138,24 @@ namespace Orion{
 			bool setTo(const char*); OString& operator=(const char*);
 			/* Appends the given text to the end of this String. */
 			bool append(const char*); OString& operator+=(const char*);
+			/* ... */
+			bool setChar(OChar c, uint32_t index);
 			/* Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers. */
-			void setCharFast(uint32_t index, char);
+			inline void setCharFast(char c, uint32_t index) { raw[index]=c; }
 
 			/* Returns the pointer to the acutal String stored in memory. */
 			char* getText(void) const; operator char*(void) const;
 			/*
-			 * Gets and returns the character at the given index.
-			 * Passing true on the second argument causes the index operation to occur based on the apparent length, skipping over Unicode continuation bytes.
+			 * Gets and returns the Unicode character at the given index.
+			 * Indexing operations are done based on apparent length, not actual bytes.
 			 */
-			OChar getChar(uint32_t index, bool indexApparentOnly=false); OChar operator[](uint32_t);
+			OChar getChar(uint32_t index); OChar operator[](uint32_t);
 			/* Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers. */
-			char getCharFast(uint32_t index);
-			/* Returns the length of this String. Pass true to get only the apparent length, ignoring Unicode continuation bytes. */
-			uint32_t getLength(bool apparentLength=false);
+			inline char getCharFast(uint32_t index) { return raw[index]; }
+			/* Returns the length of this String. Pass true to get only the real length, including Unicode continuation bytes. */
+			uint32_t getLength(bool realLength=false);
+			/* Returns the memory usage of this String. */
+			inline uint32_t getMemory(void) { return memuse; }
 
 			/* Is this String equal to the given String? */
 			bool equalTo(const char*) const; bool operator==(const char*) const;

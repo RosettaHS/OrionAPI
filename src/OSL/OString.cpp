@@ -44,6 +44,7 @@ namespace Orion{
 
 	void OChar::setTo(const char* multibyte){
 		clear();
+		byteCount=0;
 		for(unsigned char i=0;i<OCHARBYTES-1;i++){
 			unsigned char c=multibyte[i];
 			if(c!=0){
@@ -104,6 +105,15 @@ namespace Orion{
 /*** Strings ***/
 
 	OString::~OString(void){ clear(); }
+
+	uint32_t OString::apparentToReal(uint32_t index){
+		uint32_t iA=0;
+		for(uint32_t i=0;i<length.real;i++){
+			if(OCharGetUnicodeType(raw[i])!=OUNI_CONTINUE){ iA++; }else{ continue; }
+			if((iA-1)==index){ return i; }
+		}
+		return 0;
+	}
 
 	bool OString::clear(void){
 		bool didFree=false;
@@ -168,32 +178,47 @@ namespace Orion{
 	}
 	OString& OString::operator+=(const char* text){ append(text); return *this; }
 
-	void OString::setCharFast(uint32_t index, char c){ raw[index]=c; }
+	bool OString::setChar(OChar c, uint32_t index){
+		if(raw && index<length.apparent){
+			OChar charToReplace=getChar(index);
+			uint32_t iR=apparentToReal(index);
+			uint32_t j=0;
+			int32_t excess=charToReplace.byteCount-c.byteCount;
+			if( (length.real-excess) > memuse){ setMemory(memuse+c.byteCount-1); }
+		/* If the sizes of the new character doesn't match the size of the character to replace, do some other operations first. */
+			if(excess<0){
+				for(uint32_t i=memuse;i>=iR-excess; i--){
+					raw[i]=raw[i+excess];
+				}
+			}else if(excess>0){
+				for(uint32_t i=iR+excess;i<length.real;i++){
+					raw[i-excess]=raw[i];
+				}
+				raw[length.real-excess]=0;
+			}
+		/* Actually setting the new character. */
+			for(uint32_t i=iR;i<memuse;i++){
+				if(j==c.byteCount){ break; }else{ raw[i]=c.get.asMultiByte[j]; j++; }
+			}
+			if(excess!=0){
+				length.real=OStringLength(raw);
+				length.apparent=OStringLength(raw,true);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	char* OString::getText(void) const { return raw; }
 	OString::operator char*(void) const{ return raw; }
 
-	OChar OString::getChar(uint32_t index, bool indexApparentOnly){
+	OChar OString::getChar(uint32_t index){
 		OChar c;
-		if(index>length.real){ return c; }
-		char tmp[OCHARBYTES-1]={0,0,0,0};
-		if(indexApparentOnly){
-			uint32_t iA=0;
-			for(uint32_t i=0;i<length.real;i++){
-				if(OCharGetUnicodeType(raw[i])!=OUNI_CONTINUE){ iA++; }else{ continue; }
-				if((iA-1)==index){
-					uint32_t j=0;
-					for(uint32_t k=i;k<length.real;k++){
-						if(j==OCHARBYTES-1){ break; }else{ tmp[j]=raw[k]; j++; }
-					}
-					c.setTo(tmp);
-					break;
-				}
-			}
-		}else{
+		if(raw && index<length.apparent){
+			char tmp[OCHARBYTES-1]={0,0,0,0};
 			uint32_t j=0;
-			for(uint32_t i=index;i<length.real;i++){
-				if(j==OCHARBYTES-1){ break;}else{ tmp[j]=raw[i]; j++; }
+			for(uint32_t i=apparentToReal(index);i<length.real;i++){
+				if(j==OCHARBYTES-1){ break; }else{ tmp[j]=raw[i]; j++; }
 			}
 			c.setTo(tmp);
 		}
@@ -201,9 +226,7 @@ namespace Orion{
 	}
 	OChar OString::operator[](uint32_t index){ return getChar(index); }
 
-	char OString::getCharFast(uint32_t index){ return raw[index]; }
-
-	uint32_t OString::getLength(bool apparentLength){ return ( apparentLength ? length.apparent : length.real); }
+	uint32_t OString::getLength(bool realLength){ return ( realLength ? length.real : length.apparent); }
 
 	bool OString::equalTo(const char* text) const     { return OStringCompare(raw,text); }
 	bool OString::operator==(const char* text ) const { return OStringCompare(raw,text); }
