@@ -68,7 +68,7 @@ namespace Orion{
 		isUnicode=false;
 	}
 
-	void OChar::log(bool verbose){
+	void OChar::log(bool verbose, bool newLine){
 		if(verbose){
 			for(unsigned char i=0;i<OCHARBYTES;i++){
 				OLog("[ ");
@@ -90,7 +90,7 @@ namespace Orion{
 				OLog("]\n");
 			}
 		}else{
-			OLog("%s\n",get.asMultiByte);
+			( (newLine) ? OLog("%s\n",get.asMultiByte) : OLog("%s",get.asMultiByte) );
 		}
 	}
 
@@ -316,10 +316,14 @@ namespace Orion{
 		return str;
 	}
 
-	void OString::log(bool verbose){
+	void OString::log(bool verbose, bool newLine){
 		if(verbose){
-			OLog("%s | Real Length : %d | Apparent Length : %d | Memory Size : %d\n",raw,length.real,length.apparent,memuse);
-		}else{ OLog("%s\n",raw); }
+			( (newLine) ? 
+				OLog("%s | Real Length : %d | Apparent Length : %d | Memory Size : %d\n",raw,length.real,length.apparent,memuse)
+				:
+				OLog("%s | Real Length : %d | Apparent Length : %d | Memory Size : %d",raw,length.real,length.apparent,memuse)
+			);
+		}else{ ( (newLine) ?  OLog("%s\n",raw) :  OLog("%s",raw) ); }
 	}
 
 /** Generic String functions. **/

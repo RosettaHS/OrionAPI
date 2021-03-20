@@ -85,9 +85,15 @@ namespace Orion{
 
 
 	/* Base class for all Loggable Types. */
-	void CLoggable::log(bool verbose){ ( (verbose) ? OLog("Nothing to log...\n") : OLog("%p - Nothing to log...\n",(void*)this) ); }
-	void OLog(CLoggable& obj, bool verbose)  { obj.log(verbose); }
-	void OLog(CLoggable* obj, bool verbose)  { obj->log(verbose); }
-	void OVLog(CLoggable& obj, bool verbose) { if(OAPP_VERBOSE){ obj.log(verbose); } }
-	void OVLog(CLoggable* obj, bool verbose) { if(OAPP_VERBOSE){ obj->log(verbose); } }
+	void CLoggable::log(bool verbose, bool newLine){
+		if(newLine){
+	 		( (verbose) ? OLog("Nothing to log...\n") : OLog("%p - Nothing to log...\n",(void*)this) );
+		}else{
+			( (verbose) ? OLog("Nothing to log...") : OLog("%p - Nothing to log...",(void*)this) );
+		}
+	}
+	void OLog(CLoggable& obj, bool verbose, bool newLine)  { obj.log(verbose, newLine); }
+	void OLog(CLoggable* obj, bool verbose, bool newLine)  { obj->log(verbose,newLine); }
+	void OVLog(CLoggable& obj, bool verbose, bool newLine) { if(OAPP_VERBOSE){ obj.log(verbose,newLine); } }
+	void OVLog(CLoggable* obj, bool verbose, bool newLine) { if(OAPP_VERBOSE){ obj->log(verbose,newLine); } }
 }

@@ -58,13 +58,25 @@ namespace Orion{
 /*** Loggable Types **/
 	/* Base class for all Loggable Types. */
 	struct CLoggable{
-		/* Logs the information of this Type to the terminal. Pass true for more verbose information. */
-		virtual void log(bool verbose=false);
+		/*
+		 * Logs the information of this Type to the terminal. 
+		 * Pass true on the first parameter for more verbose information.
+		 * Pass true on the second parameter to push the information to a new line if applicable.
+		 */
+		virtual void log(bool verbose=false, bool newLine=true);
 	};
-	/* Logs this Loggable Type out to the terminal. Pass true on the second parameter to log verbose information. */
-	extern void OLog(CLoggable&, bool verbose=false); extern void OLog(CLoggable*, bool verbose=false);
-	/* Logs this Loggable Type out to the terminal ONLY if OAPP_VERBOSE is true. Pass true on the second parameter to log verbose information. */
-	extern void OVLog(CLoggable&, bool verbose=false); extern void OVLog(CLoggable*, bool verbose=false);
+	/*
+	 * Logs the information of this Type to the terminal. 
+	 * Pass true on the first parameter for more verbose information.
+	 * Pass true on the second parameter to push the information to a new line if applicable.
+	 */
+	extern void OLog(CLoggable&, bool verbose=false, bool newLine=true); extern void OLog(CLoggable*, bool verbose=false, bool newLine=true);
+	/*
+	 * Logs the information of this Type to the terminal ONLY if OAPP_VERBOSE is true. 
+	 * Pass true on the first parameter for more verbose information.
+	 * Pass true on the second parameter to push the information to a new line if applicable.
+	 */
+	extern void OVLog(CLoggable&, bool verbose=false, bool newLine=true); extern void OVLog(CLoggable*, bool verbose=false, bool newLine=true);
 }
 
 #endif /* !__ORIONAPI_OSL_OLOG_H__ */

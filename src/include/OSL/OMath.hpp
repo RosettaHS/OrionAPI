@@ -23,14 +23,19 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OSL - The Orion Standard Library.*/
-
-#ifndef __ORIONAPI_OSL_H__
-#define __ORIONAPI_OSL_H__
+#ifndef __ORIONAPI_OSL_OMATH_H__
+#define __ORIONAPI_OSL_OMATH_H__
 
 #include "common.hpp"
-#include "OLog.hpp"
-#include "OString.hpp"
-#include "OMath.hpp"
 
-#endif /* !__ORIONAPI_OSL_H__ */
+namespace Orion{
+	/* Returns the given value "x" if it is greater than "min", but less than "max". Otherwise returns "min" if smaller, or "max" if greater. */
+	inline long OClamp(long& x, long& min, long& max){ return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
+
+	/* Returns the given value "x" if it is less than "max", otherwise returns "max". */
+	inline long OClampMax(long& x, long& max){ return ( (x>max) ? max : x ); }
+	/* Returns the given value "x" if it is greater than "min", otherwise returns "min". */
+	inline long OClampMin(long& x, long& min){ return ( (x<min) ? min : x ); }
+}
+
+#endif /* !__ORIONAPI_OSL_OMATH_H__ */

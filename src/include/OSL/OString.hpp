@@ -97,8 +97,11 @@ namespace Orion{
 		/* Converts this Char into a String, or nothing if this is not Unicode. */
 		inline operator const char*(void){ return ( (isUnicode) ? (const char*)get.asMultiByte : 0 ); }
 
-		/* Logs this Char's contents out to the terminal. Pass true to get byte and bit information. */
-		virtual void log(bool verbose=false) override;
+		/* Logs this Char's contents out to the terminal.
+		 * Pass true on the first parameter to get byte and bit information.
+		 * Pass true on the second parameter to push the information to a new line if applicable.
+		 */
+		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 	/* Analyses the UTF8 header of the given character and returns the corrisponding Unicode Header type (OUnicodeType). */
@@ -168,8 +171,11 @@ namespace Orion{
 			/* Creates a new String that is the combination of this String and the given text. */
 			OString operator+(const char*) const;
 
-			/* Logs this String to the terminal. Pass true to get more verbose information. */
- 			virtual void log(bool verbose=false) override;
+			/* Logs this String out to the terminal.
+			 * Pass true on the first parameter to get more information. 
+			 * Pass true on the second parameter to push the information to a new line.
+			 */
+ 			virtual void log(bool verbose=false,  bool newLine=true) override;
 	};
 
 	/* Writes the formatted String to the output. */
