@@ -32,5 +32,6 @@
 #include "OLog.hpp"
 #include "OString.hpp"
 #include "OMath.hpp"
+#include "OFile.hpp"
 
 #endif /* !__ORIONAPI_OSL_H__ */
