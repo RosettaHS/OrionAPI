@@ -233,6 +233,80 @@ namespace Orion{
 
 	bool OString::ready(void) const    { return ( raw ? true : false ); }
 	OString::operator bool(void) const { return ( raw ? true : false ); }
+
+	bool OString::contains(const char* substring){
+		if(raw){
+			return ( (OStringFindFirst(raw,substring)!=OSTRING_NOTFOUND) ? true : false );
+		}
+		return false;
+	}
+
+	/* I'll figure out how to do this later, more pressing issues at the moment. */
+	// bool OString::replace(const char* substring, const char* replacement){
+		// if(raw){
+			// (void)replacement;
+			// uint32_t occurances=OStringFindOccurances(raw,substring);
+			// if(occurances){
+				// uint32_t substringLength=OStringLength(substring);
+				// uint32_t replacementLength=OStringLength(replacement);
+				// int32_t excess=substringLength-replacementLength;
+			// OLogBits(raw,memuse,true);
+				// if( (length.real-excess)+1 > memuse){ setMemory(memuse+(replacementLength*occurances)-1); }
+				// /*
+				 // * Is C++ idio(t)matic new/delete faster than malloc()? It's prettier at least..
+				 // * Still, I refuse to use this syntax for anything serious.
+				 // */
+				// uint32_t* occuranceList = new uint32_t[occurances];
+			// /* Loop through the String again to store the positions of all occurances. */
+				// uint32_t j=0,k=0;
+				// for(uint32_t i=0;i<length.real+1;i++){
+					// if(j==substringLength){ j=0,occuranceList[k]=i,k++; }
+					// if(raw[i]==substring[j]){ j++; }
+					// else{ j=0; }
+				// } j=0;k=0; /* Reset these in case we need them later. */
+			// /* If the size of the replacement String doesn't match the given substring, do some other operations first. */
+				// if(excess<0){
+					// ODLog("excess negative\n");
+					// for(uint32_t i=0;i<occurances;i++){
+						// for(j=memuse;j>=occuranceList[i]-excess;j--){
+							// raw[j]=raw[j+excess];
+							// ODLog("setting raw[%d] to raw[%d]\n",j,j+excess);
+						// }
+						// ODLog("looped!\n");
+						// if(i){ occuranceList[i]+=excess; } /* Skip the first one. */
+					// }
+				// }else if(excess>0){
+					// ODLog("excess positive\n");
+					// for(uint32_t i=0;i<occurances;i++){
+						// if(i){ occuranceList[i]+=excess; } /* Skip the first one. */
+						// for(j=occuranceList[i]+excess;j<length.real;j++){
+							// raw[j-excess]=raw[j];
+						// }
+						// ODLog("looped!\n");
+					// }
+					// // for(uint32_t i=iR+excess;i<length.real;i++){
+						// // raw[i-excess]=raw[i];
+					// // }
+					// raw[length.real]=0;
+				// }
+			// /* Set the new replacement String. */
+				// for(uint32_t i=0;i<length.real;i++){
+					// if(i==occuranceList[k]-1){
+						// for(j=0;j<replacementLength;j++){
+							// raw[i]=replacement[j];
+							// i++;
+						// }
+						// k++;
+					// }
+				// }
+			// /* Clean up and return. */
+				// delete[] occuranceList;
+				// OLogBits(raw,memuse,true);
+				// return true;
+			// }
+		// }
+		// return false;
+	// }
 	
 	OString OString::operator+(const char* text) const{
 		OString str;
@@ -315,6 +389,20 @@ namespace Orion{
 		}
 
 		return ( occurances ? place : OSTRING_NOTFOUND );
+	}
+
+	size_t OStringFindOccurances(const char* string, const char* substring){
+		size_t l1=OStringLength(string);
+		size_t l2=OStringLength(substring);
+		size_t i=0,j=0,occurances=0;
+
+		for(i=0;i<l1+1;i++){
+			if(j==l2){ j=0,occurances++; }
+			if(string[i]==substring[j]){ j++; }
+			else{ j=0; }
+		}
+
+		return occurances;
 	}
 
 }

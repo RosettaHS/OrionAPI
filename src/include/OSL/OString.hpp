@@ -106,7 +106,7 @@ namespace Orion{
 
 /*** Strings ***/
 	/* An Orion-Native wrapper for Unicode Strings. */
-	struct OString : CLoggable{
+	class OString : public CLoggable{
 		protected:
 			/* The actual String stored in memory. */
 			char*  raw;
@@ -138,7 +138,7 @@ namespace Orion{
 			bool setTo(const char*); OString& operator=(const char*);
 			/* Appends the given text to the end of this String. */
 			bool append(const char*); OString& operator+=(const char*);
-			/* ... */
+			/* Sets the character at the given index. */
 			bool setChar(OChar c, uint32_t index);
 			/* Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers. */
 			inline void setCharFast(char c, uint32_t index) { raw[index]=c; }
@@ -161,6 +161,10 @@ namespace Orion{
 			bool equalTo(const char*) const; bool operator==(const char*) const;
 			/* Is this String ready for use / does it point to valid memory? */
 			bool ready(void) const; operator bool(void) const;
+			/* Returns true if the given substring is found inside of the String. */
+			bool contains(const char*);
+			// /* Replaces all occurances of the given substring with the replacement string. Returns true if replacements were made. */
+			// bool replace(const char* substring, const char* replacement);
 			/* Creates a new String that is the combination of this String and the given text. */
 			OString operator+(const char*) const;
 
@@ -179,6 +183,8 @@ namespace Orion{
 	extern size_t OStringFindFirst(const char* string, const char* substring);
 	/* Returns the starting index of the last occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
 	extern size_t OStringFindLast(const char* string, const char* substring);
+	/* Returns the count of times the substring is found in the given string. */
+	extern size_t OStringFindOccurances(const char* string, const char* substring);
 	/* Compares the two strings and returns true if they share identical bytes. */
 	extern bool OStringCompare(const char*, const char*);
 }
