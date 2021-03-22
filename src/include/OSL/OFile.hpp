@@ -27,11 +27,12 @@
 #define __ORIONAPI_OSL_OFILE_H__
 
 #include "common.hpp"
+#include "OLog.hpp"
 
 namespace Orion{
 /*** File Information ***/
 
-	/* An enumeration of generic file types. */
+	/* An enumeration of generic File types. */
 	enum OFileType : char{
 		OFT_UNKNOWN=-1,
 		OFT_ERROR,
@@ -43,7 +44,7 @@ namespace Orion{
 		OFT_BINARY
 	};
 
-	/* An enumeration of possible file actions. */
+	/* An enumeration of possible File actions. */
 	enum OFileAction : char{
 		/* Open an existing File for both reading and writing. */
 		OFILE_OPEN,
@@ -94,6 +95,13 @@ namespace Orion{
 /*** Abstractive File handling ***/
 
 	/* TODO: Re-implement OFile. */
+	class OFile : public CLoggable{
+		protected:
+			struct{
+				
+			}flags;
+		public:
+	};
 
 /*** Generic File actions ***/
 

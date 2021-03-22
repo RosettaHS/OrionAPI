@@ -42,6 +42,11 @@ namespace Orion{
 	OChar& OChar::operator=(const char* multibyte) { setTo(multibyte);  return *this; }
 	OChar& OChar::operator=(char singlebyte)       { setTo(singlebyte); return *this; }
 
+	void OChar::clear(void){
+		byteCount=1; isUnicode=0;
+		for(unsigned char i=0;i<OCHARBYTES;i++){ get.asMultiByte[i]=0; bd[i]=OUNI_NULL; }
+	}
+
 	void OChar::setTo(const char* multibyte){
 		clear();
 		byteCount=0;

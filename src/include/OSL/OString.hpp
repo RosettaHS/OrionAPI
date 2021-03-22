@@ -90,7 +90,7 @@ namespace Orion{
 		OChar(char); void setTo(char); OChar& operator=(char);
 
 		/* Clears this Char's contents. */
-		inline void clear(void){ byteCount=1; isUnicode=0; for(unsigned char i=0;i<OCHARBYTES;i++){ get.asMultiByte[i]=0; bd[i]=OUNI_NULL; } }
+		void clear(void);
 
 		/* Converts this Char into a standard single-byte character, or the first byte of the multi-byte character if this is Unicode. */
 		inline operator char(void)       { return get.asSingleByte; }
