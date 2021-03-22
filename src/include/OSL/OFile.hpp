@@ -65,7 +65,7 @@ namespace Orion{
 		/* The length of this Line. */
 		size_t length;
 		/* The string stored in this Line. */
-		char* str;
+		unsigned char* str;
 
 		/* Allows for if() checking on this Line. */
 		operator bool(void) const;
@@ -94,13 +94,34 @@ namespace Orion{
 
 /*** Abstractive File handling ***/
 
-	/* TODO: Re-implement OFile. */
 	class OFile : public CLoggable{
 		protected:
+			OFileType    type; /* misc */
+			OFileAction  action;
+			OFileContent contents;
+			OFileHash    hash;
+			size_t       size;
+			char*        name; /* misc */
+			char*        path;
+			char*        ext;  /* misc */
 			struct{
-				
+				void* RAW;
+				int   DESC;
+			}CFILE;
+			struct{
+				bool storeToMem;
+				bool storeMisc;
+				bool evalContents;
 			}flags;
+
+			void init(bool skipEval);
+			bool storeToMem(void);
 		public:
+			OFile(void);
+
+			bool open(const char* filename, OFileAction action=OFILE_AUTO); OFile(const char* filename, OFileAction=OFILE_AUTO);
+			bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO); OFile(const char* directory, const char* filename, OFileAction=OFILE_AUTO);
+			bool close(bool saveChanges);
 	};
 
 /*** Generic File actions ***/
