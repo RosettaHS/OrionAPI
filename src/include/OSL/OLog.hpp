@@ -41,40 +41,63 @@
 
 namespace Orion{
 /*** Base logging ***/
-	/* Logs the formatted string out to the terminal. */
+
+	/**
+	 * @brief Logs a formatted String out to the terminal.
+	 * @param string The String to be formatted and logged. The rest of the arguments can be of any type as long as they're capable of being formatted into the String.
+	 * @param ... Variadic arguments. Can be of any type as long as long as they're capable of being formatted into the String.
+	 */
 	extern void OLog(const char* string, ...);
-	/* Logs the formatted string out to the terminal ONLY if OAPP_VERBOSE is true. */
+	/**
+	 * @brief Logs a formatted String out to the terminal ONLY if OAPP_VERBOSE is true.
+	 * @param string The String to be formatted and logged. The rest of the arguments can be of any type as long as they're capable of being formatted into the String.
+	 * @param ... Variadic arguments. Can be of any type as long as long as they're capable of being formatted into the String.
+	 */
 	extern void OVLog(const char* string, ...);
-	/*
-	 * Logs the individual bits of the given amount of bytes at the given memory address. 
-	 * Pass a boolean as a third argument to determine whether a new line should be created or not.
+
+	/**
+	 * @brief Logs the individual bits of the given amount of bytes at the given memory address. 
+	 * @param data A pointer to the memory address to index and log.
+	 * @param bytes The number of bytes to index for logging.
+	 * @param newLine Should the output be placed on a newline or append to the current one? Default is true.
 	 */
 	extern void OLogBits(const void* data, size_t bytes, bool newLine=true);
-	/* Internal. Logs the formatted string out to the terminal alongside the error code, and if "autoQuit" is true, will quit with the error code. */
+	/**
+	 * @brief Internal. Logs the formatted string out to the terminal alongside the error code,
+	 * @param errcode The error code to display prior to the message.
+	 * @param autoQuit Should the program immediately quit after delivering the error message?
+	 * @param newLine Should the output be placed on a newline or append to the current one? Default is true.
+	 */
 	extern void OELog(unsigned long errcode, bool autoQuit, const char* string, ...);
-	/* Internal. Logs the formatted string out to the terminal. If verboseOnly is true then this will only log if OAPP_VERBOSE is true. */
+	/**
+	 * @brief Internal. Logs the formatted string out to the terminal.
+	 * @param verboseOnly If this is true, the message will ONLY be logged out to the terminal if OAPP_VERBOSE is also true.
+	 * @param string The String to be formatted and logged. The rest of the arguments can be of any type as long as they're capable of being formatted into the String. 
+	 * @param ... Variadic arguments. Can be of any type as long as long as they're capable of being formatted into the String.
+	 */
 	extern void OWLog(bool verboseOnly, const char* string, ...);
 
 /*** Loggable Types **/
+
 	/* Base class for all Loggable Types. */
 	struct CLoggable{
-		/*
-		 * Logs the information of this Type to the terminal. 
-		 * Pass true on the first parameter for more verbose information.
-		 * Pass true on the second parameter to push the information to a new line if applicable.
+		/**
+		 * @brief Logs the information of this Type to the terminal.
+		 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
+		 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 		 */
 		virtual void log(bool verbose=false, bool newLine=true);
 	};
-	/*
-	 * Logs the information of this Type to the terminal. 
-	 * Pass true on the first parameter for more verbose information.
-	 * Pass true on the second parameter to push the information to a new line if applicable.
+	/**
+	 * @brief Logs the information of this Type to the terminal.
+	 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
+	 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 	 */
 	extern void OLog(CLoggable&, bool verbose=false, bool newLine=true); extern void OLog(CLoggable*, bool verbose=false, bool newLine=true);
-	/*
-	 * Logs the information of this Type to the terminal ONLY if OAPP_VERBOSE is true. 
-	 * Pass true on the first parameter for more verbose information.
-	 * Pass true on the second parameter to push the information to a new line if applicable.
+	/**
+	 * @brief Logs the information of this Type to the terminal ONLY if OAPP_VERBOSE is true.
+	 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
+	 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 	 */
 	extern void OVLog(CLoggable&, bool verbose=false, bool newLine=true); extern void OVLog(CLoggable*, bool verbose=false, bool newLine=true);
 }

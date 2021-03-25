@@ -48,6 +48,7 @@
 
 namespace Orion{
 /*** Characters ***/
+
 	/* An enumeration of UTF8 states for a given byte. */
 	enum OUnicodeType : char{
 		/* The byte is comprised entirely of zeros; a NULL terminator. */
@@ -97,17 +98,23 @@ namespace Orion{
 		/* Converts this Char into a String, or nothing if this is not Unicode. */
 		inline operator const char*(void){ return ( (isUnicode) ? (const char*)get.asMultiByte : 0 ); }
 
-		/* Logs this Char's contents out to the terminal.
-		 * Pass true on the first parameter to get byte and bit information.
-		 * Pass true on the second parameter to push the information to a new line if applicable.
+		/**
+		 * @brief Logs this Char's contents out to the terminal.
+		 * @param verbose Log verbose information (such as byte and bit information) instead of the character itself. Default is false.
+		 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 		 */
 		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
-	/* Analyses the UTF8 header of the given character and returns the corrisponding Unicode Header type (OUnicodeType). */
-	extern OUnicodeType OCharGetUnicodeType(char);
+	/**
+	 * @brief Analyses the UTF8 header of the given character and returns the corrisponding Unicode Header type
+	 * @param eval The character to evaluate.
+	 * @return One of the many possible enumerations included in OUnicodeType. Review the documentation for OUnicodeType for further details
+	 */
+	extern OUnicodeType OCharGetUnicodeType(char eval);
 
 /*** Strings ***/
+
 	/* An Orion-Native wrapper for Unicode Strings. */
 	class OString : public CLoggable{
 		protected:
@@ -122,76 +129,166 @@ namespace Orion{
 			}length;
 			/* The actual memory being used by this String (including null terminator.) */
 			uint32_t memuse;
-			/* Converts an apparent index (as is inputted in setChar and getChar) to a real index used for computation. */
+			/**
+			 * @brief Converts an apparent index (as is inputted in setChar and getChar) to a real index used for computation.
+			 * @param index The given apparent index to convert.
+			 * @return A real index that can be used directly on the internal String pointer for operations.
+			 */
 			uint32_t apparentToReal(uint32_t index);
 		public:
 			/* Destructor. Frees all memory. */
 			~OString(void);
 			/* Empty constructor. Sets all values to 0. */
 			inline OString(void) : raw{0}, length{0,0}, memuse{0} {};
-			/* Initialises this String with the given text. */
+			/**
+			 * @brief Initialises this String with the given text.
+			 * @param text The text for this String to copy and use.
+			 */
 			inline OString(const char* text) : raw{0}, length{0,0}, memuse{0} { setTo(text); };
-			/* Frees all memory. Returns true if there was memory to free. */
+			/**
+			 * @brief Frees all memory stored by this String.
+			 * @return True if there was memory to free, false if could not free memory, or memory was non-existent. 
+			 */
 			bool clear(void);
 
-			/* Sets the exact memory (including terminator) to the given value. Truncates String if the new memory is smaller than the length. */
-			bool setMemory(uint32_t);
+			/**
+			 * @brief Sets the exact memory (including terminator) to the given value. Truncates String if the new memory is smaller than the length.
+			 * @param newSize The exact size (in bytes) that this String will use, including the terminator.
+			 * @return True if memory could be changed, false if either new memory size is identical or otherwise simply could not be resized.
+			 */
+			bool setMemory(uint32_t newSize);
 			
-			/* Sets this String to the given text. */
-			bool setTo(const char*); OString& operator=(const char*);
-			/* Appends the given text to the end of this String. */
-			bool append(const char*); OString& operator+=(const char*);
-			/* Sets the character at the given index. */
+			/** 
+			 * @brief Sets this String to the given text.
+			 * @param text The text for this String to copy and use.
+			 * @return True if String could be set, false if memory for the new String coould not be allocated.
+			 */
+			bool setTo(const char* text); OString& operator=(const char* text);
+			/**
+			 * @brief Appends the given text to the end of this String.
+			 * @param text The text to append to this String.
+			 * @return True if text could be appended, false if memory for the new String coould not be allocated.
+			 */
+			bool append(const char* text); OString& operator+=(const char* text);
+			/**
+			 * @brief Sets the character at the given index.
+			 * @param c The single/multi-byte character to set.
+			 * @param index The index at which to set the new character to.
+			 * @return True if new character could be set, false if either the String has not been initialised, or the index is oout of bounds.
+			 */
 			bool setChar(OChar c, uint32_t index);
-			/* Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers. */
+			/** 
+			 * @brief Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers.
+			 * @param c The single-byte character to set.
+			 * @param index he index at which to set the new character to.
+			 */
 			inline void setCharFast(char c, uint32_t index) { raw[index]=c; }
 
-			/* Returns the pointer to the acutal String stored in memory. */
+			/**
+			 * @brief Returns the pointer to the actual String stored in memory.
+			 * @return A pointer to the character array used by this String.
+			 */
 			char* getText(void) const; operator char*(void) const;
-			/*
-			 * Gets and returns the Unicode character at the given index.
+			/**
+			 * @brief Gets and returns the Unicode character at the given index.
 			 * Indexing operations are done based on apparent length, not actual bytes.
+			 * @param index The index to locate the character at.
+			 * @return An OChar, abstraction for single or multi-byte characters. See the documentation for OChar.
 			 */
 			OChar getChar(uint32_t index); OChar operator[](uint32_t);
-			/* Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers. */
+			/** 
+			 * @brief Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers.
+			 * @param index The index to locate the character at.
+			 * @return The single-byte character found at the index.
+			 */
 			inline char getCharFast(uint32_t index) { return raw[index]; }
-			/* Returns the length of this String. Pass true to get only the real length, including Unicode continuation bytes. */
+			/**
+			 * @brief Returns the length of this String.
+			 * @param realLength Should this function return the actual length of this String, including the Unicode continuation bytes? Default is false.
+			 * @returns The length of this String dependent on the parameter used on this method.
+			 */
 			uint32_t getLength(bool realLength=false);
-			/* Returns the memory usage of this String. */
+			/**
+			 * @brief Returns the memory usage of this String.
+			 * @return The raw memory usage of this String, including any unused bytes.
+			 * Unused bytes are kept in case any concatenation is needed.
+			 */
 			inline uint32_t getMemory(void) { return memuse; }
 
-			/* Is this String equal to the given String? */
-			bool equalTo(const char*) const; bool operator==(const char*) const;
-			/* Is this String ready for use / does it point to valid memory? */
+			/**
+			 * @brief Is this String equal to the given String?
+			 * @param text The separate String to compare.
+			 * @return True if both Strings are identical, false if there are any variations.
+			 */
+			bool equalTo(const char* text) const; bool operator==(const char* text) const;
+			/**
+			 * @brief Is this String ready for use / does it point to valid memory?
+			 * @return If the String's internal character array pointer is set, this will return true. Otherwise it will return false, meaning the String ahs not beben initialised.
+			 */
 			bool ready(void) const; operator bool(void) const;
-			/* Returns true if the given substring is found inside of the String. */
-			bool contains(const char*);
+			/**
+			 * @brief Does this String contain the given substring?
+			 * @param substring The substring to attempt to find within this String.
+			 * @return True if substring could be found, false if it could not.
+			 */
+			bool contains(const char* substring);
 			// /* Replaces all occurances of the given substring with the replacement string. Returns true if replacements were made. */
 			// bool replace(const char* substring, const char* replacement);
-			/* Creates a new String that is the combination of this String and the given text. */
-			OString operator+(const char*) const;
 
-			/* Logs this String out to the terminal.
-			 * Pass true on the first parameter to get more information. 
-			 * Pass true on the second parameter to push the information to a new line.
+			/**
+			 * @brief Creates a new String that is the combination of this String and the given text.
+			 * @param text The String to append to the new String
+			 * @return A new, separate String with the given text appended to the end.
+			 */
+			OString operator+(const char* text) const;
+
+	 		/**
+			 * @brief Logs this String out to the terminal.
+			 * @param verbose Log verbose information (such as memory usage and alongside the String itself. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 			 */
  			virtual void log(bool verbose=false,  bool newLine=true) override;
 	};
 
-	/* Writes the formatted String to the output. */
-	extern void OFormat(char* output, const char* format, ...);
-	/*
-	 * Returns the length of the passed String. 
-	 * Pass true as the second parameter to return the apparent length of the String (subtracting UTF-8 continuation bytes).
+	/**
+	 * @brief Writes the formatted String to the output.
+	 * @param output A pointer to a character array for the formatted String to be placed in. This MUST be able to fit the formatted String, otherwise severe errors could occur.
+	 * @param format The String to be formatted into the output. The rest of the arguments can be of any type as long as they're capable of being formatted into the String.
+	 * @param ... Variadic arguments. Can be of any type as long as long as they're capable of being formatted into the String.
 	 */
-	extern size_t OStringLength(const char*, bool getApparentLength=false);
-	/* Returns the starting index of the first occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
+	extern void OFormat(char* output, const char* format, ...);
+	/**
+	 * @brief Returns the length of the passed String. 
+	 * @param string The String to get the length of.
+	 * @param getApparentLength Should this function return the raw length (in bytes) of the String, or the String's apparent length (excluding UTF-8 continuation bytes)? Default is false.
+	 * @return The length of the String, dependent on the mode specificed by the second parameter.
+	 */
+	extern size_t OStringLength(const char* string, bool getApparentLength=false);
+	/**
+	 * @brief Returns the starting index of the first occurance of the substring in the given String.
+	 * @param string The String to attempt to search the substring in.
+	 * @param substring The substring to search for in the given String.
+	 * @return If the substring could be found, the index of the starting position will be returned. Otherwise, OSTRING_NOTFOUND will be returned, and an evaluation must be done.
+	 */
 	extern size_t OStringFindFirst(const char* string, const char* substring);
-	/* Returns the starting index of the last occurance of the substring (second argument) in the given string (first argument). Returns OSTRING_NOTFOUND if substring could not be found. */
+	/**
+	 * @brief Returns the starting index of the last occurance of the substring in the given String.
+	 * @param string The String to attempt to search the substring in.
+	 * @param substring The substring to search for in the given String.
+	 * @return If the substring could be found, the index of the starting position will be returned. Otherwise, OSTRING_NOTFOUND will be returned, and an evaluation must be done.
+	 */
 	extern size_t OStringFindLast(const char* string, const char* substring);
-	/* Returns the count of times the substring is found in the given string. */
+	/**
+	 * @brief Returns the count of times the substring is found in the given string.
+	 * @param string The String to attempt to search the substring in.
+	 * @param substring The substring to search for in the given String.
+	 * @return The number of times the substring was found in the given String.
+	 */
 	extern size_t OStringFindOccurances(const char* string, const char* substring);
-	/* Compares the two strings and returns true if they share identical bytes. */
+	/**
+	 * @brief Compares the two strings and returns true if they share identical bytes.
+	 * @return True if both Strings are identical, false if there are any variations.
+	 */
 	extern bool OStringCompare(const char*, const char*);
 }
 
