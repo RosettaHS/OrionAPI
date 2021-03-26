@@ -95,6 +95,7 @@ namespace Orion{
 
 /*** Abstractive File handling ***/
 
+	/* An Orion-Native implementation for easily reading and writing to Files. */
 	class OFile : public CLoggable{
 		protected:
 			/* The Type of this File. */
