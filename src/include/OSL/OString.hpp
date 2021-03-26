@@ -79,8 +79,11 @@ namespace Orion{
 			/* Gets the character data as a multi-byte, like a string. Only for Unicode Chars. */
 			unsigned char asMultiByte[OCHARBYTES];
 		}get;
+		/* An array of OUnicodeType identifiers for each byte stored by this Char. */
 		OUnicodeType  bd[OCHARBYTES];
+		/* The count of bytes used by this Char. */
 		unsigned char byteCount;
+		/* Is this Char Unicode (multi-byte)? */
 		bool          isUnicode;
 
 		/* Empty constructor. Sets all values to 0. */
