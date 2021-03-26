@@ -60,6 +60,7 @@ namespace Orion{
 	typedef uint64_t OFileHash;
 
 /** File Content **/
+
 	/* An individual Line of a File. */
 	struct OFileLine{
 		/* The length of this Line. */

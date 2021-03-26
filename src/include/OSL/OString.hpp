@@ -174,7 +174,7 @@ namespace Orion{
 			 * @brief Sets the character at the given index.
 			 * @param c The single/multi-byte character to set.
 			 * @param index The index at which to set the new character to.
-			 * @return True if new character could be set, false if either the String has not been initialised, or the index is oout of bounds.
+			 * @return True if new character could be set, false if either the String has not been initialised, or the index is out of bounds.
 			 */
 			bool setChar(OChar c, uint32_t index);
 			/** 
