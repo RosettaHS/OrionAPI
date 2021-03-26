@@ -129,35 +129,88 @@ namespace Orion{
 				bool evalContents;
 			}flags;
 
-			/* Internal. Initialises internal information of this File. Pass true to skip evaluating contents. */
+			/**
+			 * @brief Internal. Initialises internal information of this File.
+			 * @param skipEval Determines whether OFile should attempt to evaluate the File's contents, by scanning through the File.
+			 * This is intensive, but required for storing the File to memory.
+			 */
 			void init(bool skipEval);
 		public:
 			/* Empty constructor. Sets all values to 0. */
 			OFile(void);
 
-			/* Opens the given File relative to the OApp's working directory with the given action. */
+			/**
+			 * @brief Opens the given File relative to the OApp's working directory with the given action.
+			 * @param filename The name/path (absolute or relative) of the File to either open or create.
+			 * @param action The action to access the File with.
+			 * By default, this is OFILE_AUTO, meaning if the File exists it will attempt to open it with either read/write or read-only permissions.
+			 * If it does not exist, it will be created.
+			 * See also: OFILE_OPEN, OFILE_OPEN_READONLY, OFILE_NEW
+			 * @return True if the File could be successfully opened or created, false otherwise.
+			 */
 			bool open(const char* filename, OFileAction action=OFILE_AUTO); OFile(const char* filename, OFileAction=OFILE_AUTO);
-			/* Opens the File relative to the given directory with the given action. */
+			/**
+			 * @brief Opens the File relative to the given directory with the given action.
+			 * @param directory A path (absolute or relative) to attempt to search for the File in.
+			 * @param filename The name of the File to either open or create relative to the given directory.
+			 * @param action The action to access the File with.
+			 * By default, this is OFILE_AUTO, meaning if the File exists it will attempt to open it with either read/write or read-only permissions.
+			 * If it does not exist, it will be created.
+			 * See also: OFILE_OPEN, OFILE_OPEN_READONLY, OFILE_NEW
+			 * @return True if the File could be successfully opened or created, false otherwise.
+			 */
 			bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO); OFile(const char* directory, const char* filename, OFileAction=OFILE_AUTO);
-			/* Closes the File, and if true is passed, applies any modifications and saves it. */
+			/**
+			 * @brief Closes the File, and can applies any modifications and save it before closing.
+			 * @param saveChanges If this is true, any modifications done to the File will be written before closing.
+			 * @return True if File was successfully closed, otherwise false if File either could not be closed or File wasn't open to begin with.
+			 */
 			bool close(bool saveChanges);
-			/* Stores the File's contents to memory. */
+			/**
+			 * @brief Stores the File's contents to memory.
+			 * @return True if contents could be stored to memory, otherwise false if contents could either not be stored, or contents were already stored.
+			 */
 			bool storeToMem(void);
 
-			/* Applies the current modifications. Returns true if there were any modifications to apply, and the process was a success. */
+			/**
+			 * @brief Applies the current modifications.
+			 * @return True if there were any modifications to apply, and if the process was a success.
+			 */
 			bool save(void);
-			/* Saves a copy of the current File to the given filename relative to the OApp's working directory. */
-			bool saveAs(const char* file);
-			/* Saves a copy of the current File to the filename relative to the given directory. */
+			/** 
+			 * @brief Saves a copy of the current File to the given filename relative to the OApp's working directory.
+			 * @param filename The name/path (absolute or relative) of the File to be saved as.
+			 * @return True if there were any modifications to apply, and if the process was a success.
+			 */
+			bool saveAs(const char* filename);
+			/**
+			 * @brief Saves a copy of the current File to the filename relative to the given directory.
+			 * @param directory A path (absolute or relative) to attempt to save the File in.
+			 * @param filename The name to save the File as, relative to the given directory.
+			 * @return True if there were any modifications to apply, and if the process was a success.
+			 */
 			bool saveAs(const char* directory, const char* file);
-			/* Renames the current File to the given name, or moves it if the new name is located in a differen directory. */
+			/**
+			 * @brief Renames the current File to the given name, or moves it if the new name is located in a different directory.
+			 * @param newName The new name to save the File as. Note that this is relative to the OApp's working directory, not relative to the File's location.
+			 * @return True if the File could be renamed, otherwise false if either File could not be renamed, or File wasn't open to begin with.
+			 */
 			bool rename(const char* newName);
-			/* Discards any modifications and reloads the File. Returns true if there were modifications to discard. */
+			/** 
+			 * @brief Discards any modifications and reloads the File.
+			 * @return True if there were modifications to discard.
+			 */
 			bool reset(void);
-			/* Deletes the current File. Returns true on success. */
+			/** 
+			 * @brief Deletes the current File.
+			 * @return True if File could be successfully deleted.
+			 */
 			bool deleteCurrent(void);
 
-			/* Has the File been opened properly, and is ready for use? */
+			/**
+			 * @brief Has the File been opened properly, and is ready for use?
+			 * @return True if File has been successfully opened, otherwise false.
+			 */
 			bool valid(void) const; operator bool(void) const;
 			/*
 			 * Should this File care about allocating and initialising miscellaneous information?
@@ -172,72 +225,171 @@ namespace Orion{
 			 * If you need to turn this off, turn this off BEFORE you open a File.
 			 */
 			void shouldStoreToMem(bool);
-			/* Has the File been modified since when changes were last applied, or when the File was last opened? */
+			/**
+			 * @brief Has the File been modified since when changes were last applied, or when the File was last opened?
+			 * @return True if File has been modified since last save.
+			 */
 			bool hasBeenModified(void) const;
-			/* Do the two Files share the same content? */
+			/**
+			 * @brief Do the two Files share the same content?
+			 * @return True if Files share identical contents.
+			 */
 			bool equalTo(OFile&) const; bool operator==(OFile&) const;
-			/*
-			 * Recalculates the File's hash. Do this after setLine() operations if you need to compare the modified File
+			/**
+			 * @brief Recalculates the File's hash. Do this after setLine() operations if you need to compare the modified File
 			 * against another File, as this is NOT called after the File has been modified!
+			 * @return A numeric hash of the File's contents.
 			 */
 			OFileHash recalcHash(void);
 
-			/* Sets the given line of the File (starting at 0) to the new text. Returns true on success. */
+			/**
+			 * @brief Sets the given line of the File (starting at 0) to the new text.
+			 * @param line The Line number to modify. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
+			 * If the given Line is out of bounds, new, empty Lines will be created in the empty space.
+			 * @param newText The new text to set the given line to. This will resize the given Line if the new text is larger than the size of the Line.
+			 * @return True if Line could be set, otherwise false if either the File has not been stored to memory, the File is in read-only mode, or the File is not open to begin with.
+			 */
 			bool setLine(size_t line, const char* newText);
 
-			/* Returns the type of the File if it could be determined. */
+			/**
+			 * @brief Returns the generic type of the File if it could be determined.
+			 * @return A value corrisponding to an enumeration of generic FileTypes.
+			 * See: OFileType
+			 */
 			OFileType getType(void) const;
-			/* Returns the type of the File as a String if it could be determined. */
+			/** 
+			 * @brief Returns the type of the File as a String if it could be determined.
+			 * @return A String version of the given OFileType value corrisponding to this File.
+			 * For example: if the File's Type is OFT_IMAGE, this will return "OFT_IMAGE" as a String. Good for easily readable debug logs.
+			 */
 			const char* getTypeAsString(void) const;
-			/* Returns the full path pointing to this File. */
+			/**
+			 * @brief Returns the full path pointing to this File.
+			 * @return A String that contains the full, real path of this File.
+			 */
 			const char* getPath(void) const; operator const char*(void) const;
-			/* Returns the name of this File. */
+			/**
+			 * @brief Returns the name of this File.
+			 * @return If the File has been allowed to store misc information (see shouldStoreMisc), this will return the actual name of the File, excluding the path but including the extension.
+			 */
 			const char* getName(void) const;
-			/* Returns the extension of this File (if it has one). */
+			/**
+			 * @brief Returns the extension of this File (if it has one).
+			 * @return If the File has been allowed to store misc information (see shouldStoreMisc), this will return the raw extension of the File, excluding the fullstop.
+			 * For example: if the File's name is "myFile.txt", this will return "txt".
+			 */
 			const char* getExtension(void) const;
-			/* Returns the size of the File in bytes. */
+			/**
+			 * @brief Returns the size of the File in bytes. 
+			 * @return The raw size of the File in bytes.
+			 */
 			size_t getSize(void) const;
-			/* Returns the simplistic numerical hash of this File. */
+			/**
+			 * @brief Returns the simplistic numerical hash of this File.
+			 * @return A numeric hash of this File's contents corrisponding to the last time recalcHash() was ran.
+			 * If you have modified any contennt of this File, run recalcHash(). since modification operations do not automatically recalculate the hash.
+			 */
 			OFileHash getHash(void) const;
-			/* Returns the count of lines of this File. */
+			/**
+			 * @brief Returns the count of Lines of this File.
+			 * @return The Line count of this File. This is always AT LEAST 1 if the File is valid, but otherwise 0 if the File has not been opened.
+			 */
 			size_t getLineCount(void) const;
-			/* Returns the count of characters in this File. */
+			/**
+			 * @brief Returns the count of characters in this File.
+			 * @return The character count (NOT BYTE COUNT!) of this File.
+			 */
 			size_t getCharCount(void) const;
-			/* Returns a struct containing the content of this File. See OFileContent. */
+			/**
+			 * @brief Returns a struct containing the content of this File. See OFileContent. 
+			 * @return A struct (OFileContent) containing information regarding the contents of this File.
+			 */
 			OFileContent getContent(void) const;
-			/* Returns a specific line (starting at 0) of this File as an OFileLine. */
+			/** 
+			 * @brief Returns a specific line (starting at 0) of this File as an OFileLine.
+			 * Do NOT use this to retrieve a Line to use as a normal character array, instead use the array notation! ( file[line] ).
+			 * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
+			 * @return A struct (OFileLine) containing information regarding the given Line.
+			 */
 			OFileLine getLine(size_t line) const;
-			/* Returns a specific line (starting at 0) of this File as a string. Do NOT modify this! Use setLine() instead! */
-			char* operator [](size_t) const;
-			/* Returns the C FILE struct used by this File internally. */
+			/**
+			 * @brief Returns a specific Line (starting at 0) of this File as a String. 
+			 * Do NOT modify this! Use setLine() instead! 
+			 * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
+			 * @return A character array corrisponding to the given Line.
+			 */
+			char* operator [](size_t line) const;
+			/**
+			 * @brief Returns the C FILE struct used by this File internally.
+			 * @return A (void) pointer that points to the C (stdio) FILE struct used by this internally.
+			 * Make sure to cast this back into a C FILE struct (FILE*).
+			 */
 			void* getCFile(void) const;
 
-			/*
-			 * Logs the content of this File out to the terminal. 
-			 * Pass true on the first parameter to get File information rather than content.
-			 * Pass true on the second parameter to push the information to a new line if applicable.
+			/**
+			 * @brief Logs the content of this File out to the terminal. 
+			 * @param verbose Log verbose information (such as File information like size and type) instead of the content itself. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 			 */
 			virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 /*** Generic File actions ***/
 
-	/* Does the given File exist relative to the OApp's working directory? */
-	extern bool OFileExists(const char* file);
-	/* Does the File exist relative to the given directory? */
-	extern bool OFileExists(const char* directory, const char* file);
-	/* Deletes the given File relative to the OApp's working directory. */
-	extern bool OFileDelete(const char* file);
-	/* Deletes the File relative to the given directory. */
-	extern bool OFileDelete(const char* directory, const char* file);
-	/* Renames the File (relative to the OApp's working directory) to the given name. Returns true on success. */
-	extern bool OFileRename(const char* file, const char* newName);
-	/* Renames the File (relative to the given directory) to the given name. Returns true on success. */
-	extern bool OFileRename(const char* directory, const char* file, const char* newName);
-	/* Returns the FileHash of the given file relative to the OApp's working directory. */
-	extern OFileHash OFileGetHash(const char* file);
-	/* Returns the FileHash of the file relative to the given directory. */
-	extern OFileHash OFileGetHash(const char* directory, const char* file);
+	/**
+	 * @brief Does the given File exist relative to the OApp's working directory?
+	 * @param filename The name/path (absolute or relative) of the File to check.
+	 * @return True if the File exists at the location, otherwise false.
+	 */
+	extern bool OFileExists(const char* filename);
+	/**
+	 * @brief Does the File exist relative to the given directory? 
+	 * @param directory A path (absolute or relative) to attempt to search for the File in.
+	 * @param filename The name/path of the File to check relative to the given directory.
+	 * @return True if the File exists at the location, otherwise false.
+	 */
+	extern bool OFileExists(const char* directory, const char* filename);
+	/**
+	 * @brief Deletes the given File relative to the OApp's working directory.
+	 * @param filename The name/path (absolute or relative) of the File to delete.
+	 * @return True if the File could be deleted, otherwise false.
+	 */
+	extern bool OFileDelete(const char* filename);
+	/**
+	 * @brief Deletes the File relative to the given directory.
+	 * @param directory A path (absolute or relative) to attempt to delete the File from.
+	 * @param filename The name/path  of the File to delete relative to the given directory.
+	 * @return True if the File could be deleted, otherwise false.
+	 */
+	extern bool OFileDelete(const char* directory, const char* filename);
+	/**
+	 * @brief Renames the File (relative to the OApp's working directory) to the given name. Returns true on success.
+	 * @param filename The name/path (absolute or relative) of the File to rename.
+	 * @param newName The new name to rename the File as. Note that this is relative to the OApp's working directory, not relative to the File's location.
+	 * @return True if the File could be renamed, otherwise false.
+	 */
+	extern bool OFileRename(const char* filename, const char* newName);
+	/**
+	 * @brief Renames the File (relative to the given directory) to the given name. Returns true on success.
+	 * @param directory A path (absolute or relative) to attempt to scan for the File in.
+	 * @param filename The name/path of the File to rename relative to the given directory.
+	 * @param newName The new name to rename the File as. Note that this is relative to the given directory, not relative to the File's location within subfolders of the directory.
+	 * @return True if the File could be renamed, otherwise false.
+	 */
+	extern bool OFileRename(const char* directory, const char* filename, const char* newName);
+	/**
+	 * @brief Returns the FileHash of the given file relative to the OApp's working directory.
+	 * @param filename The name/path (absolute or relative) of the File to calculate the hash of.
+	 * @return A numeric hash of the File's contents.
+	 */
+	extern OFileHash OFileGetHash(const char* filename);
+	/**
+	 * @brief Returns the FileHash of the file relative to the given directory.
+	 * @param directory A path (absolute or relative) to attempt to scan for the File in.
+	 * @param filename The name/path of the File to calculate the hash of relative to the given directory.
+	 * @return A numeric hash of the File's contents.
+	 */
+	extern OFileHash OFileGetHash(const char* directory, const char* filename);
 }
 
 #endif /* !__ORIONAPI_OSL_OFILE_H__ */

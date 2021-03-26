@@ -460,10 +460,7 @@ namespace Orion{
 
 /** Getters/misc ops **/
 	void OFile::shouldStoreMisc(bool v) { flags.storeMisc=v; }
-	void OFile::shouldStoreToMem(bool v){
-		flags.storeMem=v;
-		storeToMem();
-	}
+	void OFile::shouldStoreToMem(bool v){ flags.storeMem=v; }
 	bool OFile::valid(void) const { return ( CFILE.RAW ? true : false ); }
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
 	OFile::operator bool(void) const { return (CFILE.RAW ? true : false); }
