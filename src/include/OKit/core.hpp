@@ -23,18 +23,50 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OKit - The Window Widget Toolkit for the Orion Operating System */
+#ifndef __ORIONAPI_OKIT_CORE_H__
+#define __ORIONAPI_OKIT_CORE_H__
 
-#ifndef __ORIONAPI_OKIT_H__
-#define __ORIONAPI_OKIT_H__
+#include <stdint.h>
 
-/*** Core ***/
-#include "core.hpp"
-#include "common.hpp"
-#include "CBaseUI.hpp"
+/*
+ * This SHOULD be using RenderKit, but for now it's going to interface directly with XCB until I can figure out
+ * what the hell I'm going to do with RenderKit.
+ */
 
-/*** Control Elements ***/
+namespace Orion{
 
-/*** Final Elements ***/
+#ifdef ORION_INTERNAL
+	extern void*    XCB_CON;
+	extern void*    XCB_SCR;
+	extern int      XCB_SID;
+	extern uint32_t XCB_ROOT;
+	extern bool     XCB_CONNECTED;
 
-#endif /* !__ORIONAPI_OKIT_H__ */
+	/* Wrapper if() statement. Will only run the code in the brackets if XCB has been successfully initalised. */
+	#define XONLY if(XCB_CONNECTED)
+	/*** The following #defines require the inclusion of <xcb/xcb.h> ***/
+
+	/* Casts the XCB connection pointer to a usable xcb_connection_t pointer. */
+	#define XCON  ((xcb_connection_t*)XCB_CON)
+	/* Casts the RenderKit screen pointer to a usable xcb_screen_t pointer. */
+	#define XSCR  ((xcb_screen_t*)XCB_SCR)
+	/* Retrieves the XCB connection screen ID. */
+	#define XSID  (XCB_SID)
+	/* Retrieves the XCB connection root context ID. */
+	#define XROOT (XCB_ROOT)
+
+	/**
+	 * @brief Internal. Connects OrionAPI to the X Service.
+	 * @return True if connection was successful, otherwise false if either connection could not be made, or service is already running.
+	 */
+	extern bool XCB_CONNECT(void);
+	/**
+	 * @brief Internal. Disconnects OrionAPI from the X Service.
+	 * @return True if disconnection was successful, otherwise false if either connection could not be severed, or service isn't running.
+	 */
+	extern bool XCB_DISCONNECT(void);
+#endif
+
+}
+
+#endif /* !__ORIONAPI_OKIT_CORE_H__ */

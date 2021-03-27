@@ -23,18 +23,35 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OKit - The Window Widget Toolkit for the Orion Operating System */
+#define ORION_INTERNAL
 
-#ifndef __ORIONAPI_OKIT_H__
-#define __ORIONAPI_OKIT_H__
+#include <xcb/xcb.h>
+#include "../include/OSL/OLog.hpp"
+#include "../include/OKit/core.hpp"
 
-/*** Core ***/
-#include "core.hpp"
-#include "common.hpp"
-#include "CBaseUI.hpp"
-
-/*** Control Elements ***/
-
-/*** Final Elements ***/
-
-#endif /* !__ORIONAPI_OKIT_H__ */
+namespace Orion{
+	bool XCB_CONNECT(void){
+		if(XCB_CONNECTED){ return false; }
+		XCB_CON=xcb_connect(0,&XCB_SID);
+		if(xcb_connection_has_error(XCON)){ OWLog(true,"X CONNECTION COULD NOT BE ESTABLISHED! RUNNING AS HEADLESS!"); return false; }
+		/* TODO: Replace this with a cleaner solution. XCB's documentation isn't very friendly. */
+		xcb_screen_iterator_t scrite=xcb_setup_roots_iterator( xcb_get_setup(XCON) );
+		for(; scrite.rem; ( --XCB_SID, xcb_screen_next(&scrite) ) ){
+			if(!XCB_SID){ XCB_SCR=scrite.data; break; }
+		}
+		XCB_ROOT=XSCR->root;
+		XCB_CONNECTED=true;
+		return true;
+	}
+	
+	bool XCB_DISCONNECT(void){
+		if(!XCB_CONNECTED){ return false; }
+		xcb_disconnect(XCON);
+		XCB_CON=0;
+		XCB_SCR=0;
+		XCB_SID=0;
+		XCB_ROOT=0;
+		XCB_CONNECTED=0;
+		return true;
+	}
+}

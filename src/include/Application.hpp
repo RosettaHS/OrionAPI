@@ -44,7 +44,7 @@
 /* The name of the User running this OApp. */
 #define OAPP_USERNAME    (Orion::OApp.username)
 /* The global scale of the UI of this OApp. */
-#define OAPP_SCALE     (Orion::OApp.scale)
+#define OAPP_SCALE       (Orion::OApp.scale)
 /* The process identifier of this OApp. */
 #define OAPP_PID         (Orion::OApp.pid)
 
