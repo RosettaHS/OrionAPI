@@ -79,6 +79,7 @@ namespace Orion{
 	#include <limits.h>
 
 	/* Core */
+	#include "errdefs.hpp"
 	#include "Application.hpp"
 
 	/* Sub-libraries */
@@ -87,19 +88,28 @@ namespace Orion{
 
 /* Service Functions */
 namespace Orion{
-	/*
-	* Starts the OrionAPI service. This is required to use any Orion UI elements. 
-	* Optionally you can pass a name for your application, and pass a boolean to force Orion-exclusivity.
-	*/
-	// extern bool OAppStart(const char* AppName=0,bool ForceONative=false);
+	/**
+	 * @brief Starts the OrionAPI Service. This is required to use any OrionUI Elements.
+	 * @param AppName The name of this Application. If this is non-zero, and the binary is not in an Orion-Native Application Structure,
+	 * OrionAPI will create a data storage folder using this name in the user's .local/share folder, allowing use of OrionAPI data directories for non-standard Applications.
+	 * @param AppIdentifier An identifier for this Application, used for Orion-Native IPC.
+	 * The format for this would be "mycompany.myapplication" or "mycompany.myproduct.myservice".
+	 * Example: "rosetta.orion.files"
+	 * @param ForceONative If this is true, the Application will immediately quit if the graphical service hasn't been initialised or binary is nnot in an Orion-Native Application Structure.
+	 * @return True on successful initialisation, otherwise false if service is already initialised.
+	 */
+	extern bool OAppStart(const char* AppName=0, const char* AppIdentifier=0,bool ForceONative=false);
 	/*
 	* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
 	* Blocks function execution until the service ends. Place this at the bottom of main().
 	*/
-	// extern bool OAppEnd(void);
 
-	/* Returns the current screen size. */
-	// extern OVec OScreenGetSize(void);
+	/**
+	 * @brief Blocks execution until the OrionAPI Graphical Service (OKit) ends, and once done, frees all memory allocated by OrionAPI, such as data directories.
+	 * Place this near the bottom of main().
+	 * @return True if service was running and was successfully closed, otherwise false if service was never running in the first place.
+	 */
+	extern bool OAppEnd(void);
 }
 
 

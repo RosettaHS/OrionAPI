@@ -23,32 +23,52 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_ERRDEFS_H__
-#define __ORIONAPI_ERRDEFS_H__
+#define ORION_INTERNAL
 
-/*
- * Each OrionAPI Sub-library has a defined error definition range.
- * Note that not all numbers from these ranges will be used, this is just
- * to easily differentiate which sub-library caused an error.
- **********************************
- ** Orion Errors    :  0 - 99    **
- ** OrionAPI Errors :  100 - 199 **
- ** OSL Errors      :  200 - 299 **
- ** OKit Errors     :  300 - 399 **
- **********************************
- */
- 
-/*** Orion Errors ***/
+#include "include/OrionAPI.hpp"
 
-/*** OrionAPI Errors ***/
+namespace Orion{
 
-#define OERR_NOTNATIVE      (100)
-#define OERR_INVALIDAPPNAME (101)
-#define OERR_INVALIDAPPID   (102)
+	bool OAppStart(const char* AppName, const char* AppIdentifier,bool ForceONative){
+		if(OAPP_RUNNING){ return false; }
+	/* First make sure the names and identifiers are valid. */
+		if(AppName){
+			size_t i=0;
+			while(AppName[i]!=0){
+				if(AppName[i]==' '){ OELog(OERR_INVALIDAPPNAME,true,"APPLICATION NAMES CANNOT HAVE SPACES!\n"); }
+				i++;
+			}
+		}
+		if(AppIdentifier){
+			size_t i=0;
+			while(AppIdentifier[i]!=0){
+				if(AppIdentifier[i]==' '){ OELog(OERR_INVALIDAPPID,true,"APPLICATION IDENTIFIERS CANNOT HAVE SPACES!\n"); }
+				i++;
+			}
+		}
+	/* If everything checks out, continue the initialisation process.. */
+		CAppInit(AppName,AppIdentifier);
+		if(ForceONative){
+			if(!OAPP_NATIVE){
+				OELog(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");
+			}
+			if(!OAPP_BINPATH || !OAPP_BINDIR|| !OAPP_DATAPATH ||
+			   !OAPP_STATICPATH || !OAPP_LIBPATH ||! OAPP_INTPATH){
+				OELog(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");
+			}
+		}
+		/* TODO: Add more stuff here once you've introduced most of OKit. */
+		XCB_CONNECT();
+		OAPP_RUNNING=true;
+		return true;
+	}
 
-/*** OSL Errors ***/
-
-/*** OKit Errors ***/
-
-
-#endif /* !__ORIONAPI_ERRDEFS_H__ */
+	bool OAppEnd(void){
+		if(!OAPP_RUNNING){ return false; }
+		CAppWipe();
+		/* TODO: Add more stuff here once you've introduced most of OKit. */
+		XCB_DISCONNECT();
+		OAPP_RUNNING=false;
+		return true;
+	}
+}

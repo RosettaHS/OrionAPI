@@ -12,14 +12,14 @@ sharedMinimal:
 	$(CC) $(FLAGS) -fPIC -c src/OSL/*.cpp
 	$(CC) $(FLAGS) -fPIC -c src/OKit/*.cpp $(OKITLIBS)
 	
-	$(CC) $(FLAGS) -shared -fPIC $(BINS) -o $(LIBNAME) $(LIBS)
+	$(CC) $(FLAGS) -shared -fPIC $(BINS) -o $(LIBNAME) $(OKITLIBS)
 
 shared:
 	$(CC) $(FLAGS) -fPIC -O2 -c src/*.cpp
 	$(CC) $(FLAGS) -fPIC -O2 -c src/OSL/*.cpp
 	$(CC) $(FLAGS) -fPIC -c src/OKit/*.cpp $(OKITLIBS)
 	
-	$(CC) $(FLAGS) -shared -fPIC -O2 $(BINS) -o $(LIBNAME) $(LIBS)
+	$(CC) $(FLAGS) -shared -fPIC -O2 $(BINS) -o $(LIBNAME) $(OKITLIBS)
 	strip --strip-all $(LIBNAME)
 
 clean:

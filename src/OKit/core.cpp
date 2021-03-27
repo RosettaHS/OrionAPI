@@ -30,6 +30,12 @@
 #include "../include/OKit/core.hpp"
 
 namespace Orion{
+	void*    XCB_CON=0;
+	void*    XCB_SCR=0;
+	int      XCB_SID=0;
+	uint32_t XCB_ROOT=0;
+	bool     XCB_CONNECTED=0;
+
 	bool XCB_CONNECT(void){
 		if(XCB_CONNECTED){ return false; }
 		XCB_CON=xcb_connect(0,&XCB_SID);
