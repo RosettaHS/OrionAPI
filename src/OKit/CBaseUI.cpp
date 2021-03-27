@@ -23,15 +23,13 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OSL_COMMON_H__
-#define __ORIONAPI_OSL_COMMON_H__
+#include "../include/OKit/CBaseUI.hpp"
 
-#include <sys/types.h>
-#include <stdint.h>
-#include <limits.h>
-#include "../errdefs.hpp"
-
-/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
-#define MAXCONST static constexpr const
-
-#endif /* !__ORIONAPI_OSL_COMMON_H__ */
+namespace Orion{
+	const char* CBaseUI::getTypeAsString(void){
+		switch(type){
+			case OUI_ERROR:{ return "OUI_ERROR"; }
+		}
+		return 0;
+	}
+}

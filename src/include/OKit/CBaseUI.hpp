@@ -23,15 +23,29 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OSL_COMMON_H__
-#define __ORIONAPI_OSL_COMMON_H__
+#ifndef __ORIONAPI_OKIT_CBASEUI_H__
+#define __ORIONAPI_OKIT_CBASEUI_H__
 
-#include <sys/types.h>
-#include <stdint.h>
-#include <limits.h>
-#include "../errdefs.hpp"
+#include "common.hpp"
 
-/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
-#define MAXCONST static constexpr const
+namespace Orion{
+	/* An enumeration of OrionUI (OKit) Elements. */
+	enum OUIType{
+		OUI_ERROR
+	};
 
-#endif /* !__ORIONAPI_OSL_COMMON_H__ */
+	class CBaseUI{
+		public:
+			/* The type of this Element. */
+			OUIType type;
+
+			/**
+			 * @brief Returns the type of this Element as a String.
+			 * @return A String version of the given OUIType value corrisponding to this Element.
+			 * For example: if the Element's Type is OUI_OWINDOW, this will return "OUI_OWINDOW" as a String. Good for easily readable debug logs.
+			 */
+			const char* getTypeAsString(void);
+	};
+}
+
+#endif /* !__ORIONAPI_OKIT_CBASEUI_H__ */

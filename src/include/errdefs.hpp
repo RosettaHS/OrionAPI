@@ -23,15 +23,28 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OSL_COMMON_H__
-#define __ORIONAPI_OSL_COMMON_H__
+#ifndef __ORIONAPI_ERRDEFS_H__
+#define __ORIONAPI_ERRDEFS_H__
 
-#include <sys/types.h>
-#include <stdint.h>
-#include <limits.h>
-#include "../errdefs.hpp"
+/*
+ * Each OrionAPI Sub-library has a defined error definition range.
+ * Note that not all numbers from these ranges will be used, this is just
+ * to easily differentiate which sub-library caused an error.
+ **********************************
+ ** Orion Errors    :  0 - 99    **
+ ** OrionAPI Errors :  100 - 199 **
+ ** OSL Errors      :  200 - 299 **
+ ** OKit Errors     :  300 - 399 **
+ **********************************
+ */
+ 
+/*** Orion Errors ***/
 
-/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
-#define MAXCONST static constexpr const
+/*** OrionAPI Errors ***/
 
-#endif /* !__ORIONAPI_OSL_COMMON_H__ */
+/*** OSL Errors ***/
+
+/*** OKit Errors ***/
+
+
+#endif /* !__ORIONAPI_ERRDEFS_H__ */

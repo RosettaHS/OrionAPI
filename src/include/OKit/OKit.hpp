@@ -23,15 +23,16 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OSL_COMMON_H__
-#define __ORIONAPI_OSL_COMMON_H__
+/* OKit - The Window Widget Toolkit for the Orion Operating System */
 
-#include <sys/types.h>
-#include <stdint.h>
-#include <limits.h>
-#include "../errdefs.hpp"
+#ifndef __ORIONAPI_OKIT_H__
+#define __ORIONAPI_OKIT_H__
 
-/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
-#define MAXCONST static constexpr const
+/*** Core ***/
+#include "common.hpp"
+#include "CBaseUI.hpp"
+/*** Control Elements ***/
 
-#endif /* !__ORIONAPI_OSL_COMMON_H__ */
+/*** Final Elements ***/
+
+#endif /* !__ORIONAPI_OKIT_H__ */

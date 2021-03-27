@@ -23,15 +23,14 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OSL_COMMON_H__
-#define __ORIONAPI_OSL_COMMON_H__
+#ifndef __ORIONAPI_OKIT_COMMON_H__
+#define __ORIONAPI_OKIT_COMMON_H__
 
-#include <sys/types.h>
-#include <stdint.h>
-#include <limits.h>
 #include "../errdefs.hpp"
+#include "../OSL/OLog.hpp"
 
-/* Used for making a definable constant nearly as efficient as a preprocessor #define. */
-#define MAXCONST static constexpr const
+namespace Orion{
+	
+}
 
-#endif /* !__ORIONAPI_OSL_COMMON_H__ */
+#endif /* !__ORIONAPI_OKIT_COMMON_H__ */

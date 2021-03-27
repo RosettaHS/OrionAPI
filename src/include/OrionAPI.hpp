@@ -83,6 +83,7 @@ namespace Orion{
 
 	/* Sub-libraries */
 	#include "OSL/OSL.hpp"
+	#include "OKit/OKit.hpp"
 
 /* Service Functions */
 namespace Orion{
