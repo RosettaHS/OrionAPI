@@ -32,6 +32,7 @@
 namespace Orion{
 /*** Directory Information ***/
 
+	/* An enumeration of possible actions for opening a given Directory. */
 	enum ODirectoryAction : char{
 		/* Open an existing Directory for reading its contents. */
 		ODIR_OPEN,
@@ -43,6 +44,7 @@ namespace Orion{
 
 /** Directory Entry **/
 
+	/* An enumeration of possible types for a given DirectoryEntry. */
 	enum ODEType : char{
 		ODT_UNKNOWN=-1,
 		ODT_ERROR,
@@ -53,31 +55,69 @@ namespace Orion{
 		ODT_PIPE,
 	};
 
+	/* An item of a given Directory. */
 	struct ODirectoryEntry{
+		/* The type of this Entry. */
 		ODEType type;
+		/* The name of this Entry. */
 		char*   name;
 
+		/* Empty constructor. Sets all values to 0. */
 		ODirectoryEntry(void);
 	};
 
 /*** Abstractive Directory handling ***/
 
+	/* An Orion-Native implementation for easily accessing Directories. */
 	class ODirectory{
 		protected:
+			/* The action used to open this Directory. */
 			ODirectoryAction action;
+			/* The absolute path to this Directory. */
 			char* path;
+			/* The name of this Directory. */
 			char* name;
+			/* A struct containing internal information used to access and interface with this Directory. */
 			struct{
+				/* The C DIR struct used for this Directory. */
 				void* RAW;
 			}CDIR;
+			/* An array of DirectoryEntries for this Directory. */
 			ODirectoryEntry* items;
+			/* The count of entries in this Directory. */
 			size_t           itemCount;
 
+			/* Internal. Initialises information regarding this Directory. Called by open(). */
 			void init(void);
 		public:
+			/* Empty constructor. Sets all values to 0. */
 			ODirectory(void);
+
+			/**
+			 * @brief Opens the given Directory relative to the OApp's working directory with the given action.
+			 * @param directory The name/path (absolute or relative) of the Directory to either open or create.
+			 * @param action The action to access the Directory with.
+			 * By default, this is ODIR_AUTO, meaning if the Directory exists it will attempt to open it and read its contents.
+			 * If it does not exist, it will be created.
+			 * See also: ODIR_OPEN, ODIR_NEW
+			 * @return True if the Directory could be successfully opened or created, otherwise false.
+			 */
 			bool open(const char* directory, ODirectoryAction action=ODIR_AUTO); ODirectory(const char* directory, ODirectoryAction action=ODIR_AUTO);
+			/**
+			 * @brief Opens the Sub-Directory relative to the given Directory with the given action.
+			 * @param parentDirectory A path to a Directory (absolute or relative) to attempt to search for the Sub-Directory in.
+			 * @param subDirectory The name of the Sub-Directory to either open or create relative to the given Directory.
+			 * @param action The action to access the Sub-Directory with.
+			 * By default, this is ODIR_AUTO, meaning if the Sub-Directory exists it will attempt to open it and read its contents.
+			 * If it does not exist, it will be created.
+			 * See also: ODIR_OPEN, ODIR_NEW
+			 * @return True if the Directory could be successfully opened or created, otherwise false.
+			 */
 			bool open(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO); ODirectory(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
+			/**
+			 * @brief Closes the Directory and frees all associated memory.
+			 * @return True if the Directory could be successfully closed, otherwise false if either the Directory could not be closed, or it was never open to begin with.
+			 */
 			bool close(void);
 	};
 
