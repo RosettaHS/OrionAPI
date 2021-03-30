@@ -23,33 +23,66 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_ERRDEFS_H__
-#define __ORIONAPI_ERRDEFS_H__
+#ifndef __ORION_OSL_ODIRECTORY_H__
+#define __ORION_OSL_ODIRECTORY_H__
 
-/*
- * Each OrionAPI Sub-library has a defined error definition range.
- * Note that not all numbers from these ranges will be used, this is just
- * to easily differentiate which sub-library caused an error.
- **********************************
- ** Orion Errors    :  0 - 99    **
- ** OrionAPI Errors :  100 - 199 **
- ** OSL Errors      :  200 - 299 **
- ** OKit Errors     :  300 - 399 **
- **********************************
- */
- 
-/*** Orion Errors ***/
+#include "common.hpp"
+#include "OLog.hpp"
 
-/*** OrionAPI Errors ***/
+namespace Orion{
+/*** Directory Information ***/
 
-#define OERR_NOTNATIVE      (100)
-#define OERR_INVALIDAPPNAME (101)
-#define OERR_INVALIDAPPID   (102)
-#define OERR_CANTMALLOC     (103)
+/** Directory Entry **/
 
-/*** OSL Errors ***/
+	enum ODEType : char{
+		ODT_UNKNOWN=-1,
+		ODT_ERROR,
+		ODT_DIR,
+		ODT_FILE,
+		ODT_SYML,
+		ODT_SOCKET,
+		ODT_PIPE,
+	};
 
-/*** OKit Errors ***/
+	struct ODirectoryEntry{
+		ODEType type;
+		char*   name;
 
+		ODirectoryEntry(void);
+	};
 
-#endif /* !__ORIONAPI_ERRDEFS_H__ */
+/*** Abstractive Directory handling ***/
+
+	class ODirectory{
+		protected:
+			struct{
+				void* RAW;
+			}CDIR;
+			ODirectoryEntry* items;
+			size_t           itemCount;
+
+			void init(void);
+		public:
+			ODirectory(void);
+			bool open(const char* directory);
+	};
+
+/*** Generic Directory actions ***/
+
+	/**
+	 * @brief Does the given Directory exist relative to the OApp's working directory?
+	 * @param directory The name/path (absolute or relative) of the Directory to check.
+	 * @return True if the Directory exists at the location, otherwise false.
+	 */
+	extern bool ODirectoryExists(const char* directory);
+	/**
+	 * @brief Does the Sub-Directory exist relative to the given Directory? 
+	 * @param parentDirectory A path (absolute or relative) to attempt to search for the Sub-Directory in.
+	 * @param subDirectory The name/path of the Sub-Directory to check relative to the given Directory.
+	 * @return True if the Sub-Directory exists at the location, otherwise false.
+	 */
+	extern bool ODirectoryExists(const char* parentDirectory, const char* subDirectory);
+
+}
+
+#endif /* !__ORION_OSL_ODIRECTORY_H__ */

@@ -33,5 +33,6 @@
 #include "OString.hpp"
 #include "OMath.hpp"
 #include "OFile.hpp"
+#include "ODirectory.hpp"
 
 #endif /* !__ORIONAPI_OSL_H__ */
