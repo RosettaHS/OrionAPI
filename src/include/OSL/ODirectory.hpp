@@ -69,7 +69,7 @@ namespace Orion{
 /*** Abstractive Directory handling ***/
 
 	/* An Orion-Native implementation for easily accessing Directories. */
-	class ODirectory{
+	class ODirectory : CLoggable{
 		protected:
 			/* The action used to open this Directory. */
 			ODirectoryAction action;
@@ -119,6 +119,13 @@ namespace Orion{
 			 * @return True if the Directory could be successfully closed, otherwise false if either the Directory could not be closed, or it was never open to begin with.
 			 */
 			bool close(void);
+
+			/**
+			 * @brief Logs the information of this Directory to the terminal.
+			 * @param verbose Log verbose information about this Directory instead of the traditional information. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
+			 */
+			virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 /*** Generic Directory actions ***/

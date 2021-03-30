@@ -179,6 +179,21 @@ namespace Orion{
 		return false;
 	}
 
+	/** Getters/misc ops **/
+
+	void ODirectory::log(bool verbose, bool newLine){
+		if(verbose){
+			OLog("Directory : %s  | File Count : %lu",path, itemCount);
+			if(newLine){ fputc('\n',stdout); }
+		}else{
+			OLog("%s:\n",name);
+		/* Log the sub-directories first. */
+			for(size_t i=0;i<itemCount;i++){ if(items[i].type==ODT_DIR){ OLog("\t%s\n",items[i].name); } }
+			for(size_t i=0;i<itemCount;i++){ if(items[i].type!=ODT_DIR){ OLog("\t%s\n",items[i].name); } }
+			/* No newline is not applicable... */
+		}
+	}
+
 /*** Generic Directory actions ***/
 	bool ODirectoryExists(const char* directory){
 		if(directory){
