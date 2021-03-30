@@ -32,6 +32,15 @@
 namespace Orion{
 /*** Directory Information ***/
 
+	enum ODirectoryAction : char{
+		/* Open an existing Directory for reading its contents. */
+		ODIR_OPEN,
+		/* Creates a Directory if it does not exist, then opens it. */
+		ODIR_NEW,
+		/* Automatically opens a Directory, or creates a Directory (then opens it) given on the availability of the Directory. */
+		ODIR_AUTO
+	};
+
 /** Directory Entry **/
 
 	enum ODEType : char{
@@ -55,6 +64,9 @@ namespace Orion{
 
 	class ODirectory{
 		protected:
+			ODirectoryAction action;
+			char* path;
+			char* name;
 			struct{
 				void* RAW;
 			}CDIR;
@@ -64,7 +76,9 @@ namespace Orion{
 			void init(void);
 		public:
 			ODirectory(void);
-			bool open(const char* directory);
+			bool open(const char* directory, ODirectoryAction action=ODIR_AUTO); ODirectory(const char* directory, ODirectoryAction action=ODIR_AUTO);
+			bool open(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO); ODirectory(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
+			bool close(void);
 	};
 
 /*** Generic Directory actions ***/

@@ -29,11 +29,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/stat.h>
 #include "../include/OSL/OString.hpp"
 #include "../include/OSL/OFile.hpp"
 #include "../include/OSL/ODirectory.hpp"
 
 #define TODIR(x) ((DIR*)x)
+#define _MKDIRARG ( S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH )
 
 namespace Orion{
 /*** Internal ***/
@@ -52,27 +54,48 @@ namespace Orion{
 
 /*** Directory class definitions ***/
 	ODirectoryEntry::ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
-	ODirectory::ODirectory(void) : CDIR{0}, items{0}, itemCount{0} {}
+	ODirectory::ODirectory(void) :
+		action{ODIR_AUTO}, path{0}, name{0},
+		CDIR{0}, items{0}, itemCount{0}
+	{}
+	ODirectory::ODirectory(const char* directory, ODirectoryAction _action) :
+		action{ODIR_AUTO}, path{0}, name{0},
+		CDIR{0}, items{0}, itemCount{0}
+	{ open(directory,_action); }
+	ODirectory::ODirectory(const char* parentDirectory, const char* subDirectory, ODirectoryAction _action) :
+		action{ODIR_AUTO}, path{0}, name{0},
+		CDIR{0}, items{0}, itemCount{0}
+	{ open(parentDirectory,subDirectory,_action); }
 
 	/* Initialisation */
 #define ODIR_BASECOUNT 2 /* All directories (seem) to have 2 extra entries, and this must be taken into account. */
 	void ODirectory::init(void){
+	/* Store some misc data regarding this Directory. */
+		size_t pathL=OStringLength(path);
+		size_t namePos;
+		size_t nameL;
+		namePos=OStringFindLast(path,"/")+1;
+		nameL=(pathL-namePos);
+		if((namePos-1)!=OSTRING_NOTFOUND){
+			if(name){ free(name); name=0; }
+			else{ name=(char*)malloc(sizeof(char)*(nameL+1)); }
+			for(size_t i=namePos;i<pathL;i++){ name[i-namePos]=path[i]; }
+			name[nameL]=0;
+		}
 	/* First calculate the number of items in the Directory. */
 		itemCount=0;
 		dirent* tmp=0;
 		while(true){
 			tmp=readdir(TODIR(CDIR.RAW));
-			if(tmp){ OLog("read entry : count=%d | entry name=%s\n",itemCount,tmp->d_name); itemCount++; }
+			if(tmp){ itemCount++; }
 			else{ break; }
 		}
 		itemCount-=ODIR_BASECOUNT; /* Subtract 2 because the current and previous directories ( "." & ".." ) are evaluated. */
-OLog("finished eval. count=%d\n",itemCount);
 		rewinddir(TODIR(CDIR.RAW));
 	/* Store an array of DirectoryEntries */
 		if(itemCount){ items=(ODirectoryEntry*)malloc(sizeof(ODirectoryEntry)*itemCount); }
 		else         { items=0; }
 		for(size_t i=0;i<itemCount;i++){
-ODLog("loop\n");
 			tmp=readdir(TODIR(CDIR.RAW));
 			if(tmp){
 			/*/
@@ -80,16 +103,11 @@ ODLog("loop\n");
 			 * TODO: Make this a bit quicker? String comparison is fat and intensive.
 			/*/
 				if(OStringCompare(tmp->d_name, ".") || OStringCompare(tmp->d_name, "..")){ i--; continue; }
-ODLog("scan2 | index %lu reading %s\n",i,tmp->d_name);
 			/* Store the name. */
 				size_t l=OStringLength(tmp->d_name);
-ODLog("got name length\n");
 				items[i].name=(char*)malloc(l+1);
-ODLog("allocated name\n");
 				for(size_t j=0;j<l;j++){ items[i].name[j]=tmp->d_name[j]; }
-ODLog("set name\n");
 				items[i].name[l]=0;
-ODLog("name stored\n");
 			/* Store the type. */
 				switch(tmp->d_type){
 					default:         { items[i].type=ODT_UNKNOWN; break; }
@@ -100,30 +118,65 @@ ODLog("name stored\n");
 					case DT_SOCK:    { items[i].type=ODT_SOCKET; break; }
 					case DT_FIFO:    { items[i].type=ODT_PIPE; break; }
 				}
-ODLog("type stored\n");
 			}else{ OELog(OERR_CANTMALLOC,true,"FAILED TO ALLOCATE MEMORY FOR DIRECTORY ENTRY!\n"); }
 			/* ^? [Citation Needed] I presume this would be the cause for failure, considering we scanned it fine initially. */
 		}
 		rewinddir(TODIR(CDIR.RAW));
-OLog("-----------finished-----------\n");
-	/* DEBUG: Log the contents. */
-		for(size_t i=0;i<itemCount;i++){
-			ODLog("Entry %lu - %s\n",i,items[i].name);
-		}
 	}
 
-	bool ODirectory::open(const char* directory){
+	/** Opening **/
+	bool ODirectory::open(const char* directory, ODirectoryAction _action){
 		if(!directory){ return false; }
-		if(CDIR.RAW){ /* Do freeing first */ }
+		if(CDIR.RAW){ close(); }
+		action=_action;
 
-		CDIR.RAW=opendir(directory);
+		switch(action){
+			case ODIR_OPEN: { CDIR.RAW=opendir(directory); break; }
+			case ODIR_NEW:  { mkdir(directory, _MKDIRARG); CDIR.RAW=opendir(directory); break; }
+			case ODIR_AUTO: {
+				if(ODirectoryExists(directory)){ CDIR.RAW=opendir(directory); }
+				else{ mkdir(directory, _MKDIRARG); CDIR.RAW=opendir(directory); }
+				break;
+			}
+		}
+
 		if(CDIR.RAW){
+			path=realpath(directory,0);
 			init();
 			return true;
 		}else{
-			
+			path=0;
+			name=0;
+			items=0;
+			itemCount=0;
 			return false;
 		}
+	}
+	bool ODirectory::open(const char* parentDirectory, const char* subDirectory, ODirectoryAction _action){
+		if(!parentDirectory || !subDirectory){ return false; }
+		char* tmp=concat(parentDirectory,subDirectory);
+		if(tmp){
+			bool result=open(tmp,_action);
+			free(tmp);
+			return result;
+		}else{ return false; }
+	}
+
+	/** Closing **/
+	bool ODirectory::close(void){
+		if(CDIR.RAW){
+			if(!closedir(TODIR(CDIR.RAW))){
+				if(path){ free(path); }
+				if(name){ free(name); }
+				if(items){ for(size_t i=0;i<itemCount;i++){ free(items[i].name); } }
+				path=0;
+				name=0;
+				items=0;
+				itemCount=0;
+				return true;
+			}
+		}
+		return false;
 	}
 
 /*** Generic Directory actions ***/
