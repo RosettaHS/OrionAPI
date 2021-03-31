@@ -84,22 +84,30 @@ namespace Orion{
 	/* Since this can be called through some other methods, we need to be able to skip this intensive stuff if it's already been done. */
 		if(!skipEval){
 		/* Initialise file content characteristics */
-			contents.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
-			contents.charCount=0;
-			contents.lines=0;
-			contents.modified=0;
 			OFileHash tmpHash=0;
 			int c;
-		/*
-		 * Sloppily generate a simplistic hash from the sum of the square of bytes of this File in numeric form.
-		 * It is quite sloppy, but it's really fast and only used for internal comparison between Files.
-		 */
-			while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
-				tmpHash+=((char)c*(char)c);
-				if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
+			if(flags.storeLinearly){
+				contents.asLinear.byteCount=0;
+				contents.asLinear.bytes=0;
+				contents.modified=0;
+				while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
+					tmpHash+=((char)c*(char)c);
+					contents.asLinear.byteCount++;
+				}
+				hash=tmpHash/2;
+				size=contents.asLinear.byteCount;
+			}else{
+				contents.asLines.lineCount=1; /* All files have at least one line, although this makes iteration confusing. */
+				contents.asLines.charCount=0;
+				contents.asLines.list=0;
+				contents.modified=0;
+				while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
+					tmpHash+=((char)c*(char)c);
+					if((char)c=='\n'){ contents.asLines.lineCount++; }else{ contents.asLines.charCount++; }
+				}
+				hash=tmpHash/2;
+				size=contents.asLines.charCount+(contents.asLines.lineCount-1);
 			}
-			hash=tmpHash/2;
-			size=contents.charCount+(contents.lineCount-1);
 			rewind(TOFILE(CFILE.RAW));
 		}
 	/* If this File cares about misc data, allocate and initalise them. */
@@ -155,54 +163,91 @@ namespace Orion{
 #define TMPLINELENGTH 1024
 #define TMPLINESTEP   256
 	bool OFile::storeToMem(void){
-	/* Completely skip all of this if we either don't have a File opened, or the File has already been stored to memory. */
-		if(CFILE.RAW && contents.lines==0){
-		/* Store some variables we'll use later. */
-			int    c=0;
-			size_t l=0, i=0;
-		/* First check if the File's Line count has been determined, if not, determine it here. */
-			rewind(TOFILE(CFILE.RAW));
-			if(!contents.lineCount){
-				contents.lineCount=1;
-				contents.charCount=0;
-				OFileHash tmpHash=0;
-				while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
-					tmpHash+=((char)c*(char)c);
-					if((char)c=='\n'){ contents.lineCount++; }else{ contents.charCount++; }
+	/* Completely skip all of this if we don't have a File opened. */
+		if(CFILE.RAW){
+			contents.isLinear=flags.storeLinearly;
+			if(contents.isLinear){ /* If data is to be stored linearly. */
+			/* Skip storing to memory if we've already stored this File to memory. */
+				if(contents.asLinear.bytes) { return false; }
+			/* Store some variables we'll use later. */
+				int    c=0;
+				size_t i=0;
+			/* First check if the File's byte count has been determined, if not, determine it here. */
+				if(!contents.asLinear.byteCount){
+					contents.asLinear.byteCount=0;
+					contents.asLinear.bytes=0;
+					contents.modified=0;
+					OFileHash tmpHash=0;
+					while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
+						tmpHash+=((char)c*(char)c);
+						contents.asLinear.byteCount++;
+					}
+					hash=tmpHash/2;
+					size=contents.asLinear.byteCount;
 				}
-				hash=tmpHash/2;
-				size=contents.charCount+(contents.lineCount-1);
 				rewind(TOFILE(CFILE.RAW));
-			}
-			contents.lines=(OFileLine*)malloc(sizeof(OFileLine)*(contents.lineCount));
-			for(size_t i=0;i<contents.lineCount;i++){ contents.lines[i]={0,0}; }
-		/* Search and save each Line. */
-			unsigned char* tmp=(unsigned char*)malloc(TMPLINELENGTH);
-			size_t         tmpL=TMPLINELENGTH;
-			if(!tmp){ return false; }
-			while(true){
-				c=fgetc(TOFILE(CFILE.RAW));
-				if(c=='\n' || c==EOF){
-					contents.lines[l]={ i, (unsigned char*)malloc( (i+1) ) };
-					if(contents.lines[l]){
-						for(size_t j=0;j<i;j++){ contents.lines[l].str[j]=tmp[j]; }
-						contents.lines[l].str[i]=0;
-					}
-					i=0; l++;
-					if(c==EOF){ break; }
-				}else{
-					if(i<tmpL){ tmp[i]=c; }
-					else{
-						tmpL+=TMPLINESTEP;
-						tmp=(unsigned char*)realloc(tmp,tmpL);
-					}
-					i++;
+				if(!contents.asLinear.byteCount){ return false; }
+				contents.asLinear.bytes=(char*)malloc(contents.asLinear.byteCount);
+			/* Search and save each byte. */
+				while(true){
+					c=fgetc(TOFILE(CFILE.RAW));
+					if(c==EOF){
+						break;
+					}else{ contents.asLinear.bytes[i]=c; i++; }
 				}
+				/* Clean-up and return. */
+				rewind(TOFILE(CFILE.RAW));
+				return true;
+			}else{ /* If data is to be stored on separate Lines. */
+			/* Skip storing to memory if we've already stored this File to memory. */
+				if(contents.asLines.list)   { return false; }
+			/* Store some variables we'll use later. */
+				int    c=0;
+				size_t l=0, i=0;
+			/* First check if the File's Line count has been determined, if not, determine it here. */
+				rewind(TOFILE(CFILE.RAW));
+				if(!contents.asLines.lineCount){
+					contents.asLines.lineCount=1;
+					contents.asLines.charCount=0;
+					OFileHash tmpHash=0;
+					while( (c=fgetc(TOFILE(CFILE.RAW)))!=EOF ){
+						tmpHash+=((char)c*(char)c);
+						if((char)c=='\n'){ contents.asLines.lineCount++; }else{ contents.asLines.charCount++; }
+					}
+					hash=tmpHash/2;
+					size=contents.asLines.charCount+(contents.asLines.lineCount-1);
+				}
+				rewind(TOFILE(CFILE.RAW));
+				contents.asLines.list=(OFileLine*)malloc(sizeof(OFileLine)*(contents.asLines.lineCount));
+				for(size_t i=0;i<contents.asLines.lineCount;i++){ contents.asLines.list[i]={0,0}; }
+			/* Search and save each Line. */
+				unsigned char* tmp=(unsigned char*)malloc(TMPLINELENGTH);
+				size_t         tmpL=TMPLINELENGTH;
+				if(!tmp){ return false; }
+				while(true){
+					c=fgetc(TOFILE(CFILE.RAW));
+					if(c=='\n' || c==EOF){
+						contents.asLines.list[l]={ i, (unsigned char*)malloc( (i+1) ) };
+						if(contents.asLines.list[l]){
+							for(size_t j=0;j<i;j++){ contents.asLines.list[l].str[j]=tmp[j]; }
+							contents.asLines.list[l].str[i]=0;
+						}
+						i=0; l++;
+						if(c==EOF){ break; }
+					}else{
+						if(i<tmpL){ tmp[i]=c; }
+						else{
+							tmpL+=TMPLINESTEP;
+							tmp=(unsigned char*)realloc(tmp,tmpL);
+						}
+						i++;
+					}
+				}
+			/* Clean-up and return. */
+				rewind(TOFILE(CFILE.RAW));
+				free(tmp);
+				return true;
 			}
-		/* Clean-up and return. */
-			rewind(TOFILE(CFILE.RAW));
-			free(tmp);
-			return true;
 		}
 		return false;
 	}
@@ -210,18 +255,18 @@ namespace Orion{
 	/** Constructors **/
 	OFile::OFile(void) :
 		type{OFT_ERROR},action{OFILE_AUTO},
-		contents{0,0,0,0},hash{0},size{0},
-		name{0},path{0},ext{0},CFILE{0,0},flags{1,1,1}
+		contents{0,0,0,0,0},hash{0},size{0},
+		name{0},path{0},ext{0},CFILE{0,0},flags{1,0,1,1}
 		{}
 	OFile::OFile(const char* filename, OFileAction _action) :
 		type{OFT_ERROR},action{OFILE_AUTO},
-		contents{0,0,0,0},hash{0},size{0},
-		name{0},path{0},ext{0},CFILE{0,0},flags{1,1,1}
+		contents{0,0,0,0,0},hash{0},size{0},
+		name{0},path{0},ext{0},CFILE{0,0},flags{1,0,1,1}
 		{ open(filename,_action); }
 	OFile::OFile(const char* directory, const char* filename, OFileAction _action) :
 		type{OFT_ERROR},action{OFILE_AUTO},
-		contents{0,0,0,0},hash{0},size{0},
-		name{0},path{0},ext{0},CFILE{0,0},flags{1,1,1}
+		contents{0,0,0,0,0},hash{0},size{0},
+		name{0},path{0},ext{0},CFILE{0,0},flags{1,0,1,1}
 		{ open(directory,filename,_action); }
 
 	/** Opening **/
@@ -253,9 +298,14 @@ namespace Orion{
 			return true;
 		}else{ 
 			type=OFT_ERROR;
-			contents.lineCount=0;
-			contents.charCount=0;
-			contents.lines=0;
+			if(contents.isLinear){
+				contents.asLinear.byteCount=0;
+				contents.asLinear.bytes=0;
+			}else{
+				contents.asLines.lineCount=0;
+				contents.asLines.charCount=0;
+				contents.asLines.list=0;
+			}
 			contents.modified=false;
 			hash=0;
 			name=0;
@@ -282,14 +332,20 @@ namespace Orion{
 			if(name) { free(name); }
 			if(path) { free(path); }
 			if(ext)  { free(ext); }
-			if(contents.lines){
-				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
-				free(contents.lines);
+			if(contents.isLinear){
+				if(contents.asLinear.bytes){ free(contents.asLinear.bytes); }
+				contents.asLinear.byteCount=0;
+				contents.asLinear.bytes=0;
+			}else{
+				if(contents.asLines.list){
+					for(size_t i=0;i<contents.asLines.lineCount;i++){ if(contents.asLines.list[i].str){ free(contents.asLines.list[i].str); } }
+					free(contents.asLines.list);
+				}
+				contents.asLines.lineCount=0;
+				contents.asLines.charCount=0;
+				contents.asLines.list=0;
 			}
 			type=OFT_ERROR;
-			contents.lineCount=0;
-			contents.charCount=0;
-			contents.lines=0;
 			contents.modified=false;
 			hash=0;
 			name=0;
@@ -309,11 +365,15 @@ namespace Orion{
 		if(contents.modified){
 			FILE* F=fopen(path,"w");
 			if(F){
-				for(size_t i=0;i<contents.lineCount;i++){
-					for(size_t j=0;j<contents.lines[i].length;j++){
-						fputc(contents.lines[i].str[j],F);
+				if(contents.isLinear){
+					for(size_t i=0;i<contents.asLinear.byteCount;i++){ fputc(contents.asLinear.bytes[i],F); }
+				}else{
+					for(size_t i=0;i<contents.asLines.lineCount;i++){
+						for(size_t j=0;j<contents.asLines.list[i].length;j++){
+							fputc(contents.asLines.list[i].str[j],F);
+						}
+						if(i!=contents.asLines.lineCount-1){ fputc('\n',F); }
 					}
-					if(i!=contents.lineCount-1){ fputc('\n',F); }
 				}
 				fclose(F);
 				contents.modified=false;
@@ -329,11 +389,15 @@ namespace Orion{
 		if(CFILE.RAW){
 			FILE* F=fopen(file,"w");
 			if(F){
-				for(size_t i=0;i<contents.lineCount;i++){
-					for(size_t j=0;j<contents.lines[i].length;j++){
-						fputc(contents.lines[i].str[j],F);
+				if(contents.isLinear){
+					for(size_t i=0;i<contents.asLinear.byteCount;i++){ fputc(contents.asLinear.bytes[i],F); }
+				}else{
+					for(size_t i=0;i<contents.asLines.lineCount;i++){
+						for(size_t j=0;j<contents.asLines.list[i].length;j++){
+							fputc(contents.asLines.list[i].str[j],F);
+						}
+						if(i!=contents.asLines.lineCount-1){ fputc('\n',F); }
 					}
-					if(i!=contents.lineCount-1){ fputc('\n',F); }
 				}
 				fclose(F);
 				return true;
@@ -379,11 +443,16 @@ namespace Orion{
 	/* Resetting any modifications. */
 	bool OFile::reset(void){
 		if(TOFILE(CFILE.RAW) && contents.modified){
-			if(contents.lines){
-				for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
-				free(contents.lines);
+			if(contents.isLinear){
+				if(contents.asLinear.bytes){ free(contents.asLinear.bytes); }
+				contents.asLinear.bytes=0;
+			}else{
+				if(contents.asLines.list){
+					for(size_t i=0;i<contents.asLines.lineCount;i++){ if(contents.asLines.list[i].str){ free(contents.asLines.list[i].str); } }
+					free(contents.asLines.list);
+				}
+				contents.asLines.list=0;
 			}
-			contents.lines=0;
 			init(false);
 			contents.modified=false;
 			return true;
@@ -398,14 +467,20 @@ namespace Orion{
 				if(name) { free(name); }
 				if(path) { free(path); }
 				if(ext)  { free(ext); }
-				if(contents.lines){
-					for(size_t i=0;i<contents.lineCount;i++){ if(contents.lines[i].str){ free(contents.lines[i].str); } }
-					free(contents.lines);
+				if(contents.isLinear){
+					if(contents.asLinear.bytes){ free(contents.asLinear.bytes); }
+					contents.asLinear.byteCount=0;
+					contents.asLinear.bytes=0;
+				}else{
+					if(contents.asLines.list){
+						for(size_t i=0;i<contents.asLines.lineCount;i++){ if(contents.asLines.list[i].str){ free(contents.asLines.list[i].str); } }
+						free(contents.asLines.list);
+					}
+					contents.asLines.lineCount=0;
+					contents.asLines.charCount=0;
+					contents.asLines.list=0;
 				}
 				type=OFT_ERROR;
-				contents.lineCount=0;
-				contents.charCount=0;
-				contents.lines=0;
 				contents.modified=false;
 				hash=0;
 				name=0;
@@ -421,31 +496,32 @@ namespace Orion{
 
 	/* Setting a specific line. TODO: Reintroduce error messages with new error system. */
 	bool OFile::setLine(size_t line, const char* newText){
-		if(CFILE.RAW && contents.lines){
+		if(contents.isLinear){ return false; } /* Can't set lines if they're not stored as lines. */
+		if(CFILE.RAW && contents.asLines.list){
 			if(action==OFILE_OPEN_READONLY){ return false; }
 		/* Checks if the given Line is actually available, and if not, resize the File for it to be available. */
-			if(line>=contents.lineCount){
-				contents.lines=(OFileLine*)realloc(contents.lines,sizeof(OFileLine)*(line+1));
-				if(!contents.lines){
+			if(line>=contents.asLines.lineCount){
+				contents.asLines.list=(OFileLine*)realloc(contents.asLines.list,sizeof(OFileLine)*(line+1));
+				if(!contents.asLines.list){
 					// OLog("ORIONAPI | ERROR! COULD NOT ALLOCATE EXTRA LINES FOR FILE! CURRENT COUNT : %lu | ATTEMPTED ALLOCATION : %lu\n",contents.lineCount,line);
 					// exit(OERR_CANTMALLOC);
 					return false;
 				}
-				for(size_t i=contents.lineCount;i<line+1;i++){
-					contents.lines[i]={ 0,(unsigned char*)malloc(1) };
-					contents.lines[i].str[0]=0;
+				for(size_t i=contents.asLines.lineCount;i<line+1;i++){
+					contents.asLines.list[i]={ 0,(unsigned char*)malloc(1) };
+					contents.asLines.list[i].str[0]=0;
 				}
-				contents.lineCount=(line+1);
+				contents.asLines.lineCount=(line+1);
 			}
 		/* Actually sets the Line data */
-			OFileLine* lineToSet=&contents.lines[line];
+			OFileLine* lineToSet=&contents.asLines.list[line];
 			if(!lineToSet->str){ return false; }
 			size_t l1=lineToSet->length;
 			size_t l2=OStringLength(newText);
 			if(l2>l1){ lineToSet->str=(unsigned char*)realloc(lineToSet->str,(l2+1)); }
 			if(!lineToSet->str){
-				// OLog("ORIONAPI | ERROR! COULD NOT RESIZE FILE LINE %lu OF LENGTH %lu TO LENGTH %lu!\n",line,l1,l2);
-				// exit(OERR_CANTMALLOC);
+				OLog("ORIONAPI | ERROR! COULD NOT RESIZE FILE LINE %lu OF LENGTH %lu TO LENGTH %lu!\n",line,l1,l2);
+				exit(OERR_CANTMALLOC);
 			}
 			for(size_t i=0;i<l2;i++){
 				lineToSet->str[i]=newText[i];
@@ -459,25 +535,32 @@ namespace Orion{
 	}
 
 /** Getters/misc ops **/
-	void OFile::shouldStoreMisc(bool v) { flags.storeMisc=v; }
-	void OFile::shouldStoreToMem(bool v){ flags.storeMem=v; }
+	// void OFile::shouldStoreMisc(bool v) { flags.storeMisc=v; }
+	// void OFile::shouldStoreToMem(bool v) { flags.storeMem=v; }
 	bool OFile::valid(void) const { return ( CFILE.RAW ? true : false ); }
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
 	OFile::operator bool(void) const { return (CFILE.RAW ? true : false); }
 
 	OFileHash OFile::recalcHash(void){
 		OFileHash tmpHash=0;
-		contents.charCount=0;
 		int c=0;
-		for(size_t i=0;i<contents.lineCount;i++){
-			for(size_t j=0;j<contents.lines[i].length;j++){
-				c=(contents.lines[i].str[j]);
+		if(contents.isLinear){ /* This is redundant, since there's never a situation where the hash would need to be recalculated if being stored linearly. */
+			for(size_t i=0;i<contents.asLinear.byteCount;i++){
+				c=(contents.asLinear.bytes[i]);
 				tmpHash+=(c*c);
-				contents.charCount++;
 			}
+		}else{
+			contents.asLines.charCount=0;
+			for(size_t i=0;i<contents.asLines.lineCount;i++){
+				for(size_t j=0;j<contents.asLines.list[i].length;j++){
+					c=(contents.asLines.list[i].str[j]);
+					tmpHash+=(c*c);
+					contents.asLines.charCount++;
+				}
+			}
+			size=contents.asLines.charCount+(contents.asLines.lineCount-1);
 		}
 		hash=tmpHash/2;
-		size=contents.charCount+(contents.lineCount-1);
 		return hash;
 	}
 
@@ -487,14 +570,14 @@ namespace Orion{
 	OFileType OFile::getType(void) const { return type; }
 	const char* OFile::getTypeAsString(void) const {
 		switch(type){
-			case OFT_UNKNOWN:{ return "OFT_UNKNOWN"; }
-			case OFT_ERROR:{ return "OFT_ERROR"; }
-			case OFT_TEXT:{ return "OFT_TEXT"; }
-			case OFT_CONFIG:{ return "OFT_CONFIG"; }
-			case OFT_IMAGE:{ return "OFT_IMAGE"; }
-			case OFT_VIDEO:{ return "OFT_VIDEO"; }
-			case OFT_FONT:{ return "OFT_FONT"; }
-			case OFT_BINARY:{ return "OFT_BINARY"; }
+			case OFT_UNKNOWN: { return "OFT_UNKNOWN"; }
+			case OFT_ERROR:   { return "OFT_ERROR"; }
+			case OFT_TEXT:    { return "OFT_TEXT"; }
+			case OFT_CONFIG:  { return "OFT_CONFIG"; }
+			case OFT_IMAGE:   { return "OFT_IMAGE"; }
+			case OFT_VIDEO:   { return "OFT_VIDEO"; }
+			case OFT_FONT:    { return "OFT_FONT"; }
+			case OFT_BINARY:  { return "OFT_BINARY"; }
 		}
 		return 0;
 	}
@@ -505,27 +588,38 @@ namespace Orion{
 	void* OFile::getCFile(void) const { return CFILE.RAW; }
 	OFileHash OFile::getHash(void) const { return hash; }
 	size_t OFile::getSize(void) const { return size; }
-	size_t OFile::getLineCount(void) const { return contents.lineCount; }
-	size_t OFile::getCharCount(void) const { return contents.charCount; }
-	OFileContent OFile::getContent(void) const { return contents; }
+	size_t OFile::getLineCount(void) const { return ( (contents.isLinear) ? contents.asLines.lineCount : 0 ); }
+	size_t OFile::getCharCount(void) const { return ( (contents.isLinear) ? contents.asLines.charCount : 0 ); }
+	// OFileContent* OFile::getContents(void) { return &contents; }
 	OFileLine OFile::getLine(size_t line) const {
-		if(line<contents.lineCount){
-			return contents.lines[line];
+		if(line<contents.asLines.lineCount){
+			return contents.asLines.list[line];
 		}else { return {0,0}; }
 	}
 	char* OFile::operator [](size_t line) const { return getLine(line); }
 
 	void OFile::log(bool verbose, bool newLine){
 		if(verbose){
-			OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Hash : %lu | Modified : %s",
-				path,getTypeAsString(),getExtension(),
-				getLineCount(),getCharCount(),getSize(),hash,
-				( contents.modified ? "true" : "false" ));
+			if(contents.isLinear){
+				OLog("File : %s | Type : %s | Extension : %s | Size (bytes) : %lu | Hash : %lu",
+					path,getTypeAsString(),getExtension(),getSize(),hash
+				);
+			}else{
+				OLog("File : %s | Type : %s | Extension : %s | Line Count : %lu | Char Count : %lu | Size (bytes) : %lu | Hash : %lu | Modified : %s",
+					path,getTypeAsString(),getExtension(),
+					getLineCount(),getCharCount(),getSize(),hash,
+					( contents.modified ? "true" : "false" ));
+			}
 			if(newLine){ fputc('\n',stdout); }
 		}else{
-			for(size_t i=0;i<contents.lineCount;i++){
-				for(size_t j=0;j<contents.lines[i].length;j++){ fputc(contents.lines[i].str[j],stdout); }
-				if(newLine){ fputc('\n',stdout); }
+			if(contents.isLinear){
+				for(size_t i=0;i<contents.asLinear.byteCount;i++){ fputc(contents.asLinear.bytes[i],stdout); }
+				if(newLine){ fputc('\n',stdout); } /* May not be applicable... */
+			}else{
+				for(size_t i=0;i<contents.asLines.lineCount;i++){
+					for(size_t j=0;j<contents.asLines.list[i].length;j++){ fputc(contents.asLines.list[i].str[j],stdout); }
+					if(newLine){ fputc('\n',stdout); }
+				}
 			}
 		}
 	}
@@ -536,8 +630,8 @@ namespace Orion{
 	char OFileLine::operator [](size_t i) const { return str[i]; }
 	OFileLine::operator char*(void) const { return (char*)str; }
 
-	OFileContent::operator bool(void) const { return (lines ? true : false); }
-	OFileLine OFileContent::operator [](size_t i) const { return lines[i]; }
+	// OFileContent::operator bool(void) const { return (lines ? true : false); }
+	// OFileLine OFileContent::operator [](size_t i) const { return lines[i]; }
 
 /*** Generic File actions ***/
 	bool OFileExists(const char* file){ return ( !access(file,F_OK) ? true : false ); }

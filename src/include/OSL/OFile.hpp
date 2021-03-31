@@ -78,19 +78,31 @@ namespace Orion{
 
 	/* The internal Content of a File. */
 	struct OFileContent{
-		/* The total count of lines in this File (starting at 1). */
-		size_t lineCount;
-		/* The total count of characters in this File. */
-		size_t charCount;
-		/* An array of Lines for this File. */
-		OFileLine* lines;
+		union{
+			struct{
+				/* The total count of Lines in this File (starting at 1). */
+				size_t lineCount;
+				/* The total count of Characters in this File. */
+				size_t charCount;
+				/* An array of Lines for this File. */
+				OFileLine* list;
+			}asLines;
+			struct{
+				/* The size of the array. */
+				size_t byteCount;
+				/* The array of bytes of this File. */
+				char*  bytes;
+			}asLinear;
+		};
 		/* Have the contents been modified from when changes were last applied, or when the File was last opened? */
 		bool modified;
-
-		/* Allows for if() checking on this Content without having to check "lines" member manually. */
-		operator bool(void) const;
-		/* Allows for getting a Line from a given index without having to use the "lines" member. */
-		OFileLine operator [](size_t) const;
+		/*
+		 * If this is true, this means the File's contents are stored linearly in memory, as if it were one big Line,
+		 * and indexxing operations MUST be done using "data.asLinear.bytes" instead of "data.asLines.list"
+		 * If this is false, this means the File's contents are stored as separate lines in memory, as it would be displayed in an editor,
+		 * and indexxing operations MUST be done using "data.asLines.list" instead of "data.asLinear.bytes"
+		 */
+		bool isLinear;
 	};
 
 /*** Abstractive File handling ***/
@@ -125,6 +137,8 @@ namespace Orion{
 			struct{
 				/* Should this File's contents be loaded into memory? Default is true. */
 				bool storeMem;
+				/* Should this File's contents be loaded into memory linearly? Default is false. */
+				bool storeLinearly;
 				/* Should this File's information (such as the type and name) be gathered and stored? Default is true. */
 				bool storeMisc;
 				/* Should this File's contents be evaluated? Default is true. (Required for storing to memory). */
@@ -217,16 +231,35 @@ namespace Orion{
 			/*
 			 * Should this File care about allocating and initialising miscellaneous information?
 			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
+			 * Changes do not apply until File is closed and reopened.
 			 */
-			void shouldStoreMisc(bool);
+			inline void shouldStoreMisc(bool v) { flags.storeMisc=v; }
 			/*
-			 * Should this File store all of its Contents to memory?
+			 * If the File is allowed to evaluate Contents, should this File store all of its Contents to memory?
 			 * This is true by default, and is required to be on if you want to access or modify a File's Contents.
 			 * But it is very intensive storing all Contents to memory, so if you just need to hold generic File information,
 			 * then turn this off. Indexing Contents will require this to be turned on.
 			 * If you need to turn this off, turn this off BEFORE you open a File.
+			 * Changes do not apply until File is closed and reopened.
 			 */
-			void shouldStoreToMem(bool);
+			inline void shouldStoreToMem(bool v) { flags.storeMem=v; }
+			/*
+			 * If this File is allowed to store its Contents to memory, should the stored Contents be linear (a giant array), or separated in different arrays based on each Line?
+			 * This is false by default, as all indexxing and modification operations that OFile provides REQUIRE the Contents to be stored in different Line arrays.
+			 * However, for Files such as images, binaries, videos, or any File that isn't meant to be read by the user, this should be set to true.
+			 * To do indexxing and modification on the File's contents if they are stored linearly, you must first retrieve the Contents of the file by using getContents(),
+			 * and access/modify the bytes directly. See documentation for OFileContent for more information.
+			 * Changes do not apply until File is closed and reopened.
+			 */
+			inline void shouldStoreLinearly(bool v) { flags.storeLinearly=v; }
+			/*
+			 * Should this File evaluate Contents?
+			 * This is true by default, and is required to be on if you want to store a File's contents to memory.
+			 * If this is true, OFile will iterate through each byte of a newly-opened File and calculate the number of Lines, number of characters, generates a hash from the Contents,
+			 * and allows storage of the File's Contents to memory.
+			 * Changes do not apply until File is closed and reopened.
+			 */
+			inline void shouldEvalContents(bool v)  { flags.evalContents=v; }
 			/**
 			 * @brief Has the File been modified since when changes were last applied, or when the File was last opened?
 			 * @return True if File has been modified since last save.
@@ -246,6 +279,7 @@ namespace Orion{
 
 			/**
 			 * @brief Sets the given line of the File (starting at 0) to the new text.
+			 * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 			 * @param line The Line number to modify. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
 			 * If the given Line is out of bounds, new, empty Lines will be created in the empty space.
 			 * @param newText The new text to set the given line to. This will resize the given Line if the new text is larger than the size of the Line.
@@ -294,29 +328,33 @@ namespace Orion{
 			OFileHash getHash(void) const;
 			/**
 			 * @brief Returns the count of Lines of this File.
+			 * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 			 * @return The Line count of this File. This is always AT LEAST 1 if the File is valid, but otherwise 0 if the File has not been opened.
 			 */
 			size_t getLineCount(void) const;
 			/**
 			 * @brief Returns the count of characters in this File.
+			 * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 			 * @return The character count (NOT BYTE COUNT!) of this File.
 			 */
 			size_t getCharCount(void) const;
 			/**
-			 * @brief Returns a struct containing the content of this File. See OFileContent. 
-			 * @return A struct (OFileContent) containing information regarding the contents of this File.
+			 * @brief Returns pointer to a a struct containing the content of this File. See OFileContent. 
+			 * @return A pointer to a struct struct (OFileContent) containing information regarding the contents of this File.
 			 */
-			OFileContent getContent(void) const;
+			inline OFileContent* getContents(void) { return &contents; }
 			/** 
 			 * @brief Returns a specific line (starting at 0) of this File as an OFileLine.
 			 * Do NOT use this to retrieve a Line to use as a normal character array, instead use the array notation! ( file[line] ).
+			 * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 			 * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
 			 * @return A struct (OFileLine) containing information regarding the given Line.
 			 */
 			OFileLine getLine(size_t line) const;
 			/**
 			 * @brief Returns a specific Line (starting at 0) of this File as a String. 
-			 * Do NOT modify this! Use setLine() instead! 
+			 * Do NOT modify this! Use setLine() instead!
+			 * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 			 * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
 			 * @return A character array corrisponding to the given Line.
 			 */
