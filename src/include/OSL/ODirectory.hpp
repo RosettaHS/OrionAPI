@@ -62,7 +62,7 @@ namespace Orion{
 		/* The name of this Entry. */
 		char*   name;
 
-		// /* Empty constructor. Sets all values to 0. */
+		/* Empty constructor. Sets all values to 0. */
 		ODirectoryEntry(void);
 	};
 
@@ -119,6 +119,17 @@ namespace Orion{
 			 * @return True if the Directory could be successfully closed, otherwise false if either the Directory could not be closed, or it was never open to begin with.
 			 */
 			bool close(void);
+
+			/**
+			 * @brief Returns the full, real path to this Directory. The result must NOT be freed.
+			 * @return The full path to the active Directory. The result must NOT be freed.
+			 */
+			inline const char* getPath(void) { return (const char*)path; }
+			/**
+			 * @brief Returns the name of this Directory. The result must NOT be freed.
+			 * @return The name of the active Directory. The result must NOT be freed.
+			 */
+			inline const char* getName(void) { return (const char*)name; }
 
 			/**
 			 * @breif Returns the amount of Entries in this Directory.
