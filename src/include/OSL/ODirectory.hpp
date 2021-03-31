@@ -62,7 +62,7 @@ namespace Orion{
 		/* The name of this Entry. */
 		char*   name;
 
-		/* Empty constructor. Sets all values to 0. */
+		// /* Empty constructor. Sets all values to 0. */
 		ODirectoryEntry(void);
 	};
 
@@ -119,6 +119,30 @@ namespace Orion{
 			 * @return True if the Directory could be successfully closed, otherwise false if either the Directory could not be closed, or it was never open to begin with.
 			 */
 			bool close(void);
+
+			/**
+			 * @breif Returns the amount of Entries in this Directory.
+			 * @return The count of Entries (folders/files) in this Directory.
+			 */
+			inline size_t getEntryCount(void) { return itemCount; }
+			/**
+			 * @brief Returns an Entry of this Directory at the given index.
+			 * The Entries are not sorted in any way.
+			 * @param index The index to attempt to retrieve an Entry from.
+			 * @return If successful, returns a pointer to a struct (ODirectoryEntry) containing information regarding the given Entry, such as the type and name.
+			 * Otherwise returns NULL.
+			 */
+			ODirectoryEntry* getEntry(size_t index); inline ODirectoryEntry* operator [](size_t index) { return getEntry(index); }
+			/**
+			 * @brief Returns the full, real path to the Entry of this Directory at the given index.
+			 * The result, if non-zero, MUST be freed.
+			 * The Entries are not sorted in any way.
+			 * @param index The index to attempt to retrieve an Entry from.
+			 * @return If successful, returns a null-terminated String that contains the full, real path of a given Entry (folder/file) corrisponding to the given index.
+			 * The result, if non-zero, MUST be freed.
+			 * Otherwise returns NULL on failure.
+			 */
+			char* getEntryPath(size_t index);
 
 			/**
 			 * @brief Logs the information of this Directory to the terminal.

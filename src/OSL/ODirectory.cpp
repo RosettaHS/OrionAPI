@@ -181,6 +181,19 @@ namespace Orion{
 
 	/** Getters/misc ops **/
 
+	ODirectoryEntry* ODirectory::getEntry(size_t index){
+		if(items && index<itemCount){ return &items[index]; }
+		else{ return 0; }
+	}
+
+	char* ODirectory::getEntryPath(size_t index){
+		if(items && index<itemCount){
+			char* fullpath=concat(path,items[index].name);
+			if(fullpath){ return fullpath; }
+		}
+		return 0;
+	}
+
 	void ODirectory::log(bool verbose, bool newLine){
 		if(verbose){
 			OLog("Directory : %s  | File Count : %lu",path, itemCount);
