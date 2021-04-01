@@ -25,17 +25,128 @@
 
 #define ORION_INTERNAL
 
-#include "../include/OKit/CContext.hpp"
+#include <stdlib.h>
 #include <xcb/xcb.h>
+#include "../include/OSL/OString.hpp"
+#include "../include/OKit/CContext.hpp"
 
 namespace Orion{
 /*** Context Handling***/
 
-/** Constructors **/
+/** Constructors/Destructors **/
+	CContext::~CContext(void){ destroy(); }
 	CContext::CContext(void) :
 		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
-		XMASK{0}, XTITLE{0}, XLISTENER{0,0}
+		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLISTENER{0,0}
 		{}
 
+/** Creation **/
+	bool CContext::create(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, uint32_t mask, CCType type){
+		if(XWIN){ return false; }
+		XONLY{
+		/* Context initialisation */
+			XTYPE=type;
+			XWIN=xcb_generate_id(XCON);
+			XPARENT=( (root) ? root->XWIN : XROOT );
+			XCOL=col->XCOL;
+			XMASK=mask;
+		/* Creating X Window */
+			uint32_t tmpVal[2]={ XCOL,XMASK };
+			xcb_void_cookie_t result=xcb_create_window(
+				XCON,XCB_COPY_FROM_PARENT,XWIN,XPARENT,
+				x,y,w,h,0,( (XTYPE!=CCT_INPUTONLY) ? XCB_WINDOW_CLASS_INPUT_OUTPUT : XCB_WINDOW_CLASS_INPUT_ONLY ),
+				XSCR->root_visual,XCB_CW_BACK_PIXEL|XCB_CW_EVENT_MASK,tmpVal
+			);
+			if( xcb_request_check(XCON,result) ){ destroy(); return false; }
+		/* Type checking */
+			xcb_intern_atom_cookie_t atype;
+			xcb_intern_atom_reply_t* arepl;
+			switch(XTYPE){ /* TODO: Add FULL support. */
+				case CCT_ERROR:     { break; }
+				case CCT_INPUTONLY: { break; }
+				case CCT_TOPLEVEL:{
+					atype=xcb_intern_atom(XCON,0,OStringLength("_MOTIF_WM_HINTS"),"_MOTIF_WM_HINTS");
+					arepl=xcb_intern_atom_reply(XCON,atype,0);
+					uint32_t buff[5]={2,0,0,0,0};
+					xcb_change_property(XCON,XCB_PROP_MODE_REPLACE,XWIN,arepl->atom,arepl->atom,32,5,buff);
+					free(arepl);
+					break;
+				}
+				case CCT_DESKTOP: { break; }
+				case CCT_PANEL:   { break; }
+				case CCT_TOOLTIP: { break; }
+				case CCT_MENU:    { break; }
+				case CCT_ELEMENT: { break; }
+			}
+		/* If provided, set the title. */
+			setTitle(t);
+		/* Finishing up */
+		}
+		return false;
+	}
+
+/** Destruction **/
+	bool CContext::destroy(void){
+		XONLY{
+			if(XWIN){
+				unmap();
+				xcb_destroy_window(XCON,XWIN);
+				/* TODO: Add Event unlinking! */
+				if(XTITLE){ free(XTITLE); }
+				XTYPE=CCT_ERROR;
+				XWIN=0;
+				XPARENT=0;
+				XCOL=0;
+				XMASK=0;
+				XTITLE=0;
+				XMAPPED=0;
+				XLISTENER={0,0};
+				return true;
+			}
+		}
+		return false;
+	}
+
+/** Modification **/
+	bool CContext::map(bool link){
+		(void)link; /* TODO: Add Event linking! */
+		XONLY{
+			if(XWIN && !XMAPPED){
+				xcb_void_cookie_t result=xcb_map_window(XCON,XWIN);
+				if( xcb_request_check(XCON,result) ){ return false; }
+				XMAPPED=1;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool CContext::unmap(void){
+		XONLY{
+			if(XWIN && XMAPPED){
+				xcb_void_cookie_t result=xcb_unmap_window(XCON,XWIN);
+				if( xcb_request_check(XCON,result) ){ return false; }
+				/* TODO: Add Event unlinking! */
+				XMAPPED=0;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool CContext::setTitle(const char* title){
+		XONLY{
+			if(title){
+				size_t l=OStringLength(title);
+				xcb_void_cookie_t result=xcb_change_property(XCON,XCB_PROP_MODE_REPLACE,XWIN,XCB_ATOM_WM_NAME,XCB_ATOM_STRING,8,l,title);
+				if( xcb_request_check(XCON,result) ){ return false; }
+				XTITLE=(char*)malloc(l+1);
+				for(size_t i=0;i<l;i++){ XTITLE[i]=title[i]; }
+				XTITLE[l]=0;
+				return true;
+			}else{ if(XTITLE){ free(XTITLE); } XTITLE=0; }
+		}
+		return false;
+	}
 /*** Generic Context functions ***/
 }

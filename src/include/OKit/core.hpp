@@ -65,6 +65,9 @@ namespace Orion{
 	 * @return True if disconnection was successful, otherwise false if either connection could not be severed, or service isn't running.
 	 */
 	extern bool XCB_DISCONNECT(void);
+
+	/* Flushes and sends any pending requests to the X Server. */
+	extern void XCB_FLUSH(void);
 #endif
 
 }

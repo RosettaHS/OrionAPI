@@ -28,6 +28,7 @@
 
 #include "common.hpp"
 #include "core.hpp"
+#include "OCol.hpp"
 #include "CXEvent.hpp"
 
 namespace Orion{
@@ -59,12 +60,22 @@ namespace Orion{
 			uint32_t XCOL;
 			uint32_t XMASK;
 			char*    XTITLE;
+			bool     XMAPPED;
 			struct{
 				void* obj;
 				void  (*func)(ODrawable* obj, CXEvent* event);
 			}XLISTENER;
 
+			~CContext(void);
 			CContext(void);
+
+			bool create(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, uint32_t mask, CCType type);
+			bool destroy(void);
+
+			bool map(bool link);
+			bool unmap(void);
+
+			bool setTitle(const char* title);
 	};
 
 /*** Context Handling ***/

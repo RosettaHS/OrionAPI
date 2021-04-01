@@ -45,11 +45,6 @@ namespace Orion{
 		CXEventType type;
 		/* The type of the raw XEvent. */
 		int         xtype;
-		/* Initialises data and composes with the given pointer to an XEvent. */
-		void compose(void* event);
-		/* Internal | DEBUG. Logs all data to terminal in a formatted manner regardless of "Orion::Application::verbose". */
-		void log(void);
-
 		/* Union of data handled. */
 		union{
 			struct{
@@ -78,7 +73,16 @@ namespace Orion{
 				bool pressed;
 			}mouse;
 		};
+
+		/* Initialises data and composes with the given pointer to an XEvent. */
+		void compose(void* event);
+		/* Internal | DEBUG. Logs all data to terminal in a formatted manner regardless of "Orion::Application::verbose". */
+		void log(void);
 	};
 }
 
 #endif /* !__ORIONAPI_OKIT_CXEVENT_H__ */
+
+
+
+

@@ -31,7 +31,7 @@
 
 namespace Orion{
 	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(unsigned long)(_b + (_g<<8) + (_r<<16))} {}
+	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(uint32_t)(_b + (_g<<8) + (_r<<16))} {}
 	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
 		r=_r,g=_g,b=_b;
 		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));

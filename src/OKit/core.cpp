@@ -60,4 +60,8 @@ namespace Orion{
 		XCB_CONNECTED=0;
 		return true;
 	}
+
+	void XCB_FLUSH(void){
+		if(XCB_CONNECTED){ xcb_flush(XCON); }
+	}
 }
