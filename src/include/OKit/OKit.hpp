@@ -32,6 +32,9 @@
 #include "core.hpp"
 #include "common.hpp"
 #include "CBaseUI.hpp"
+#include "OCol.hpp"
+#include "CXEvent.hpp"
+#include "CContext.hpp"
 
 /*** Control Elements ***/
 

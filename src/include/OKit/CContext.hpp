@@ -28,15 +28,19 @@
 
 #include "common.hpp"
 #include "core.hpp"
+#include "CXEvent.hpp"
 
 namespace Orion{
 /*** Context Information ***/
 
-	/* Wrapper for masks in the X Event System. */
-	typedef unsigned long CXMask;
+/** Forward Declaration **/
 
-	/* An enumeration of possible Context types. */
+	/* The base element for all OrionUI Elements. */
+	class ODrawable;
+
+	/* Internal. An enumeration of possible Context types. */
 	enum CCType{
+		CCT_ERROR,
 		CCT_INPUTONLY,
 		CCT_TOPLEVEL,
 		CCT_DESKTOP,
@@ -44,6 +48,21 @@ namespace Orion{
 		CCT_TOOLTIP,
 		CCT_MENU,
 		CCT_ELEMENT
+	};
+
+	/* Internal. Higher-level abstraction of an X Window. */
+	class CContext{
+		public:
+			CCType   XTYPE;
+			uint32_t XWIN;
+			uint32_t XPARENT;
+			uint32_t XCOL;
+			uint32_t XMASK;
+			char*    XTITLE;
+			void*    listener;
+			void     (*listenerFunc)(ODrawable* l, CXEvent* e);
+
+			CContext(void);
 	};
 
 /*** Context Handling ***/

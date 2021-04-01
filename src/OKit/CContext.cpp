@@ -23,46 +23,20 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OKIT_OCOL_H__
-#define __ORIONAPI_OKIT_OCOL_H__
+#define ORION_INTERNAL
 
-#include "common.hpp"
+#include "../include/OKit/CContext.hpp"
+#include <xcb/xcb.h>
 
 namespace Orion{
-	/* Allows you to use colours with OrionUI (OKit) Elements. Takes in RGB values.*/
-	struct OCol : public CLoggable{
-		/* The Red, Green, and Blue values (respectively) of the OCol.*/
-		unsigned char r,g,b;
-		/* Internal. Representation of the RGB values that X can use. */
-		uint32_t      XCOL;
+/*** Context Handling***/
 
-		/* Empty contructor. Sets all values to 0. */
-		OCol(void);
+/** Constructors **/
+	CContext::CContext(void) :
+		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
+		XMASK{0}, XTITLE{0},
+		listener{0}, listenerFunc{0}
+		{}
 
-		/**
-		 * @brief Initialises and sets the Colour to the given RGB values. 
-		 * @param r The red value (0 - 255) of this Colour.
-		 * @param g The green value (0 - 255) of this Colour.
-		 * @param b The blue value (0 - 255) of this Colour.
-		 */
-		void setTo(unsigned char r, unsigned char g, unsigned char b); OCol(unsigned char r, unsigned char g, unsigned char b);
-
-		/**
-		 * @brief Internal. Attempts to set and initialise this Colour from the given formatted String. 
-		 * @param format The format String to attempt to retrieve the values from.
-		 * The String MUST be in a very specific format. Example: "(255,255,255)"
-		 * The formatted part can be at any position of the String, but it MUST contain three values corrisponding to each of the RGB values.
-		 * @return True on success, otherwise false if format String is not valid.
-		 */
-		bool setTo(const char* format);
-
-		/**
-		 * @brief Logs the information of this Col to the terminal.
-		 * @param verbose Log verbose information about this Col instead of the traditional information. Default is false.
-		 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
-		 */
-		virtual void log(bool verbose=false, bool newLine=true) override;
-	};
-	
+/*** Generic Context functions ***/
 }
-#endif /* !__ORIONAPI_OKIT_OCOL_H__ */
