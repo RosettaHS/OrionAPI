@@ -59,8 +59,10 @@ namespace Orion{
 			uint32_t XCOL;
 			uint32_t XMASK;
 			char*    XTITLE;
-			void*    listener;
-			void     (*listenerFunc)(ODrawable* l, CXEvent* e);
+			struct{
+				void* obj;
+				void  (*func)(ODrawable* obj, CXEvent* event);
+			}XLISTENER;
 
 			CContext(void);
 	};

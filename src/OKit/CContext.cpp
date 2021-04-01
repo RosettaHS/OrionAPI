@@ -34,8 +34,7 @@ namespace Orion{
 /** Constructors **/
 	CContext::CContext(void) :
 		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
-		XMASK{0}, XTITLE{0},
-		listener{0}, listenerFunc{0}
+		XMASK{0}, XTITLE{0}, XLISTENER{0,0}
 		{}
 
 /*** Generic Context functions ***/

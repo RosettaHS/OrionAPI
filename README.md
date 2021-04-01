@@ -18,7 +18,7 @@ Currently incomplete, but will serve as the basis for all of OrionAPI's sub-libr
 ### What is OKit?
 OKit is OrionAPI's implementation for a graphical user interface. It allows for making easy GUI-based Applications with minimal overhead and
 quick boot times.
-OKit is meant to be Orion's replacement for [GTK](https://en.wikipedia.org/wiki/GTK) and [Qt.](https://en.wikipedia.org/wiki/Qt_(toolkit)) Built from the ground up using [Xlib](https://en.wikipedia.org/wiki/Xlib), it is highly minimal and designed for performance and network transparency.
+OKit is meant to be Orion's replacement for [GTK](https://en.wikipedia.org/wiki/GTK) and [Qt.](https://en.wikipedia.org/wiki/Qt_(toolkit)) Built from the ground up using [XCB](https://en.wikipedia.org/wiki/XCB), it is highly minimal and designed for performance and network transparency.
 Alongside performance, Applications made with OKit will look and feel just like the rest of the Orion Operating System, because the entirety of Orion's UI will be made using OKit!
 #### Could I see a code sample?
 Writing a graphical Application using OKit is very simple. The following code is all that is required to get a Window on the screen:
