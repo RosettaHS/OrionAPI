@@ -23,23 +23,26 @@
 /*                                                                                */
 /**********************************************************************************/
 
-/* OKit - The Window Widget Toolkit for the Orion Operating System */
+#define ORION_INTERNAL
 
-#ifndef __ORIONAPI_OKIT_H__
-#define __ORIONAPI_OKIT_H__
+#include "../include/OKit/OVec.hpp"
 
-/*** Core ***/
-#include "core.hpp"
-#include "common.hpp"
-#include "CBaseUI.hpp"
-#include "OCol.hpp"
-#include "OVec.hpp"
-/** X Service **/
-#include "CXEvent.hpp"
-#include "CContext.hpp"
+namespace Orion{
+	void OVec::log(bool verbose, bool newLine){
+		if(verbose){
+			OLog("OVec : %p | x : %d | y :d",(const void*)this,x,y);
+		}else{
+			OLog("(%d, %d)",x,y);
+		}
+		if(newLine){ OLog("\n"); }
+	}
 
-/*** Control Elements ***/
-
-/*** Final Elements ***/
-
-#endif /* !__ORIONAPI_OKIT_H__ */
+	void OVec4::log(bool verbose, bool newLine){
+		if(verbose){
+			OLog("OVec4 : %p | x : %d | y : %d | w : %u | h : %lu",(const void*)this,x,y,w,h);
+		}else{
+			OLog("(%d, %d, %u, %u)",x,y,w,h);
+		}
+		if(newLine){ OLog("\n"); }
+	}
+}

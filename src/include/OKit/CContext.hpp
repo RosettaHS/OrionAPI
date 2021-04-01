@@ -29,6 +29,7 @@
 #include "common.hpp"
 #include "core.hpp"
 #include "OCol.hpp"
+#include "OVec.hpp"
 #include "CXEvent.hpp"
 
 namespace Orion{
