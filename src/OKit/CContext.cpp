@@ -52,12 +52,13 @@ namespace Orion{
 			XMASK=mask;
 		/* Creating X Window */
 			uint32_t tmpVal[2]={ XCOL,XMASK };
-			xcb_void_cookie_t result=xcb_create_window(
+			// xcb_void_cookie_t result=
+			xcb_create_window_checked(
 				XCON,XCB_COPY_FROM_PARENT,XWIN,XPARENT,
 				x,y,w,h,0,( (XTYPE!=CCT_INPUTONLY) ? XCB_WINDOW_CLASS_INPUT_OUTPUT : XCB_WINDOW_CLASS_INPUT_ONLY ),
 				XSCR->root_visual,XCB_CW_BACK_PIXEL|XCB_CW_EVENT_MASK,tmpVal
 			);
-			if( xcb_request_check(XCON,result) ){ destroy(); return false; }
+			// if( xcb_request_check(XCON,result) ){ destroy(); return false; }
 		/* Type checking */
 			xcb_intern_atom_cookie_t atype;
 			xcb_intern_atom_reply_t* arepl;
@@ -112,8 +113,9 @@ namespace Orion{
 		(void)link; /* TODO: Add Event linking! */
 		XONLY{
 			if(XWIN && !XMAPPED){
-				xcb_void_cookie_t result=xcb_map_window(XCON,XWIN);
-				if( xcb_request_check(XCON,result) ){ return false; }
+				// xcb_void_cookie_t result=
+				xcb_map_window(XCON,XWIN);
+				// if( xcb_request_check(XCON,result) ){ return false; }
 				XMAPPED=1;
 				return true;
 			}
@@ -124,8 +126,9 @@ namespace Orion{
 	bool CContext::unmap(void){
 		XONLY{
 			if(XWIN && XMAPPED){
-				xcb_void_cookie_t result=xcb_unmap_window(XCON,XWIN);
-				if( xcb_request_check(XCON,result) ){ return false; }
+				// xcb_void_cookie_t result=
+				xcb_unmap_window(XCON,XWIN);
+				// if( xcb_request_check(XCON,result) ){ return false; }
 				/* TODO: Add Event unlinking! */
 				XMAPPED=0;
 				return true;
@@ -138,13 +141,27 @@ namespace Orion{
 		XONLY{
 			if(title){
 				size_t l=OStringLength(title);
-				xcb_void_cookie_t result=xcb_change_property(XCON,XCB_PROP_MODE_REPLACE,XWIN,XCB_ATOM_WM_NAME,XCB_ATOM_STRING,8,l,title);
-				if( xcb_request_check(XCON,result) ){ return false; }
+				// xcb_void_cookie_t result=
+				xcb_change_property(XCON,XCB_PROP_MODE_REPLACE,XWIN,XCB_ATOM_WM_NAME,XCB_ATOM_STRING,8,l,title);
+				// if( xcb_request_check(XCON,result) ){ return false; }
 				XTITLE=(char*)malloc(l+1);
 				for(size_t i=0;i<l;i++){ XTITLE[i]=title[i]; }
 				XTITLE[l]=0;
 				return true;
 			}else{ if(XTITLE){ free(XTITLE); } XTITLE=0; }
+		}
+		return false;
+	}
+
+	bool CContext::setCol(OCol* col){
+		XONLY{
+			if(col->XCOL!=XCOL){
+				// xcb_void_cookie_t result=
+				xcb_change_window_attributes(XCON,XWIN,XCB_CW_BACK_PIXEL,&(col->XCOL));
+				// if( xcb_request_check(XCON,result) ){ return false; }
+				XCOL=col->XCOL;
+				return true;
+			}
 		}
 		return false;
 	}

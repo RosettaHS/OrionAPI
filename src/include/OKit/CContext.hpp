@@ -76,6 +76,8 @@ namespace Orion{
 			bool unmap(void);
 
 			bool setTitle(const char* title);
+			bool setCol(OCol* col);
+
 	};
 
 /*** Context Handling ***/
