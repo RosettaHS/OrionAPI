@@ -86,22 +86,22 @@ if [ -d "/usr/include/.OrionAPI" ]; then
 	echo "OrionAPI : Uninstalled OrionAPI master header."
 fi
 
-# Checks if Xlib is still installed, and if it is, goes ahead and uninstalls it for you.
-if dpkg -s "libx11-dev" > /dev/null 2>&1; then
+# Checks if XCB is still installed, and if it is, goes ahead and uninstalls it for you.
+if dpkg -s "libxcb1-dev" > /dev/null 2>&1; then
 	if [ "$AUTO_Y" = false ]; then
-		printf "OrionAPI : Xlib was installed alongside OrionAPI and is no longer needed. Would you like to uninstall Xlib as well? [Y/n] : "; read conf
+		printf "OrionAPI : XCB was installed alongside OrionAPI and is no longer needed. Would you like to uninstall Xlib as well? [Y/n] : "; read conf
 		case ${conf} in
 			[Yy])
-				echo 'OrionAPI : Working on uninstalling "libx11-dev".'
-				apt-get purge "libx11-dev" -y || { echo 'OrionAPI | ERROR! : Failed to uninstall "libx11-dev"! Aborting.'; exit 1; }
-				echo 'OrionAPI : "libx11-dev" successfully uninstalled.';;
+				echo 'OrionAPI : Working on uninstalling "libxcb1-dev".'
+				apt-get purge "libxcb1-dev" -y || { echo 'OrionAPI | ERROR! : Failed to uninstall "libxcb1-dev"! Aborting.'; exit 1; }
+				echo 'OrionAPI : "libxcb1-dev" successfully uninstalled.';;
 		esac
 	else
-		echo "OrionAPI : Xlib was installed alongside OrionAPI and is no longer needed. Uninstalling."
+		echo "OrionAPI : XCB was installed alongside OrionAPI and is no longer needed. Uninstalling."
 
-		echo 'OrionAPI : Working on uninstalling "libx11-dev".'
-		apt-get purge "libx11-dev" -y || { echo 'OrionAPI | ERROR! : Failed to uninstall "libx11-dev"! Aborting.'; exit 1; }
-		printf "\nOrionAPI : \"libx11-dev\" successfully uninstalled.\n"
+		echo 'OrionAPI : Working on uninstalling "libxcb1-dev".'
+		apt-get purge "libxcb1-dev" -y || { echo 'OrionAPI | ERROR! : Failed to uninstall "libxcb1-dev"! Aborting.'; exit 1; }
+		printf "\nOrionAPI : \"libxcb1-dev\" successfully uninstalled.\n"
 	fi
 fi
 

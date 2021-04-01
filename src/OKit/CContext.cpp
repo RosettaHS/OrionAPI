@@ -170,8 +170,8 @@ namespace Orion{
 /** Getters/misc ops **/
 	void CContext::log(bool verbose, bool newLine){
 		if(verbose){
-			OLog("XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XMAPPED : %s | XLINKED : %s",
-				XTYPE,XWIN,XPARENT,XCOL,XMASK,XTITLE,( (XMAPPED) ? "true" : "false" ),( (XLINKED) ? "true" : "false" )
+			OLog("CONTEXT : %p | XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XMAPPED : %s | XLINKED : %s",
+				(const void*)this, XTYPE,XWIN,XPARENT,XCOL,XMASK,XTITLE,( (XMAPPED) ? "true" : "false" ),( (XLINKED) ? "true" : "false" )
 			);
 			if(newLine){ OLog("\n"); }
 		}else{

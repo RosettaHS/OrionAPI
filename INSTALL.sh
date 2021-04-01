@@ -75,19 +75,19 @@ if ! dpkg -s "make" >/dev/null 2>&1; then
 	echo "OrionAPI : Make successfully installed."
 fi
 
-# Check if system has "libx11-dev", and if not, install it.
-if ! dpkg -s "libx11-dev" >/dev/null 2>&1; then 
+# Check if system has "libxcb1-dev", and if not, install it.
+if ! dpkg -s "libxcb1-dev" >/dev/null 2>&1; then 
 	if [ "$AUTO_Y" = true ]; then
-		echo 'OrionAPI : Dependency "libx11-dev" is not installed. Retrieving.'
+		echo 'OrionAPI : Dependency "libxcb1-dev" is not installed. Retrieving.'
 	else
-		printf 'OrionAPI  : Dependency "libx11-dev" is not installed. It is required for OrionAPI to be compiled. Would you like to install this dependency? [Y/n] : '; read conf
+		printf 'OrionAPI  : Dependency "libxcb1-dev" is not installed. It is required for OrionAPI to be compiled. Would you like to install this dependency? [Y/n] : '; read conf
 		case ${conf} in
 			[!Yy]) echo "OrionAPI : Aborted."; exit 1;;
 		esac
 	fi
 
-	echo "OrionAPI : Working on installing Xlib." 
-	apt-get install "libx11-dev" -y || { echo "OrionAPI | ERROR! : Xlib could not be installed! Aborting."; exit 1; }
+	echo "OrionAPI : Working on installing XCB." 
+	apt-get install "libxcb1-dev" -y || { echo "OrionAPI | ERROR! : XCB could not be installed! Aborting."; exit 1; }
 	printf "\nOrionAPI : Xlib successfully installed.\n"
 fi
 
