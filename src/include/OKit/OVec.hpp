@@ -32,16 +32,16 @@ namespace Orion{
 	/* Used to hold position data for any OrionUI Elements. */
 	struct OVec : CLoggable {
 		/* The X and Y positions on the screen or of the object.*/
-		int16_t x, y;
+		int32_t x, y;
 
 		/* Empty constructor. Sets all values to 0. */
-		OVec(void);
+		inline OVec(void) : x{0}, y{0} {}
 		/**
 		 * @brief Sets the X and Y positional values to the given parameters.
 		 * @param _x The X (horizontal) positional value to set on this Vec.
 		 * @param _y The Y (vertical) positional value to set on this Vec.
 		 */
-		inline void setTo(int16_t _x, int16_t _y) { x=_x; y=_y; }; inline OVec(int16_t _x, int16_t _y) : x{_x}, y{_y} {}
+		inline void setTo(int32_t _x, int32_t _y) { x=_x; y=_y; }; inline OVec(int32_t _x, int32_t _y) : x{_x}, y{_y} {}
 
 		/**
 		 * @brief Logs the information of this Vec to the terminal.
@@ -59,7 +59,7 @@ namespace Orion{
 		uint16_t w, h;
 
 		/* Empty constructor. Sets all values to 0. */
-		OVec4(void);
+		inline OVec4(void) : x{0}, y{0}, w{0}, h{0} {}
 		/**
 		 * @brief Sets the positional and sizing values to the given parameters.
 		 * @param _x The X (horizontal) positional value to set on this Vec4.

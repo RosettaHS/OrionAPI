@@ -218,6 +218,26 @@ namespace Orion{
 	}
 
 /** Getters/misc ops **/
+
+	OVec4 CContext::getGeometry(void){
+		OVec4 ret;
+		XONLY{
+			if(XWIN){
+				/*
+				 * This seems really buggy... it doesn't return the position values if the Context's parent-
+				 * is the WM...
+				 */
+				xcb_get_geometry_reply_t* reply=xcb_get_geometry_reply(XCON,xcb_get_geometry(XCON,XWIN),0);
+				ret.x=reply->x;
+				ret.y=reply->y;
+				ret.w=reply->width;
+				ret.h=reply->height;
+				free(reply);
+			}
+		}
+		return ret;
+	}
+
 	void CContext::log(bool verbose, bool newLine){
 		if(verbose){
 			OLog("CONTEXT : %p | XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XMAPPED : %s | XLINKED : %s",

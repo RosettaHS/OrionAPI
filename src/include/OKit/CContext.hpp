@@ -83,6 +83,8 @@ namespace Orion{
 			bool setSize(uint16_t w, uint16_t h);
 			bool setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 
+			OVec4 getGeometry(void);
+
 			virtual void log(bool verbose=false, bool newLine=true) override;
 
 	};
