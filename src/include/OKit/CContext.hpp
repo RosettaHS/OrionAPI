@@ -78,6 +78,9 @@ namespace Orion{
 
 			bool setTitle(const char* title);
 			bool setCol(OCol* col);
+			bool setPos(int16_t x, int16_t y);
+			bool setSize(uint16_t w, uint16_t h);
+			bool setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 
 			virtual void log(bool verbose=false, bool newLine=true) override;
 

@@ -174,6 +174,49 @@ namespace Orion{
 		return false;
 	}
 
+	bool CContext::setPos(int16_t x, int16_t y){
+		XONLY{
+			if(XWIN){
+				uint32_t buff[2];
+			/* Scale the position differently depending if it's using the WM as a root Context or not. */
+				if(XPARENT==XROOT){ buff[0]=x; buff[1]=y; }
+				else{ buff[0]=(x*OAPP_SCALE); buff[1]=(y*OAPP_SCALE); }
+				xcb_configure_window(XCON,XWIN,XCB_CONFIG_WINDOW_X|XCB_CONFIG_WINDOW_Y,buff);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool CContext::setSize(uint16_t w, uint16_t h){
+		XONLY{
+			if(XWIN){
+				uint32_t buff[2]={ (uint32_t)(w*OAPP_SCALE),(uint32_t)(h*OAPP_SCALE) };
+				xcb_configure_window(XCON,XWIN,XCB_CONFIG_WINDOW_WIDTH|XCB_CONFIG_WINDOW_HEIGHT,buff);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool CContext::setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h){
+		XONLY{
+			if(XWIN){
+				uint32_t buff[4];
+			/* Scale the position differently depending if it's using the WM as a root Context or not. */
+				if(XPARENT==XROOT){ buff[0]=x; buff[1]=y; }
+				else{ buff[0]=(x*OAPP_SCALE); buff[1]=(y*OAPP_SCALE); }
+				buff[2]=(w*OAPP_SCALE); buff[3]=(h*OAPP_SCALE);
+				xcb_configure_window(XCON,XWIN,
+					XCB_CONFIG_WINDOW_X|XCB_CONFIG_WINDOW_Y|XCB_CONFIG_WINDOW_WIDTH|XCB_CONFIG_WINDOW_HEIGHT,
+					buff
+				);
+				return true;
+			}
+		}
+		return false;
+	}
+
 /** Getters/misc ops **/
 	void CContext::log(bool verbose, bool newLine){
 		if(verbose){
