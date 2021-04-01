@@ -59,6 +59,7 @@ namespace Orion{
 		}
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
 		XCB_CONNECT();
+		CXHA_INIT();
 		OAPP_RUNNING=true;
 		return true;
 	}
@@ -68,6 +69,7 @@ namespace Orion{
 		CAppWipe();
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
 		XCB_DISCONNECT();
+		CXHA_FREE();
 		OAPP_RUNNING=false;
 		return true;
 	}

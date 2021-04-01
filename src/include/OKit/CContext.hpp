@@ -40,7 +40,7 @@ namespace Orion{
 	class ODrawable;
 
 	/* Internal. An enumeration of possible Context types. */
-	enum CCType{
+	enum CCType : char{
 		CCT_ERROR,
 		CCT_INPUTONLY,
 		CCT_TOPLEVEL,
@@ -52,7 +52,7 @@ namespace Orion{
 	};
 
 	/* Internal. Higher-level abstraction of an X Window. */
-	class CContext{
+	class CContext : public CLoggable{
 		public:
 			CCType   XTYPE;
 			uint32_t XWIN;
@@ -61,6 +61,7 @@ namespace Orion{
 			uint32_t XMASK;
 			char*    XTITLE;
 			bool     XMAPPED;
+			bool     XLINKED;
 			struct{
 				void* obj;
 				void  (*func)(ODrawable* obj, CXEvent* event);
@@ -78,9 +79,24 @@ namespace Orion{
 			bool setTitle(const char* title);
 			bool setCol(OCol* col);
 
+			virtual void log(bool verbose=false, bool newLine=true) override;
+
 	};
 
 /*** Context Handling ***/
+#ifdef ORION_INTERNAL
+	struct CXHANDLE{
+		uint32_t  XWIN;
+		CContext* context;
+	};
+
+	extern bool      CXHA_INIT(void);
+	extern bool      CXHA_FREE(void);
+	extern bool      CXHA_LINK(CContext* context);
+	extern bool      CXHA_UNLINK(CContext* context);
+	extern CContext* CXHA_FROMXID(uint32_t XWIN);
+
+#endif /* ORION_INTERNAL */
 }
 
 #endif /* !__ORIONAPI_OKIT_CCONTEXT_H__ */

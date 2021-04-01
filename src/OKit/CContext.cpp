@@ -37,7 +37,7 @@ namespace Orion{
 	CContext::~CContext(void){ destroy(); }
 	CContext::CContext(void) :
 		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
-		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLISTENER{0,0}
+		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLINKED{0}, XLISTENER{0,0}
 		{}
 
 /** Creation **/
@@ -101,6 +101,7 @@ namespace Orion{
 				XMASK=0;
 				XTITLE=0;
 				XMAPPED=0;
+				XLINKED=0;
 				XLISTENER={0,0};
 				return true;
 			}
@@ -110,12 +111,12 @@ namespace Orion{
 
 /** Modification **/
 	bool CContext::map(bool link){
-		(void)link; /* TODO: Add Event linking! */
 		XONLY{
 			if(XWIN && !XMAPPED){
 				// xcb_void_cookie_t result=
 				xcb_map_window(XCON,XWIN);
 				// if( xcb_request_check(XCON,result) ){ return false; }
+				if(link){ XLINKED=CXHA_LINK(this); }
 				XMAPPED=1;
 				return true;
 			}
@@ -129,7 +130,7 @@ namespace Orion{
 				// xcb_void_cookie_t result=
 				xcb_unmap_window(XCON,XWIN);
 				// if( xcb_request_check(XCON,result) ){ return false; }
-				/* TODO: Add Event unlinking! */
+				if(XLINKED){ XLINKED=CXHA_UNLINK(this); }
 				XMAPPED=0;
 				return true;
 			}
@@ -165,5 +166,107 @@ namespace Orion{
 		}
 		return false;
 	}
-/*** Generic Context functions ***/
+
+/** Getters/misc ops **/
+	void CContext::log(bool verbose, bool newLine){
+		if(verbose){
+			OLog("XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XMAPPED : %s | XLINKED : %s",
+				XTYPE,XWIN,XPARENT,XCOL,XMASK,XTITLE,( (XMAPPED) ? "true" : "false" ),( (XLINKED) ? "true" : "false" )
+			);
+			if(newLine){ OLog("\n"); }
+		}else{
+			OLog("%lu",XWIN);
+			if(newLine){ OLog("\n"); }
+		}
+	}
+
+/*** Generic Context functions / Context Handling ***/
+
+#define __CXHA_DEFAULT_CAP  30
+#define __CXHA_DEFAULT_STEP 10
+
+	static CXHANDLE* CXHA=0;
+	static size_t    CXHA_COUNT=0;
+	static size_t    CXHA_CAP=__CXHA_DEFAULT_CAP;
+
+	/** Memory management **/
+
+	static bool CXHA_EXPAND(void){
+		if(CXHA){
+			CXHA_CAP=CXHA_COUNT+__CXHA_DEFAULT_STEP;
+			CXHA=(CXHANDLE*)realloc(CXHA,sizeof(CXHANDLE)*CXHA_CAP);
+			for(size_t i=CXHA_COUNT;i<CXHA_CAP;i++){ CXHA[i]={0,0}; }
+			return true;
+		}
+		return false;
+	}
+
+	bool CXHA_INIT(void){
+		if(!CXHA){
+			CXHA=(CXHANDLE*)malloc(sizeof(CXHANDLE)*__CXHA_DEFAULT_CAP);
+			CXHA_COUNT=0;
+			CXHA_CAP=__CXHA_DEFAULT_CAP;
+			for(size_t i=0;i<CXHA_CAP;i++){ CXHA[i]={0,0}; }
+			return true;
+		}
+		return false;
+	}
+
+	bool CXHA_FREE(void){
+		if(CXHA){
+			free(CXHA);
+			CXHA=0;
+			CXHA_COUNT=0;
+			CXHA_CAP=__CXHA_DEFAULT_CAP;
+		}
+		return false;
+	}
+
+	/** Linking/Unlinking **/
+
+	bool CXHA_LINK(CContext* context){
+		if(CXHA){
+			if(CXHA_COUNT+1>=CXHA_CAP){ if(!CXHA_EXPAND()){ return false; } }
+		/* Scan for an empty slot */
+			for(size_t i=0;i<CXHA_CAP;i++){
+				if(CXHA[i].XWIN){ continue; }
+				else{
+					CXHA[i]={ context->XWIN,context };
+					CXHA_COUNT++;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	bool CXHA_UNLINK(CContext* context){
+		if(CXHA){
+			for(size_t i=0;i<CXHA_COUNT;i++){
+				if(CXHA[i].context==context){
+					CXHA[i]={0,0};
+					CXHA_COUNT--;
+					for(size_t j=i+1;j<CXHA_CAP;j++){
+						CXHA[j-1]=CXHA[j];
+						CXHA[j]={0,0};
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/** Return a Context stored in the CXHA from an XID. **/
+
+	CContext* CXHA_FROMXID(uint32_t XWIN){
+		if(CXHA){
+			for(size_t i=0;i<CXHA_COUNT;i++){
+				if(CXHA[i].XWIN==XWIN){ return CXHA[i].context; }
+			}
+		}
+		return 0;
+	}
+
+
 }
