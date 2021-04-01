@@ -128,7 +128,7 @@ namespace Orion{
 
 		/* Empty constructor. Sets all values to 0. */
 		inline OAppInfo(void) :
-			name{0}, identifier{0}, username{0}, scale{0}, pid{0},
+			name{0}, identifier{0}, username{0}, scale{1}, pid{0},
 			Storage{0,0,0,0}, Path{0,0,0,0}, Flags{0,0,0} {}
 	};
 

@@ -70,7 +70,7 @@ namespace Orion{
 			~CContext(void);
 			CContext(void);
 
-			bool create(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, uint32_t mask, CCType type);
+			bool create(CContext* root, int16_t x, int16_t y, uint16_t w, uint16_t h, const char* t, OCol* col, uint32_t mask, CCType type);
 			bool destroy(void);
 
 			bool map(bool link);

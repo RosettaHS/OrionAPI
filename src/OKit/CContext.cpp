@@ -27,6 +27,7 @@
 
 #include <stdlib.h>
 #include <xcb/xcb.h>
+#include "../include/Application.hpp"
 #include "../include/OSL/OString.hpp"
 #include "../include/OKit/CContext.hpp"
 
@@ -41,7 +42,7 @@ namespace Orion{
 		{}
 
 /** Creation **/
-	bool CContext::create(CContext* root, int x, int y, unsigned int w, unsigned int h, const char* t, OCol* col, uint32_t mask, CCType type){
+	bool CContext::create(CContext* root, int16_t _x, int16_t _y, uint16_t _w, uint16_t _h, const char* t, OCol* col, uint32_t mask, CCType type){
 		if(XWIN){ return false; }
 		XONLY{
 		/* Context initialisation */
@@ -52,8 +53,14 @@ namespace Orion{
 			XMASK=mask;
 		/* Creating X Window */
 			uint32_t tmpVal[2]={ XCOL,XMASK };
+			int16_t  x,y;
+			uint16_t w,h;
+			/* Scale the position differently depending if it's using the WM as a root Context or not. */
+			if(root){ x=(_x*OAPP_SCALE); y=(_y*OAPP_SCALE); }
+			else{ x=_x; y=_y; }
+			w=(_w*OAPP_SCALE); h=(_h*OAPP_SCALE);
 			// xcb_void_cookie_t result=
-			xcb_create_window_checked(
+			xcb_create_window(
 				XCON,XCB_COPY_FROM_PARENT,XWIN,XPARENT,
 				x,y,w,h,0,( (XTYPE!=CCT_INPUTONLY) ? XCB_WINDOW_CLASS_INPUT_OUTPUT : XCB_WINDOW_CLASS_INPUT_ONLY ),
 				XSCR->root_visual,XCB_CW_BACK_PIXEL|XCB_CW_EVENT_MASK,tmpVal
