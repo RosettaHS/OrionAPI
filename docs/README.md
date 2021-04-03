@@ -1,2 +1,2 @@
-# Welcome to OKit Docs
-## Orion Development, made Easy.
+# Welcome to OrionAPI Docs
+## Orion Development, made easy.
