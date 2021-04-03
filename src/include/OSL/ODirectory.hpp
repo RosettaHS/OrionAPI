@@ -179,6 +179,33 @@ namespace Orion{
 	 */
 	extern bool ODirectoryExists(const char* parentDirectory, const char* subDirectory);
 
+#ifndef ORION_NOALTNAMES
+
+	/* An enumeration of possible actions for opening a given Directory. */
+	typedef ODirectoryAction diraction_t;
+	/* An enumeration of possible types for a given DirectoryEntry. */
+	typedef ODEType          direnttype_t;
+	/* An item of a given Directory. */
+	typedef ODirectoryEntry  direntry_t;
+	/* An Orion-Native implementation for easily accessing Directories. */
+	typedef ODirectory       dir_t;
+
+	/**
+	 * @brief Does the given Directory exist relative to the OApp's working directory?
+	 * @param directory The name/path (absolute or relative) of the Directory to check.
+	 * @return True if the Directory exists at the location, otherwise false.
+	 */
+	inline bool directoryExists(const char* directory) { return ODirectoryExists(directory); }
+	/**
+	 * @brief Does the Sub-Directory exist relative to the given Directory? 
+	 * @param parentDirectory A path (absolute or relative) to attempt to search for the Sub-Directory in.
+	 * @param subDirectory The name/path of the Sub-Directory to check relative to the given Directory.
+	 * @return True if the Sub-Directory exists at the location, otherwise false.
+	 */
+	inline bool directoryExists(const char* parentDirectory, const char* subDirectory)
+		{ return ODirectoryExists(parentDirectory,subDirectory); }
+
+#endif /* !ORION_NOALTNAMES */
 }
 
 #endif /* !__ORION_OSL_ODIRECTORY_H__ */
