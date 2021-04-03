@@ -33,13 +33,17 @@
 
 #define OCHARBYTES 5
 
-#define CHARBIT_UTF8_MB (0x80)
-#define CHARBIT_UTF8_1X (0x40)
-#define CHARBIT_UTF8_2X (0x20)
-#define CHARBIT_UTF8_3X (0x10)
-#define CHARBIT_UTF8_4X (0x8)
-#define CHARBIT_UTF8_5X (0x4)
-#define CHARBIT_UTF8_6X (0x2) /* Invalid! Only used for calculation. */
+#ifndef ORION_NOHELPERS
+
+	#define CHARBIT_UTF8_MB (0x80)
+	#define CHARBIT_UTF8_1X (0x40)
+	#define CHARBIT_UTF8_2X (0x20)
+	#define CHARBIT_UTF8_3X (0x10)
+	#define CHARBIT_UTF8_4X (0x8)
+	#define CHARBIT_UTF8_5X (0x4)
+	#define CHARBIT_UTF8_6X (0x2) /* Invalid! Only used for calculation. */
+
+#endif /* !ORION_NOHELPERS */
 
 /*** String #defines ***/
 
