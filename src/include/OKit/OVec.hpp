@@ -76,5 +76,13 @@ namespace Orion{
 		 */
 		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
+#ifndef ORION_NOALTNAMES
+
+	/* Used to hold position data for any OrionUI Elements. */
+	typedef OVec  vec_t;
+	/* Used to hold position and size data for any OrionUI Elements. */
+	typedef OVec4 vec4_t;
+
+#endif /* !ORION_NOALTNAMES */
 }
 #endif /* !__ORIONAPI_OKIT_OVEC_H__ */

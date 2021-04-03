@@ -63,6 +63,13 @@ namespace Orion{
 		 */
 		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
+
+#ifndef ORION_NOALTNAMES
+
+	/* Allows you to use colours with OrionUI (OKit) Elements. Takes in RGB values.*/
+	typedef OCol col_t;
+
+#endif /* !ORION_NOALTNAMES */
 	
 }
 #endif /* !__ORIONAPI_OKIT_OCOL_H__ */
