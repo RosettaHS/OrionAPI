@@ -46,6 +46,7 @@
 /* If any String lookup function returns this, it means the lookup failed. */
 #define OSTRING_NOTFOUND ULONG_MAX
 
+
 namespace Orion{
 /*** Characters ***/
 
@@ -293,6 +294,16 @@ namespace Orion{
 	 * @return True if both Strings are identical, false if there are any variations.
 	 */
 	extern bool OStringCompare(const char*, const char*);
-}
 
+#ifndef ORION_NOALTNAMES
+
+	/* An enumeration of UTF8 states for a given byte. */
+	typedef OUnicodeType unitype_t;
+	/* An Orion-Native wrapper for individual Unicode characters. */
+	typedef OChar        unichar_t;
+	/* An Orion-Native wrapper for Unicode Strings. */
+	typedef OString      string_t;
+
+#endif /* !ORION_NOALTNAMES */
+}
 #endif /* !__ORIONAPI_OSL_OSTRING_H__ */
