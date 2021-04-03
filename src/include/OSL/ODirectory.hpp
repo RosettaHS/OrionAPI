@@ -190,20 +190,21 @@ namespace Orion{
 	/* An Orion-Native implementation for easily accessing Directories. */
 	typedef ODirectory       dir_t;
 
-	/**
-	 * @brief Does the given Directory exist relative to the OApp's working directory?
-	 * @param directory The name/path (absolute or relative) of the Directory to check.
-	 * @return True if the Directory exists at the location, otherwise false.
-	 */
-	inline bool directoryExists(const char* directory) { return ODirectoryExists(directory); }
-	/**
-	 * @brief Does the Sub-Directory exist relative to the given Directory? 
-	 * @param parentDirectory A path (absolute or relative) to attempt to search for the Sub-Directory in.
-	 * @param subDirectory The name/path of the Sub-Directory to check relative to the given Directory.
-	 * @return True if the Sub-Directory exists at the location, otherwise false.
-	 */
-	inline bool directoryExists(const char* parentDirectory, const char* subDirectory)
-		{ return ODirectoryExists(parentDirectory,subDirectory); }
+/* These might be stupid... going to hold off on altname functions for now. */
+	// /**
+	 // * @brief Does the given Directory exist relative to the OApp's working directory?
+	 // * @param directory The name/path (absolute or relative) of the Directory to check.
+	 // * @return True if the Directory exists at the location, otherwise false.
+	 // */
+	// inline bool directoryExists(const char* directory) { return ODirectoryExists(directory); }
+	// /**
+	 // * @brief Does the Sub-Directory exist relative to the given Directory?
+	 // * @param parentDirectory A path (absolute or relative) to attempt to search for the Sub-Directory in.
+	 // * @param subDirectory The name/path of the Sub-Directory to check relative to the given Directory.
+	 // * @return True if the Sub-Directory exists at the location, otherwise false.
+	 // */
+	// inline bool directoryExists(const char* parentDirectory, const char* subDirectory)
+		// { return ODirectoryExists(parentDirectory,subDirectory); }
 
 #endif /* !ORION_NOALTNAMES */
 }

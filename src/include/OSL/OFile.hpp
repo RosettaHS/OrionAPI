@@ -1,3 +1,4 @@
+
 /**********************************************************************************/
 /*                                                                                */
 /*                              Copyright (c) 2021                                */
@@ -430,6 +431,23 @@ namespace Orion{
 	 * @return A numeric hash of the File's contents.
 	 */
 	extern OFileHash OFileGetHash(const char* directory, const char* filename);
+
+#ifndef ORION_NOALTNAMES
+
+	/* An enumeration of generic File types. */
+	typedef OFileType    filetype_t;
+	/* An enumeration of possible File actions. */
+	typedef OFileAction  fileaction_t;
+	/* A simple numeric hash of a File's contents. */
+	typedef OFileHash    filehash_t;
+	/* An individual Line of a File. */
+	typedef OFileLine    fileline_t;
+	/* The internal Content of a File. */
+	typedef OFileContent filecontent_t;
+	/* An Orion-Native implementation for easily reading and writing to Files. */
+	typedef OFile        file_t;
+
+#endif /* !ORION_NOALTNAMES */
 }
 
 #endif /* !__ORIONAPI_OSL_OFILE_H__ */
