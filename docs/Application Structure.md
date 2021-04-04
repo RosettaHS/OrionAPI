@@ -16,7 +16,7 @@ The following is the directory structure of an average Orion-Native Application:
 ```
 MyOApp.oapp/         - <The Application>
     .SYS/            - <Internal, Orion/OrionAPI only>
-*       run.sh       - <Runs this Application and feeds data from conf.cfg to OrionAPI>
+        run.sh*      - <Runs this Application and feeds data from conf.cfg to OrionAPI>
         conf.cfg     - <Metadata regarding this Application>
         INSTALL.sh   - <Ran by Orion on install>
         UNINSTALL.sh - <Ran by Orion on uninstall>
@@ -27,6 +27,6 @@ MyOApp.oapp/         - <The Application>
         ...          - <A directory for as many users are there are on the system>
     src/             - <Application Source>
     icon.png         - <AppIcon. Can also be under static/>
-*   MyOApp.oapp      - <Binary>
+    MyOApp.oapp*     - <Binary> 
 ```
 **[Files marked with a `*` are required by Orion. All directories are required]**
