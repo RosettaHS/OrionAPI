@@ -1,4 +1,4 @@
-# Generic Information: API Options
+# Generic Information: API Configuration
 ## Configurable properties for OrionAPI
 
 OrionAPI is a very large, general-purpose API for making Applications for the Orion Operating System.
@@ -192,7 +192,7 @@ All types, functions, and methods provided by OrionAPI are named using the [came
 However this naming convention conflicts with the more common [snake_case](https://en.wikipedia.org/wiki/Snake_case) naming convention for functions, and the ["_t" type suffix](https://stackoverflow.com/questions/1391447/what-does-the-postfix-t-stand-for-in-c) commonly used by structs/types,
 and commonly highlighted by [syntax highlighting](https://en.wikipedia.org/wiki/Syntax_highlighting) services such as the ones used in GitHub and [GNU nano](https://en.wikipedia.org/wiki/GNU_nano)
 
-While this is purely cosmetic, it can give the appearance of messy code and cause severe visual style confliction if a given program's source code is using several libraries (that follow different naming conventions) alongside OrionAPI
+While this is purely cosmetic, it can give the appearance of messy code and cause severe visual style confliction if a given program's source code is using several libraries (that follow different naming conventions) alongside OrionAPI.
 To circumvent this style clash, OrionAPI provides several [aliases](https://en.wikipedia.org/wiki/Typedef) to non-internal/control types to make their names fit in better with code following more standard naming conventions.
 
 This is an example of a few aliases to File and Directory management classes provided by OrionAPI:
