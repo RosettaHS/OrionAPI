@@ -64,6 +64,8 @@ meaning having variable content within this directory is a bad practise since th
 A good example of a correct use of this directory would be a Graphical Application that stores the icons for the buttons, and localised text within this directory,
 and those files are created and stored within the directory prior to release (meaning the Application does not generate these files during operation).
 
+Another good example would be the Manual App in Orion, since it stores all of the documentation markdown files (such as this very file) internally within `static/`
+
 **[OrionAPI refers to this directory as `OAPP_STATICPATH`]**
 
 ### data/\<username\>
@@ -77,6 +79,7 @@ This (sub)directory is specific to the given user, and multiple user accounts of
 A user (or Application instance) can only read data from within their own subdirectory, and cannot access data from another user's subdirectory.
 
 All content stored within this (sub)directory **MUST** be evaluated and populated at some point during runtime, manually creating or storing content within any of these subdirectories prior to the Application's initialisation (as you would with `static/`) is **forbidden.**
+
 Applications must be designed to work correctly with this structure, as any and all content stored within these subdirectories are subject to change throughout the lifespan of the Application, and will change when a different user loads the Application.
 
 Unlike with `static/`, assuming a given file or folder will exist within any of these subdirectories is dangerous, as there is no guarantee a given file will even exist at all
