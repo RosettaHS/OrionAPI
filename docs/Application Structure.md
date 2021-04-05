@@ -6,8 +6,9 @@ Application Structure. This is to make the operating system easier to use for be
 and also provides several other utilities to make development for the operating system easier.
 
 ## Structure Overview
-Orion-Native Applications (OApps) reside in a custom directory structure. All the contents of a given Application, both user-generated and static, are stored within directories inside of the Application itself.
-The top-level directory ends with a `.oapp` extension. If the Application Structure is valid, the Orion File Manager will hide the extension and show the directory as if it were a single, executable file, with a custom icon.
+Orion-Native Applications (OApps) reside in a custom directory structure. All the contents of a given Application, both user-generated and static, are stored within directories inside of the Application itself. The top-level directory ends with a `.oapp` extension.
+
+If the Application Structure is valid, the Orion File Manager will hide the extension and show the directory as if it were a single, executable file, with a custom icon.
 
 Within the Application's directory resides a list of internal directories used by the Application and OrionAPI.
 Not all of the internal directories are required to be populated, however they are required to exist.
@@ -65,7 +66,7 @@ and those files are created and stored within the directory prior to release (me
 
 **[OrionAPI refers to this directory as `OAPP_STATICPATH`]**
 
-### data/<username>
+### data/\<username\>
 Alongside the Orion-Native Application Structure providing dedicated storage locations for the Application's static content and dependencies,
 it also provides locations to store user-specific content.
 
