@@ -64,12 +64,13 @@ OCol(uint8_t r, uint8_t g, uint8_t b);
 ```
 Initialises and sets the Colour to the given RGB values. 
 
-```
 Parameters:
-    uint8_t r - <The red value (0 - 255) of this Colour>
-    uint8_t g - <The green value (0 - 255) of this Colour>
-    uint8_t b - <The blue value (0 - 255) of this Colour>
-```
+
+**uint8_t r** - The red value (0 - 255) of this Colour.
+
+**uint8_t g** - The green value (0 - 255) of this Colour.
+
+**uint8_t b** - The blue value (0 - 255) of this Colour.
 ```cpp
 bool setTo(const char* format);
 ```
@@ -78,21 +79,19 @@ Attempts to set and initialise this Colour from the given formatted String.
 The String MUST be in a very specific format. Example: "(255,255,255)"
 The formatted part can be at any position of the String, but it MUST contain three values corrisponding to each of the RGB values.
 
-```
 Parameters:
-    const char* format - <The format String to attempt to retrieve the values from>
 
-Returns:
-    True on success, otherwise false if format String is not valid.
-```
+**const char\* format** - The format String to attempt to retrieve the values from.
+
+Returns: **True** on success, otherwise **false** if format String is not valid.
 
 ```cpp
 virtual void log(bool verbose=false, bool newLine=true) override;
 ```
 Logs the information of this Col to the terminal.
 
-```
 Parameters:
-    bool verbose - <Log verbose information about this Col instead of the traditional information. Default is false>
-    bool newLine - <Should the output be placed on a newline or append to the current one if applicable? Default is true>
-```
+
+**bool verbose** - Log verbose information about this Col instead of the traditional information. Default is false.
+
+**bool newLine** - Should the output be placed on a newline or append to the current one if applicable? Default is true.
