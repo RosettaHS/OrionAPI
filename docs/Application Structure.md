@@ -147,6 +147,7 @@ Through this instance, a developer can access the directories inside of the Appl
 There are many [helpers](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_nohelpers) provided by OrionAPI,
 but the following helpers point specifically to the Application's internal directories.
 ```
+OAPP            - <Points to the global instance (OApp)>
 OAPP_STORAGE    - <Points to the Storage struct within OApp>
 OAPP_STATICPATH - <Points to the Application's "static/" directory>
 OAPP_LIBPATH    - <Points to the Application's "libs/" directory>
@@ -158,7 +159,7 @@ and the Orion Operating System will immediately recognise the folder as a valid 
 ### Utilising Helpers
 **[All of the code examples in this section assume that the Application's binary is within a folder with the extension `.oapp`.
 If it is not in this structure, create a folder with any name (such as `MyOApp`) and give it the `.oapp` extension (making this example `MyOApp.oapp`)
-and it will be automatically populated]**
+and it will be automatically populated on first startup]**
 
 When these helpers are initialised through `OAppStart()`, they can be used as directory inputs when using OFile and ODirectory.
 The following code creates an Application that will create a file with some text inside of the user's data subdirectory, and then reads it upon next launch:
@@ -220,3 +221,29 @@ int main(void){
 }
 ```
 This is a valid approach, and functions identically to using `OAPP_DATAPATH`, `OAPP.Storage.dataPath`, or `OAPP_STORAGE.dataPath` instead.
+
+To better understand what exactly `OAPP_DATAPATH` (and its expansion) is, 
+the following code will print out to the terminal the storage directories of the Application (alongside other information about the Application):
+```cpp
+#include <OrionAPI>
+
+int main(void){
+	OAppStart("MyOApp"); /* To initialise the Application and its directories. */
+
+	OLog("Application Name          : %s\n",OAPP_NAME);       /* Can also use OApp.name */
+	OLog("Application User          : %s\n",OAPP_USERNAME);   /* Can also use OApp.username */
+	OLog("Application Path          : %s\n",OAPP_BINDIR);     /* Can also use OApp.Path.toBinaryFolder */
+	OLog("Application Static Path   : %s\n",OAPP_STATICPATH); /* Can also use OApp.Storage.staticPath */
+	OLog("Application Library Path  : %s\n",OAPP_LIBPATH);    /* Can also use OApp.Storage.libPath */
+	OLog("Application Data Path     : %s\n",OAPP_DATAPATH);   /* Can also use OApp.Storage.dataPath */
+
+	OAppEnd(); /* To free the global instance. */
+}
+```
+As seen with this example, `OAPP_DATAPATH` (and all similar helpers) are merely strings that contain the full path to the Application's internal content.
+This is how they can be used as directory inputs inside of functions for Files and Directories,
+making it incredibly easy to create Applications that store content internally, and automates the process of storing different information per user.
+
+By using `OAPP_STATICPATH` for reading content the Application requires to run (such as icons, localised text, etc),
+and `OAPP_DATAPATH` for reading and writing content dependent on the user (such as logins, settings, etc), you can create an Application
+that nearly fully utilises the Orion-Native Application Structure with almost no effort at all by the developer.
