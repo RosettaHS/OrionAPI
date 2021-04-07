@@ -1,7 +1,7 @@
 # Type Reference: OCol
-### Dealing with Colours
+## Dealing with Colours
 
-## Definition
+## Expansion
 ```cpp
 struct OCol : public CLoggable{
 	uint8_t  r,g,b;
