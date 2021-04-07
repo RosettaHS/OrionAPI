@@ -61,9 +61,9 @@ namespace Orion{
 
 	/* Used to hold position and size data for any OrionUI Elements. */
 	struct OVec4 : CLoggable {
-		/* The X and Y positions on the screen or of the object. */
+		/* The X and Y positions of the Element. */
 		int16_t  x, y;
-		/* The Width and Height of the object.*/
+		/* The Width and Height of the Element.*/
 		uint16_t w, h;
 
 		/* Empty constructor. Sets all values to 0. */
