@@ -15,10 +15,10 @@ struct OCol : public CLoggable{
 	virtual void log(bool verbose=false, bool newLine=true) override;
 };
 ```
-**```
+```
 [Altname  : col_t]
 [Declared : src/include/OKit/OCol.hpp]
 [Defined  : src/OKit/OCol.cpp]
-```**
+```
 
 ## Use
