@@ -9,7 +9,7 @@ The C- Prefix is for control/reference classes that are used internally by Orion
 These classes are complicated, unstable, and lacking in functionality as they are meant to be strung together to form a larger class.
 
 ### Use
-**Never** use C- Prefixed classes or types. Ignore them entirely and **Only** use O- Prefixed class.
+**NEVER** use C- Prefixed classes or types. Ignore them entirely and **ONLY** use O- Prefixed class.
 O- Prefixed classes offer full functionality, ease of use, reliability, and full documentation.
 There is never an instance to use C- Prefixed classes unless you are trying to remake a class or type, which is highly discouraged.
 
@@ -34,6 +34,8 @@ typedef ODirectoryAction diraction_t;
 typedef ODEType          direnttype_t;
 typedef ODirectoryEntry  direntry_t;
 typedef ODirectory       dir_t;
+
 ```
+The altname of a given class or type can be found within the documentation of said class or type.
 
 Information on disabling altnames can be found [here.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_noaltnames)
