@@ -111,7 +111,7 @@ as [proprietary software](https://en.wikipedia.org/wiki/Proprietary_software) de
 **[OrionAPI does not refer to this directory]**
 
 ## OrionAPI Integration
-OrionAPI already provides tools for modifying and accessing files and directories, but alongside these, OrionAPI also provides tools for easily interfacing with the Application's structure.
+Alongside the general tools for modifying and accessing files and directories, OrionAPI also provides tools for easily interfacing with the Application's structure.
 Internally, OrionAPI provides a struct that contains information regarding an Application and its structure:
 ```cpp
 struct OAppInfo{
@@ -152,3 +152,71 @@ OAPP_STATICPATH - <Points to the Application's "static/" directory>
 OAPP_LIBPATH    - <Points to the Application's "libs/" directory>
 OAPP_DATAPATH   - <Points to the current user's "data/" subdirectory>
 ```
+Another thing to note is that if the Application's binary merely sits in a folder with the extension `.oapp`,
+OrionAPI will automatically populate that folder with the required directories for the Orion-Native Application Structure,
+and the Orion Operating System will immediately recognise the folder as a valid OApp, and will display it accordingly.
+### Utilising Helpers
+**[All of the code examples in this section assume that the Application's binary is within a folder with the extension `.oapp`.
+If it is not in this structure, create a folder with any name (such as `MyOApp`) and give it the `.oapp` extension (making this example `MyOApp.oapp`)
+and it will be automatically populated]**
+
+When these helpers are initialised through `OAppStart()`, they can be used as directory inputs when using OFile and ODirectory.
+The following code creates an Application that will create a file with some text inside of the user's data subdirectory, and then reads it upon next launch:
+```cpp
+#include <OrionAPI>
+
+int main(void){
+	OAppStart("MyOApp"); /* To initialise the Application and its directories. */
+
+	OFile file;
+	if(OAPP_DATAPATH){ /* If the Application has been initialised correctly. */
+		if( OFileExists(OAPP_DATAPATH,"myFile.txt") ){
+			/* If the file has been created, read it! */
+			file.open(OAPP_DATAPATH,"myFile.txt");
+			file.log();
+			file.close(false);
+		}else{
+			/* If the file has not been created, create it first for it to be read next launch. */
+			file.open(OAPP_DATAPATH,"myFile.txt");
+			file.setLine(0,"Hello World!");
+			file.close(true);
+			OLog("File has been created!\n");
+		}
+	}
+
+	OAppEnd(); /* To free the global instance. */
+}
+```
+Upon running this Application for the first time, it will only display `File has been created!` to the terminal,
+however the second time it is ran, it will read out the contents of `myFile.txt` to the terminal, which in this example is `Hello World!`.
+
+This is an example of utilising the Application's data directories for storing and accessing information.
+Note that since this is using `OAPP_DATAPATH`, it will create a separate `myFile.txt` for each user that runs the Application.
+
+Also note that the same Application can be written without helpers, and instead interfacing with the global instance directly:
+```cpp
+#include <OrionAPI>
+
+int main(void){
+	OAppStart("MyOApp"); /* To initialise the Application and its directories. */
+
+	OFile file;
+	if(OApp.Storage.dataPath){ /* If the Application has been initialised correctly. */
+		if( OFileExists(OApp.Storage.dataPath,"myFile.txt") ){
+			/* If the file has been created, read it! */
+			file.open(OAPP_DATAPATH,"myFile.txt");
+			file.log();
+			file.close(false);
+		}else{
+			/* If the file has not been created, create it first for it to be read next launch. */
+			file.open(OApp.Storage.dataPath,"myFile.txt");
+			file.setLine(0,"Hello World!");
+			file.close(true);
+			OLog("File has been created!\n");
+		}
+	}
+
+	OAppEnd(); /* To free the global instance. */
+}
+```
+This is a valid approach, and functions identically to using `OAPP_DATAPATH`, `OAPP.Storage.dataPath`, or `OAPP_STORAGE.dataPath` instead.
