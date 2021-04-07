@@ -38,7 +38,6 @@ namespace Orion{
 		int32_t f[2]={0,0};
 
 		for(size_t i=start+1;i<end;i++){
-			OLog("part %lu | sect %lu\n",part,sect);
 			if(part>10 || sect>1){ return false; }
 			switch(format[i]){
 				default: { tmp[part]=format[i]; part++; break; }
@@ -74,7 +73,6 @@ namespace Orion{
 		int32_t f[4]={0,0,0,0};
 
 		for(size_t i=start+1;i<end;i++){
-			OLog("part %lu | sect %lu\n",part,sect);
 			if(part>10 || sect>3){ return false; }
 			switch(format[i]){
 				default: { tmp[part]=format[i]; part++; break; }
