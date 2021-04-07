@@ -48,7 +48,7 @@ An OCol can also be initialised using a properly formatted String.
 A String such as `"(255,255,255)"` can be inputted into the `setTo()` method, and if the String is properly formatted, will set the OCol to
 the value stored within the String.
 
-The formatted section can be at any point of the String, but it must be present and have 3 distinct numbers (in range of 0-255) that corrispond to the R,G, and B values of the Colour.
+The formatted section can be at any point of the String, but it must be present and have 3 distinct numbers (in range of 0-255) that correspond to the R,G, and B values of the Colour.
 ```cpp
 const char* myString="This is a colour (255,255,255) formatted within a String!";
 myCol.setTo(myString);
@@ -88,7 +88,7 @@ bool setTo(const char* format);
 Attempts to set and initialise this Colour from the given formatted String. 
 
 The String MUST be in a very specific format. Example: "(255,255,255)"
-The formatted part can be at any position of the String, but it MUST contain three values corrisponding to each of the RGB values.
+The formatted part can be at any position of the String, but it MUST contain three values corresponding to each of the RGB values.
 
 Parameters:
 

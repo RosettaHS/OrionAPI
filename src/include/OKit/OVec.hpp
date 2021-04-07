@@ -46,7 +46,7 @@ namespace Orion{
 		 * @brief Attempts to set and initialise this Vector from the given formatted String. 
 		 * @param format The format String to attempt to retrieve the values from.
 		 * The String MUST be in a very specific format. Example: "(760,365)"
-		 * The formatted part can be at any position of the String, but it MUST contain two values corrisponding to each of the X and Y values.
+		 * The formatted part can be at any position of the String, but it MUST contain two values corresponding to each of the X and Y values.
 		 * @return True on success, otherwise false if format String is not valid.
 		 */
 		bool setTo(const char* format);
@@ -80,7 +80,7 @@ namespace Orion{
 		 * @brief Attempts to set and initialise this Vector4 from the given formatted String. 
 		 * @param format The format String to attempt to retrieve the values from.
 		 * The String MUST be in a very specific format. Example: "(760,365,400,350)"
-		 * The formatted part can be at any position of the String, but it MUST contain four values corrisponding to each of the X,Y, W, and H values.
+		 * The formatted part can be at any position of the String, but it MUST contain four values corresponding to each of the X,Y, W, and H values.
 		 * @return True on success, otherwise false if format String is not valid.
 		 */
 		bool setTo(const char* format);
