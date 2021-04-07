@@ -1,5 +1,5 @@
 # Type Reference: OCol
-## Dealing with Colours
+### Dealing with Colours
 
 ## Definition
 ```cpp
@@ -16,7 +16,9 @@ struct OCol : public CLoggable{
 };
 ```
 **[Altname  : `col_t`]**
+
 **[Declared : `src/include/OKit/OCol.hpp`]**
+
 **[Defined  : `src/OKit/OCol.cpp`]**
 
 ## Use
