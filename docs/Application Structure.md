@@ -245,5 +245,13 @@ This is how they can be used as directory inputs inside of functions for Files a
 making it incredibly easy to create Applications that store content internally, and automates the process of storing different information per user.
 
 By using `OAPP_STATICPATH` for reading content the Application requires to run (such as icons, localised text, etc),
-and `OAPP_DATAPATH` for reading and writing content dependent on the user (such as logins, settings, etc), you can create an Application
+and `OAPP_DATAPATH` for reading and writing content dependent on the user (such as logins, settings, etc), you can create a user-agnostic Application
 that nearly fully utilises the Orion-Native Application Structure with almost no effort at all by the developer.
+
+## Other Information
+The main purpose of this Application Structure is so that users who are new to Linux, or computers as a whole, can easily learn how to use, install, and manage their Applications.
+It is also useful for minimising bloat by keeping all aspects of an Application in one location on the system.
+
+Applications installed to Orion are kept within a dedicated folder, and due to the Application Structure,
+each user of the system can run the Application and get entirely different experiences due to user-content being stored internally within separate subdirectories,
+preventing abuse of the user's home folder to store user-content.
