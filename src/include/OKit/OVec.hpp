@@ -42,6 +42,14 @@ namespace Orion{
 		 * @param _y The Y (vertical) positional value to set on this Vec.
 		 */
 		inline void setTo(int32_t _x, int32_t _y) { x=_x; y=_y; }; inline OVec(int32_t _x, int32_t _y) : x{_x}, y{_y} {}
+		/**
+		 * @brief Attempts to set and initialise this Vector from the given formatted String. 
+		 * @param format The format String to attempt to retrieve the values from.
+		 * The String MUST be in a very specific format. Example: "(760,365)"
+		 * The formatted part can be at any position of the String, but it MUST contain two values corrisponding to each of the X and Y values.
+		 * @return True on success, otherwise false if format String is not valid.
+		 */
+		bool setTo(const char* format);
 
 		/**
 		 * @brief Logs the information of this Vec to the terminal.
@@ -68,6 +76,14 @@ namespace Orion{
 		 * @param _h The H (vertical) sizing value to set on this Vec4.
 		 */
 		inline void setTo(int16_t _x, int16_t _y, uint16_t _w, uint16_t _h) { x=_x; y=_y; w=_w; h=_h; }; inline OVec4(int16_t _x, int16_t _y, uint16_t _w, uint16_t _h) : x{_x}, y{_y}, w{_w}, h{_h} {}
+		/**
+		 * @brief Attempts to set and initialise this Vector4 from the given formatted String. 
+		 * @param format The format String to attempt to retrieve the values from.
+		 * The String MUST be in a very specific format. Example: "(760,365,400,350)"
+		 * The formatted part can be at any position of the String, but it MUST contain four values corrisponding to each of the X,Y, W, and H values.
+		 * @return True on success, otherwise false if format String is not valid.
+		 */
+		bool setTo(const char* format);
 
 		/**
 		 * @brief Logs the information of this Vec4 to the terminal.

@@ -48,7 +48,7 @@ namespace Orion{
 		void setTo(uint8_t r, uint8_t g, uint8_t b); OCol(uint8_t r, uint8_t g, uint8_t b);
 
 		/**
-		 * @brief Internal. Attempts to set and initialise this Colour from the given formatted String. 
+		 * @brief Attempts to set and initialise this Colour from the given formatted String. 
 		 * @param format The format String to attempt to retrieve the values from.
 		 * The String MUST be in a very specific format. Example: "(255,255,255)"
 		 * The formatted part can be at any position of the String, but it MUST contain three values corrisponding to each of the RGB values.

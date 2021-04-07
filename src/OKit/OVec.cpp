@@ -25,9 +25,38 @@
 
 #define ORION_INTERNAL
 
+#include <stdlib.h>
+#include "../include/OSL/OString.hpp"
 #include "../include/OKit/OVec.hpp"
 
 namespace Orion{
+	bool OVec::setTo(const char* format){
+		size_t start, end, part=0, sect=0;
+		start=OStringFindFirst(format,"("); end=OStringFindFirst(format,")");
+		if(start==OSTRING_NOTFOUND || end==OSTRING_NOTFOUND){ return false; }
+		char    tmp[10]={0,0,0,0,0,0,0,0,0,0};
+		int32_t f[2]={0,0};
+
+		for(size_t i=start+1;i<end;i++){
+			OLog("part %lu | sect %lu\n",part,sect);
+			if(part>10 || sect>1){ return false; }
+			switch(format[i]){
+				default: { tmp[part]=format[i]; part++; break; }
+				case ' ':{ break; }
+				case ',':{
+					f[sect]=atoi(tmp);
+					for(int8_t i=0;i<10;i++){ tmp[i]=0; }
+					part=0; sect++; break;
+				}
+			}
+		}
+		if(sect!=1){ return false; }
+		f[1]=atoi(tmp);
+
+		setTo(f[0],f[1]);
+		return true;
+	}
+
 	void OVec::log(bool verbose, bool newLine){
 		if(verbose){
 			OLog("OVec : %p | x : %d | y :d",(const void*)this,x,y);
@@ -35,6 +64,33 @@ namespace Orion{
 			OLog("(%d, %d)",x,y);
 		}
 		if(newLine){ OLog("\n"); }
+	}
+
+	bool OVec4::setTo(const char* format){
+		size_t start, end, part=0, sect=0;
+		start=OStringFindFirst(format,"("); end=OStringFindFirst(format,")");
+		if(start==OSTRING_NOTFOUND || end==OSTRING_NOTFOUND){ return false; }
+		char    tmp[10]={0,0,0,0,0,0,0,0,0,0};
+		int32_t f[4]={0,0,0,0};
+
+		for(size_t i=start+1;i<end;i++){
+			OLog("part %lu | sect %lu\n",part,sect);
+			if(part>10 || sect>3){ return false; }
+			switch(format[i]){
+				default: { tmp[part]=format[i]; part++; break; }
+				case ' ':{ break; }
+				case ',':{
+					f[sect]=atoi(tmp);
+					for(int8_t i=0;i<10;i++){ tmp[i]=0; }
+					part=0; sect++; break;
+				}
+			}
+		}
+		if(sect!=3){ return false; }
+		f[3]=atoi(tmp);
+
+		setTo(f[0],f[1],f[2],f[3]);
+		return true;
 	}
 
 	void OVec4::log(bool verbose, bool newLine){
