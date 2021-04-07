@@ -30,19 +30,18 @@
 #include "../include/OKit/OCol.hpp"
 
 namespace Orion{
-	OCol::OCol(void) : r{0},g{0},b{0},XCOL{0} {}
-	OCol::OCol(unsigned char _r, unsigned char _g, unsigned char _b) :  r{_r},g{_g},b{_b},XCOL{(uint32_t)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(unsigned char _r, unsigned char _g, unsigned char _b){
+	OCol::OCol(uint8_t _r, uint8_t _g, uint8_t _b) :  r{_r},g{_g},b{_b},XCOL{(uint32_t)(_b + (_g<<8) + (_r<<16))} {}
+	void OCol::setTo(uint8_t _r, uint8_t _g, uint8_t _b){
 		r=_r,g=_g,b=_b;
-		XCOL=(unsigned long)(_b + (_g<<8) + (_r<<16));
+		XCOL=(uint32_t)(_b + (_g<<8) + (_r<<16));
 	}
 
 	bool OCol::setTo(const char* format){
 		size_t start, end, part=0, sect=0;
 		start=OStringFindFirst(format,"("); end=OStringFindFirst(format,")");
 		if(start==OSTRING_NOTFOUND || end==OSTRING_NOTFOUND){ return false; }
-		char tmp[3]={0,0,0};
-		unsigned char f[3]={0,0,0};
+		char    tmp[3]={0,0,0};
+		uint8_t f[3]={0,0,0};
 
 		for(size_t i=start+1;i<end;i++){
 			if(part>3 || sect>3){ return false; }
