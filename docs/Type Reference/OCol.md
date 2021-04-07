@@ -1,5 +1,8 @@
 # Type Reference: OCol
 ## Dealing with Colours
+OCol is used for giving colours to OrionUI (OKit) Elements.
+Most Elements in OKit colour themselves automatically, however you can manually assign them colours. 
+Be aware that this can be overridden by a given user's Orion Theme Settings, or by the given Element itself.
 
 ## Expansion
 ```cpp
@@ -17,8 +20,10 @@ struct OCol : public CLoggable{
 ```
 ```
 [Altname  : col_t]
+[Library  : OKit]
 [Declared : src/include/OKit/OCol.hpp]
 [Defined  : src/OKit/OCol.cpp]
 ```
 
 ## Use
+ 
