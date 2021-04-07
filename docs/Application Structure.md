@@ -82,6 +82,10 @@ All content stored within this (sub)directory **MUST** be evaluated and populate
 
 Applications must be designed to work correctly with this structure, as any and all content stored within these subdirectories are subject to change throughout the lifespan of the Application, and will change when a different user loads the Application.
 
+Although, Applications do not need to manually access a given user's subdirectory by checking the user and attempting to search for the user's given subdirectory,
+instead it can use the `OAPP_DATAPATH` [helper](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_nohelpers) to immediately access the corrisponding data subdirectory
+without having to perform any manual searches for the user's subdirectory.
+
 Unlike with `static/`, assuming a given file or folder will exist within any of these subdirectories is dangerous, as there is no guarantee a given file will even exist at all
 since multiple users can run a given Application, and thus entirely different contents will be loaded as well.
 
@@ -105,3 +109,46 @@ Alongside this limitation, it is also only for [open-source](https://en.wikipedi
 as [proprietary software](https://en.wikipedia.org/wiki/Proprietary_software) developers do not publish their source code alongside the Application.
 
 **[OrionAPI does not refer to this directory]**
+
+## OrionAPI Integration
+OrionAPI already provides tools for modifying and accessing files and directories, but alongside these, OrionAPI also provides tools for easily interfacing with the Application's structure.
+Internally, OrionAPI provides a struct that contains information regarding an Application and its structure:
+```cpp
+struct OAppInfo{
+	const char* name;
+	const char* identifier;
+	const char* username;
+	float scale;
+	pid_t pid;
+	struct{
+		char* staticPath;
+		char* libPath;
+		char* dataPath;
+		char* internalPath;
+	}Storage;
+	struct{
+		char* toBinary;
+		char* toBinaryFolder;
+		char* toHome;
+		char* toCWD;
+	}Path;
+	struct{
+		bool isNativeOApp;
+		bool isVerbose;
+		bool isRunning;
+	}Flags;
+};
+```
+This struct has a [global instance](https://en.wikipedia.org/wiki/Global_variable) (`OApp`) that refers to the running Application.
+When OrionAPI is initialised using `OAppStart()`, it will automatically scan the Application and detect if it is an Orion-Native Application.
+If it comes back conclusive (a valid structure), it will initialise the global instance (`OApp`) and all of its [helpers](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_nohelpers) to point to the given internal directories of the Application.
+
+Through this instance, a developer can access the directories inside of the Application to utilise for data storage.
+There are many [helpers](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_nohelpers) provided by OrionAPI,
+but the following helpers point specifically to the Application's internal directories.
+```
+OAPP_STORAGE    - <Points to the Storage struct within OApp>
+OAPP_STATICPATH - <Points to the Application's "static/" directory>
+OAPP_LIBPATH    - <Points to the Application's "libs/" directory>
+OAPP_DATAPATH   - <Points to the current user's "data/" subdirectory>
+```
