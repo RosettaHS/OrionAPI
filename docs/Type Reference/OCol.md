@@ -43,6 +43,17 @@ as this will NOT update the actual, internal colour.
 ```cpp
 myCol.setTo(127,127,127); /* Grey */
 ```
+An OCol can also be initialised using a properly formatted String.
+
+A String such as `"(255,255,255)"` can be inputted into the `setTo()` method, and if the String is properly formatted, will set the OCol to
+the value stored within the String.
+
+The formatted section can be at any point of the String, but it must be present and have 3 distinct numbers (in range of 0-255) that corrispond to the R,G, and B values of the Colour.
+```cpp
+const char* myString="This is a colour (255,255,255) formatted within a String!";
+myCol.setTo(myString);
+```
+This will set the OCol to Pure White, which is the colour value stored within the String.
 
 ## Breakdown
 ```cpp
