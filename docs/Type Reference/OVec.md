@@ -77,9 +77,10 @@ inline OVec(int32_t _x, int32_t _y) : x{_x}, y{_y} {}
 Sets the X and Y positional (or W and H sizing) values to the given parameters.
 
 Parameters:
-`int32_t _x The X (horizontal) positional value to set on this Vec.`
 
-`int32_t _y The Y (vertical) positional value to set on this Vec.`
+`int32_t _x - The X (horizontal) positional value to set on this Vec.`
+
+`int32_t _y - The Y (vertical) positional value to set on this Vec.`
 ```cpp
 bool setTo(const char* format);
 ```
@@ -100,8 +101,9 @@ Logs the information of this Vec to the terminal.
 
 Parameters:
 
-`bool verbose Log verbose information about this Vec instead of the traditional information. Default is false.`
-`bool newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.`
+`bool verbose - Log verbose information about this Vec instead of the traditional information. Default is false.`
+
+`bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
 
 ## Other Information
 OVec stores the values as `int32_t`. This is to allow for either positional (`int16_t`) and size (`uint16_t`) values
