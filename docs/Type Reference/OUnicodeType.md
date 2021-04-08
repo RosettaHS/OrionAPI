@@ -56,7 +56,7 @@ Looking closer at the bits near the start (left-most bits) of each byte, a patte
 For all ASCII (single-byte) characters, the left-most bit is always `0`.
 However for the left-most bit of all of the Grape's bytes, it is always `1`.
 
-If a character byte contains a `1` as the left-most bit, it is a flag that states that the bit is a multi-byte character.
+If a character byte contains a `1` as the left-most bit, the `1` is a flag that states that the byte is part of a multi-byte character.
 Examining the bits immediately after will also give extra clues about the character and bytes themselves.
 
 Let's take a closer look at the first byte of the Grape Emoji:
@@ -73,7 +73,7 @@ Let's take a closer look at the first byte of the Grape Emoji:
    |  Calls for +1 Continuation Bytes (CB)
  IsMultibyte = 1 (True)
 ```
-Examining the bites, we find the first byte of the Grape Emoji declares itself as multi-byte (first bit),
+Examining the bits, we find the first byte of the Grape Emoji declares itself as multi-byte (first bit),
 and then the next three bits are active, which indicates that this byte is the header byte of a multi-byte character that spans three bytes (calling for three continuation bytes).
 
 After the first three bits, a `0` is encountered. The first `0` always denotes the end of any UTF-8 flags. The remaining bits contain data regarding the byte,
@@ -114,7 +114,7 @@ This is entirely abstracted by OrionAPI through the `OCharGetUnicodeType()` func
 
 A `1` as the left-most bit will **always** indicate that the given byte is indeed a Unicode byte.
 If this bit is true, any and all `1`s after the left-most bit will count the number of continuation bytes required for the given character.
-By this standard, a maximum of five continuation bytes are possible:
+Technically, following this approach, a maximum of five continuation bytes are possible:
 ```
 [11111101]-------+
   Byte 1         |
@@ -132,8 +132,10 @@ By this standard, a maximum of five continuation bytes are possible:
    |  +1 CB Total
   IsMultibyte = 1 (True)
 ```
+Although, it's important to know that the UTF-8 standard itself ONLY allows a maximum of 4 continuation bytes.
 
-When a `0` is encountered, counting immediately stops and this signals the end of the UTF-8 bit flags.
+When counting each true bit starting from the left, the counting should immediately stop when a false bit (`0`) is encountered, as this signals the end of the UTF-8 bit flags.
+The remaining bits after the false bit contain generic byte data.
 The count of true bits, subtracted by 1, will give the number of continuation bytes that the header calls for.
 
 If the left-most bit is the only true bit before a `0`, it indicates that the byte is not a header, but a continuation byte.
