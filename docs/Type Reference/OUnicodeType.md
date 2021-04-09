@@ -136,6 +136,7 @@ Although, it's important to know that the UTF-8 standard itself ONLY allows a ma
 
 When counting each true bit starting from the left, the counting should immediately stop when a false bit (`0`) is encountered, as this signals the end of the UTF-8 bit flags.
 The remaining bits after the false bit contain generic byte data.
+
 The count of true bits, subtracted by 1, will give the number of continuation bytes that the header calls for.
 
 If the left-most bit is the only true bit before a `0`, it indicates that the byte is not a header, but a continuation byte.

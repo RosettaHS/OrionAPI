@@ -127,7 +127,7 @@ namespace Orion{
 					OAPP_INTPATH=(char*)malloc(sizeof(char)*OPATH_MAX);
 					OFormat(OAPP_INTPATH,"%s/.SYS",OAPP_BINDIR);
 				}else{ OVLog("ORIONAPI | WARNING! FAILED TO ACCESS:\t\t\t%s !\n",path); }
-			}else{ OVLog("ORIONAPI | Application name not set, and is not Orion-Native. Not creating data directories."); }
+			}else{ OVLog("ORIONAPI | Application name not set, and is not Orion-Native. Not creating data directories.\n"); }
 		}
 	}
 
