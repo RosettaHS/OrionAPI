@@ -145,14 +145,15 @@ If the left-most bit is `0`, this means the byte is an ASCII single-byte charact
 
 Interestingly, by counting each true bit (`1`) up until a false bit (`0`) is found, a number (from 0-6) can be generated which can be mapped directly to an enumeration as is done with OUnicodeType
 ```
-OUNI_ASCII     : 0 - Immediate false bit. Is ASCII
-OUNI_CONTINUE  : 1 - Left-most bit is true, next bit is false. Is a Continuation byte.
-OUNI_HEADER_1X : 2 - Two left-most bits are true. Is a Header (that calls for one extra CB)
-OUNI_HEADER_2X : 3 - Three left-most bits are true. Is a Header (that calls for two extra CBs)
-OUNI_HEADER_3X : 4 - Four left-most bits are true. Is a Header (that calls for three extra CBs)
-OUNI_HEADER_4X : 5 - Five left-most bits are true. Is a Header (that calls for four extra CBs)
-OUNI_HEADER_5X : 6 - Six left-most bits are true. Is a Header (that calls for five extra CBs)
-OUNI_UNKNOWN   : 7 - Seven left-most bits are true. This isn't a valid header byte, therefore type is unknown.
+OUNI_NULL      : -1 - Uninitialised, NULL byte.
+OUNI_ASCII     :  0 - Immediate false bit. Is ASCII
+OUNI_CONTINUE  :  1 - Left-most bit is true, next bit is false. Is a Continuation byte.
+OUNI_HEADER_1X :  2 - Two left-most bits are true. Is a Header (that calls for one extra CB)
+OUNI_HEADER_2X :  3 - Three left-most bits are true. Is a Header (that calls for two extra CBs)
+OUNI_HEADER_3X :  4 - Four left-most bits are true. Is a Header (that calls for three extra CBs)
+OUNI_HEADER_4X :  5 - Five left-most bits are true. Is a Header (that calls for four extra CBs)
+OUNI_HEADER_5X :  6 - Six left-most bits are true. Is a Header (that calls for five extra CBs)
+OUNI_UNKNOWN   :  7 - Seven left-most bits are true. This isn't a valid header byte, therefore type is unknown.
 ```
 This is how `OCharGetUnicodeType()` works internally, merely counting the true bits up until a false bit, then mapping that directly to the enumeration and returning. 
 ## Other Information

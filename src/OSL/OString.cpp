@@ -102,6 +102,7 @@ namespace Orion{
 /** Generic Character functions **/
 
 	OUnicodeType OCharGetUnicodeType(char c){
+		if(!c){ return OUNI_NULL; }
 		unsigned char uniflags=0;
 		while(1){ if(c&bits[uniflags]){ uniflags++; }else{ break; } }
 		return ( (uniflags<=6) ? (OUnicodeType)uniflags : OUNI_UNKNOWN );
