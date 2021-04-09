@@ -58,7 +58,7 @@ namespace Orion{
 	enum OUnicodeType : char{
 		/* The byte is comprised entirely of zeros; a NULL terminator. */
 		OUNI_NULL=-1,
-		/* The byte is ASCII, and should not be treated as unicode. */
+		/* The byte is ASCII, and should not be treated as Unicode. */
 		OUNI_ASCII,
 		/* The byte is a UTF8 continuation byte. */
 		OUNI_CONTINUE,
@@ -91,12 +91,18 @@ namespace Orion{
 		/* Is this Char Unicode (multi-byte)? */
 		bool          isUnicode;
 
-		/* Empty constructor. Sets all values to 0. */
+		/* Empty constructor. Sets all values to their default state. */
 		inline OChar(void) : get{0}, bd{OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL,OUNI_NULL}, byteCount{1}, isUnicode{0} {}
-		/* Sets this Char's contents to the given multi-byte character [string]. */
-		OChar(const char*); void setTo(const char*); OChar& operator=(const char*);
-		/* Sets this Char's contents to the given single-byte character. */
-		OChar(char); void setTo(char); OChar& operator=(char);
+		/**
+		 * @breif Sets this Char's contents to the given multi-byte character(String).
+		 * @param c The given Unicode character to set this Char to.
+		 */
+		OChar(const char* c); void setTo(const char* c); OChar& operator=(const char* c);
+		/**
+		 * @brief Sets this Char's contents to the given single-byte character.
+		 * @param c The given ASCII character to set this Char to.
+		 */
+		OChar(char c); void setTo(char c); OChar& operator=(char c);
 
 		/* Clears this Char's contents. */
 		void clear(void);
