@@ -37,7 +37,7 @@ In this example, `myState` will get the value `OUNI_ASCII`, since `'A'` is a [st
 not requiring any UTF-8 continuation bytes.
 
 ### Multi-byte Unicode Characters
-OrionAPI provides a correct way to handle multi-byte characters with `OChar`, however this example will focus on handling the individual bytes directly.
+OrionAPI provides a correct way to handle multi-byte characters with [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) however this example will focus on handling the individual bytes directly.
 
 In this example, we will be using the Grape Emoji: 🍇
 
