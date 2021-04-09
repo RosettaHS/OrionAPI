@@ -158,10 +158,12 @@ OUNI_UNKNOWN   :  7 - Seven left-most bits are true. This isn't a valid header b
 This is how `OCharGetUnicodeType()` works internally, merely counting the true bits up until a false bit, then mapping that directly to the enumeration and returning. 
 ## Other Information
 This is merely meant to be an informative piece. Working with raw UTF-8 bytes/bits isn't recommended.
-OrionAPI provides a minimal abstraction for individual Unicode characters ([OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)), and an abstraction for UTF-8-compliant Strings (`OString`).
+OrionAPI provides a minimal abstraction for individual Unicode characters ([OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)), and an abstraction for UTF-8-compliant Strings ([OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)).
 
 Both of those classes automatically handle multi-byte Unicode characters natively and completely transparently,
 making Unicode Strings as simple to read and modify as standard ASCII Strings. Review the documentation for both of those classes for more information.
 
 #### See Also:
 [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
+
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)

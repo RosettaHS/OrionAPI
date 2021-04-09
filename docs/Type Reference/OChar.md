@@ -38,7 +38,7 @@ OChar is used to store, read, and insert a multi-byte Unicode character, also pr
 Internally, OChar is a [null-terminated](https://en.wikipedia.org/wiki/Null_character) String with a fixed length of 4(+1 for terminator),
 the maximum length for a multi-byte UTF-8 character as described by the standard.
 
-**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving or setting individual characters as is done with `OString`.
+**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving or setting individual characters as is done with [OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
 
 An OChar can be initialised from either a single-byte character or a character array(String).
 To initialise an OChar for use, use the following syntax:
@@ -73,14 +73,15 @@ Note that this does not copy the contents of the OChar, it only merely changes t
 
 ### OString Integration
 OChar is fairly useless on its own, the previous examples could all be done with character arrays and manual examination.
-However, OChar's usefulness shines when paired with `OString`, the Orion-Native implementation for Unicode Strings.
+However, OChar's usefulness shines when paired with [OString,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) the Orion-Native implementation for Unicode Strings.
 
-Information on how `OString` is used, or how it works can be found within the documentation for `OString`, this example will merely explain how
-OChar can be used alongside `OString`.
+Information on how [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) is used, or how it works can be found within [the documentation for OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+This example will merely explain how
+OChar can be used alongside [OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
 
 Traditionally, indexing multi-byte Unicode characters stored within a character array(String) is notoriously difficult.
 
-Attempting to retrieve and store an emoji (with a known place) from a String without using `OString` or OChar is extremely difficult,
+Attempting to retrieve and store an emoji (with a known place) from a String without using [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) or OChar is extremely difficult,
 however if we use some tools (mainly [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and `OCharGetUnicodeType()`),
 it could be done like this:
 ```cpp
@@ -114,7 +115,7 @@ OLog("%s\n",grape); /* Prints out the extracted emoji. */
 This is incredibly difficult, and this approach completely falls apart with unknown character positions and malformed Strings,
 it's also incredibly difficult to attempt to index characters *after* the multi-byte character.
 
-However, utilising the Orion-Native `OString` and OChar, it could be done as easily as this:
+However, utilising the Orion-Native [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) and OChar, it could be done as easily as this:
 ```cpp
 /* In this String, the "🍇" emoji exists entirely at position 7. */
 OString myString="Grapes 🍇 are delicious!";
@@ -122,7 +123,7 @@ OChar   grape=myString[7];
 
 grape.log(); /* Prints out the extracted emoji. */
 ```
-Even more impressively, `OString` handles character indexing by apparent characters, not individual bytes.
+Even more impressively, [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) handles character indexing by apparent characters, not individual bytes.
 As an example, retrieving the letter "a" at the start of the word "are" after "🍇" in the String can be done like this:
 ```cpp
 /* In this String, the "a" at the start of "are" starts at position 9. */
@@ -133,7 +134,7 @@ grape.log(); /* Prints out the extracted letter. */
 ```
 Doing this without OString and OChar is incredibly difficult due to having to convert apparent indices to real, byte indices (since not all characters are single-byte).
 
-Setting a multi-byte character within a traditional String is even more complicated, however OChar and `OString` make this also incredibly easy.
+Setting a multi-byte character within a traditional String is even more complicated, however OChar and [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) make this also incredibly easy.
 
 In this example, the letters of each word are replaced with "🍇" except for the spaces:
 ```cpp
@@ -149,7 +150,7 @@ myString.log(); /* Prints out the newly edited String. */
 ```
 The output will be: "🍇🍇🍇🍇🍇🍇 🍇 🍇🍇🍇 🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇"
 
-This would be nearly impossible without using `OString` or OChar.
+This would be nearly impossible without using [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) or OChar.
 
 ## Breakdown
 ```cpp
@@ -229,10 +230,12 @@ OChar* myString;      /* BAD! */
 const char* myString; /* CORRECT! */
 OString myString;     /* BEST! */
 ```
-It is highly recommended to use `OStrings` instead of a traditional character array, as `OStrings` provide
+It is highly recommended to use [OStrings](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) instead of a traditional character array, as [OStrings](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) provide
 full support for Unicode characters, among many other things.
 
-Review the documentation for `OString` for more information.
+Review the documentation for [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) for more information.
 
 #### See Also:
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+
 [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)
