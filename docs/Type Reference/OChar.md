@@ -38,7 +38,7 @@ OChar is used to store, read, and insert a multi-byte Unicode character, also pr
 Internally, OChar is a [null-terminated](https://en.wikipedia.org/wiki/Null_character) String with a fixed length of 4(+1 for terminator),
 the maximum length for a multi-byte UTF-8 character as described by the standard.
 
-**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving individual characters as is done with `OString`.
+**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving or setting individual characters as is done with `OString`.
 
 An OChar can be initialised from either a single-byte character or a character array(String).
 To initialise an OChar for use, use the following syntax:
@@ -57,7 +57,7 @@ if(myChar.isUnicode==false){ /* 'A' is ASCII, not Unicode. Will be false. */
 Being able to store single-byte characters doesn't require OChar, however storing and reading multi-byte characters efficiently does.
 The following code stores a multi-byte Unicode character (🍇) and initialises all internal information:
 ```cpp
-myChar="🍇";
+OChar myChar="🍇";
 ```
 Multi-byte characters have to come in form of a String. The contents are evaluated and stored within OChar.
 
@@ -69,7 +69,7 @@ if(myChar.isUnicode){ /* "🍇" is Unicode. Will be true. */
 	myMultiByte=myChar; /* Could also do myChar.get.asMultiByte */
 }
 ```
-Note that this does not copy the contents of the OChar, merely changes the pointer. 
+Note that this does not copy the contents of the OChar, it only merely changes the pointer `myMultiByte`.
 
 ### OString Integration
 OChar is fairly useless on its own, the previous examples could all be done with character arrays and manual examination.
@@ -116,7 +116,7 @@ it's also incredibly difficult to attempt to index characters *after* the multi-
 
 However, utilising the Orion-Native `OString` and OChar, it could be done as easily as this:
 ```cpp
-/* In this String, the "🍇" emoji still starts at position 7. */
+/* In this String, the "🍇" emoji exists entirely at position 7. */
 OString myString="Grapes 🍇 are delicious!";
 OChar   grape=myString[7];
 
@@ -166,7 +166,7 @@ Choose which way you wish to interpret the character data.
 ```cpp
 OUnicodeType  bd[OCHARBYTES];
 ```
-An array of OUnicodeType identifiers for each byte stored by this Char.
+An array of [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) identifiers for each byte stored by this Char.
 ```cpp
 unsigned char byteCount;
 ```
