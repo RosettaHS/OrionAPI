@@ -1,6 +1,6 @@
 # Type Reference: OChar
 ## Multi-byte Unicode Handling
-OChar is the Orion-Native implementation for handling and multi-byte Unicode ([UTF-8](https://en.wikipedia.org/wiki/UTF-8)) characters.
+OChar is the Orion-Native implementation for handling multi-byte Unicode ([UTF-8](https://en.wikipedia.org/wiki/UTF-8)) characters.
 
 ## Expansion
 ```cpp
