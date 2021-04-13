@@ -134,13 +134,12 @@ namespace Orion{
 		protected:
 			/* The actual String stored in memory. */
 			char*  raw;
-			/* A struct containing two different interpretations of this String's length. */
 			struct{
 				/* The apparent length of this String (without Unicode continuation bytes.) */
 				uint32_t apparent;
 				/* The real length of this String (with all non-null bytes.) */
 				uint32_t real;
-			}length;
+			}length; /* A struct containing two different interpretations of this String's length. */
 			/* The actual memory being used by this String (including null terminator.) */
 			uint32_t memuse;
 			/**
@@ -186,14 +185,14 @@ namespace Orion{
 			bool append(const char* text); OString& operator+=(const char* text);
 			/**
 			 * @brief Sets the character at the given index.
-			 * @param index The index at which to set the new character to.
+			 * @param index The apparent index at which to set the new character to.
 			 * @param c The single/multi-byte character to set.
 			 * @return True if new character could be set, false if either the String has not been initialised, or the index is out of bounds.
 			 */
 			bool setChar(uint32_t index, OChar c);
 			/** 
 			 * @brief Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers.
-			 * @param index The index at which to set the new character to.
+			 * @param index The real index at which to set the new character to.
 			 * @param c The single-byte character to set.
 			 */
 			inline void setCharFast(uint32_t index, char c) { raw[index]=c; }
@@ -206,13 +205,13 @@ namespace Orion{
 			/**
 			 * @brief Gets and returns the Unicode character at the given index.
 			 * Indexing operations are done based on apparent length, not actual bytes.
-			 * @param index The index to locate the character at.
+			 * @param index The apparent index to locate the character at.
 			 * @return An OChar, abstraction for single or multi-byte characters. See the documentation for OChar.
 			 */
-			OChar getChar(uint32_t index); OChar operator[](uint32_t);
+			OChar getChar(uint32_t index); OChar operator[](uint32_t index);
 			/** 
 			 * @brief Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers.
-			 * @param index The index to locate the character at.
+			 * @param index The real index to locate the character at.
 			 * @return The single-byte character found at the index.
 			 */
 			inline char getCharFast(uint32_t index) { return raw[index]; }
@@ -237,7 +236,7 @@ namespace Orion{
 			bool equalTo(const char* text) const; bool operator==(const char* text) const;
 			/**
 			 * @brief Is this String ready for use / does it point to valid memory?
-			 * @return If the String's internal character array pointer is set, this will return true. Otherwise it will return false, meaning the String ahs not beben initialised.
+			 * @return If the String's internal character array pointer is set, this will return true. Otherwise it will return false, meaning the String has not been initialised.
 			 */
 			bool ready(void) const; operator bool(void) const;
 			/**
@@ -261,7 +260,7 @@ namespace Orion{
 			 * @param verbose Log verbose information (such as memory usage and alongside the String itself. Default is false.
 			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 			 */
- 			virtual void log(bool verbose=false,  bool newLine=true) override;
+ 			virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 	/**

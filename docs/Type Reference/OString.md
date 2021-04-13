@@ -75,7 +75,7 @@ The following code will change a single character in the String `"Hello"`:
 ```cpp
 /* In this String, "e" is at index 1. */
 OString myString="Hello";
-myString.setChar('a',1);
+myString.setChar(1,'a');
 
 myString.log(); /* To print the String. */
 ```
@@ -196,3 +196,244 @@ char myChar=myString[4];
 OLog("%c\n",myChar); /* Print the retrieved character. */
 ```
 The output will also be `g`, despite indexxing at a different position.
+
+All operations with OString are done with apparent indices, making it incredibly easy to access and modify a given String.
+For example: the following code replaces the `"🍇"` at apparent index `11` to a different character of a different byte size,
+without disrupting the String itself:
+```cpp
+OString myString="I 💜 grapes 🍇 😋";
+myString.setChar(11,'!');
+
+myString.log(); /* To print the String. */
+```
+The output will be `I 💜 grapes ! 😋`.
+
+The apparent length of the String stays the same after the operation, however the byte count changes, and the excess bytes from the removed emoji are trimmed, shifting the rest of the String over by the excess.
+
+Retrieving multi-byte characters is just as easy when using [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
+The following code retrieves the `"💜"` at apparent index `2` and prints it out to the terminal:
+```cpp
+OString myString="I 💜 grapes 🍇 😋";
+OChar myChar=myString[2];
+
+myChar.log(); /* To print the Char. */
+```
+The output will be `💜`.
+
+### When to use OString
+OStrings should be used whenever interacting with user generated text, retrieving text from a File, or when doing modification (such as concatenation) on any text in general.
+
+It should not be used in situations where memory is scarce or processor operations should be kept to a minimum,
+as OStrings use more memory than traditional character arrays, and reading/writing to OStrings uses many internal operations when not using the direct methods.
+
+## Breakdown
+### The following members are protected, and cannot be accessed directly.
+```cpp
+char*  raw;
+```
+The actual String stored in memory.
+```cpp
+struct{
+	uint32_t apparent;
+	uint32_t real;
+}length;
+```
+A struct containing two different interpretations of this String's length.
+
+`uint32_t apparent;` The apparent length of this String (without Unicode continuation bytes.) */
+
+`uint32_t real;` The real length of this String (with all non-null bytes.)
+
+```cpp
+uint32_t memuse;
+```
+The actual memory being used by this String (including null terminator.)
+```cpp
+uint32_t apparentToReal(uint32_t index);
+```
+Converts an apparent index (as is inputted in setChar and getChar) to a real index used for computation.
+
+Parameters:
+
+`uint32_t index - The given apparent index to convert.`
+
+Returns: `A real index that can be used directly on the internal String pointer for operations.`
+### The following members are public, and can be accessed directly.
+```cpp
+~OString(void);
+```
+Destructor. Frees all memory.
+```cpp
+inline OString(void) : raw{0}, length{0,0}, memuse{0} {};
+```
+Empty constructor. Sets all values to 0.
+```cpp
+inline OString(const char* text) : raw{0}, length{0,0}, memuse{0} { setTo(text); };
+```
+Initialises this String with the given text.
+
+Parameters:
+
+`const char* text - The text for this String to copy and use.`
+```cpp
+bool clear(void);
+```
+Frees all memory stored by this String.
+
+Returns: `True if there was memory to free, false if could not free memory, or memory was non-existent. `
+
+```cpp
+bool setMemory(uint32_t newSize);
+```
+Sets the exact memory (including terminator) to the given value. Truncates String if the new memory is smaller than the length.
+
+Parameters:
+
+`uint32_t newSize - The exact size (in bytes) that this String will use, including the terminator.`
+
+Returns: `True if memory could be changed, false if either new memory size is identical or otherwise simply could not be resized.`
+```cpp
+bool setTo(const char* text);
+OString& operator=(const char* text);
+```
+Sets this String to the given text.
+
+Parameters:
+
+`const char* text - The text for this String to copy and use.`
+
+Returns: `True if String could be set, false if memory for the new String coould not be allocated.`
+```cpp
+bool append(const char* text);
+OString& operator+=(const char* text);
+```
+Appends the given text to the end of this String.
+
+Parameters:
+
+`const char* text - The text to append to this String.`
+
+Returns: `True if text could be appended, false if memory for the new String coould not be allocated.`
+```cpp
+bool setChar(uint32_t index, OChar c);
+```
+Sets the character at the given index.
+
+Parameters:
+
+`uint32_t index - The apparent index at which to set the new character to.`
+
+`OChar c - The single/multi-byte character to set.`
+
+Returns: `True if new character could be set, false if either the String has not been initialised, or the index is out of bounds.`
+```cpp
+inline void setCharFast(uint32_t index, char c) { raw[index]=c; }
+```
+Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers.
+
+Parameters:
+
+`uint32_t index - The real index at which to set the new character to.`
+
+`char c - The single-byte character to set.`
+```cpp
+char* getText(void) const;
+operator char*(void) const;
+```
+Returns: `A pointer to the character array used by this String.`
+```cpp
+OChar getChar(uint32_t index);
+OChar operator[](uint32_t);
+```
+Gets and returns the Unicode character at the given index.
+Indexing operations are done based on apparent length, not actual bytes.
+
+Parameters:
+
+`uint32_t index - The apparent index to locate the character at.`
+
+Returns: `An OChar, abstraction for single or multi-byte characters. See the documentation for OChar.`
+```cpp
+inline char getCharFast(uint32_t index) { return raw[index]; }
+```
+Same as getChar() but directly indexes the String. Quicker, but loses easy Unicode helpers.
+
+Parameters:
+
+`uint32_t index - The real index to locate the character at.`
+
+Returns: `The single-byte character found at the index.`
+```cpp
+uint32_t getLength(bool realLength=false);
+```
+Returns the length of this String.
+
+Parameters:
+
+`bool realLength Should this function return the actual length of this String, including the Unicode continuation bytes? Default is false.`
+
+Returns: `The length of this String dependent on the parameter used on this method.`
+```cpp
+inline uint32_t getMemory(void) { return memuse; }
+```
+Returns: `The raw memory usage of this String, including any unused bytes. Unused bytes are kept in case any concatenation is needed.`
+```cpp
+bool equalTo(const char* text) const;
+bool operator==(const char* text) const;
+```
+Is this String equal to the given String?
+
+Parameters:
+
+`const char* text - The separate String to compare.`
+
+Returns: `True if both Strings are identical, false if there are any variations.`
+```cpp
+bool ready(void) const;
+operator bool(void) const;
+```
+Is this String ready for use / does it point to valid memory?
+
+Returns:`If the String's internal character array pointer is set, this will return true. Otherwise it will return false, meaning the String has not been initialised.`
+```cpp
+bool contains(const char* substring);
+```
+Does this String contain the given substring?
+
+Parameters:
+
+`const char* substring - The substring to attempt to find within this String.`
+
+Returns: `True if substring could be found, false if it could not.`
+```cpp
+OString operator+(const char* text) const;
+```
+Creates a new String that is the combination of this String and the given text.
+
+Parameters:
+
+`const char* text - The String to append to the new String`
+
+Returns: `A new, separate String with the given text appended to the end.`
+```cpp
+virtual void log(bool verbose=false, bool newLine=true) override;
+```
+Logs this String out to the terminal.
+
+Parameters:
+`bool verbose - Log verbose information (such as memory usage and alongside the String itself. Default is false.`
+`bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
+
+## Other Information
+Much like [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
+when inputting an OString as a parameter into a [variadic function,](https://en.wikipedia.org/wiki/Variadic_function) such as `OLog()`,
+you should *always* send the contents of the OString instead of the OString itself:
+```cpp
+OString myString="Hello World!";
+OLog("%s\n",myString.getText()); /* Do NOT just put in myString! */
+```
+
+#### See Also:
+[OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
+
+[OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)

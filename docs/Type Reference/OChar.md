@@ -235,6 +235,13 @@ full support for Unicode characters, among many other things.
 
 Review the documentation for [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) for more information.
 
+Another thing to note is that when inputting an OChar as a parameter into a [variadic function,](https://en.wikipedia.org/wiki/Variadic_function) such as `OLog()`,
+you should *always* send the contents of the OChar instead of the OChar itself:
+```cpp
+OChar myChar="🍇";
+OLog("%s\n",myChar.get.asMultiByte); /* Do NOT just put in myChar! */
+```
+
 #### See Also:
 [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
 
