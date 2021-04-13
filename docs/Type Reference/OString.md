@@ -25,7 +25,7 @@ class OString : public CLoggable{
 
 		bool setTo(const char* text); OString& operator=(const char* text);
 		bool append(const char* text); OString& operator+=(const char* text);
-		bool setChar(OChar c, uint32_t index);
+		bool setChar(uint32_t index, OChar c);
 
 		char* getText(void) const; operator char*(void) const;
 		OChar getChar(uint32_t index); OChar operator[](uint32_t);
@@ -66,7 +66,7 @@ The following code will add extra text to the end of a String:
 OString myString="Hello";
 myString+=" World!";
 
-OLog("%s\n",myString);
+myString.log(); /* To print the String. */
 ```
 This will add `" World!"` to the end of `"Hello"` and log it out to the terminal. The output will be `Hello World!`
 
@@ -75,5 +75,11 @@ The following code will change a single character in the String `"Hello"`:
 ```cpp
 /* In this String, "e" is at index 1. */
 OString myString="Hello";
-myString.setChar("a",1);
+myString.setChar('a',1);
+
+myString.log(); /* To print the String. */
 ```
+This will change the letter `'e'` to `'a'`. The output will be `Hallo`.
+
+### Unicode Support
+**\[This section assumes you have read the documentation for OChar[](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) \]**
