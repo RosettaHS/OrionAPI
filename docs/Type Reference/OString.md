@@ -1,5 +1,6 @@
 # Type Reference: OString
 ## Orion-Native Unicode String handling
+OString is the Orion-Native implementation for handling Unicode Strings with [variable length](https://en.wikipedia.org/wiki/UTF-8) characters.
 
 ## Expansion
 ```cpp
