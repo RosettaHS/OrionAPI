@@ -82,4 +82,4 @@ myString.log(); /* To print the String. */
 This will change the letter `'e'` to `'a'`. The output will be `Hallo`.
 
 ### Unicode Support
-**\[This section assumes you have read the documentation for OChar[](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) \]**
+**\[This section assumes you have read the documentation for [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) \]**
