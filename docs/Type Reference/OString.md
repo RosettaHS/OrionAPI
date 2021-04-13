@@ -143,6 +143,8 @@ It is also incredibly difficult to gauge the actual size of a String when it has
 Take this String for example: `"I 💜 grapes 🍇 😋"`.
 The apparent character count is 14(+1), however the raw byte count is 23(+1):
 ```
-[I] [ ] [💜] [ ] [g] [r] [a] [p] [e] [s] [ ] [🍇] [ ] [😋]
-[1] [1] [4]  [1] [1] [1] [1] [1] [1] [1] [1] [4]  [1] [4]
+[I] [ ] [💜] [ ] [g] [r] [a] [p] [e] [s] [ ] [🍇] [ ] [😋] [0]
+|-------------------------BYTE COUNT-------------------------|
+[1] [1] [4B] [1] [1] [1] [1] [1] [1] [1] [1] [4B] [1] [4B] [1] (NULL)
 ```
+#### OString's Abstraction
