@@ -82,4 +82,35 @@ myString.log(); /* To print the String. */
 This will change the letter `'e'` to `'a'`. The output will be `Hallo`.
 
 ### Unicode Support
-**\[This section assumes you have read the documentation for [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) \]**
+**\[This section assumes you have read the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) If you have not read them, it is recommended you read them now before returning to this.\]**
+
+Much like [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) OString is fairly useless on its own.
+However, the main purpose behind OString is to easily handle Strings with variable-width characters.
+
+This is described in full in the documentation for [OUnicodeType,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)
+for now this will supply a brief explanation.
+
+To understand how and why OString handling Unicode Strings is important, take the following example:
+
+Take the String `"Hi 👋"`.
+The String may appear to be comprised of four characters:
+```
+[H] [i] [ ] [👋]
+ |   |   |   |
+ 1   2   3   4
+```
+However, examining the bytes we will find it is actually comprised of seven characters(bytes):
+```
+[H] [i] [ ] [👋]
+ |   |   |   |
+ |   |   |   +---------------------------+------------+----------+-----------+
+ |   |   |                               |            |          |           |
+ |   |   +-------------------+           |            |          |           |
+ |   |                       |           |            |          |           |
+ |   +-----------+           |           |            |          |           |
+ |               |           |           |            |          |           |
+ +---+           |           |           |            |          |           |
+     | #1        | #2        | #3        | #4         | #5       | #6        | #7
+ [01001000], [01101001], [00100000], [11110000], [10011111], [10010001], [10001011]
+ (  "H"   )  (  "i"   )  (  " "  )   (                   "👋"                     )
+```
