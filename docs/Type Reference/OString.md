@@ -148,3 +148,51 @@ The apparent character count is 14(+1), however the raw byte count is 23(+1):
 [1] [1] [4B] [1] [1] [1] [1] [1] [1] [1] [1] [4B] [1] [4B] [1] (NULL)
 ```
 #### OString's Abstraction
+The way OString makes all of this easy, is instead of making developers index and write to individual bytes of a given String,
+OString instead handles all operations based on the apparent characters.
+
+Going back to the example string `"I 💜 grapes 🍇 😋"`,
+the apparent position(index) of the letter `"g"` at the start of the word `"grapes"` is at index `4`:
+```
+[I 💜 g]---+
+           | 
+ [I] [ ] [💜] [ ] [g]
+  0   1   2    3   4
+```
+However, in reality, its real index is at position `7`:
+```
+[I 💜 g]---+
+           |
+ [I] [ ] [💜] [ ] [g]
+  |   |   |    |   |
+  |   |   |    |   +----------------------------------------------------------------------+
+  |   |   |    |                                                                          |
+  |   |   |    +--------------------------------------------------------------+           |
+  |   |   |                                                                   |           |
+  |   |   +-------------------+-----------+-----------+-----------+           |           |
+  |   |                       |           |           |           |           |           |
+  |   +-----------+           |           |           |           |           |           |
+  |               |           |           |           |           |           |           |
+  +---+           |           |           |           |           |           |           |
+      |           |           |           |           |           |           |           |
+      | #0        | #1        | #2        | #3        | #4        | #5        | #6        | #7
+  [01001001], [00100000], [11110000], [10011111], [10010010], [10011100], [00100000], [01100111]
+  [  "I"   ]  [  " "   ]  [                    "💜"                    ]  [  " "   ]  [  "g"   ]
+```
+Therefore, retrieving `"g"` using a traditional character array(String) is done like this:
+```cpp
+const char* myString="I 💜 grapes 🍇 😋";
+char myChar=myString[7];
+
+OLog("%c\n",myChar); /* Print the retrieved character. */
+```
+The output will be `g`.
+
+However, doing the same with OString, we can index using apparent positions instead of directly accessing the memory:
+```cpp
+OString myString="I 💜 grapes 🍇 😋";
+char myChar=myString[4];
+
+OLog("%c\n",myChar); /* Print the retrieved character. */
+```
+The output will also be `g`, despite indexxing at a different position.
