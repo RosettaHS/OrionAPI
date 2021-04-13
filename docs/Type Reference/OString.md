@@ -240,7 +240,7 @@ struct{
 ```
 A struct containing two different interpretations of this String's length.
 
-`uint32_t apparent;` The apparent length of this String (without Unicode continuation bytes.) */
+`uint32_t apparent;` The apparent length of this String (without Unicode continuation bytes.)
 
 `uint32_t real;` The real length of this String (with all non-null bytes.)
 
@@ -370,7 +370,7 @@ Returns the length of this String.
 
 Parameters:
 
-`bool realLength Should this function return the actual length of this String, including the Unicode continuation bytes? Default is false.`
+`bool realLength - Should this function return the actual length of this String, including the Unicode continuation bytes? Default is false.`
 
 Returns: `The length of this String dependent on the parameter used on this method.`
 ```cpp
