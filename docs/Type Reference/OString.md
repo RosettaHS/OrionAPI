@@ -1,6 +1,6 @@
 # Type Reference: OString
 ## Orion-Native Unicode String handling
-OString is the Orion-Native implementation for handling Unicode Strings with [variable length](https://en.wikipedia.org/wiki/UTF-8) characters.
+OString is the Orion-Native implementation for handling Unicode Strings with [UTF-8 encoded](https://en.wikipedia.org/wiki/UTF-8) characters.
 
 ## Expansion
 ```cpp
@@ -82,35 +82,67 @@ myString.log(); /* To print the String. */
 This will change the letter `'e'` to `'a'`. The output will be `Hallo`.
 
 ### Unicode Support
-**\[This section assumes you have read the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) If you have not read them, it is recommended you read them now before returning to this.\]**
+**\[This section assumes you have read the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) If you have not read them, it is recommended you read them now before returning to this\]**
 
 Much like [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) OString is fairly useless on its own.
-However, the main purpose behind OString is to easily handle Strings with variable-width characters.
+However, the main purpose behind OString is to easily handle Strings with [variable-width characters.](https://en.wikipedia.org/wiki/Variable-width_encoding)
 
-This is described in full in the documentation for [OUnicodeType,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)
-for now this will supply a brief explanation.
+This is described in full in the documentation for [OUnicodeType.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)
+For now, this will supply a brief explanation.
 
 To understand how and why OString handling Unicode Strings is important, take the following example:
 
 Take the String `"Hi 👋"`.
-The String may appear to be comprised of four characters:
+The String may appear to be comprised of 4(+1) characters:
 ```
-[H] [i] [ ] [👋]
- |   |   |   |
- 1   2   3   4
+[H] [i] [ ] [👋] [0]
+ |   |   |   |    |
+ 1   2   3   4    5 (NULL TERMINATOR)
 ```
-However, examining the bytes we will find it is actually comprised of seven characters(bytes):
+However, examining the bytes we will find it is actually comprised of 7(+1) characters(bytes):
 ```
-[H] [i] [ ] [👋]
- |   |   |   |
- |   |   |   +---------------------------+------------+----------+-----------+
- |   |   |                               |            |          |           |
- |   |   +-------------------+           |            |          |           |
- |   |                       |           |            |          |           |
- |   +-----------+           |           |            |          |           |
- |               |           |           |            |          |           |
- +---+           |           |           |            |          |           |
-     | #1        | #2        | #3        | #4         | #5       | #6        | #7
- [01001000], [01101001], [00100000], [11110000], [10011111], [10010001], [10001011]
- (  "H"   )  (  "i"   )  (  " "  )   (                   "👋"                     )
+[H] [i] [ ] [👋] [0]
+ |   |   |   |    |
+ |   |   |   |    +----------------------------------------------------------------------+
+ |   |   |   |                                                                           |
+ |   |   |   +---------------------------+------------+----------+-----------+           |
+ |   |   |                               |            |          |           |           |
+ |   |   +-------------------+           |            |          |           |           |
+ |   |                       |           |            |          |           |           |
+ |   +-----------+           |           |            |          |           |           |
+ |               |           |           |            |          |           |           |
+ +---+           |           |           |            |          |           |           |
+     | #1        | #2        | #3        | #4         | #5       | #6        | #7        | #8
+ [01001000], [01101001], [00100000], [11110000], [10011111], [10010001], [10001011], [00000000]
+ [  "H"   ]  [  "i"   ]  [  " "   ]  [                   "👋"                     ]  [  NULL  ]
+```
+This makes reading and writing to Strings with variable-length characters incredibly unintuitive and complicated.
+
+Using the example string `"Hi 👋"`, attempting to directly index and replace `"👋"` with another character of unequal size such as `"!"` will cause severe issues and result in a malformed String:
+```
+[H] [i] [ ] [!] [0]
+ |   |   |   |   |
+ |   |   |   |   +-----------------------------------------------------------------------+
+ |   |   |   |                                                                           |
+ |   |   |   +---------------------------+            ?          ?           ?           |
+ |   |   |                               |            |          |           |           |
+ |   |   +-------------------+           |            |          |           |           |
+ |   |                       |           |            |          |           |           |
+ |   +-----------+           |           |            |          |           |           |
+ |               |           |           |            |          |           |           |
+ +---+           |           |           |            |          |           |           |
+     | #1        | #2        | #3        | #4         | #5       | #6        | #7        | #8
+ [01001000], [01101001], [00100000], [00100001], [10011111], [10010001], [10001011], [00000000]
+ [  "H"   ]  [  "i"   ]  [  " "   ]  [  "!"   ]  [  ????  ]  [  ????  ]  [  ????  ]  [  NULL  ]
+```
+The result is a severely malformed String: `Hi !���`.
+
+The difficulty and errors will only increase when attempting to modify larger Strings with more multi-byte characters at different locations.
+It is also incredibly difficult to gauge the actual size of a String when it has multi-byte characters.
+
+Take this String for example: `"I 💜 grapes 🍇 😋"`.
+The apparent character count is 14(+1), however the raw byte count is 23(+1):
+```
+[I] [ ] [💜] [ ] [g] [r] [a] [p] [e] [s] [ ] [🍇] [ ] [😋]
+[1] [1] [4]  [1] [1] [1] [1] [1] [1] [1] [1] [4]  [1] [4]
 ```
