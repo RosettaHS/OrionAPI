@@ -48,3 +48,5 @@ class OString : public CLoggable{
 [Declared : src/include/OSL/OString.hpp]
 [Defined  : src/OSL/OString.cpp]
 ```
+
+## Use

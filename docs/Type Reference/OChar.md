@@ -32,7 +32,7 @@ struct OChar : CLoggable{
 [Defined  : src/OSL/OString.cpp]
 ```
 
-### Use
+## Use
 OChar is used to store, read, and insert a multi-byte Unicode character, also providing utilities to examine the state and details of the character itself.
 
 Internally, OChar is a [null-terminated](https://en.wikipedia.org/wiki/Null_character) String with a fixed length of 4(+1 for terminator),
