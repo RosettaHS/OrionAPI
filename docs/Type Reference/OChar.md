@@ -142,7 +142,7 @@ OString myString="Grapes 🍇 are delicious!";
 OChar   grape=myString[7];
 for(size_t i=0;i<myString.getLength();i++){
 	if(myString[i]!=' '){ /* If it isn't a space. */
-		myString.setChar(grape,i); /* Can also be setChar("🍇",i) */
+		myString.setChar(i,grape); /* Can also be setChar(i,"🍇") */
 	}
 }
 

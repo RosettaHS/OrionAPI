@@ -184,7 +184,7 @@ namespace Orion{
 	}
 	OString& OString::operator+=(const char* text){ append(text); return *this; }
 
-	bool OString::setChar(OChar c, uint32_t index){
+	bool OString::setChar(uint32_t index, OChar c){
 		if(raw && index<length.apparent){
 			OChar charToReplace=getChar(index);
 			uint32_t iR=apparentToReal(index);

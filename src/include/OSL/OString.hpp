@@ -186,17 +186,17 @@ namespace Orion{
 			bool append(const char* text); OString& operator+=(const char* text);
 			/**
 			 * @brief Sets the character at the given index.
-			 * @param c The single/multi-byte character to set.
 			 * @param index The index at which to set the new character to.
+			 * @param c The single/multi-byte character to set.
 			 * @return True if new character could be set, false if either the String has not been initialised, or the index is out of bounds.
 			 */
-			bool setChar(OChar c, uint32_t index);
+			bool setChar(uint32_t index, OChar c);
 			/** 
 			 * @brief Same as setChar() but directly sets the character in memory. Quicker, but loses easy Unicode helpers.
+			 * @param index The index at which to set the new character to.
 			 * @param c The single-byte character to set.
-			 * @param index he index at which to set the new character to.
 			 */
-			inline void setCharFast(char c, uint32_t index) { raw[index]=c; }
+			inline void setCharFast(uint32_t index, char c) { raw[index]=c; }
 
 			/**
 			 * @brief Returns the pointer to the actual String stored in memory.
