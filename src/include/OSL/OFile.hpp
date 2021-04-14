@@ -341,7 +341,7 @@ namespace Orion{
 			size_t getCharCount(void) const;
 			/**
 			 * @brief Returns pointer to a a struct containing the content of this File. See OFileContent. 
-			 * @return A pointer to a struct struct (OFileContent) containing information regarding the contents of this File.
+			 * @return A pointer to a struct (OFileContent) containing information regarding the contents of this File.
 			 */
 			inline OFileContent* getContents(void) { return &contents; }
 			/** 
