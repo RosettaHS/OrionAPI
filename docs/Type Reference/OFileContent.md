@@ -62,11 +62,11 @@ If, however, `isLinear` is `true` instead of `false`, different operations are r
 
 ### Reading Linearly
 Storing a File's Contents as individual Lines is useful for [text documents,](https://en.wikipedia.org/wiki/Text_file)
-but complicates the decoding/reading process of [binary files,](https://en.wikipedia.org/wiki/Binary_file) such as [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) or [JPEG.](https://en.wikipedia.org/wiki/JPEG)\
+but complicates the decoding/reading process of [binary files,](https://en.wikipedia.org/wiki/Binary_file) such as [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) or [JPEG.](https://en.wikipedia.org/wiki/JPEG)
 
 Because of this, [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)(and subsequently OFileContent) provides a secondary method for storing a File's contents: linearly.
 
-Much like how a File is stored on disk (or how the C [FILE](https://www.tutorialspoint.com/cprogramming/c_file_io.htm) struct works),
+Much like how a File is stored on disk (or how the C [FILE](https://www.tutorialspoint.com/cprogramming/c_file_io.htm) struct reads),
 OFileContent will contain the File's bytes in a large array, storing each byte sequentially; linearly, as it would be on the system.
 
 If the bool `isLinear` is `true`, it means the Content has been stored linearly, and must be read differently.
@@ -145,6 +145,8 @@ If `isLinear` is true, the Content will be stored here, and should be retrieved 
 `size_t   byteCount;` The size of the array.
 
 `uint8_t* bytes;` The array of bytes of this File.
+
+**The following entries are NOT stored within this union.**
 ```cpp
 bool modified;
 ```
