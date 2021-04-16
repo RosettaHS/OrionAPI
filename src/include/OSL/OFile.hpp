@@ -234,7 +234,7 @@ namespace Orion{
 			 * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
 			 * Changes do not apply until File is closed and reopened.
 			 */
-			inline void shouldStoreMisc(bool v) { flags.storeMisc=v; }
+			inline void shouldStoreMisc(bool v)     { flags.storeMisc=v; }
 			/*
 			 * If the File is allowed to evaluate Contents, should this File store all of its Contents to memory?
 			 * This is true by default, and is required to be on if you want to access or modify a File's Contents.
@@ -243,7 +243,7 @@ namespace Orion{
 			 * If you need to turn this off, turn this off BEFORE you open a File.
 			 * Changes do not apply until File is closed and reopened.
 			 */
-			inline void shouldStoreToMem(bool v) { flags.storeMem=v; }
+			inline void shouldStoreToMem(bool v)    { flags.storeMem=v; }
 			/*
 			 * If this File is allowed to store its Contents to memory, should the stored Contents be linear (a giant array), or separated in different arrays based on each Line?
 			 * This is false by default, as all indexxing and modification operations that OFile provides REQUIRE the Contents to be stored in different Line arrays.

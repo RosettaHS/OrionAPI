@@ -43,8 +43,8 @@ class OFile : public CLoggable{
 		bool deleteCurrent(void);
 
 		bool valid(void) const; operator bool(void) const;
-		inline void shouldStoreMisc(bool v) { flags.storeMisc=v; }
-		inline void shouldStoreToMem(bool v) { flags.storeMem=v; }
+		inline void shouldStoreMisc(bool v)     { flags.storeMisc=v; }
+		inline void shouldStoreToMem(bool v)    { flags.storeMem=v; }
 		inline void shouldStoreLinearly(bool v) { flags.storeLinearly=v; }
 		inline void shouldEvalContents(bool v)  { flags.evalContents=v; }
 		bool hasBeenModified(void) const;
