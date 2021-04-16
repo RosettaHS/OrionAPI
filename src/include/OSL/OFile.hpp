@@ -90,9 +90,9 @@ namespace Orion{
 			}asLines;
 			struct{
 				/* The size of the array. */
-				size_t byteCount;
+				size_t   byteCount;
 				/* The array of bytes of this File. */
-				char*  bytes;
+				uint8_t* bytes;
 			}asLinear;
 		};
 		/* Have the contents been modified from when changes were last applied, or when the File was last opened? */

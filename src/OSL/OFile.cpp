@@ -187,7 +187,7 @@ namespace Orion{
 				}
 				rewind(TOFILE(CFILE.RAW));
 				if(!contents.asLinear.byteCount){ return false; }
-				contents.asLinear.bytes=(char*)malloc(contents.asLinear.byteCount);
+				contents.asLinear.bytes=(uint8_t*)malloc(contents.asLinear.byteCount);
 			/* Search and save each byte. */
 				while(true){
 					c=fgetc(TOFILE(CFILE.RAW));
