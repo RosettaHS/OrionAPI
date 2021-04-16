@@ -1,6 +1,8 @@
 # Type Reference: OFile
 ## Orion-Native File handling
 
+**[PLACEHOLDER]**
+
 ## Expansion
 ```cpp
 class OFile : public CLoggable{
