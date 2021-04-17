@@ -96,9 +96,10 @@ Examining the method to open a File, we find it has [two versions,](https://en.w
 bool open(const char* filename, OFileAction action=OFILE_AUTO);
 bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
 ```
-In reverse order, the last parameter denotes the action to open the File with:
-#### OFileAction
-This is an enumeration of possible actions to use when Opening a File:
+In reverse order, the last parameter denotes the action to open the File with.
+
+This is a list of possible actions to use when opening a File:
+
 `OFILE_AUTO` - Automatically opens a File (read/write or read-only) or creates a File given on the availability of the File.
 
 `OFILE_NEW` - Creates a File (or overrides an existing one) for both reading and writing.
