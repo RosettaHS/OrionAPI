@@ -1,7 +1,6 @@
 # Type Reference: OFile
 ## Orion-Native File handling
-
-**[PLACEHOLDER]**
+OFile is the Orion-Native implementation for handling Files, providing easy methods for reading and writing to any File.
 
 ## Expansion
 ```cpp
@@ -78,3 +77,32 @@ class OFile : public CLoggable{
 [Declared : src/include/OSL/OFile.hpp]
 [Defined  : src/OSL/OFile.hpp]
 ```
+
+## Use
+OFile is used for reading, writing, or creating Files. It provides many utilities to make File operations incredibly simple.
+
+A simple way to create an OFile for use can be done using the following syntax:
+```cpp
+OFile myFile("testFile.txt");
+```
+This will create a File called `testFile.txt` in the [current working directory](https://en.wikipedia.org/wiki/Working_directory) if it does not exist.
+If it does exist, it will open the File and store its contents to memory.
+
+### File Opening
+The previous example, while functional, leaves out crucial details on how File opening works with OFile.
+
+Examining the method to open a File, we find it has [two versions,](https://en.wikipedia.org/wiki/Function_overloading) and both of them have a [default parameter.](https://en.wikipedia.org/wiki/Default_argument)
+```cpp
+bool open(const char* filename, OFileAction action=OFILE_AUTO);
+bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
+```
+In reverse order, the last parameter denotes the action to open the File with:
+#### OFileAction
+This is an enumeration of possible actions to use when Opening a File:
+```
+OFILE_OPEN
+OFILE_OPEN_READONLY
+OFILE_NEW
+OFILE_AUTO
+```
+`OFILE_AUTO` - Test
