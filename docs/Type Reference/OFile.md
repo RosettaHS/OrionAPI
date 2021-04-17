@@ -99,10 +99,10 @@ bool open(const char* directory, const char* filename, OFileAction action=OFILE_
 In reverse order, the last parameter denotes the action to open the File with:
 #### OFileAction
 This is an enumeration of possible actions to use when Opening a File:
-```
-OFILE_OPEN
-OFILE_OPEN_READONLY
-OFILE_NEW
-OFILE_AUTO
-```
-`OFILE_AUTO` - Test
+`OFILE_AUTO` - Automatically opens a File (read/write or read-only) or creates a File given on the availability of the File.
+
+`OFILE_NEW` - Creates a File (or overrides an existing one) for both reading and writing.
+
+`OFILE_OPEN` - Open an existing File for both reading and writing.
+
+`OFILE_OPEN_READONLY` - Open an existing File for reading only. Useful for files where you do not have write privileges.
