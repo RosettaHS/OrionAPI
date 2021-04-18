@@ -128,7 +128,7 @@ The first parameter is a path [(relative or absolute)](https://www.lifewire.com/
 
 The second parameter is the File (relative to the scan directory) to access.
 
-As an example, using the first version of the method, this opens the LibC `stdio.h` header file:
+As an example, using the first version of the method, this opens the [LibC](https://en.wikipedia.org/wiki/C_standard_library) `stdio.h` header file:
 ```cpp
 OFile myFile("/usr/include/stdio.h");
 ```
@@ -138,7 +138,7 @@ Now this version does the exact same thing, just in a different way:
 OFile myFile("/usr/include","stdio.h");
 ```
 Instead of utilising the full path to the File, it instead searches for the a given File within a Directory.
-This is primarily to support the [Application Architecture's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
+This is primarily to support the [Application Structure7's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
 ```cpp
 OFile myFile(OAPP_HOME,"myFile.txt");
 ```
@@ -148,3 +148,59 @@ Files can also be accessed from within subdirectories as well:
 ```cpp
 OFile myFile("/usr","include/stdio.h"); 
 ```
+
+### File Reading/Writing
+Once a File has been opened (and it is not read-only), it can be read and modified.
+
+OFile interprets Files as a list of Lines, as opposed to a huge array of characters (which they actually are).
+This makes both reading and writing incredibly easy.
+
+Take this File for example, `myFile.txt`:
+```
+This is a File
+With multiple lines!
+With OFile, you can jump to a specific line
+Or even change lines at will!
+```
+The following is a list of read actions you can do with OFile on this File:
+```cpp
+OFile   myFile("myFile.txt");
+OString myString; /* Use this to read the Lines. */
+
+/* Log the whole File to the terminal. */
+myFile.log();
+
+/* Log each Line out directly. */
+for(size_t i=0; i<OFile.getLineCount(); i++){
+	OLog("%s\n",myFile[i]);
+}
+
+/* Store (and log) a specific Line. */
+myString=myFile[2]; /* Will capture "With OFile, you can jump to a specific line" */
+myString.log(); /* Could also do OLog("%s\n",myFile[2]); */
+```
+Attempting to read an out-of-bounds Line will return `NULL`, meaning the Line list is null-terminated.
+
+Going back to the example File, we can change a Line of the File very easily:
+```cpp
+OFile myFile("myFile.txt");
+myFile.log(); /* To show the File in its original state. */
+
+myFile.setLine(3,"This line has been modified!\n");
+
+myFile.log(); /* To show the modified File. */
+```
+Lines will be resized to fit the new text, and the File can be resized to fit new Lines as well:
+```cpp
+OFile myFile("myFile.txt");
+myFile.log(); /* To show the File in its original state. */
+
+/* Starting position is 4 because that is the end of the example File. */
+for(size_t i=4;i<10;i++){
+	myFile.setLine(i,"This is a new Line!");
+}
+
+myFile.log(); /* To show the modified File. */
+```
+
+### File Saving/Closing
