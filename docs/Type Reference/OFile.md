@@ -138,7 +138,7 @@ Now this version does the exact same thing, just in a different way:
 OFile myFile("/usr/include","stdio.h");
 ```
 Instead of utilising the full path to the File, it instead searches for the a given File within a Directory.
-This is primarily to support the [Application Structure7's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
+This is primarily to support the [Application Structure's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
 ```cpp
 OFile myFile(OAPP_HOME,"myFile.txt");
 ```
@@ -596,7 +596,9 @@ Parameters:
 void* getCFile(void) const;
 ```
 Returns the C [FILE](https://www.tutorialspoint.com/cprogramming/c_file_io.htm) struct used by this File internally.
-Make sure to cast this back into a C FILE struct `(FILE*)` **[REQUIRES INCLUSION OF `<stdio.h>`]**
+Make sure to cast this back into a C FILE struct `(FILE*)`
+
+**[REQUIRES INCLUSION OF `<stdio.h>`]**
 ```cpp
 virtual void log(bool verbose=false, bool newLine=true) override;
 ```
@@ -606,3 +608,13 @@ Parameters:
 
 `bool verbose - Log verbose information (such as File information like size and type) instead of the content itself. Default is false.`
 `bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
+
+## Other Information
+It is **very important** you review the documentation for the [Orion-Native Application Structure](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md)
+to learn how to fully utilise OFile to its full potential.
+
+OFile is only one type involved in Orion-Native File Handling. See the related types below.
+#### See Also:
+[OFileContent](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+
+[OFileLine](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md)
