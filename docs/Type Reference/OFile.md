@@ -96,7 +96,15 @@ Examining the method to open a File, we find it has [two versions,](https://en.w
 bool open(const char* filename, OFileAction action=OFILE_AUTO);
 bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
 ```
-In reverse order, the last parameter denotes the action to open the File with.
+
+First, examining the two-parameter version:
+```cpp
+bool open(const char* filename, OFileAction action=OFILE_AUTO);
+```
+The first parameter denotes the path [(relative or absolute)](https://www.lifewire.com/absolute-and-relative-paths-3466467) to the File to attempt to open.
+Usually this would be used to create or open a File in the [current working directory,](https://en.wikipedia.org/wiki/Working_directory) or to create/open a File with a pre-determined absolute path.
+
+The last parameter denotes the action to open the File with.
 
 This is a list of possible actions to use when opening a File:
 
@@ -107,3 +115,36 @@ This is a list of possible actions to use when opening a File:
 `OFILE_OPEN` - Open an existing File for both reading and writing.
 
 `OFILE_OPEN_READONLY` - Open an existing File for reading only. Useful for files where you do not have write privileges.
+
+By default, it will use the `OFILE_AUTO` option.
+
+The second version of the method, while only a small change, contains far more functionality:
+```cpp
+bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
+```
+The last parameter is the same as the previous version's last parameter, but the first and second parameters are different.
+
+The first parameter is a path [(relative or absolute)](https://www.lifewire.com/absolute-and-relative-paths-3466467) to a Directory to scan for the File (second parameter) within.
+
+The second parameter is the File (relative to the scan directory) to access.
+
+As an example, using the first version of the method, this opens the LibC `stdio.h` header file:
+```cpp
+OFile myFile("/usr/include/stdio.h");
+```
+Note how it uses the full path to the File itself.
+Now this version does the exact same thing, just in a different way:
+```cpp
+OFile myFile("/usr/include","stdio.h");
+```
+Instead of utilising the full path to the File, it instead searches for the a given File within a Directory.
+This is primarily to support the [Application Architecture's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
+```cpp
+OFile myFile(OAPP_HOME,"myFile.txt");
+```
+This will either create or open a File called `"myFile.txt"` in the [home folder.](https://en.wikipedia.org/wiki/Home_directory)
+
+Files can also be accessed from within subdirectories as well:
+```cpp
+OFile myFile("/usr","include/stdio.h"); 
+```
