@@ -149,6 +149,26 @@ Files can also be accessed from within subdirectories as well:
 OFile myFile("/usr","include/stdio.h"); 
 ```
 
+### Files in Memory
+Before any reading and writing can be done, the File **must first** be stored to memory.
+This is done by default whenever a File is opened, however it is a very intensive process.
+
+Disabling this procedure isn't recommended as it essentially makes OFile useless, however there might be certain cases where it might be done.
+If this is required, use the method `shouldStoreToMem()` and pass `false` to disable this **BEFORE** loading the File.
+
+If a File has been loaded with this off, call it with `true` and then call `storeToMem()` to load the Contents into memory.
+
+Files are stored to memory in the form of an [OFileContent.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+Review the documentation for this type for more information.
+
+A File could also be stored [linearly](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#reading-linearly)
+as opposed to the default method of storing a File with each of its Lines separated.
+
+Storing the Lines separate allows for the easy reading and writing in the [next section,](file-readingwriting) but has [some drawbacks.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#benefits-to-both)
+Primarily, [binary files](https://en.wikipedia.org/wiki/Binary_file) may have their structure altered, and are made far more difficult to read when the Lines are separated.
+
+By default, binary files are usually opened with `shouldStoreLinearly()` set to `true`, although more traditional Files (such as text documents) are still opened and stored as separated Lines.
+
 ### File Reading/Writing
 Once a File has been opened (and it is not read-only), it can be read and modified.
 
@@ -181,6 +201,8 @@ myString.log(); /* Could also do OLog("%s\n",myFile[2]); */
 ```
 Attempting to read an out-of-bounds Line will return `NULL`, meaning the Line list is null-terminated.
 
+It is important to note that array notation (`myFile[]`) for retriving a Line *ALWAYS* returns a `char*`, whereas the `getLine()` method *ALWAYS* returns an [OFileLine.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md)
+
 Going back to the example File, we can change a Line of the File very easily:
 ```cpp
 OFile myFile("myFile.txt");
@@ -202,5 +224,40 @@ for(size_t i=4;i<10;i++){
 
 myFile.log(); /* To show the modified File. */
 ```
+Note that any read/write operations **CANNOT** be done this way if the File's Contents are [being stored linearly.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#reading-linearly)
 
 ### File Saving/Closing
+Modifications to Files do not apply automatically. Instead, they can be batched up and applied at a later time.
+To check if a given File has been modified, use the `hasBeenModified()` method.
+
+If a File has been modified (and the File is not read-only), the File can be have all changes applied with the `save()` method.
+
+When closing a File using the `close()` method, a boolean must be passed to decide whether it should apply any pending modifiations, or discard them and don't save the File before closing.
+If `true` is passed, any pending modifications will be applied, and the File will be closed.
+If `false` is passed, pending modifications are discarded and the changes are not saved when the File is closed.
+
+Note that `close()` *ALWAYS* frees any associated memory from the File, including its [Content.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+Do NOT close a File that is in use, especially one being used by an OrionUI Element that is displaying an Image File.
+
+### Comparing Files/OFileHash
+OFileHash is an [alias](https://en.wikipedia.org/wiki/Typedef) for the type `uint64_t`.
+It is a number that contains the (simple) [numerical hash](https://en.wikipedia.org/wiki/Hash_function) of a File's content.
+
+(Note that OFileHash's [altname](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_noaltnames) is `filehash_t`)
+
+Retrieving a File's hash can be done using the `getHash()` method. This number is unique to the Contents and only the Contents. 
+The File itself can be different, but if the Contents are identical then the hash will be the same.
+
+Note that an empty File and a non-existent File both have the identical hash `0`.
+
+Comparing two Files can be done using the `==` operator:
+```cpp
+if( myFile==myOtherFile ){
+	...
+}
+```
+If both of these Files share the identical Content, the condition will be `true` and any code within the block will be executed.
+
+The `equalTo()` method could also be used. Both are functionally identical.
+
+## Breakdown
