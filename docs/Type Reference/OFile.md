@@ -260,6 +260,8 @@ If both of these Files share the identical Content, the condition will be `true`
 
 The `equalTo()` method could also be used. Both are functionally identical.
 
+Note that if a File is modified (such as with `setLine()`) the hash will NOT be recalculated automatically. Use `recalcHash()` to force the hash to be recalculated.
+
 ## Breakdown
 ### The following members are protected, and cannot be accessed directly.
 ```cpp
@@ -352,211 +354,255 @@ By default, this is OFILE_AUTO, meaning if the File exists it will attempt to op
 If it does not exist, it will be created.`
 
 Returns: `True if the File could be successfully opened or created, false otherwise.`
- 
-/**
- * @brief Opens the File relative to the given directory with the given action.
- * @param directory A path (absolute or relative) to attempt to search for the File in.
- * @param filename The name of the File to either open or create relative to the given directory.
- * @param action The action to access the File with.
- * By default, this is OFILE_AUTO, meaning if the File exists it will attempt to open it with either read/write or read-only permissions.
- * If it does not exist, it will be created.
- * See also: OFILE_OPEN, OFILE_OPEN_READONLY, OFILE_NEW
- * @return True if the File could be successfully opened or created, false otherwise.
- */
-bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO); OFile(const char* directory, const char* filename, OFileAction=OFILE_AUTO);
-/**
- * @brief Closes the File, and can applies any modifications and save it before closing.
- * @param saveChanges If this is true, any modifications done to the File will be written before closing.
- * @return True if File was successfully closed, otherwise false if File either could not be closed or File wasn't open to begin with.
- */
+```cpp
+bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
+/* Or */
+OFile(const char* directory, const char* filename, OFileAction=OFILE_AUTO);
+```
+Opens the File relative to the given directory with the given action.
+
+Parameters:
+
+`const char* directory - A path (absolute or relative) to attempt to search for the File in.`
+
+`const char* filename - The name of the File to either open or create relative to the given directory.`
+
+`OFileAction action - The action to access the File with.
+By default, this is OFILE_AUTO, meaning if the File exists it will attempt to open it with either read/write or read-only permissions.
+If it does not exist, it will be created.`
+
+Returns: `True if the File could be successfully opened or created, false otherwise.`
+```cpp
 bool close(bool saveChanges);
-/**
- * @brief Stores the File's contents to memory.
- * @return True if contents could be stored to memory, otherwise false if contents could either not be stored, or contents were already stored.
- */
+```
+Closes the File, and can applies any modifications and save it before closing.
+
+Parameters:
+
+`bool saveChanges - If this is true, any modifications done to the File will be written before closing.`
+
+Returns: `True if File was successfully closed, otherwise false if File either could not be closed or File wasn't open to begin with.`
+```cpp
 bool storeToMem(void);
+```
+Stores the File's contents to memory.
 
-/**
- * @brief Applies the current modifications.
- * @return True if there were any modifications to apply, and if the process was a success.
- */
+Returns: `True if contents could be stored to memory, otherwise false if contents could either not be stored, or contents were already stored.`
+```cpp
 bool save(void);
-/** 
- * @brief Saves a copy of the current File to the given filename relative to the OApp's working directory.
- * @param filename The name/path (absolute or relative) of the File to be saved as.
- * @return True if there were any modifications to apply, and if the process was a success.
- */
+```
+Applies the current modifications.
+
+Returns: `True if there were any modifications to apply, and if the process was a success.`
+```cpp
 bool saveAs(const char* filename);
-/**
- * @brief Saves a copy of the current File to the filename relative to the given directory.
- * @param directory A path (absolute or relative) to attempt to save the File in.
- * @param filename The name to save the File as, relative to the given directory.
- * @return True if there were any modifications to apply, and if the process was a success.
- */
+```
+Saves a copy of the current File to the given filename relative to the OApp's working directory.
+
+`const char* filename - The name/path (absolute or relative) of the File to be saved as.`
+
+Returns: `True if there were any modifications to apply, and if the process was a success.`
+```cpp
 bool saveAs(const char* directory, const char* file);
-/**
- * @brief Renames the current File to the given name, or moves it if the new name is located in a different directory.
- * @param newName The new name to save the File as. Note that this is relative to the OApp's working directory, not relative to the File's location.
- * @return True if the File could be renamed, otherwise false if either File could not be renamed, or File wasn't open to begin with.
- */
+```
+Saves a copy of the current File to the filename relative to the given directory.
+
+Parameters:
+
+`const char* directory - A path (absolute or relative) to attempt to save the File in.`
+
+`const char* filename - The name to save the File as, relative to the given directory.`
+
+Returns: `True if there were any modifications to apply, and if the process was a success.`
+```cpp
 bool rename(const char* newName);
-/** 
- * @brief Discards any modifications and reloads the File.
- * @return True if there were modifications to discard.
- */
+```
+Renames the current File to the given name, or moves it if the new name is located in a different directory.
+
+Parameters:
+
+`const char* newName - The new name to save the File as. Note that this is relative to the OApp's working directory, not relative to the File's location.`
+
+Returns: `True if the File could be renamed, otherwise false if either File could not be renamed, or File wasn't open to begin with.`
+```cpp
 bool reset(void);
-/** 
- * @brief Deletes the current File.
- * @return True if File could be successfully deleted.
- */
+```
+Discards any modifications and reloads the File.
+
+Returns: `True if there were modifications to discard.`
+```cpp
 bool deleteCurrent(void);
+```
+Deletes the current File.
 
-/**
- * @brief Has the File been opened properly, and is ready for use?
- * @return True if File has been successfully opened, otherwise false.
- */
-bool valid(void) const; operator bool(void) const;
-/*
- * Should this File care about allocating and initialising miscellaneous information?
- * These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
- * Changes do not apply until File is closed and reopened.
- */
+Returns: `True if File could be successfully deleted.`
+```cpp
+bool valid(void) const;
+/* Or */
+operator bool(void) const;
+```
+Has the File been opened properly, and is ready for use?
+
+Returns: `True if File has been successfully opened, otherwise false.`
+```cpp
 inline void shouldStoreMisc(bool v)     { flags.storeMisc=v; }
-/*
- * If the File is allowed to evaluate Contents, should this File store all of its Contents to memory?
- * This is true by default, and is required to be on if you want to access or modify a File's Contents.
- * But it is very intensive storing all Contents to memory, so if you just need to hold generic File information,
- * then turn this off. Indexing Contents will require this to be turned on.
- * If you need to turn this off, turn this off BEFORE you open a File.
- * Changes do not apply until File is closed and reopened.
- */
+```
+Should this File care about allocating and initialising miscellaneous information?
+These operations are intensive so if you need to open dozens of files every second, set this to false. Default is true.
+
+Changes do not apply until File is closed and reopened.
+```cpp
 inline void shouldStoreToMem(bool v)    { flags.storeMem=v; }
-/*
- * If this File is allowed to store its Contents to memory, should the stored Contents be linear (a giant array), or separated in different arrays based on each Line?
- * This is false by default, as all indexxing and modification operations that OFile provides REQUIRE the Contents to be stored in different Line arrays.
- * However, for Files such as images, binaries, videos, or any File that isn't meant to be read by the user, this should be set to true.
- * To do indexxing and modification on the File's contents if they are stored linearly, you must first retrieve the Contents of the file by using getContents(),
- * and access/modify the bytes directly. See documentation for OFileContent for more information.
- * Changes do not apply until File is closed and reopened.
- */
+```
+If the File is allowed to evaluate Contents, should this File store all of its Contents to memory?
+This is true by default, and is required to be on if you want to access or modify a File's Contents.
+But it is very intensive storing all Contents to memory, so if you just need to hold generic File information,
+then turn this off. Indexing Contents will require this to be turned on.
+If you need to turn this off, turn this off BEFORE you open a File.
+
+Changes do not apply until File is closed and reopened.
+```cpp
 inline void shouldStoreLinearly(bool v) { flags.storeLinearly=v; }
-/*
- * Should this File evaluate Contents?
- * This is true by default, and is required to be on if you want to store a File's contents to memory.
- * If this is true, OFile will iterate through each byte of a newly-opened File and calculate the number of Lines, number of characters, generates a hash from the Contents,
- * and allows storage of the File's Contents to memory.
- * Changes do not apply until File is closed and reopened.
- */
+```
+If this File is allowed to store its Contents to memory, should the stored Contents be linear (a giant array), or separated in different arrays based on each Line?
+This is false by default, as all indexxing and modification operations that OFile provides REQUIRE the Contents to be stored in different Line arrays.
+However, for Files such as images, binaries, videos, or any File that isn't meant to be read by the user, this should be set to true.
+To do indexxing and modification on the File's contents if they are stored linearly, you must first retrieve the Contents of the file by using getContents(),
+and access/modify the bytes directly. See documentation for OFileContent for more information.
+
+Changes do not apply until File is closed and reopened.
+```cpp
 inline void shouldEvalContents(bool v)  { flags.evalContents=v; }
-/**
- * @brief Has the File been modified since when changes were last applied, or when the File was last opened?
- * @return True if File has been modified since last save.
- */
+```
+Should this File evaluate Contents?
+This is true by default, and is required to be on if you want to store a File's contents to memory.
+If this is true, OFile will iterate through each byte of a newly-opened File and calculate the number of Lines, number of characters, generates a hash from the Contents,
+and allows storage of the File's Contents to memory.
+
+Changes do not apply until File is closed and reopened.
+```cpp
 bool hasBeenModified(void) const;
-/**
- * @brief Do the two Files share the same content?
- * @return True if Files share identical contents.
- */
+```
+Has the File been modified since when changes were last applied, or when the File was last opened?
+
+Returns: `True if File has been modified since last save.`
 bool equalTo(OFile&) const; bool operator==(OFile&) const;
-/**
- * @brief Recalculates the File's hash. Do this after setLine() operations if you need to compare the modified File
- * against another File, as this is NOT called after the File has been modified!
- * @return A numeric hash of the File's contents.
- */
+```cpp
+```
+Do the two Files share the same content?
+
+Returns: `True if Files share identical contents.`
+```cpp
 OFileHash recalcHash(void);
-
-/**
- * @brief Sets the given line of the File (starting at 0) to the new text.
- * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
- * @param line The Line number to modify. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
- * If the given Line is out of bounds, new, empty Lines will be created in the empty space.
- * @param newText The new text to set the given line to. This will resize the given Line if the new text is larger than the size of the Line.
- * @return True if Line could be set, otherwise false if either the File has not been stored to memory, the File is in read-only mode, or the File is not open to begin with.
- */
+```
+Recalculates and returns the File's hash. Do this after setLine() operations if you need to compare the modified File
+against another File, as this is NOT called after the File has been modified!
+```cpp
 bool setLine(size_t line, const char* newText);
+```
+Sets the given line of the File (starting at 0) to the new text.
+This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
 
-/**
- * @brief Returns the generic type of the File if it could be determined.
- * @return A value corrisponding to an enumeration of generic FileTypes.
- * See: OFileType
- */
+Parameters:
+
+`size_t line - The Line number to modify. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
+If the given Line is out of bounds, new, empty Lines will be created in the empty space.`
+
+`const char* newText - The new text to set the given line to. This will resize the given Line if the new text is larger than the size of the Line.`
+
+Returns: `True if Line could be set, otherwise false if either the File has not been stored to memory, the File is in read-only mode, or the File is not open to begin with.`
+```cpp
 OFileType getType(void) const;
-/** 
- * @brief Returns the type of the File as a String if it could be determined.
- * @return A String version of the given OFileType value corrisponding to this File.
- * For example: if the File's Type is OFT_IMAGE, this will return "OFT_IMAGE" as a String. Good for easily readable debug logs.
- */
+```
+Returns the generic type of the File if it could be determined.
+Can be any one of these:
+```
+OFT_UNKNOWN
+OFT_ERROR
+OFT_TEXT
+OFT_CONFIG
+OFT_IMAGE
+OFT_VIDEO
+OFT_FONT
+OFT_BINARY
+```
+```cpp
 const char* getTypeAsString(void) const;
-/**
- * @brief Returns the full path pointing to this File.
- * @return A String that contains the full, real path of this File.
- */
-const char* getPath(void) const; operator const char*(void) const;
-/**
- * @brief Returns the name of this File.
- * @return If the File has been allowed to store misc information (see shouldStoreMisc), this will return the actual name of the File, excluding the path but including the extension.
- */
+```
+Returns the type of the File as a String if it could be determined.
+For example: if the File's Type is OFT_IMAGE, this will return "OFT_IMAGE" as a String. Good for easily readable debug logs.
+```cpp
+const char* getPath(void) const;
+/* Or */
+operator const char*(void) const;
+```
+Returns the full, real path pointing to this File.
+```cpp
 const char* getName(void) const;
-/**
- * @brief Returns the extension of this File (if it has one).
- * @return If the File has been allowed to store misc information (see shouldStoreMisc), this will return the raw extension of the File, excluding the fullstop.
- * For example: if the File's name is "myFile.txt", this will return "txt".
- */
+```
+If the File has been allowed to store misc information (see shouldStoreMisc), this will return the actual name of the File, excluding the path but including the extension.
+```cpp
 const char* getExtension(void) const;
-/**
- * @brief Returns the size of the File in bytes. 
- * @return The raw size of the File in bytes.
- */
+```
+If the File has been allowed to store misc information (see shouldStoreMisc), this will return the raw extension of the File, excluding the fullstop.
+For example: if the File's name is "myFile.txt", this will return "txt".
+```cpp
 size_t getSize(void) const;
-/**
- * @brief Returns the simplistic numerical hash of this File.
- * @return A numeric hash of this File's contents corrisponding to the last time recalcHash() was ran.
- * If you have modified any contennt of this File, run recalcHash(). since modification operations do not automatically recalculate the hash.
- */
+```
+Returns the raw size of the File in bytes. 
+```cpp
 OFileHash getHash(void) const;
-/**
- * @brief Returns the count of Lines of this File.
- * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
- * @return The Line count of this File. This is always AT LEAST 1 if the File is valid, but otherwise 0 if the File has not been opened.
- */
+```
+Returns a numeric hash of this File's contents corrisponding to the last time recalcHash() was ran.
+If you have modified any content of this File, run recalcHash(). since modification operations do not automatically recalculate the hash.
+```cppp
 size_t getLineCount(void) const;
-/**
- * @brief Returns the count of characters in this File.
- * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
- * @return The character count (NOT BYTE COUNT!) of this File.
- */
+```
+Returns the count of Lines of this File, which is always AT LEAST 1 if the File is valid, but otherwise 0 if the File has not been opened.
+This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
+```cpp
 size_t getCharCount(void) const;
-/**
- * @brief Returns pointer to a a struct containing the content of this File. See OFileContent. 
- * @return A pointer to a struct (OFileContent) containing information regarding the contents of this File.
- */
+```
+Returns the count of characters (NOT BYTE COUNT!) in this File.
+This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
+```cpp
 inline OFileContent* getContents(void) { return &contents; }
-/** 
- * @brief Returns a specific line (starting at 0) of this File as an OFileLine.
- * Do NOT use this to retrieve a Line to use as a normal character array, instead use the array notation! ( file[line] ).
- * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
- * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
- * @return A struct (OFileLine) containing information regarding the given Line.
- */
-OFileLine getLine(size_t line) const;
-/**
- * @brief Returns a specific Line (starting at 0) of this File as a String. 
- * Do NOT modify this! Use setLine() instead!
- * This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
- * @param line The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.
- * @return A character array corrisponding to the given Line.
- */
-char* operator [](size_t line) const;
-/**
- * @brief Returns the C FILE struct used by this File internally.
- * @return A (void) pointer that points to the C (stdio) FILE struct used by this internally.
- * Make sure to cast this back into a C FILE struct (FILE*).
- */
-void* getCFile(void) const;
+```
+Returns pointer to a a struct containing information regarding the content of this File.
 
-/**
- * @brief Logs the content of this File out to the terminal. 
- * @param verbose Log verbose information (such as File information like size and type) instead of the content itself. Default is false.
- * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
- */
+See [OFileContent.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+```cpp
+OFileLine getLine(size_t line) const;
+```
+Returns a specific line (starting at 0) of this File as an [OFileLine.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md)
+Do NOT use this to retrieve a Line to use as a normal character array, instead use the array notation! ( file[line] ).
+This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
+
+Parameters:
+
+`size_t line - The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.`
+```cpp
+char* operator [](size_t line) const;
+```
+Returns a specific Line (starting at 0) of this File as a character array(String). 
+Do NOT modify this! Use setLine() instead!
+
+This will fail if you attempt to call this on an OFile that has the "storeLinearly" flag set to true.
+
+Parameters:
+
+`size_t line - The Line to attempt to return. Note that this starts at 0 instead of 1 as a File would display, as internally this is an array of Strings for easy iteration.`
+```cpp
+void* getCFile(void) const;
+```
+Returns the C [FILE](https://www.tutorialspoint.com/cprogramming/c_file_io.htm) struct used by this File internally.
+Make sure to cast this back into a C FILE struct `(FILE*)` **[REQUIRES INCLUSION OF `<stdio.h>`]**
+```cpp
 virtual void log(bool verbose=false, bool newLine=true) override;
+```
+Logs the content of this File out to the terminal. 
+
+Parameters:
+
+`bool verbose - Log verbose information (such as File information like size and type) instead of the content itself. Default is false.`
+`bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`

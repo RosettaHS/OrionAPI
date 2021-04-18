@@ -324,7 +324,7 @@ namespace Orion{
 			/**
 			 * @brief Returns the simplistic numerical hash of this File.
 			 * @return A numeric hash of this File's contents corrisponding to the last time recalcHash() was ran.
-			 * If you have modified any contennt of this File, run recalcHash(). since modification operations do not automatically recalculate the hash.
+			 * If you have modified any content of this File, run recalcHash(). since modification operations do not automatically recalculate the hash.
 			 */
 			OFileHash getHash(void) const;
 			/**
