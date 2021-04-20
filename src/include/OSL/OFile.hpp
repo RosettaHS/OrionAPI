@@ -125,7 +125,7 @@ namespace Orion{
 			char*        name; /* misc */
 			/* The full path to File. */
 			char*        path;
-			/* The raw extension File. */
+			/* The raw extension of the File. */
 			char*        ext;  /* misc */
 			/* A struct containing internal information of this File. */
 			struct{

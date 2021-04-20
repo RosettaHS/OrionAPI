@@ -21,6 +21,27 @@ struct ODirectoryEntry{
 ## Use
 ODirectoryEntry is used as the return value from the `getEntry()` method of [ODirectory.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md)
 
+To retrieve an ODirectoryEntry for use, use the following syntax:
+```cpp
+/* myDirectory is defined elsewhere. It is an ODirectory. */
+ODirectoryEntry* myEntry=myDirectory[0];
+```
+If the returned value (`myEntry`) is not `NULL`, it is a valid Entry, and can be used for further operations.
+
+### Determining Entry Type
+If valid, the `type` member of the Entry is set to one of a list([enumeration](https://en.wikipedia.org/wiki/Enumerated_type)) of possible file types (as known by the file system):
+```
+ODT_UNKNOWN - Type could not be determined.
+ODT_ERROR   - Entry is invalid. Do not use this Entry!
+ODT_DIR     - Entry is a (sub)Directory.
+ODT_FILE    - Entry is a File.
+ODT_SYML    - Entry is a Symlink.
+ODT_SOCKET  - Entry is a UNIX Socket.
+ODT_PIPE    - Entry is a Named Pipe/FIFO.
+```
+
+### Opening using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+
 ## Other Information
 
 #### See Also:

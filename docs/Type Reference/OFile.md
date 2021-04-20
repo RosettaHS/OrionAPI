@@ -295,7 +295,7 @@ The full path to File.
 ```cpp
 char* ext;  /* misc */
 ```
-The raw extension File.
+The raw extension of the File.
 ```cpp
 struct{
 	void* RAW;
