@@ -9,8 +9,7 @@ struct ODirectoryEntry{
 	char*   name;
 	char*   path;
 
-
-	inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
+	inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0}, path{0} {}
 };
 ```
 ```
@@ -59,8 +58,28 @@ if(myEntry && myEntry->type==ODT_FILE){
 	/* Do File operations here... */
 }
 ```
+Symlinks must first be [dereferenced](https://www.man7.org/linux/man-pages/man2/readlink.2.html) before attempting to open them using OFile.
+
+## Breakdown
+```cpp
+ODEType type;
+```
+The type of this Entry.
+```cpp
+char* name;
+```
+The name of this Entry.
+```cpp
+char* path;
+```
+The full, real path to this Entry.
+```cpp
+inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0},path{0} {}
+```
+Empty constructor. Sets all values to 0.
 
 ## Other Information
+Note that you must **NEVER** free an ODirectoryEntry, or any of its contents manually. This is always handled by its parent [ODirectory.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md)
 
 #### See Also:
 [ODirectory](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md)
