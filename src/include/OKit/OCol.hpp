@@ -64,10 +64,18 @@ namespace Orion{
 		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
+	/* Container for multiple OCols. Used for theming UI elements. */
+	struct OTheme{
+		OCol primary;
+		OCol secondary;
+		OCol tertiary;
+		OCol accent;
+	};
 #ifndef ORION_NOALTNAMES
 
 	/* Allows you to use colours with OrionUI (OKit) Elements. Takes in RGB values.*/
-	typedef OCol col_t;
+	typedef OCol   col_t;
+	typedef OTheme theme_t;
 
 #endif /* !ORION_NOALTNAMES */
 	

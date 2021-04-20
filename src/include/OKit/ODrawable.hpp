@@ -23,29 +23,67 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OKIT_CBASEUI_H__
-#define __ORIONAPI_OKIT_CBASEUI_H__
+#ifndef __ORIONAPI_OKIT_ODRAWABLE_H__
+#define __ORIONAPI_OKIT_ODRAWABLE_H__
 
 #include "common.hpp"
+#include "CContext.hpp"
+#include "OCol.hpp"
 
 namespace Orion{
-	/* An enumeration of OrionUI (OKit) Elements. */
-	enum OUIType{
+	/* An enumeration of OrionUI Elements. */
+	enum OUIType : char{
 		OUI_ERROR
 	};
 
-	class CBaseUI{
+	/* The base element for all OrionUI Elements. */
+	class ODrawable{
+		protected:
+			OUIType    type;
+			int16_t    x,y;
+			uint16_t   w,h;
+			uint16_t   minW,minH;
+			float      scale;
+			int16_t    index;
+			CContext*  context;
+			ODrawable* parent;
+			void     (*drawPtr)(ODrawable*);
+			struct{
+				bool    ready      : 1;
+				bool    valid      : 1;
+				bool    enabled    : 1;
+				bool    focused    : 1;
+				bool    fullRedraw : 1;
+				uint8_t containerFlags;
+			}flags;
+			struct{
+				OTheme overridden;
+				OCol*  primary;
+				OCol*  secondary;
+				OCol*  tertiary;
+				OCol*  accent;
+			}theme;
 		public:
-			/* The type of this Element. */
-			OUIType type;
+			ODrawable(void);
 
+			inline void draw(void) { if(drawPtr){ drawPtr(this); } }
+
+			/* Returns the type of this Element. */
+			inline OUIType getType(void) const { return type; }
 			/**
 			 * @brief Returns the type of this Element as a String.
 			 * @return A String version of the given OUIType value corrisponding to this Element.
 			 * For example: if the Element's Type is OUI_OWINDOW, this will return "OUI_OWINDOW" as a String. Good for easily readable debug logs.
 			 */
-			const char* getTypeAsString(void);
+			const char* getTypeAsString(void) const;
 	};
+
+	#ifndef ORION_NOALTNAMES
+		/* An enumeration of OrionUI Elements. */
+		typedef OUIType   uitype_t;
+		/* The base element for all OrionUI Elements. */
+		typedef ODrawable drawable_t;
+	#endif /* !ORION_NOALTNAMES */
 }
 
-#endif /* !__ORIONAPI_OKIT_CBASEUI_H__ */
+#endif /* !__ORIONAPI_OKIT_ODRAWABLE_H__ */
