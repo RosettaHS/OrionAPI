@@ -39,8 +39,19 @@ ODT_SYML    - Entry is a Symlink.
 ODT_SOCKET  - Entry is a UNIX Socket.
 ODT_PIPE    - Entry is a Named Pipe/FIFO.
 ```
+It's very important to check the `type` memmber before doing any sort of operation using the Entry.
 
 ### Opening using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+An ODirectoryEntry by itself, **CANNOT** be opened by an [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+Instead, the [ODirectory](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md) used to retrieve the Entry is what is used to retrieve the full path
+
+**[PLACEHOLDER]**
+
+```cpp
+OFile myFile;
+if(myEntry->type==ODT_FILE){
+	myFile.open( myDirectory.getEntryPath(0) );
+}
 
 ## Other Information
 
