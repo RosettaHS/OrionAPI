@@ -63,7 +63,7 @@ namespace Orion{
 		char*   name;
 
 		/* Empty constructor. Sets all values to 0. */
-		ODirectoryEntry(void);
+		inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
 	};
 
 /*** Abstractive Directory handling ***/

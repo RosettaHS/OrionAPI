@@ -1,4 +1,4 @@
-/**********************************************************************************/
++/**********************************************************************************/
 /*                                                                                */
 /*                              Copyright (c) 2021                                */
 /*                           Rosetta H&S International                            */
@@ -53,7 +53,6 @@ namespace Orion{
 	}
 
 /*** Directory class definitions ***/
-	ODirectoryEntry::ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
 	ODirectory::ODirectory(void) :
 		action{ODIR_AUTO}, path{0}, name{0},
 		CDIR{0}, items{0}, itemCount{0}
