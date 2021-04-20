@@ -61,9 +61,11 @@ namespace Orion{
 		ODEType type;
 		/* The name of this Entry. */
 		char*   name;
+		/* The full, real path to this Entry. */
+		char*   path;
 
 		/* Empty constructor. Sets all values to 0. */
-		inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
+		inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0},path{0} {}
 	};
 
 /*** Abstractive Directory handling ***/
@@ -145,12 +147,12 @@ namespace Orion{
 			 */
 			ODirectoryEntry* getEntry(size_t index); inline ODirectoryEntry* operator [](size_t index) { return getEntry(index); }
 			/**
-			 * @brief Returns the full, real path to the Entry of this Directory at the given index.
-			 * The result, if non-zero, MUST be freed.
+			 * @brief Returns just the full, real path to the Entry of this Directory at the given index.
+			 * The result must NOT be freed.
 			 * The Entries are not sorted in any way.
 			 * @param index The index to attempt to retrieve an Entry from.
 			 * @return If successful, returns a null-terminated String that contains the full, real path of a given Entry (folder/file) corrisponding to the given index.
-			 * The result, if non-zero, MUST be freed.
+			 * The result must NOT be freed.
 			 * Otherwise returns NULL on failure.
 			 */
 			char* getEntryPath(size_t index);

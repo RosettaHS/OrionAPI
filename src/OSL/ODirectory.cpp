@@ -102,15 +102,24 @@ namespace Orion{
 			 * TODO: Make this a bit quicker? String comparison is fat and intensive.
 			/*/
 				if(OStringCompare(tmp->d_name, ".") || OStringCompare(tmp->d_name, "..")){ i--; continue; }
-			/* Store the name. */
-				size_t l=OStringLength(tmp->d_name);
-				items[i].name=(char*)malloc(l+1);
-				for(size_t j=0;j<l;j++){ items[i].name[j]=tmp->d_name[j]; }
-				items[i].name[l]=0;
+			/* Store the path and name. */
+				char* fullPath=concat(path,tmp->d_name);
+				if(fullPath){
+					items[i].path=fullPath;
+					items[i].name=fullPath+(OStringLength(path)+1);
+					/* ^The name IS from the path. ONLY free the path, not the path and name or just name. */
+				}else{
+					items[i].path=0;
+					items[i].name=0;
+				}
+			// /* Store the name. */
+				// size_t l=OStringLength(tmp->d_name);
+				// items[i].name=(char*)malloc(l+1);
+				// for(size_t j=0;j<l;j++){ items[i].name[j]=tmp->d_name[j]; }
+				// items[i].name[l]=0;
 			/* Store the type. */
 				switch(tmp->d_type){
 					default:         { items[i].type=ODT_UNKNOWN; break; }
-					case DT_UNKNOWN: { items[i].type=ODT_UNKNOWN; break; }
 					case DT_DIR:     { items[i].type=ODT_DIR; break; }
 					case DT_REG:     { items[i].type=ODT_FILE; break; }
 					case DT_LNK:     { items[i].type=ODT_SYML; break; }
@@ -167,7 +176,16 @@ namespace Orion{
 			if(!closedir(TODIR(CDIR.RAW))){
 				if(path){ free(path); }
 				if(name){ free(name); }
-				if(items){ for(size_t i=0;i<itemCount;i++){ free(items[i].name); } }
+				if(items){
+					for(size_t i=0;i<itemCount;i++){
+						if(items[i].path){ free(items[i].path); }
+						items[i].type=ODT_ERROR;
+						items[i].path=0;
+						items[i].name=0;
+						/* Yes this all gets freed, but it's useful to zero out the data within to show any residual pointers to NOT access it again. */
+					}
+					free(items);
+				}
 				path=0;
 				name=0;
 				items=0;
@@ -186,11 +204,8 @@ namespace Orion{
 	}
 
 	char* ODirectory::getEntryPath(size_t index){
-		if(items && index<itemCount){
-			char* fullpath=concat(path,items[index].name);
-			if(fullpath){ return fullpath; }
-		}
-		return 0;
+		if(items && index<itemCount){ return items[index].path;	}
+		else{ return 0; }
 	}
 
 	void ODirectory::log(bool verbose, bool newLine){

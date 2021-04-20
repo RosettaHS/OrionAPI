@@ -7,6 +7,8 @@ ODirectoryEntry is a small wrapper for a specific entry (file or folder) of a Di
 struct ODirectoryEntry{
 	ODEType type;
 	char*   name;
+	char*   path;
+
 
 	inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0} {}
 };
@@ -42,15 +44,19 @@ ODT_PIPE    - Entry is a Named Pipe/FIFO.
 It's very important to check the `type` memmber before doing any sort of operation using the Entry.
 
 ### Opening using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
-An ODirectoryEntry by itself, **CANNOT** be opened by an [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
-Instead, the [ODirectory](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md) used to retrieve the Entry is what is used to retrieve the full path
+If an ODirectoryEntry is valid, and was properly initialised, it stores both the name and full, [absolute path](https://www.lifewire.com/absolute-and-relative-paths-3466467) to
+the given Entry.
 
-**[PLACEHOLDER]**
-
+The following is an example of the code required to check if an Entry is valid, check if it is a File, and if so, open it:
 ```cpp
-OFile myFile;
-if(myEntry->type==ODT_FILE){
-	myFile.open( myDirectory.getEntryPath(0) );
+/* myDirectory is defined elsewhere. It is an ODirectory. */
+OFile            myFile;
+ODirectoryEntry* myEntry=myDirectory[0];
+
+/* Remember, ODT_FILE means the Entry is a File, not a Directory, which needs ODirectory to open. */
+if(myEntry && myEntry->type==ODT_FILE){
+	myFile.open(myEntry->path);
+	/* Do File operations here... */
 }
 
 ## Other Information
