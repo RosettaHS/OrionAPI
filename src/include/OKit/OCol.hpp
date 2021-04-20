@@ -64,12 +64,19 @@ namespace Orion{
 		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
-	/* Container for multiple OCols. Used for theming UI elements. */
-	struct OTheme{
+	/* Container struct for multiple OCols. Used for theming UI elements. */
+	struct OTheme : public CLoggable{
 		OCol primary;
 		OCol secondary;
 		OCol tertiary;
 		OCol accent;
+
+		/**
+		 * @brief Logs the information of this Theme to the terminal.
+		 * @param verbose Log verbose information about this Theme instead of the traditional information. Default is false.
+		 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
+		 */
+		virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 #ifndef ORION_NOALTNAMES
 

@@ -67,4 +67,25 @@ namespace Orion{
 			if(newLine){ OLog("\n"); }
 		}
 	}
+
+	void OTheme::log(bool verbose, bool	newLine){
+		if(verbose){
+			OLog("(%lu), (%lu), (%lu), (%lu)",primary.XCOL,secondary.XCOL,tertiary.XCOL,accent.XCOL);
+			if(newLine){ OLog("\n"); }
+		}else{
+			if(newLine){
+				OLog("\tPrimary   : (%d,%d,%d)\n\tSecondary : (%d,%d,%d)\n\tTertiary  : (%d,%d,%d)\n\tAccent    : (%d,%d,%d)\n",
+					primary.r,primary.g,primary.b,
+					secondary.r,secondary.g,secondary.b,
+					tertiary.r,tertiary.g,tertiary.b,
+					accent.r,accent.g,accent.b);
+			}else{
+				OLog("(%d,%d,%d), (%d,%d,%d), (%d,%d,%d), (%d,%d,%d)",
+					primary.r,primary.g,primary.b,
+					secondary.r,secondary.g,secondary.b,
+					tertiary.r,tertiary.g,tertiary.b,
+					accent.r,accent.g,accent.b);
+			}
+		}
+	}
 }
