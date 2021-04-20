@@ -6,17 +6,25 @@ Be aware that this itself can be overridden by a given user's Orion Theme Settin
 
 ## Expansion
 ```cpp
-struct OCol : public CLoggable{
-	uint8_t  r,g,b;
-	uint32_t XCOL;
+	struct OCol : public CLoggable{
+		union{
+			uint32_t XCOL;
+			struct{
+				uint8_t b : 8;
+				uint8_t g : 8;
+				uint8_t r : 8;
+			}raw;
+		};
 
-	inline OCol(void) : r{0},g{0},b{0},XCOL{0} {}
+		inline OCol(void) : raw{0,0,0} { }
+		inline OCol(uint8_t r, uint8_t g, uint8_t b) : raw{b,g,r} { }
 
-	void setTo(uint8_t r, uint8_t g, uint8_t b); OCol(uint8_t r, uint8_t g, uint8_t b);
-	bool setTo(const char* format);
+		inline void setTo(uint8_t r, uint8_t g, uint8_t b) { raw={b,g,r}; }
 
-	virtual void log(bool verbose=false, bool newLine=true) override;
-};
+		bool setTo(const char* format);
+
+		virtual void log(bool verbose=false, bool newLine=true) override;
+	};
 ```
 ```
 [Altname  : col_t]
@@ -38,10 +46,13 @@ Most of the time these methods take in a [reference](https://en.wikipedia.org/wi
 It's recommended to review the documentation of the given OUI Element you are trying to modify in order to see what `setCol()` does in the given implementation,
 since each Element implements `setCol()` differently.
 
-If you wish to change an existing OCol, use the `setTo()` method instead of directly changing the `r,g,b` values,
-as this will NOT update the actual, internal colour.
+If you wish to change an existing OCol, you can either use the `setTo()` method or directly change the `r,g,b` values.
 ```cpp
 myCol.setTo(127,127,127); /* Grey */
+/* Or */
+myCol.raw.r=127;
+myCol.raw.g=127;
+myCol.raw.b=127;
 ```
 An OCol can also be initialised using a properly formatted String.
 
@@ -57,21 +68,31 @@ This will set the OCol to Pure White, which is the colour value stored within th
 
 ## Breakdown
 ```cpp
-uint8_t r,g,b;
+union{
+	/* Internal. Representation of the RGB values that X can use. */
+	uint32_t XCOL;
+	struct{
+		/* The Blue value of this Colour. */
+		uint8_t b : 8;
+		/* The Green value of this Colour. */
+		uint8_t g : 8;
+		/* The Red value of this Colour. */
+		uint8_t r : 8;
+	}raw;
+};
 ```
-The Red, Green, and Blue values of the Colour respectively.
-Can be any number between 0-255.
+A small [union](https://www.tutorialspoint.com/cprogramming/c_unions.htm) that allows for easy setting and retrieval of the RGB values.
+
+`uint32_t XCOL` - The raw colour sent to the [X Service.](https://en.wikipedia.org/wiki/X_Window_System) This is not to be accessed manually.
+
+`uint8_t b,g,r` - The Red, Green, and Blue values of the Colour in reverse order. Can be any number between 0-255.
 ```cpp
-uint32_t XCOL;
-```
-The raw colour sent to the [X Service.](https://en.wikipedia.org/wiki/X_Window_System)
-```cpp
-inline OCol(void) : r{0},g{0},b{0},XCOL{0} {}
+inline OCol(void) : b{0},g{0},r{0} { }
 ```
 Empty constructor. Sets all values to 0.
 ```cpp
-void setTo(uint8_t r, uint8_t g, uint8_t b);
-OCol(uint8_t r, uint8_t g, uint8_t b);
+inline void setTo(uint8_t r, uint8_t g, uint8_t b) { raw={b,g,r}; }
+inline OCol(uint8_t r, uint8_t g, uint8_t b) : raw{b,g,r} { }
 ```
 Initialises and sets the Colour to the given RGB values. 
 

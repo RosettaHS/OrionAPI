@@ -30,12 +30,6 @@
 #include "../include/OKit/OCol.hpp"
 
 namespace Orion{
-	OCol::OCol(uint8_t _r, uint8_t _g, uint8_t _b) :  r{_r},g{_g},b{_b},XCOL{(uint32_t)(_b + (_g<<8) + (_r<<16))} {}
-	void OCol::setTo(uint8_t _r, uint8_t _g, uint8_t _b){
-		r=_r,g=_g,b=_b;
-		XCOL=(uint32_t)(_b + (_g<<8) + (_r<<16));
-	}
-
 	bool OCol::setTo(const char* format){
 		size_t start, end, part=0, sect=0;
 		start=OStringFindFirst(format,"("); end=OStringFindFirst(format,")");
@@ -60,10 +54,10 @@ namespace Orion{
 
 	void OCol::log(bool verbose, bool newLine){
 		if(verbose){
-			OLog("OCol %p : R %d | G %d | B %d | XCOL %lu",(void*)this,r,g,b,XCOL);
+			OLog("OCol %p : R %d | G %d | B %d | XCOL %lu",(void*)this,raw.r,raw.g,raw.b,XCOL);
 			if(newLine){ OLog("\n"); }
 		}else{
-			OLog("(%d, %d, %d)",r,g,b);
+			OLog("(%d, %d, %d)",raw.r,raw.g,raw.b);
 			if(newLine){ OLog("\n"); }
 		}
 	}
@@ -75,16 +69,16 @@ namespace Orion{
 		}else{
 			if(newLine){
 				OLog("\tPrimary   : (%d,%d,%d)\n\tSecondary : (%d,%d,%d)\n\tTertiary  : (%d,%d,%d)\n\tAccent    : (%d,%d,%d)\n",
-					primary.r,primary.g,primary.b,
-					secondary.r,secondary.g,secondary.b,
-					tertiary.r,tertiary.g,tertiary.b,
-					accent.r,accent.g,accent.b);
+					primary.raw.r,primary.raw.g,primary.raw.b,
+					secondary.raw.r,secondary.raw.g,secondary.raw.b,
+					tertiary.raw.r,tertiary.raw.g,tertiary.raw.b,
+					accent.raw.r,accent.raw.g,accent.raw.b);
 			}else{
 				OLog("(%d,%d,%d), (%d,%d,%d), (%d,%d,%d), (%d,%d,%d)",
-					primary.r,primary.g,primary.b,
-					secondary.r,secondary.g,secondary.b,
-					tertiary.r,tertiary.g,tertiary.b,
-					accent.r,accent.g,accent.b);
+					primary.raw.r,primary.raw.g,primary.raw.b,
+					secondary.raw.r,secondary.raw.g,secondary.raw.b,
+					tertiary.raw.r,tertiary.raw.g,tertiary.raw.b,
+					accent.raw.r,accent.raw.g,accent.raw.b);
 			}
 		}
 	}

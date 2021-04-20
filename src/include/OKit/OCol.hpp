@@ -31,13 +31,21 @@
 namespace Orion{
 	/* Allows you to use colours with OrionUI (OKit) Elements. Takes in RGB values.*/
 	struct OCol : public CLoggable{
-		/* The Red, Green, and Blue values (respectively) of the OCol.*/
-		uint8_t  r,g,b;
-		/* Internal. Representation of the RGB values that X can use. */
-		uint32_t XCOL;
+		union{
+			/* Internal. Representation of the RGB values that X can use. */
+			uint32_t XCOL;
+			struct{
+				/* The Blue value of this Colour. */
+				uint8_t b : 8;
+				/* The Green value of this Colour. */
+				uint8_t g : 8;
+				/* The Red value of this Colour. */
+				uint8_t r : 8;
+			}raw;
+		};
 
 		/* Empty contructor. Sets all values to 0. */
-		inline OCol(void) : r{0},g{0},b{0},XCOL{0} {}
+		inline OCol(void) : raw{0,0,0} { }
 
 		/**
 		 * @brief Initialises and sets the Colour to the given RGB values. 
@@ -45,7 +53,7 @@ namespace Orion{
 		 * @param g The green value (0 - 255) of this Colour.
 		 * @param b The blue value (0 - 255) of this Colour.
 		 */
-		void setTo(uint8_t r, uint8_t g, uint8_t b); OCol(uint8_t r, uint8_t g, uint8_t b);
+		inline void setTo(uint8_t r, uint8_t g, uint8_t b) { raw={b,g,r}; } inline OCol(uint8_t r, uint8_t g, uint8_t b) : raw{b,g,r} { }
 
 		/**
 		 * @brief Attempts to set and initialise this Colour from the given formatted String. 
