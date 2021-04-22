@@ -41,3 +41,10 @@ class ODirectory : CLoggable{
 [Declared : src/include/OSL/ODirectory.hpp]
 [Defined  : src/OSL/ODirectory.cpp]
 ```
+
+## Use
+
+## Other Information
+
+#### See Also:
+[ODirectoryEntry](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md)
