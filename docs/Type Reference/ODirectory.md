@@ -188,7 +188,7 @@ ODirectoryEntry* items;
 ```
 An array of DirectoryEntries for this Directory.
 ```cpp
-size_t           itemCount;
+size_t itemCount;
 ```
 The count of entries in this Directory.
 ```cpp
@@ -225,7 +225,9 @@ Opens the Sub-Directory relative to the given Directory with the given action.
 Parameters:
 
 `const char* parentDirectory` - A path to a Directory (absolute or relative) to attempt to search for the Sub-Directory in.
+
 `const char* subDirectory` - The name of the Sub-Directory to either open or create relative to the given Directory.
+
 `ODirectoryAction action` - The action to access the Directory with.
 By default, this is ODIR_AUTO, meaning if the Directory exists it will attempt to open it and read its contents.
 If it does not exist, it will be created.
@@ -258,7 +260,7 @@ Returns: `The name of this Directory. The result must NOT be freed.`
 ```cpp
 inline size_t getEntryCount(void) const { return itemCount; }
 ```
-Returns `The count of Entries (folders/files) in this Directory.`
+Returns: `The count of Entries (folders/files) in this Directory.`
 
 ```cpp
 ODirectoryEntry* getEntry(size_t index) const;
