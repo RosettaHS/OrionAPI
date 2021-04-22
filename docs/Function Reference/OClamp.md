@@ -63,9 +63,15 @@ The other two functions do one of these operations:
 int inputValue=10;
 int myValue=0;
 
-/* myValue will be "5", since "10" is greater the maximum threshold of "5", and will be clamped. However, there is no minimum threshold. */
+/*
+ * myValue will be "5", since "10" is greater the maximum threshold of "5", and will be clamped. 
+ * However, there is no minimum threshold, meaning the input can go as low as it wants.
+ */
 myValue=OClampMax(inputValue,5);
 
-/* myValue will be "10", since "10" is greater the minimum threshold of "5", and will NOT be clamped. However, there is no maximum threshold. */
+/*
+ * myValue will be "10", since "10" is greater the minimum threshold of "5", and will NOT be clamped.
+ * However, there is no maximum threshold, meaning the input can go as high as it wants.
+ */
 myValue=OClampMin(inputValue,5);
 ```
