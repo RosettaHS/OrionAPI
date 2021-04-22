@@ -137,7 +137,7 @@ namespace Orion{
 			inline const char* getName(void) const { return (const char*)name; }
 
 			/**
-			 * @breif Returns the amount of Entries in this Directory.
+			 * @brief Returns the amount of Entries in this Directory.
 			 * @return The count of Entries (folders/files) in this Directory.
 			 */
 			inline size_t getEntryCount(void) const { return itemCount; }

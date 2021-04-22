@@ -134,7 +134,9 @@ for(size_t i=0; i<myDirectory.getEntryCount(); i++){
 
 myDirectory.close();
 ```
-Admittedly, this can all be replaced by using the `log()` method in ODirectory, however this is how that method works internally.
+Admittedly, this can all be replaced by using the `log()` method in ODirectory, however this is similar to how that method works internally.
+
+It's also very important to note that the list of Entries is not sorted in any way.
 
 #### Opening using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
 You can open a given Entry using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
@@ -156,7 +158,169 @@ if(myEntry){ /* If the Entry was found */
 myDirectory.close();
 ```
 
+### Directory Closing
+Once no longer needed, an ODirectory can be closed by using the `close()` method.
+However, keep in mind that the array of [ODirectoryEntries](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md) is freed as well,
+meanning any residual Entry pointers are invalid. Do NOT attempt to access Entries after having closed their originating ODirectory.
+
+[OFiles](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md) created from said Entries, however, are still safe to use.
+
+## Breakdown
+### The following members are protected, and cannot be accessed directly.
+```cpp
+ODirectoryAction action;
+```
+The action used to open this Directory.
+```cpp
+char* path;
+```
+The absolute path to this Directory.
+```cpp
+char* name;
+```
+The name of this Directory.
+```cpp
+void* RAW;
+```
+The C DIR struct used for this Directory.
+```cpp
+ODirectoryEntry* items;
+```
+An array of DirectoryEntries for this Directory.
+```cpp
+size_t           itemCount;
+```
+The count of entries in this Directory.
+```cpp
+void init(void);
+```
+Internal. Initialises information regarding this Directory. Called by open().
+### The following members are public, and can be accessed directly.
+```cpp
+ODirectory(void);
+```
+Empty constructor. Sets all values to 0.
+```cpp
+bool open(const char* directory, ODirectoryAction action=ODIR_AUTO); 
+ODirectory(const char* directory, ODirectoryAction action=ODIR_AUTO);
+```
+Opens the given Directory relative to the OApp's working directory with the given action.
+
+Parameters:
+
+`const char* directory` - The name/path (absolute or relative) of the Directory to either open or create.
+
+`ODirectoryAction action` - The action to access the Directory with.
+By default, this is ODIR_AUTO, meaning if the Directory exists it will attempt to open it and read its contents.
+If it does not exist, it will be created.
+
+Returns: `True if the Directory could be successfully opened or created, otherwise false.`
+
+```cpp
+bool open(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
+ODirectory(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
+```
+Opens the Sub-Directory relative to the given Directory with the given action.
+
+Parameters:
+
+`const char* parentDirectory` - A path to a Directory (absolute or relative) to attempt to search for the Sub-Directory in.
+`const char* subDirectory` - The name of the Sub-Directory to either open or create relative to the given Directory.
+`ODirectoryAction action` - The action to access the Directory with.
+By default, this is ODIR_AUTO, meaning if the Directory exists it will attempt to open it and read its contents.
+If it does not exist, it will be created.
+
+Returns: `True if the Directory could be successfully opened or created, otherwise false.`
+```cpp
+bool close(void);
+```
+Closes the Directory and frees all associated memory.
+
+Returns: `True if the Directory could be successfully closed, otherwise false if either the Directory could not be closed, or it was never open to begin with.`
+
+```cpp
+inline bool valid(void) const    { return ( (RAW) ? true : false ); }
+inline operator bool(void) const { return ( (RAW) ? true : false ); }
+```
+Has the Directory been opened properly, and is ready for use?
+
+Returns: `True if Directory has been successfully opened, otherwise false.`
+```cpp
+inline const char* getPath(void) const { return (const char*)path; }
+```
+Returns: `The full, real path to this Directory. The result must NOT be freed.`
+
+```cpp
+inline const char* getName(void) const { return (const char*)name; }
+```
+Returns: `The name of this Directory. The result must NOT be freed.`
+
+```cpp
+inline size_t getEntryCount(void) const { return itemCount; }
+```
+Returns `The count of Entries (folders/files) in this Directory.`
+
+```cpp
+ODirectoryEntry* getEntry(size_t index) const;
+inline ODirectoryEntry* operator [](size_t index) const { return getEntry(index); }
+```
+Returns an Entry of this Directory at the given index.
+
+**The Entries are not sorted in any way.**
+
+Parameters:
+
+`size_t index` - The index to attempt to retrieve an Entry from.
+
+Returns: `If successful, returns a pointer to a struct (ODirectoryEntry) containing information regarding the given Entry, such as the type and name.
+Otherwise returns NULL.`
+
+```cpp
+ODirectoryEntry* getEntryByName(const char* filename) const;
+```
+Returns an Entry of this Directory with the given name.
+
+Parameters:
+
+`const char* filename` - The name of the Entry(File or Folder) to attempt to retrieve.
+
+Returns: `If successful, returns a pointer to a struct (ODirectoryEntry) containing information regarding the given Entry, such as the type and name.
+Otherwise returns NULL.`
+
+```cpp
+char* getEntryPath(size_t index) const;
+```
+Returns just the full, real path to the Entry of this Directory at the given index. The result must **NOT** be freed.
+
+**The Entries are not sorted in any way.**
+
+Parameters:
+
+`size_t index` - The index to attempt to retrieve an Entry from.
+
+Returns: `If successful, returns a null-terminated String that contains the full, real path of a given Entry (folder/file) corrisponding to the given index.
+The result must NOT be freed. Otherwise returns NULL on failure.`
+
+```cpp
+inline void* getCDir(void) const { return RAW; }
+```
+Returns: `A (void) pointer that points to the C (stdio) DIR struct used by this internally.
+Make sure to cast this back into a C DIR struct (DIR*).`
+
+```cpp
+virtual void log(bool verbose=false, bool newLine=true) override;
+```
+Logs the information of this Directory to the terminal.
+
+Parameters:
+
+`bool verbose` - Log verbose information about this Directory instead of the traditional information. Default is false.
+
+`bool newline` - Should the output be placed on a newline or append to the current one if applicable? Default is true.
+
 ## Other Information
+ODirectory is a powerful tool for creating and reading Directories, however it is fairly useless without [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+Review the documentation for [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md) and the [Orion-Native Application Structure](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) to learn how to fully utilise OrionAPI's data management utilities.
 
 #### See Also:
 [ODirectoryEntry](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md)
