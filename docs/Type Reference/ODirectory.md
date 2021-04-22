@@ -1,17 +1,15 @@
 # Type Reference: ODirectory
 ## Orion-Native Directory handling
-**[PLACEHOLDER]**
+ODirectory is the Orion-Native implementation for handling Directories, providing a minimal abstraction over the native filesystem.
 
 ## Expansion
 ```cpp
 class ODirectory : CLoggable{
 	protected:
 		ODirectoryAction action;
-		char* path;
-		char* name;
-		struct{
-			void* RAW;
-		}CDIR;
+		char*            path;
+		char*            name;
+		void*            RAW;
 		ODirectoryEntry* items;
 		size_t           itemCount;
 
@@ -25,13 +23,15 @@ class ODirectory : CLoggable{
 		bool open(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
 		bool close(void);
 
-		inline const char* getPath(void) { return (const char*)path; }
-		inline const char* getName(void) { return (const char*)name; }
+		inline const char* getPath(void) const { return (const char*)path; }
+		inline const char* getName(void) const { return (const char*)name; }
 
-		inline size_t getEntryCount(void) { return itemCount; }
-		ODirectoryEntry* getEntry(size_t index); inline ODirectoryEntry* operator [](size_t index) { return getEntry(index); }
-		char* getEntryPath(size_t index);
+		inline size_t getEntryCount(void) const { return itemCount; }
+		ODirectoryEntry* getEntry(size_t index) const;
+		inline ODirectoryEntry* operator [](size_t index) const { return getEntry(index); }
+		char* getEntryPath(size_t index) const;
 
+		inline void* getCDir(void) const { return RAW; }
 		virtual void log(bool verbose=false, bool newLine=true) override;
 };
 ```

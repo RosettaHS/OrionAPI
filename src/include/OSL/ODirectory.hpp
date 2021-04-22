@@ -76,14 +76,11 @@ namespace Orion{
 			/* The action used to open this Directory. */
 			ODirectoryAction action;
 			/* The absolute path to this Directory. */
-			char* path;
+			char*            path;
 			/* The name of this Directory. */
-			char* name;
-			/* A struct containing internal information used to access and interface with this Directory. */
-			struct{
-				/* The C DIR struct used for this Directory. */
-				void* RAW;
-			}CDIR;
+			char*            name;
+			/* The C DIR struct used for this Directory. */
+			void*            RAW;
 			/* An array of DirectoryEntries for this Directory. */
 			ODirectoryEntry* items;
 			/* The count of entries in this Directory. */
@@ -126,18 +123,18 @@ namespace Orion{
 			 * @brief Returns the full, real path to this Directory. The result must NOT be freed.
 			 * @return The full path to the active Directory. The result must NOT be freed.
 			 */
-			inline const char* getPath(void) { return (const char*)path; }
+			inline const char* getPath(void) const { return (const char*)path; }
 			/**
 			 * @brief Returns the name of this Directory. The result must NOT be freed.
 			 * @return The name of the active Directory. The result must NOT be freed.
 			 */
-			inline const char* getName(void) { return (const char*)name; }
+			inline const char* getName(void) const { return (const char*)name; }
 
 			/**
 			 * @breif Returns the amount of Entries in this Directory.
 			 * @return The count of Entries (folders/files) in this Directory.
 			 */
-			inline size_t getEntryCount(void) { return itemCount; }
+			inline size_t getEntryCount(void) const { return itemCount; }
 			/**
 			 * @brief Returns an Entry of this Directory at the given index.
 			 * The Entries are not sorted in any way.
@@ -145,7 +142,7 @@ namespace Orion{
 			 * @return If successful, returns a pointer to a struct (ODirectoryEntry) containing information regarding the given Entry, such as the type and name.
 			 * Otherwise returns NULL.
 			 */
-			ODirectoryEntry* getEntry(size_t index); inline ODirectoryEntry* operator [](size_t index) { return getEntry(index); }
+			ODirectoryEntry* getEntry(size_t index) const; inline ODirectoryEntry* operator [](size_t index) const { return getEntry(index); }
 			/**
 			 * @brief Returns just the full, real path to the Entry of this Directory at the given index.
 			 * The result must NOT be freed.
@@ -155,8 +152,14 @@ namespace Orion{
 			 * The result must NOT be freed.
 			 * Otherwise returns NULL on failure.
 			 */
-			char* getEntryPath(size_t index);
+			char* getEntryPath(size_t index) const;
 
+			/**
+			 * @brief Returns the C DIR struct used by this File internally.
+			 * @return A (void) pointer that points to the C (stdio) DIR struct used by this internally.
+			 * Make sure to cast this back into a C DIR struct (DIR*).
+			 */
+			inline void* getCDir(void) const { return RAW; }
 			/**
 			 * @brief Logs the information of this Directory to the terminal.
 			 * @param verbose Log verbose information about this Directory instead of the traditional information. Default is false.

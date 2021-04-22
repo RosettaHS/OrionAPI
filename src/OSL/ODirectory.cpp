@@ -55,15 +55,15 @@ namespace Orion{
 /*** Directory class definitions ***/
 	ODirectory::ODirectory(void) :
 		action{ODIR_AUTO}, path{0}, name{0},
-		CDIR{0}, items{0}, itemCount{0}
+		RAW{0}, items{0}, itemCount{0}
 	{}
 	ODirectory::ODirectory(const char* directory, ODirectoryAction _action) :
 		action{ODIR_AUTO}, path{0}, name{0},
-		CDIR{0}, items{0}, itemCount{0}
+		RAW{0}, items{0}, itemCount{0}
 	{ open(directory,_action); }
 	ODirectory::ODirectory(const char* parentDirectory, const char* subDirectory, ODirectoryAction _action) :
 		action{ODIR_AUTO}, path{0}, name{0},
-		CDIR{0}, items{0}, itemCount{0}
+		RAW{0}, items{0}, itemCount{0}
 	{ open(parentDirectory,subDirectory,_action); }
 
 	/* Initialisation */
@@ -85,17 +85,17 @@ namespace Orion{
 		itemCount=0;
 		dirent* tmp=0;
 		while(true){
-			tmp=readdir(TODIR(CDIR.RAW));
+			tmp=readdir(TODIR(RAW));
 			if(tmp){ itemCount++; }
 			else{ break; }
 		}
 		itemCount-=ODIR_BASECOUNT; /* Subtract 2 because the current and previous directories ( "." & ".." ) are evaluated. */
-		rewinddir(TODIR(CDIR.RAW));
+		rewinddir(TODIR(RAW));
 	/* Store an array of DirectoryEntries */
 		if(itemCount){ items=(ODirectoryEntry*)malloc(sizeof(ODirectoryEntry)*itemCount); }
 		else         { items=0; }
 		for(size_t i=0;i<itemCount;i++){
-			tmp=readdir(TODIR(CDIR.RAW));
+			tmp=readdir(TODIR(RAW));
 			if(tmp){
 			/*/
 			 * Skip this entry if it's the current or previous directory ( "." OR ".." ) 
@@ -129,26 +129,26 @@ namespace Orion{
 			}else{ OELog(OERR_CANTMALLOC,true,"FAILED TO ALLOCATE MEMORY FOR DIRECTORY ENTRY!\n"); }
 			/* ^? [Citation Needed] I presume this would be the cause for failure, considering we scanned it fine initially. */
 		}
-		rewinddir(TODIR(CDIR.RAW));
+		rewinddir(TODIR(RAW));
 	}
 
 	/** Opening **/
 	bool ODirectory::open(const char* directory, ODirectoryAction _action){
 		if(!directory){ return false; }
-		if(CDIR.RAW){ close(); }
+		if(RAW){ close(); }
 		action=_action;
 
 		switch(action){
-			case ODIR_OPEN: { CDIR.RAW=opendir(directory); break; }
-			case ODIR_NEW:  { mkdir(directory, _MKDIRARG); CDIR.RAW=opendir(directory); break; }
+			case ODIR_OPEN: { RAW=opendir(directory); break; }
+			case ODIR_NEW:  { mkdir(directory, _MKDIRARG); RAW=opendir(directory); break; }
 			case ODIR_AUTO: {
-				if(ODirectoryExists(directory)){ CDIR.RAW=opendir(directory); }
-				else{ mkdir(directory, _MKDIRARG); CDIR.RAW=opendir(directory); }
+				if(ODirectoryExists(directory)){ RAW=opendir(directory); }
+				else{ mkdir(directory, _MKDIRARG); RAW=opendir(directory); }
 				break;
 			}
 		}
 
-		if(CDIR.RAW){
+		if(RAW){
 			path=realpath(directory,0);
 			init();
 			return true;
@@ -172,8 +172,8 @@ namespace Orion{
 
 	/** Closing **/
 	bool ODirectory::close(void){
-		if(CDIR.RAW){
-			if(!closedir(TODIR(CDIR.RAW))){
+		if(RAW){
+			if(!closedir(TODIR(RAW))){
 				if(path){ free(path); }
 				if(name){ free(name); }
 				if(items){
@@ -198,12 +198,12 @@ namespace Orion{
 
 	/** Getters/misc ops **/
 
-	ODirectoryEntry* ODirectory::getEntry(size_t index){
+	ODirectoryEntry* ODirectory::getEntry(size_t index) const{
 		if(items && index<itemCount){ return &items[index]; }
 		else{ return 0; }
 	}
 
-	char* ODirectory::getEntryPath(size_t index){
+	char* ODirectory::getEntryPath(size_t index) const{
 		if(items && index<itemCount){ return items[index].path;	}
 		else{ return 0; }
 	}

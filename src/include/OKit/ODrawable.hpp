@@ -49,12 +49,12 @@ namespace Orion{
 			ODrawable* parent;
 			void     (*drawPtr)(ODrawable*);
 			struct{
-				bool    ready      : 1;
-				bool    valid      : 1;
-				bool    enabled    : 1;
-				bool    focused    : 1;
-				bool    fullRedraw : 1;
-				uint8_t containerFlags;
+				bool   ready      : 1;
+				bool   valid      : 1;
+				bool   enabled    : 1;
+				bool   focused    : 1;
+				bool   fullRedraw : 1;
+				char   containerFlags;
 			}flags;
 			struct{
 				OTheme overridden;
@@ -66,7 +66,7 @@ namespace Orion{
 		public:
 			ODrawable(void);
 
-			inline void draw(void) { if(drawPtr){ drawPtr(this); } }
+			inline void redraw(void) { if(drawPtr){ drawPtr(this); } }
 
 			/* Returns the type of this Element. */
 			inline OUIType getType(void) const { return type; }
