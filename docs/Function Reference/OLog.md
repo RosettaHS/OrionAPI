@@ -26,7 +26,7 @@ It acts identically to [printf,](https://www.tutorialspoint.com/c_standard_libra
 
 It is meant to reduce the need to include `<stdio.h>` or `<iostream>` in your projects solely for the ability to log information out to the terminal.
 
-To log `"Hello World"` out to the terminal, use the following syntax:
+To log `"Hello World!"` out to the terminal, use the following syntax:
 ```cpp
 OLog("Hello World!\n");
 ```
