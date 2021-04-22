@@ -38,7 +38,7 @@ namespace Orion{
 		ODIR_OPEN,
 		/* Creates a Directory if it does not exist, then opens it. */
 		ODIR_NEW,
-		/* Automatically opens a Directory, or creates a Directory (then opens it) given on the availability of the Directory. */
+		/* Automatically opens a Directory, or creates a Directory (then opens it) based on the availability of the Directory. */
 		ODIR_AUTO
 	};
 
@@ -120,6 +120,12 @@ namespace Orion{
 			bool close(void);
 
 			/**
+			 * @brief Has the Directory been opened properly, and is ready for use?
+			 * @return True if Directory has been successfully opened, otherwise false.
+			 */
+			inline bool valid(void) const { return ( (RAW) ? true : false ); } inline operator bool(void) const { return ( (RAW) ? true : false ); }
+
+			/**
 			 * @brief Returns the full, real path to this Directory. The result must NOT be freed.
 			 * @return The full path to the active Directory. The result must NOT be freed.
 			 */
@@ -143,6 +149,14 @@ namespace Orion{
 			 * Otherwise returns NULL.
 			 */
 			ODirectoryEntry* getEntry(size_t index) const; inline ODirectoryEntry* operator [](size_t index) const { return getEntry(index); }
+
+			/**
+			 * @brief Returns an Entry of this Directory with the given name.
+			 * @param filename The name of the Entry(File or Folder) to attempt to retrieve.
+			 * @return If successful, returns a pointer to a struct (ODirectoryEntry) containing information regarding the given Entry, such as the type and name.
+			 * Otherwise returns NULL.
+			 */
+			ODirectoryEntry* getEntryByName(const char* filename) const;
 			/**
 			 * @brief Returns just the full, real path to the Entry of this Directory at the given index.
 			 * The result must NOT be freed.

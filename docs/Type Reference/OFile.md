@@ -137,7 +137,7 @@ Now this version does the exact same thing, just in a different way:
 ```cpp
 OFile myFile("/usr/include","stdio.h");
 ```
-Instead of utilising the full path to the File, it instead searches for the a given File within a Directory.
+Instead of utilising the full path to the File, it instead searches for the given File within a Directory.
 This is primarily to support the [Application Structure's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
 ```cpp
 OFile myFile(OAPP_HOME,"myFile.txt");

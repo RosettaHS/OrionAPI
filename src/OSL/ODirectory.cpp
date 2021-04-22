@@ -203,6 +203,19 @@ namespace Orion{
 		else{ return 0; }
 	}
 
+	ODirectoryEntry* ODirectory::getEntryByName(const char* filename) const{
+		ODirectoryEntry* ret=0;
+		if(items){
+			for(size_t i=0;i<itemCount;i++){
+				if(items[i].name && OStringCompare(filename,items[i].name)){
+					ret=&items[i];
+					break;
+				}
+			}
+		}
+		return ret;
+	}
+
 	char* ODirectory::getEntryPath(size_t index) const{
 		if(items && index<itemCount){ return items[index].path;	}
 		else{ return 0; }
