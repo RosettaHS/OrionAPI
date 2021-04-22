@@ -10,7 +10,7 @@
 ```
 [Library  : OSL]
 [Declared : src/include/OSL/OMath.hpp]
-[Defined  : src/include/OSL/OMath.hpp <inline>]
+[Defined  : src/include/OSL/OMath.hpp] <inline>
 ```
 ### OClamp
 Returns a version of the given value clamped between the two other values.
@@ -47,3 +47,25 @@ If the given value "x" is greater than the minimum value, the value of "x" will 
 Otherwise, the minimum value will be returned.
 
 ## Use
+These three functions are very simple mathematical operations. They're used to keep a number within a certain range.
+
+For example:
+```cpp
+int inputValue=10;
+int myValue=OClamp(inputValue,5,0);
+```
+`myValue` will kept at `5`, since `inputValue` is greater than the max value (`5`) provided as the second parameter to `OClamp`.
+
+If, however, `inputValue` was lower than the max value, yet greater than the min value (`0`), `myValue` will be set to `inputValue`.
+
+The other two functions do one of these operations:
+```cpp
+int inputValue=10;
+int myValue=0;
+
+/* myValue will be "5", since "10" is greater the maximum threshold of "5", and will be clamped. However, there is no minimum threshold. */
+myValue=OClampMax(inputValue,5);
+
+/* myValue will be "10", since "10" is greater the minimum threshold of "5", and will NOT be clamped. However, there is no maximum threshold. */
+myValue=OClampMin(inputValue,5);
+```
