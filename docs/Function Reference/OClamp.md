@@ -32,7 +32,7 @@ long x   - The value to clamp.
 long max - The maximum for the value.
 ```
 #### Returns
-If the given value "x" is less than the maximum value, the value of "x" will be returned.
+If the given value `x` is less than the maximum value, the value of `x` will be returned.
 Otherwise, the maximum value will be returned.
 
 ### OClampMin
@@ -43,7 +43,7 @@ long x   - The value to clamp.
 long min - The minimum for the value.
 ```
 #### Returns
-If the given value "x" is greater than the minimum value, the value of "x" will be returned.
+If the given value `x` is greater than the minimum value, the value of `x` will be returned.
 Otherwise, the minimum value will be returned.
 
 ## Use
