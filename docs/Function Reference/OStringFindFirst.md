@@ -1,5 +1,5 @@
 # Function Reference: OStringFindFirst
-## Content Checking
+## Occurance Checking
 Returns the starting index of the first occurance of the substring in the given String.
 
 ## Declaration

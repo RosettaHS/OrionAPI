@@ -292,7 +292,7 @@ namespace Orion{
 	 */
 	extern size_t OStringFindLast(const char* string, const char* substring);
 	/**
-	 * @brief Returns the count of times the substring is found in the given string.
+	 * @brief Returns the count of times the substring is found in the given String.
 	 * @param string The String to attempt to search the substring in.
 	 * @param substring The substring to search for in the given String.
 	 * @return The number of times the substring was found in the given String.

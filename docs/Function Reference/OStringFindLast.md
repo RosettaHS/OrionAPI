@@ -1,5 +1,5 @@
 # Function Reference: OStringFindLast
-## Content Checking
+## Occurance Checking
 Returns the starting index of the last occurance of the substring in the given String.
 
 ## Declaration
