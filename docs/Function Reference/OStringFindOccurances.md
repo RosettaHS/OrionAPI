@@ -19,3 +19,11 @@ extern size_t OStringFindOccurances(const char* string, const char* substring);
 
 ### Returns
 The number of times the substring was found in the given String.
+
+## Use
+OStringFindOccurances is used for counting how many times a substring is found within a String
+Note that it does **NOT** return the indicies of those substrings, only the count of substrings found.
+
+Take the example String `"I love Grapes. Grapes are delicious"`
+
+`**TEST** TEST`
