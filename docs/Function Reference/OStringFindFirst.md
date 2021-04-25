@@ -52,7 +52,7 @@ if(myIndex){
 ```
 In this example, `"Substring Found!"` will be printed to the terminal, despite `"Earth!"` clearly not being present in the original String.
 
-This problem gets even worse when attempting to find a substring at the stat of the main String:
+This problem gets even worse when attempting to find a substring at the start of the main String:
 ```cpp
 size_t myIndex=OStringFindFirst("Hello World!","Hello");
 
