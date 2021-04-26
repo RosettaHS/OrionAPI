@@ -75,3 +75,14 @@ Now this will correctly print `"Substring Found!"`, as `"I"` is a part of the St
 
 ## Other Information
 `OSTRING_NOTFOUND` is defined as `ULONG_MAX`, which is part of [<limits.h>](https://cplusplus.com/reference/climits/).
+
+#### See Also:
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+
+[OStringCompare](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringCompare.md)
+
+[OStringFindFirst](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindFirst.md)
+
+[OStringFindOccurances](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindOccurances.md)
+
+[OStringLength](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringLength.md)

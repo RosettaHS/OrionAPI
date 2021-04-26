@@ -38,3 +38,14 @@ The result will be `false` since despite `Hello!` and `Hallo!` being incredibly 
 
 ## Other Information
 Beware using this on Strings with [multi-byte](https://en.wikipedia.org/wiki/UTF-8) characters, as they have [a chance of not sharing identical bytes despite appearing visually identical](https://youtu.be/tOHnXt3Ycfo?t=2658).
+
+#### See Also:
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+
+[OStringFindFirst](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindFirst.md)
+
+[OStringFindLast](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindLast.md)
+
+[OStringFindOccurances](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindOccurances.md)
+
+[OStringLength](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringLength.md)

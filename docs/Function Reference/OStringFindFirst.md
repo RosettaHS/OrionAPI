@@ -78,3 +78,14 @@ Now this will correctly print `"Substring Found!"`, as `"Hello"` is a part of th
 
 ## Other Information
 `OSTRING_NOTFOUND` is defined as `ULONG_MAX`, which is part of [<limits.h>](https://cplusplus.com/reference/climits/).
+
+#### See Also:
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+
+[OStringCompare](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringCompare.md)
+
+[OStringFindLast](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindLast.md)
+
+[OStringFindOccurances](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindOccurances.md)
+
+[OStringLength](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringLength.md)

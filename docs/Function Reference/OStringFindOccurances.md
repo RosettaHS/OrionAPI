@@ -44,3 +44,14 @@ If you want to check if a substring exists in a String, and not count the occura
 
 The reason why is because OStringFindFirst stops searching through the String if it encounters one full occurance of the substring,
 whereas	OStringFindOccurances won't stop until it goes through the entire String, which can be very computationally expensive on a large String.
+
+#### See Also:
+[OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+
+[OStringCompare](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringCompare.md)
+
+[OStringFindFirst](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindFirst.md)
+
+[OStringFindLast](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringFindLast.md)
+
+[OStringLength](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringLength.md)
