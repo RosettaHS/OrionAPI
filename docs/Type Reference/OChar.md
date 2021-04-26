@@ -38,14 +38,14 @@ OChar is used to store, read, and insert a multi-byte Unicode character, also pr
 Internally, OChar is a [null-terminated](https://en.wikipedia.org/wiki/Null_character) String with a fixed length of 4(+1 for terminator),
 the maximum length for a multi-byte UTF-8 character as described by the standard.
 
-**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving or setting individual characters as is done with [OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+**NOTE:** Do **NOT** use OChar as a replacement for `char` when making Strings(character arrays). **ONLY** use OChar for retrieving or setting individual characters as is done with [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md).
 
 An OChar can be initialised from either a single-byte character or a character array(String).
 To initialise an OChar for use, use the following syntax:
 ```cpp
 OChar myChar='A'; /* Can also be done using "A" instead of 'A' */
 ```
-In this example, `myChar` is being set to an [ASCII character.](https://en.wikipedia.org/wiki/ASCII)
+In this example, `myChar` is being set to an [ASCII character](https://en.wikipedia.org/wiki/ASCII).
 It can then be examined and placed in something that stores an ASCII character:
 ```cpp
 char myByte;
@@ -82,7 +82,7 @@ OChar can be used alongside [OString](https://github.com/RosettaHS/OrionAPI/blob
 Traditionally, indexing multi-byte Unicode characters stored within a character array(String) is notoriously difficult.
 
 Attempting to retrieve and store an emoji (with a known place) from a String without using [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) or OChar is extremely difficult,
-however if we use some tools (mainly [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and `OCharGetUnicodeType()`),
+however if we use some tools (mainly [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OCharGetUnicodeType()](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OCharGetUnicodeType.md),
 it could be done like this:
 ```cpp
 /* In this String, the "🍇" emoji starts at position 7. */
