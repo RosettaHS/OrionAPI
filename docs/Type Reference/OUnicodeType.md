@@ -99,7 +99,7 @@ This is to mark that they are not header bytes, but rather continuation bytes.
 A header byte declares how many continuation bytes there will be, and each continuation byte contains a flag to indicate that they are indeed continuation bytes.
 They contain the rest of the data required to store the character.
 
-Running each byte through `OCharGetUnicodeType()` will return the following OUnicodeTypes:
+Running each byte through [OCharGetUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OCharGetUnicodeType.md) will return the following OUnicodeTypes:
 ```
 [11110000], [10011111], [10001101], [10000111]
   Byte 1      Byte 2      Byte 3      Byte 4  

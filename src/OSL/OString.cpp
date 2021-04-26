@@ -101,7 +101,7 @@ namespace Orion{
 
 /** Generic Character functions **/
 
-	OUnicodeType OCharGetUnicodeType(char c){
+	OUnicodeType OCharGetUnicodeType(unsigned char c){
 		if(!c){ return OUNI_NULL; }
 		unsigned char uniflags=0;
 		while(1){ if(c&bits[uniflags]){ uniflags++; }else{ break; } }

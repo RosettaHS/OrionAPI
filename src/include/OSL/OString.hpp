@@ -125,7 +125,7 @@ namespace Orion{
 	 * @param eval The character to evaluate.
 	 * @return One of the many possible enumerations included in OUnicodeType. Review the documentation for OUnicodeType for further details
 	 */
-	extern OUnicodeType OCharGetUnicodeType(char eval);
+	extern OUnicodeType OCharGetUnicodeType(unsigned char eval);
 
 /*** Strings ***/
 
