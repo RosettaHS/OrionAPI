@@ -29,7 +29,7 @@
 #include "common.hpp"
 #include "OLog.hpp"
 
-/*** UTF8 char #defines ***/
+/*** UTF-8 char #defines ***/
 
 #define OCHARBYTES 5
 
@@ -54,23 +54,23 @@
 namespace Orion{
 /*** Characters ***/
 
-	/* An enumeration of UTF8 states for a given byte. */
+	/* An enumeration of UTF-8 states for a given byte. */
 	enum OUnicodeType : char{
 		/* The byte is comprised entirely of zeros; a NULL terminator. */
 		OUNI_NULL=-1,
 		/* The byte is ASCII, and should not be treated as Unicode. */
 		OUNI_ASCII,
-		/* The byte is a UTF8 continuation byte. */
+		/* The byte is a UTF-8 continuation byte. */
 		OUNI_CONTINUE,
-		/* The byte is a UTF8 header byte that calls for one extra continuation byte. */
+		/* The byte is a UTF-8 header byte that calls for one extra continuation byte. */
 		OUNI_HEADER_1X,
-		/* The byte is a UTF8 header byte that calls for two extra continuation bytes. */
+		/* The byte is a UTF-8 header byte that calls for two extra continuation bytes. */
 		OUNI_HEADER_2X,
-		/* The byte is a UTF8 header byte that calls for three extra continuation bytes. */
+		/* The byte is a UTF-8 header byte that calls for three extra continuation bytes. */
 		OUNI_HEADER_3X,
-		/* The byte is a UTF8 header byte that calls for four extra continuation bytes. */
+		/* The byte is a UTF-8 header byte that calls for four extra continuation bytes. */
 		OUNI_HEADER_4X,
-		/* The byte is a UTF8 header byte that calls for five extra continuation bytes. */
+		/* The byte is a UTF-8 header byte that calls for five extra continuation bytes. */
 		OUNI_HEADER_5X,
 		/* The byte is of an unknown type. */
 		OUNI_UNKNOWN
@@ -121,7 +121,7 @@ namespace Orion{
 	};
 
 	/**
-	 * @brief Analyses the UTF8 header of the given character and returns the corrisponding Unicode Header type
+	 * @brief Analyses the UTF-8 header of the given character and returns the corrisponding Unicode Header type
 	 * @param eval The character to evaluate.
 	 * @return One of the many possible enumerations included in OUnicodeType. Review the documentation for OUnicodeType for further details
 	 */
@@ -306,7 +306,7 @@ namespace Orion{
 
 #ifndef ORION_NOALTNAMES
 
-	/* An enumeration of UTF8 states for a given byte. */
+	/* An enumeration of UTF-8 states for a given byte. */
 	typedef OUnicodeType unitype_t;
 	/* An Orion-Native wrapper for individual Unicode characters. */
 	typedef OChar        unichar_t;
