@@ -13,7 +13,7 @@ extern bool ODirectoryExists(const char* parentDirectory, const char* subDirecto
 ```
 
 ### Single-Parameter Version
-Does the given Directory exist relative to the OApp's working directory?
+Does the given Directory exist relative to the OApp's [working directory](https://en.wikipedia.org/wiki/Working_directory)?
 #### Parameters
 `const char* directory` - The name/path [(absolute or relative)](https://www.lifewire.com/absolute-and-relative-paths-3466467) of the Directory to check.
 #### Returns
