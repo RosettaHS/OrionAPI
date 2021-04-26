@@ -25,7 +25,7 @@ enum OUnicodeType : char{
 ```
 
 ## Use
-OUnicodeType is used to determine the encoding state of a given character. This is often retrieved from a function such as  `OCharGetUnicodeType()`,
+OUnicodeType is used to determine the encoding state of a given character. This is often retrieved from a function such as [OCharGetUnicodeType()](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OCharGetUnicodeType.md),
 or used internally in [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md).
 
 To retrieve a corresponding OUnicodeType from a byte, use the following syntax:
@@ -33,7 +33,7 @@ To retrieve a corresponding OUnicodeType from a byte, use the following syntax:
 char myByte='A';
 OUnicodeType myState=OCharGetUnicodeType(myByte);
 ```
-In this example, `myState` will get the value `OUNI_ASCII`, since `'A'` is a [standard ASCII character,](https://en.wikipedia.org/wiki/ASCII)
+In this example, `myState` will get the value `OUNI_ASCII`, since `'A'` is a [standard ASCII character](https://en.wikipedia.org/wiki/ASCII),
 not requiring any UTF-8 continuation bytes.
 
 ### Multi-byte Unicode Characters
@@ -110,7 +110,7 @@ Running each byte through `OCharGetUnicodeType()` will return the following OUni
    OUNI_HEADER_3X
 ```
 ### Internal Operation
-This is entirely abstracted by OrionAPI through the `OCharGetUnicodeType()` function, but this is a description of how identifying Unicode bytes may be done.
+This is entirely abstracted by OrionAPI through the [OCharGetUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OCharGetUnicodeType.md) function, but this is a description of how identifying Unicode bytes may be done.
 
 A `1` as the left-most bit will **always** indicate that the given byte is indeed a Unicode byte.
 If this bit is true, any and all `1`s after the left-most bit will count the number of continuation bytes required for the given character.
@@ -155,7 +155,7 @@ OUNI_HEADER_4X :  5 - Five left-most bits are true. Is a Header (that calls for 
 OUNI_HEADER_5X :  6 - Six left-most bits are true. Is a Header (that calls for five extra CBs)
 OUNI_UNKNOWN   :  7 - Seven left-most bits are true. This isn't a valid header byte, therefore type is unknown.
 ```
-This is how `OCharGetUnicodeType()` works internally, merely counting the true bits up until a false bit, then mapping that directly to the enumeration and returning. 
+This is how [OCharGetUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OCharGetUnicodeType.md) works internally, merely counting the true bits up until a false bit, then mapping that directly to the enumeration and returning. 
 ## Other Information
 This is merely meant to be an informative piece. Working with raw UTF-8 bytes/bits isn't recommended.
 OrionAPI provides a minimal abstraction for individual Unicode characters ([OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)), and an abstraction for UTF-8-compliant Strings ([OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)).
