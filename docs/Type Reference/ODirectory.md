@@ -93,7 +93,7 @@ The first parameter is a path [(relative or absolute)](https://www.lifewire.com/
 
 The second parameter is the (sub-)Directory (relative to the scan Directory) to access.
 
-As an example, using the first version of the method, this opens the system's [include directory:](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#Directory_structure)
+As an example, using the first version of the method, this opens the system's [include directory](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard#Directory_structure):
 ```cpp
 ODirectory myDirectory("/usr/include");
 ```
@@ -106,7 +106,7 @@ This is primarily to support the [Application Structure](https://github.com/Rose
 ```cpp
 ODirectory myDirectory(OAPP_HOME,"testDirectory");
 ```
-This will either create or open a Directory called `"testDirectory"` in the [home folder.](https://en.wikipedia.org/wiki/Home_directory)
+This will either create or open a Directory called `"testDirectory"` in the [home folder](https://en.wikipedia.org/wiki/Home_directory).
 
 Multi-level sub-Directories can be accessed from parent Directories as well:
 ```cpp
