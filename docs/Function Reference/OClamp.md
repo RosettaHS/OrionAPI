@@ -3,9 +3,9 @@
 
 ## Declarations
 ```cpp
-	inline long OClamp(long& x, long& min, long& max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
-	inline long OClampMax(long& x, long& max)         { return ( (x>max) ? max : x ); }
-	inline long OClampMin(long& x, long& min)         { return ( (x<min) ? min : x ); }
+inline long OClamp(long& x, long& min, long& max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
+inline long OClampMax(long& x, long& max)         { return ( (x>max) ? max : x ); }
+inline long OClampMin(long& x, long& min)         { return ( (x<min) ? min : x ); }
 ```
 ```
 [Library  : OSL]
