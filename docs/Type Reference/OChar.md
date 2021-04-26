@@ -73,11 +73,11 @@ Note that this does not copy the contents of the OChar, it only merely changes t
 
 ### OString Integration
 OChar is fairly useless on its own, the previous examples could all be done with character arrays and manual examination.
-However, OChar's usefulness shines when paired with [OString,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) the Orion-Native implementation for Unicode Strings.
+However, OChar's usefulness shines when paired with [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md), the Orion-Native implementation for Unicode Strings.
 
-Information on how [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) is used, or how it works can be found within [the documentation for OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+Information on how [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) is used, or how it works can be found within [the documentation for OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md).
 This example will merely explain how
-OChar can be used alongside [OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md)
+OChar can be used alongside [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md).
 
 Traditionally, indexing multi-byte Unicode characters stored within a character array(String) is notoriously difficult.
 
@@ -235,7 +235,7 @@ full support for Unicode characters, among many other things.
 
 Review the documentation for [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md) for more information.
 
-Another thing to note is that when inputting an OChar as a parameter into a [variadic function,](https://en.wikipedia.org/wiki/Variadic_function) such as `OLog()`,
+Another thing to note is that when inputting an OChar as a parameter into a [variadic function](https://en.wikipedia.org/wiki/Variadic_function), such as `OLog()`,
 you should *always* send the contents of the OChar instead of the OChar itself:
 ```cpp
 OChar myChar="🍇";

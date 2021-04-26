@@ -1,6 +1,6 @@
 # Function Reference: OLog / OVLog / ODLog
 ## Orion-Native Logging
-OLog is the Orion-Native implementation and replacement for [printf.](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm)
+OLog is the Orion-Native implementation and replacement for [printf](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm).
 It is used internally by all of OrionAPI.
 
 ## Declarations
@@ -22,7 +22,7 @@ extern void OVLog(const char* string, ...);
 
 ## Use
 OLog (alongside its variants) are OrionAPI's solution for logging formatted Strings easily to the terminal.
-It acts identically to [printf,](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm) and is entirely interchangable with it.
+It acts identically to [printf](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm), and is entirely interchangable with it.
 
 It is meant to reduce the need to include `<stdio.h>` or `<iostream>` in your projects solely for the ability to log information out to the terminal.
 
@@ -72,8 +72,8 @@ ODLog isn't like the rest of the logging functions, it is actually a preprocesso
 	#define ODLog(...) _DEBUGLOG(__VA_ARGS__)
 #endif /* !ORION_NOHELPERS */
 ```
-This is to allow for having [debug code](https://en.wikipedia.org/wiki/Debug_code) (specifically operation logs) removable at [compile-time,](https://en.wikipedia.org/wiki/Compile_time)
-instead of requiring the developer to go in and remove all instances of debug logs for the [release of the Application,](https://en.wikipedia.org/wiki/Software_release_life_cycle#Release_candidate)
+This is to allow for having [debug code](https://en.wikipedia.org/wiki/Debug_code) (specifically operation logs) removable at [compile-time](https://en.wikipedia.org/wiki/Compile_time),
+instead of requiring the developer to go in and remove all instances of debug logs for the [release of the Application](https://en.wikipedia.org/wiki/Software_release_life_cycle#Release_candidate),
 or providing a function(OVLog) that checks a variable for each debug log message, which would be intensive.
 
 The following is an example of a program that provides operation logs if `ORION_NODEBUG` is not defined:
@@ -114,7 +114,7 @@ int main(void){
 This macro could also be used for excluding certain chunks of your own code at compile-time for a full release by encasing debug-only code in a `#ifndef ORION_NODEBUG` preprocessor block.
 
 
-For more information, please review the documentation on [API Configuration.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md)
+For more information, please review the documentation on [API Configuration](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md).
 
 ### Loggable Types
 Alongside being able to log formatted Strings, you can also pass many other types provided by OrionAPI through OLog and OVLog to log their information.
@@ -138,5 +138,5 @@ OLog(myCol,false,false);
 This would log `(255,255,255)` out to the terminal on the current line and does not create a newline.
 
 ## Other Information
-As stated before, OLog (and its variants) are identical to [printf,](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm)
+As stated before, OLog (and its variants) are identical to [printf](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm),
 to the point of being able to do a find-and-replace of `printf` with `OLog` and no errors would arise.

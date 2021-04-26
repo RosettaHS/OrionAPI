@@ -38,4 +38,4 @@ typedef ODirectory       dir_t;
 ```
 The altname of a given class or type can be found within the documentation of said class or type.
 
-Information on disabling altnames can be found [here.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_noaltnames)
+Information on disabling altnames can be found [here](https://github.com/RosettaHS/OrionAPI/blob/main/docs/API%20Configuration.md#orion_noaltnames).

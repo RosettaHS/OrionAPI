@@ -25,7 +25,7 @@ struct OVec4 : CLoggable {
 ```
 
 ## Use
-OVec4s, much like [OVecs,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec.md) are rarely created manually.
+OVec4s, much like [OVecs](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec.md), are rarely created manually.
 They are often the return value of a method (typically `getGeometry()`) of a given Element, used for retrieving both the position and size with a single operation.
 
 To create an OVec4 for use, use the following syntax:
@@ -34,12 +34,12 @@ OVec4 myVec4(760,365,400,350);
 ```
 The constructor takes in 4 values, each corresponding to the X and Y positional and the W and H sizing values of the given Element.
 
-The positional values and the sizing values are stored separately, and with different [signedness,](https://en.wikipedia.org/wiki/Signedness) preventing mixing potentially negative positional values with
+The positional values and the sizing values are stored separately, and with different [signedness](https://en.wikipedia.org/wiki/Signedness), preventing mixing potentially negative positional values with
 the strictly positive sizing values required by OrionUI Elements.
 
 A valid size value for an Element must be greater than 0. Negative size implies an inverted Element, which is invalid and can cause a crash on attempted assignment.
 
-Unlike [OCol,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OCol.md) it is safe to directly access and modify
+Unlike [OCol](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OCol.md), it is safe to directly access and modify
 the internal `x`, `y`, `w` and `h` values stored within the Vector4.
 
 The following three methods of setting a given Vector4 are essentially identical and considered valid:

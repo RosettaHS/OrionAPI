@@ -37,4 +37,4 @@ bool myResult=OStringCompare(stringA,stringB);
 The result will be `false` since despite `Hello!` and `Hallo!` being incredibly similar, they are still different, therefore not identical.
 
 ## Other Information
-Beware using this on Strings with [multi-byte](https://en.wikipedia.org/wiki/UTF-8) characters, as they have [a chance of not sharing identical bytes despite appearing visually identical.](https://youtu.be/tOHnXt3Ycfo?t=2658)
+Beware using this on Strings with [multi-byte](https://en.wikipedia.org/wiki/UTF-8) characters, as they have [a chance of not sharing identical bytes despite appearing visually identical](https://youtu.be/tOHnXt3Ycfo?t=2658).

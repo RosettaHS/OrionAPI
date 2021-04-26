@@ -24,7 +24,7 @@ struct OFileLine{
 ## Use
 OFileLine is almost never used directly, as it can be [implicitly converted](https://www.tutorialspoint.com/type-conversion-in-cplusplus) to a standard character array when retrieved from `getLine()`.
 
-For more information on how OFileLine is retrieved, see the documentation for [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+For more information on how OFileLine is retrieved, see the documentation for [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md).
 
 To store an OFileLine, use the following syntax:
 ```cpp
@@ -36,7 +36,7 @@ Note that [OFiles](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20R
 /* THIS WILL NOT WORK! */
 OFileLine myLine=myLine[0]; /* <- Returns a char*, NOT an OFileLine! */
 ```
-When attempting to input an OFileLine as a parameter into a [variadic function,](https://en.wikipedia.org/wiki/Variadic_function) such as `OLog()`,
+When attempting to input an OFileLine as a parameter into a [variadic function](https://en.wikipedia.org/wiki/Variadic_function), such as `OLog()`,
 you should *always* send the contents of the OFileLine instead of the OFileLine itself:
 ```cpp
 OLog("%s\n",myLine.str);

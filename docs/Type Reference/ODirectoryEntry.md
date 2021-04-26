@@ -79,7 +79,7 @@ inline ODirectoryEntry(void) : type{ODT_ERROR}, name{0},path{0} {}
 Empty constructor. Sets all values to 0.
 
 ## Other Information
-Note that you must **NEVER** free an ODirectoryEntry, or any of its contents manually. This is always handled by its parent [ODirectory.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md)
+Note that you must **NEVER** free an ODirectoryEntry, or any of its contents manually. This is always handled by its parent [ODirectory](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md).
 
 #### See Also:
 [ODirectory](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectory.md)

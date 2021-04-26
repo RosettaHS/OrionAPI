@@ -59,7 +59,7 @@ If it does exist, it will instead open and read the contents of the Directory.
 ### Directory Opening
 The previous example, while functional, leaves out crucial details on how Directory opening works with ODirectory.
 
-Much like with [OFile,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md#file-opening) examining the method to open a Directory, we find it has [two versions,](https://en.wikipedia.org/wiki/Function_overloading) and both of them have a [default parameter.](https://en.wikipedia.org/wiki/Default_argument)
+Much like with [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md#file-opening), examining the method to open a Directory, we find it has [two versions,](https://en.wikipedia.org/wiki/Function_overloading) and both of them have a [default parameter](https://en.wikipedia.org/wiki/Default_argument).
 ```cpp
 bool open(const char* directory, ODirectoryAction action=ODIR_AUTO);
 bool open(const char* parentDirectory, const char* subDirectory, ODirectoryAction action=ODIR_AUTO);
@@ -69,7 +69,7 @@ First, examining the two-parameter version:
 bool open(const char* directory, ODirectoryAction action=ODIR_AUTO);
 ```
 The first parameter denotes the path [(relative or absolute)](https://www.lifewire.com/absolute-and-relative-paths-3466467) to the Directory to attempt to open.
-Usually this would be used to create or open a Directory in the [current working directory,](https://en.wikipedia.org/wiki/Working_directory) or to create/open a Directory with a pre-determined absolute path.
+Usually this would be used to create or open a Directory in the [current working directory](https://en.wikipedia.org/wiki/Working_directory), or to create/open a Directory with a pre-determined absolute path.
 
 The last parameter denotes the action to open the Directory with.
 
@@ -102,7 +102,7 @@ Note how it uses the full path to the Directory itself. Now this version does th
 ODirectory myDirectory("/usr","include");
 ```
 Instead of utilising the full path to the Directory, it instead searches for the given sub-Directory within a parent Directory.
-This is primarily to support the [Application Structure's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
+This is primarily to support the [Application Structure](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md)'s native [helpers](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers):
 ```cpp
 ODirectory myDirectory(OAPP_HOME,"testDirectory");
 ```
@@ -116,7 +116,7 @@ ODirectory myDirectory("/","usr/include");
 ### Directory Reading
 Once a Directory has been successfully opened, the contents can be read via iteration.
 
-ODirectory interprets a Directory as an array of [ODirectoryEntries.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md)
+ODirectory interprets a Directory as an array of [ODirectoryEntries](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md).
 It is important to review the documentation for them to fully understand how to utilise ODirectory.
 
 The following code opens a Directory, and lists off all of the Entries of the Directory (in no particular order):
@@ -140,7 +140,7 @@ It's also very important to note that the list of Entries is not sorted in any w
 
 #### Opening using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
 You can open a given Entry using [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
-by either iterating through all of the Entries and [opening them from the Entry itself,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md#opening-using-ofile)
+by either iterating through all of the Entries and [opening them from the Entry itself](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/ODirectoryEntry.md#opening-using-ofile),
 or opening it directly from the Directory via the name of the Entry.
 
 The following code attempts to access a specific Entry in a given Directory by using the Entry's filename:

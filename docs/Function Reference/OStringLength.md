@@ -22,7 +22,7 @@ or the String's apparent length (excluding UTF-8 continuation bytes)? Default is
 The length of the String, dependent on the mode specificed by the second parameter.
 
 ## Use
-OStringLength is used for retrieving the length(in characters) of a String up until the [null terminator.](https://en.wikipedia.org/wiki/Null-terminated_string)
+OStringLength is used for retrieving the length(in characters) of a String up until the [null terminator](https://en.wikipedia.org/wiki/Null-terminated_string).
 It provides two different ways to retrieve the length.
 
 ### Objective Length
@@ -69,7 +69,7 @@ This is because the 4th character `👋` is actually multi-byte:
  [01001000], [01101001], [00100000], [11110000], [10011111], [10010001], [10001011], [00000000]
  [  "H"   ]  [  "i"   ]  [  " "   ]  [                   "👋"                     ]  [  NULL  ]
 ```
-More information on why this is the case can be found in the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md), [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md), and [OString.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md#unicode-support)
+More information on why this is the case can be found in the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md), [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md), and [OString](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OString.md#unicode-support).
 
 When passing `true` as the second argument to OStringLength, it will ignore counting the bytes of multi-byte characters and only focuses on the headers,
 effectively counting the amount of characters instead of the amount of bytes.

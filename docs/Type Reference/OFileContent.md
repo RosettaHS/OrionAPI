@@ -28,7 +28,7 @@ struct OFileContent{
 ```
 
 ## Use
-OFileContent, much like [OFileLine,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md) is rarely used directly.
+OFileContent, much like [OFileLine](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md), is rarely used directly.
 However, it is used internally by a few other types provided by OrionAPI.
 
 Retrieving an OFileContent struct from an [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md) is done using the following syntax:
@@ -38,11 +38,11 @@ OFileContent* myContent=myFile.getContents();
 ```
 
 OFileContent stores the raw content of a given File in two different ways.
-More information on why it does this can be found in the documentation for [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+More information on why it does this can be found in the documentation for [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md).
 
 ### Reading as Lines
 The default way [OFiles](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)(and subsequently OFileContent) store a File's content
-is by separating each Line of the File, creating a large array of [OFileLines.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md)
+is by separating each Line of the File, creating a large array of [OFileLines](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileLine.md).
 
 Before attempting to retrieve any information from an OFileContent, you must first evaluate how it is storing said information.
 
@@ -61,8 +61,8 @@ if(!myContent->isLinear){ /* If is NOT stored linearly, but instead as individua
 If, however, `isLinear` is `true` instead of `false`, different operations are required.
 
 ### Reading Linearly
-Storing a File's Contents as individual Lines is useful for [text documents,](https://en.wikipedia.org/wiki/Text_file)
-but complicates the decoding/reading process of [binary files,](https://en.wikipedia.org/wiki/Binary_file) such as [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) or [JPEG.](https://en.wikipedia.org/wiki/JPEG)
+Storing a File's Contents as individual Lines is useful for [text documents](https://en.wikipedia.org/wiki/Text_file),
+but complicates the decoding/reading process of [binary files](https://en.wikipedia.org/wiki/Binary_file), such as [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) or [JPEG](https://en.wikipedia.org/wiki/JPEG).
 
 Because of this, [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)(and subsequently OFileContent) provides a secondary method for storing a File's contents: linearly.
 
@@ -161,7 +161,7 @@ If this is `false`, this means the File's contents are stored as separate lines 
 and indexxing operations **MUST** be done using `data.asLines.list` instead of `data.asLinear.bytes`
 
 ## Other Information
-OFileContent is only a part of [OFile.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md)
+OFileContent is only a part of [OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFile.md).
 It is important you see the documentation for the other associated types.
 
 #### See Also:

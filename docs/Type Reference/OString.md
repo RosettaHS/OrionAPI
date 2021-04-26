@@ -60,7 +60,7 @@ This will copy the contents of the [string literal](https://en.wikipedia.org/wik
 
 OStrings can be passed into any functions that take in a `char*` or `const char*`.
 
-OStrings also allow modification, such as [concatenation,](https://en.wikipedia.org/wiki/Concatenation) and setting individual characters.
+OStrings also allow modification, such as [concatenation](https://en.wikipedia.org/wiki/Concatenation), and setting individual characters.
 The following code will add extra text to the end of a String:
 ```cpp
 OString myString="Hello";
@@ -82,12 +82,12 @@ myString.log(); /* To print the String. */
 This will change the letter `'e'` to `'a'`. The output will be `Hallo`.
 
 ### Unicode Support
-**\[This section assumes you have read the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) If you have not read them, it is recommended you read them now before returning to this\]**
+**\[This section assumes you have read the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md) and [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md). If you have not read them, it is recommended you read them now before returning to this\]**
 
 Much like [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md) OString is fairly useless on its own.
-However, the main purpose behind OString is to easily handle Strings with [variable-width characters.](https://en.wikipedia.org/wiki/Variable-width_encoding)
+However, the main purpose behind OString is to easily handle Strings with [variable-width characters](https://en.wikipedia.org/wiki/Variable-width_encoding).
 
-This is described in full in the documentation for [OUnicodeType.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md)
+This is described in full in the documentation for [OUnicodeType](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OUnicodeType.md).
 For now, this will supply a brief explanation.
 
 To understand how and why OString handling Unicode Strings is important, take the following example:
@@ -210,7 +210,7 @@ The output will be `I 💜 grapes ! 😋`.
 
 The apparent length of the String stays the same after the operation, however the byte count changes, and the excess bytes from the removed emoji are trimmed, shifting the rest of the String over by the excess.
 
-Retrieving multi-byte characters is just as easy when using [OChar.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
+Retrieving multi-byte characters is just as easy when using [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md).
 The following code retrieves the `"💜"` at apparent index `2` and prints it out to the terminal:
 ```cpp
 OString myString="I 💜 grapes 🍇 😋";
@@ -425,8 +425,8 @@ Parameters:
 `bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
 
 ## Other Information
-Much like [OChar,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md)
-when inputting an OString as a parameter into a [variadic function,](https://en.wikipedia.org/wiki/Variadic_function) such as `OLog()`,
+Much like [OChar](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OChar.md),
+when inputting an OString as a parameter into a [variadic function](https://en.wikipedia.org/wiki/Variadic_function), such as `OLog()`,
 you should *always* send the contents of the OString instead of the OString itself:
 ```cpp
 OString myString="Hello World!";

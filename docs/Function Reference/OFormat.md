@@ -20,9 +20,9 @@ extern void OFormat(char* output, const char* format, ...);
 `...` - [Variadic](https://en.wikipedia.org/wiki/Variadic_function) arguments. Can be of any type as long as long as they're capable of being [formatted](https://en.wikipedia.org/wiki/Printf_format_string) into the String.
 
 ## Use
-OFormat is a way to easily format a String to a buffer. It works identically to [sprintf,](https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm) and is entirely interchangable.
+OFormat is a way to easily format a String to a buffer. It works identically to [sprintf](https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm), and is entirely interchangable.
 
-You have to first allocate a buffer for the String to be formatted and outputted to, in this example the buffer is going to be a [stack allocated array.](https://www.tutorialspoint.com/cprogramming/c_arrays.htm)
+You have to first allocate a buffer for the String to be formatted and outputted to, in this example the buffer is going to be a [stack allocated array](https://www.tutorialspoint.com/cprogramming/c_arrays.htm).
 ```cpp
 char myBuffer[100];
 ```
@@ -30,7 +30,7 @@ The buffer has to have enough memory allocated to support the entire length of t
 Be careful, as not allocating enough memory to your buffer might not show immediate signs of failure, however could result in horrific crashes and/or a [segfault.](https://en.wikipedia.org/wiki/Segmentation_fault)
 In this example, `100` bytes is more than enough.
 
-OFormat works identically to [OLog and its variants,](https://github.com/RosettaHS/OKit/blob/main/docs/Function%20Reference/OLog.md) the key difference being it sends the formatted String out to a buffer instead of [stdout.](https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout))
+OFormat works identically to [OLog and its variants](https://github.com/RosettaHS/OKit/blob/main/docs/Function%20Reference/OLog.md), the key difference being it sends the formatted String out to a buffer instead of [stdout](https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)).
 
 After we've allocated our buffer, use the following syntax to format a String to it:
 ```cpp

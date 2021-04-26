@@ -91,7 +91,7 @@ If it does exist, it will open the File and store its contents to memory.
 ### File Opening
 The previous example, while functional, leaves out crucial details on how File opening works with OFile.
 
-Examining the method to open a File, we find it has [two versions,](https://en.wikipedia.org/wiki/Function_overloading) and both of them have a [default parameter.](https://en.wikipedia.org/wiki/Default_argument)
+Examining the method to open a File, we find it has [two versions](https://en.wikipedia.org/wiki/Function_overloading), and both of them have a [default parameter](https://en.wikipedia.org/wiki/Default_argument).
 ```cpp
 bool open(const char* filename, OFileAction action=OFILE_AUTO);
 bool open(const char* directory, const char* filename, OFileAction action=OFILE_AUTO);
@@ -102,7 +102,7 @@ First, examining the two-parameter version:
 bool open(const char* filename, OFileAction action=OFILE_AUTO);
 ```
 The first parameter denotes the path [(relative or absolute)](https://www.lifewire.com/absolute-and-relative-paths-3466467) to the File to attempt to open.
-Usually this would be used to create or open a File in the [current working directory,](https://en.wikipedia.org/wiki/Working_directory) or to create/open a File with a pre-determined absolute path.
+Usually this would be used to create or open a File in the [current working directory](https://en.wikipedia.org/wiki/Working_directory), or to create/open a File with a pre-determined absolute path.
 
 The last parameter denotes the action to open the File with.
 
@@ -138,7 +138,7 @@ Now this version does the exact same thing, just in a different way:
 OFile myFile("/usr/include","stdio.h");
 ```
 Instead of utilising the full path to the File, it instead searches for the given File within a Directory.
-This is primarily to support the [Application Structure's](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md) native [helpers:](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers)
+This is primarily to support the [Application Structure](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md)'s native [helpers](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Application%20Structure.md#utilising-helpers):
 ```cpp
 OFile myFile(OAPP_HOME,"myFile.txt");
 ```
@@ -158,13 +158,13 @@ If this is required, use the method `shouldStoreToMem()` and pass `false` to dis
 
 If a File has been loaded with this off, call it with `true` and then call `storeToMem()` to load the Contents into memory.
 
-Files are stored to memory in the form of an [OFileContent.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+Files are stored to memory in the form of an [OFileContent](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md).
 Review the documentation for this type for more information.
 
 A File could also be stored [linearly](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#reading-linearly)
 as opposed to the default method of storing a File with each of its Lines separated.
 
-Storing the Lines separate allows for the easy reading and writing in the [next section,](file-readingwriting) but has [some drawbacks.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#benefits-to-both)
+Storing the Lines separate allows for the easy reading and writing in the [next section,](file-readingwriting) but has [some drawbacks](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#benefits-to-both).
 Primarily, [binary files](https://en.wikipedia.org/wiki/Binary_file) may have their structure altered, and are made far more difficult to read when the Lines are separated.
 
 By default, binary files are usually opened with `shouldStoreLinearly()` set to `true`, although more traditional Files (such as text documents) are still opened and stored as separated Lines.
@@ -224,7 +224,7 @@ for(size_t i=4;i<10;i++){
 
 myFile.log(); /* To show the modified File. */
 ```
-Note that any read/write operations **CANNOT** be done this way if the File's Contents are [being stored linearly.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#reading-linearly)
+Note that any read/write operations **CANNOT** be done this way if the File's Contents are [being stored linearly](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md#reading-linearly).
 
 ### File Saving/Closing
 Modifications to Files do not apply automatically. Instead, they can be batched up and applied at a later time.
@@ -570,7 +570,7 @@ inline OFileContent* getContents(void) { return &contents; }
 ```
 Returns pointer to a a struct containing information regarding the content of this File.
 
-See [OFileContent.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md)
+See [OFileContent](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OFileContent.md).
 ```cpp
 OFileLine getLine(size_t line) const;
 ```

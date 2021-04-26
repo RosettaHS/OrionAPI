@@ -2,7 +2,7 @@
 ## Storing Positional or Sizing information.
 OVec is used for storing either the position or size of a given OrionUI Element,
 and is accepted by (some) methods used to modify positions or sizes of OrionUI Elements in place of directly inputting the X and Y (or W and H) values.
-To store both the size and position of a given Element, see [OVec4.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec4.md)
+To store both the size and position of a given Element, see [OVec4](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec4.md).
 
 ## Expansion
 ```cpp
@@ -36,7 +36,7 @@ Note that if the Vector is being used to size values, they should **NEVER** cont
 
 Negative numbers are **ONLY** valid for positional values, since Elements can be "outside" of their parent, however they can not be inverted, as a negative size would imply.
 
-Unlike [OCol,](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OCol.md) it is safe to directly access and modify
+Unlike [OCol](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OCol.md), it is safe to directly access and modify
 the internal `x` and `y` values stored within the Vector.
 
 The following three methods of setting a given Vector are essentially identical and considered valid:
@@ -112,4 +112,4 @@ Parameters:
 OVec stores the values as `int32_t`. This is to allow for either positional (`int16_t`) and size (`uint16_t`) values
 to be safely stored within the values inside of the OVec. This does NOT mean you should attempt to use the full size of `int32_t`, as this WILL cause errors and potentially a crash!
 
-OVec only stores *either* the positional values, *or* the size values of a given Element. To store both size and position, see [OVec4.](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec4.md)
+OVec only stores *either* the positional values, *or* the size values of a given Element. To store both size and position, see [OVec4](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OVec4.md).

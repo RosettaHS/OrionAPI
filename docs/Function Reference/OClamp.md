@@ -76,5 +76,5 @@ myValue=OClampMax(inputValue,5);
 myValue=OClampMin(inputValue,5);
 ```
 
-Since these functions are [inlined,](https://en.wikipedia.org/wiki/Inline_function) they are rather efficient,
+Since these functions are [inlined](https://en.wikipedia.org/wiki/Inline_function), they are rather efficient,
 and do not pose much of a performance hit in your Applications.
