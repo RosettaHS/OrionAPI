@@ -5,12 +5,7 @@
 
 ## Declarations:
 ```cpp
-	/**
-	 * @return True if the File could be deleted, otherwise false.
-	 */
 extern bool OFileDelete(const char* filename);
-	/**
-	 */
 extern bool OFileDelete(const char* directory, const char* filename);
 ```
 ```
