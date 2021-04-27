@@ -77,6 +77,8 @@ bool myResult=OFileExists("/usr","include/stdio.h");
 Beware of trying to use relative path syntax `"../LikeThis"` when using the Dual-Parameter version, as this could fail very easily.
 
 #### See Also:
+[OFile](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFile.md)
+
 [OFileDelete](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileDelete.md)
 
 [OFileRename](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OFileRename.md)
