@@ -31,7 +31,7 @@ Does the Sub-Directory exist relative to the given Directory?
 ## Use
 ODirectoryExists is used for checking if a given Directory exists at the given path. The path can be either [absolute or relative](https://www.lifewire.com/absolute-and-relative-paths-3466467).
 
-ODirectoryExists provides two different [overloads](https://www.tutorialspoint.com/cplusplus/cpp_overloading.htm). a Single-Parameter version, and a Dual-Parameter version.
+ODirectoryExists provides two different [overloads](https://www.tutorialspoint.com/cplusplus/cpp_overloading.htm). A Single-Parameter version, and a Dual-Parameter version.
 ### Single-Parameter
 By default, all paths inputted are relative to the [current working directory](https://en.wikipedia.org/wiki/Working_directory).
 
