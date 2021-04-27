@@ -399,7 +399,7 @@ namespace Orion{
 	/**
 	 * @brief Deletes the File relative to the given directory.
 	 * @param directory A path (absolute or relative) to attempt to delete the File from.
-	 * @param filename The name/path  of the File to delete relative to the given directory.
+	 * @param filename The name/path of the File to delete relative to the given directory.
 	 * @return True if the File could be deleted, otherwise false.
 	 */
 	extern bool OFileDelete(const char* directory, const char* filename);
