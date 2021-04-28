@@ -6,25 +6,25 @@ Be aware that this itself can be overridden by a given user's Orion Theme Settin
 
 ## Expansion
 ```cpp
-	struct OCol : public CLoggable{
-		union{
-			uint32_t XCOL;
-			struct{
-				uint8_t b : 8;
-				uint8_t g : 8;
-				uint8_t r : 8;
-			}raw;
-		};
-
-		inline OCol(void) : raw{0,0,0} { }
-		inline OCol(uint8_t r, uint8_t g, uint8_t b) : raw{b,g,r} { }
-
-		inline void setTo(uint8_t r, uint8_t g, uint8_t b) { raw={b,g,r}; }
-
-		bool setTo(const char* format);
-
-		virtual void log(bool verbose=false, bool newLine=true) override;
+struct OCol : public CLoggable{
+	union{
+		uint32_t XCOL;
+		struct{
+			uint8_t b : 8;
+			uint8_t g : 8;
+			uint8_t r : 8;
+		}raw;
 	};
+
+	inline OCol(void) : raw{0,0,0} { }
+	inline OCol(uint8_t r, uint8_t g, uint8_t b) : raw{b,g,r} { }
+
+	inline void setTo(uint8_t r, uint8_t g, uint8_t b) { raw={b,g,r}; }
+
+	bool setTo(const char* format);
+
+	virtual void log(bool verbose=false, bool newLine=true) override;
+};
 ```
 ```
 [Altname  : col_t]
