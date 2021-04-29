@@ -3,7 +3,7 @@
 
 **[PLACEHOLDER]**
 
-## Declarations:
+## Declarations
 ```cpp
 extern bool OFileRename(const char* filename, const char* newName);
 extern bool OFileRename(const char* directory, const char* filename, const char* newName);

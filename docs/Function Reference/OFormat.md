@@ -2,7 +2,7 @@
 ## String Formatting
 Writes the formatted String to the output.
 
-## Declaration:
+## Declaration
 ```cpp
 extern void OFormat(char* output, const char* format, ...);
 ```

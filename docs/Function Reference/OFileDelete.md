@@ -1,9 +1,7 @@
 # Function Reference: OFileDelete
 ## File Deletion
 
-**[PLACEHOLDER]**
-
-## Declarations:
+## Declarations
 ```cpp
 extern bool OFileDelete(const char* filename);
 extern bool OFileDelete(const char* directory, const char* filename);

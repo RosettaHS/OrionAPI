@@ -1,7 +1,7 @@
 # Function Reference: ODirectoryExists
 ## Directory Evaluation
 
-## Declarations:
+## Declarations
 ```cpp
 extern bool ODirectoryExists(const char* directory);
 extern bool ODirectoryExists(const char* parentDirectory, const char* subDirectory);

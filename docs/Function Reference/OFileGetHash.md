@@ -3,7 +3,7 @@
 
 **[PLACEHOLDER]**
 
-## Declarations:
+## Declarations
 ```cpp
 extern OFileHash OFileGetHash(const char* filename);
 extern OFileHash OFileGetHash(const char* directory, const char* filename);

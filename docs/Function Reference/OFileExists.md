@@ -1,7 +1,7 @@
 # Function Reference: OFileExists
 ## File Checking
 
-## Declarations:
+## Declarations
 ```cpp
 extern bool OFileExists(const char* filename);
 extern bool OFileExists(const char* directory, const char* filename);
