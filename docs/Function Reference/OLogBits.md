@@ -57,7 +57,8 @@ OLogBits(myData, sizeof(myData));
 ```
 This does NOT work correctly. It may appear to work on smaller arrays, however there is a flaw in the syntax.
 
-The second parameter is `sizeof(myData)`. This is incorrect, as this retrieves [the size of the pointer](https://stackoverflow.com/questions/17298172/how-does-sizeof-work-for-char-pointer-variables), instead of the size of the array's contents.
+The second parameter is `sizeof(myData)`. This is incorrect, as this retrieves [the size of the pointer](https://stackoverflow.com/questions/17298172/how-does-sizeof-work-for-char-pointer-variables)
+not the size of the array's contents.
 
 For Strings, use the [OStringLength](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OStringLength.md) function:
 ```cpp
