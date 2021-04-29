@@ -70,7 +70,8 @@ This now works as intended.
 Stack allocated arrays, however, can be used with `sizeof`:
 ```cpp
 int myData[2]={ 299792458, 854297992 };
-OLogBits(&myData, sizeof(myData));
+/* myData is already a pointer, no need to retrieve its address. */
+OLogBits(myData, sizeof(myData));
 ```
 
 ## Other Information
