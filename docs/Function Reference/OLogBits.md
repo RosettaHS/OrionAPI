@@ -49,7 +49,7 @@ The output will be `[ 01001010 01111000 11011110 00010001 ]`.
 Note how the `sizeof` operator is used as the second parameter. This is because an `int` in C is (usually) 4 bytes,
 therefore we need to tell OLogBits how many bytes to index at the memory address.
 
-Do **NOT** attempt to use this on an array! This will NOT work:
+Do **NOT** attempt to use this on a [heap-allocated](https://www.geeksforgeeks.org/stack-vs-heap-memory-allocation/) array! This will NOT work:
 ```cpp
 const char* myData="This is an array of characters";
 /* myData is already a pointer, no need to retrieve its address. */
@@ -66,6 +66,12 @@ const char* myData="This is an array of characters";
 OLogBits(myData, OStringLength(myData));
 ```
 This now works as intended.
+
+Stack allocated arrays, however, can be used with `sizeof`:
+```cpp
+int myData[2]={ 299792458, 854297992 };
+OLogBits(&myData, sizeof(myData));
+```
 
 ## Other Information
 Alongside being able to log the information out to the terminal, there is an optional third parameter that decides whether the output should be placed on a newline, or extends the current line.
