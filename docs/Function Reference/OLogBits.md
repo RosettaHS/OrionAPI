@@ -46,7 +46,7 @@ OLogBits(&myData, sizeof(myData));
 ```
 The output will be `[ 01001010 01111000 11011110 00010001 ]`.
 
-Note how the `sizeof` operator is used as the second parameter. This is because an `int` in C is (usually) 4 bytes,
+Note how the [sizeof operator](https://en.wikipedia.org/wiki/Sizeof) is used as the second parameter. This is because an `int` in C is (usually) 4 bytes,
 therefore we need to tell OLogBits how many bytes to index at the memory address.
 
 Do **NOT** attempt to use this on a [heap-allocated](https://www.geeksforgeeks.org/stack-vs-heap-memory-allocation/) array! This will NOT work:
