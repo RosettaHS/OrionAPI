@@ -43,7 +43,7 @@ The File itself can be different, but if the Contents are identical then the has
 Comparing two FileHashes can be done using the `==` operator:
 ```cpp
 OFileHash myHash=OFileGetHash("someFile.txt");
-OFileHash myOtherHash=OFileGetHash("someOtherFile.txt);
+OFileHash myOtherHash=OFileGetHash("someOtherFile.txt");
 
 if( myHash==myOtherHash ){
 	...
@@ -61,7 +61,7 @@ By default, all paths inputted are relative to the [current working directory](h
 
 The following code will calculate the hash of a File called `testFile.txt` relative to the CWD:
 ```cpp
-OFileHash myHash=OFileGetHash("testFile.txt"):
+OFileHash myHash=OFileGetHash("testFile.txt");
 ```
 If the program is ran inside of a Directory with a File called `testFile.txt`, it will attempt to calculate its hash, and if successful, will return the hash.
 Otherise the result is `0`. 
