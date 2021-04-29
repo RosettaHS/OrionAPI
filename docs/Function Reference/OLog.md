@@ -140,3 +140,6 @@ This would log `(255,255,255)` out to the terminal on the current line and does 
 ## Other Information
 As stated before, OLog (and its variants) are identical to [printf](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm),
 to the point of being able to do a find-and-replace of `printf` with `OLog` and no errors would arise.
+
+#### See Also:
+[OLogBits](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Function%20Reference/OLog.md)
