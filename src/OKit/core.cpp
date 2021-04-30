@@ -39,7 +39,7 @@ namespace Orion{
 	bool XCB_CONNECT(void){
 		if(XCB_CONNECTED){ return false; }
 		XCB_CON=xcb_connect(0,&XCB_SID);
-		if(xcb_connection_has_error(XCON)){ OWLog(true,"X CONNECTION COULD NOT BE ESTABLISHED! RUNNING AS HEADLESS!"); return false; }
+		if(xcb_connection_has_error(XCON)){ OWARN(true,"X CONNECTION COULD NOT BE ESTABLISHED! RUNNING AS HEADLESS!"); return false; }
 		/* TODO: Replace this with a cleaner solution. XCB's documentation isn't very friendly. */
 		xcb_screen_iterator_t scrite=xcb_setup_roots_iterator( xcb_get_setup(XCON) );
 		for(; scrite.rem; ( --XCB_SID, xcb_screen_next(&scrite) ) ){

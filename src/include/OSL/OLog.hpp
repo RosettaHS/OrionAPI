@@ -62,21 +62,22 @@ namespace Orion{
 	 * @param newLine Should the output be placed on a newline or append to the current one? Default is true.
 	 */
 	extern void OLogBits(const void* data, size_t bytes, bool newLine=true);
+
+#ifdef ORION_INTERNAL
 	/**
 	 * @brief Internal. Logs the formatted string out to the terminal alongside the error code,
 	 * @param errcode The error code to display prior to the message.
 	 * @param autoQuit Should the program immediately quit after delivering the error message?
-	 * @param newLine Should the output be placed on a newline or append to the current one? Default is true.
+	 * @param message The message to be logged alongside the error code.
 	 */
-	extern void OELog(unsigned long errcode, bool autoQuit, const char* string, ...);
+	extern void OERROR(unsigned long errcode, bool autoQuit, const char* message);
 	/**
 	 * @brief Internal. Logs the formatted string out to the terminal.
 	 * @param verboseOnly If this is true, the message will ONLY be logged out to the terminal if OAPP_VERBOSE is also true.
-	 * @param string The String to be formatted and logged. The rest of the arguments can be of any type as long as they're capable of being formatted into the String. 
-	 * @param ... Variadic arguments. Can be of any type as long as long as they're capable of being formatted into the String.
+	 * @param message The message to be logged alongside the error code.
 	 */
-	extern void OWLog(bool verboseOnly, const char* string, ...);
-
+	extern void OWARN(bool verboseOnly, const char* message);
+#endif /* ORION_INTERNAL */
 /*** Loggable Types **/
 
 	/* Base class for all Loggable Types. */

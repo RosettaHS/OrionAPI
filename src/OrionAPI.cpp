@@ -35,14 +35,14 @@ namespace Orion{
 		if(AppName){
 			size_t i=0;
 			while(AppName[i]!=0){
-				if(AppName[i]==' '){ OELog(OERR_INVALIDAPPNAME,true,"APPLICATION NAMES CANNOT HAVE SPACES!\n"); }
+				if(AppName[i]==' '){ OERROR(OERR_INVALIDAPPNAME,true,"APPLICATION NAMES CANNOT HAVE SPACES!"); }
 				i++;
 			}
 		}
 		if(AppIdentifier){
 			size_t i=0;
 			while(AppIdentifier[i]!=0){
-				if(AppIdentifier[i]==' '){ OELog(OERR_INVALIDAPPID,true,"APPLICATION IDENTIFIERS CANNOT HAVE SPACES!\n"); }
+				if(AppIdentifier[i]==' '){ OERROR(OERR_INVALIDAPPID,true,"APPLICATION IDENTIFIERS CANNOT HAVE SPACES!"); }
 				i++;
 			}
 		}
@@ -50,11 +50,11 @@ namespace Orion{
 		CAppInit(AppName,AppIdentifier);
 		if(ForceONative){
 			if(!OAPP_NATIVE){
-				OELog(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!\n");
+				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!");
 			}
 			if(!OAPP_BINPATH || !OAPP_BINDIR|| !OAPP_DATAPATH ||
 			   !OAPP_STATICPATH || !OAPP_LIBPATH ||! OAPP_INTPATH){
-				OELog(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!\n");
+				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!");
 			}
 		}
 		/* TODO: Add more stuff here once you've introduced most of OKit. */

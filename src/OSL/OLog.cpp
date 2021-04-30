@@ -65,23 +65,14 @@ namespace Orion{
 		if(newLine){ OLog("\n"); }else{ OLog(" "); }
 	}
 
-/** There's something very wrong with the next two functions, what's the order of operation with variadic functions? I'll fix it later. **/
-	void OELog(unsigned long errcode, bool autoQuit, const char* string, ...){
-		OLog("ORIONAPI | ERROR! [%lu] | ",errcode);
-		va_list arg;
-		va_start(arg,string);
-		vfprintf(stderr,string,arg);
-		va_end(arg);
+	void OERROR(unsigned long errcode, bool autoQuit, const char* message){
+		OLog("ORIONAPI | ERROR! [%lu] | %s\n",errcode,message);
 		if(autoQuit){ exit(errcode); }
 	}
 
-	void OWLog(bool verboseOnly, const char* string, ...){
+	void OWARN(bool verboseOnly, const char* message){
 		if(verboseOnly && !OAPP_VERBOSE){ return; }
-		OLog("ORIONAPI | WARNING! ");
-		va_list arg;
-		va_start(arg,string);
-		vfprintf(stderr,string,arg);
-		va_end(arg);
+		OLog("ORIONAPI | WARNING! %s\n",message);
 	}
 
 

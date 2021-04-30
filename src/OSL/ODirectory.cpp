@@ -126,7 +126,7 @@ namespace Orion{
 					case DT_SOCK:    { items[i].type=ODT_SOCKET; break; }
 					case DT_FIFO:    { items[i].type=ODT_PIPE; break; }
 				}
-			}else{ OELog(OERR_CANTMALLOC,true,"FAILED TO ALLOCATE MEMORY FOR DIRECTORY ENTRY!\n"); }
+			}else{ OERROR(OERR_CANTMALLOC,true,"FAILED TO ALLOCATE MEMORY FOR DIRECTORY ENTRY!"); }
 			/* ^? [Citation Needed] I presume this would be the cause for failure, considering we scanned it fine initially. */
 		}
 		rewinddir(TODIR(RAW));
