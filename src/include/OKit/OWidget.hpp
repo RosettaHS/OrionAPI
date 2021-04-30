@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORIONAPI_OKIT_ODRAWABLE_H__
-#define __ORIONAPI_OKIT_ODRAWABLE_H__
+#ifndef __ORIONAPI_OKIT_OWIDGET_H__
+#define __ORIONAPI_OKIT_OWIDGET_H__
 
 #include "common.hpp"
 #include "CContext.hpp"
@@ -37,7 +37,7 @@ namespace Orion{
 	};
 
 	/* The base element for all OrionUI Elements. */
-	class ODrawable{
+	class OWidget{
 		protected:
 			OUIType    type;
 			int16_t    x,y;
@@ -46,11 +46,12 @@ namespace Orion{
 			float      scale;
 			int16_t    index;
 			CContext*  context;
-			ODrawable* parent;
-			void     (*drawPtr)(ODrawable*);
+			OWidget*   parent;
+			void     (*drawPtr)(OWidget*);
 			struct{
 				bool   ready      : 1;
 				bool   valid      : 1;
+				bool   linked     : 1;
 				bool   enabled    : 1;
 				bool   focused    : 1;
 				bool   fullRedraw : 1;
@@ -64,7 +65,7 @@ namespace Orion{
 				OCol*  accent;
 			}theme;
 		public:
-			ODrawable(void);
+			OWidget(void);
 
 			inline void redraw(void) { if(drawPtr){ drawPtr(this); } }
 
@@ -82,8 +83,8 @@ namespace Orion{
 		/* An enumeration of OrionUI Elements. */
 		typedef OUIType   uitype_t;
 		/* The base element for all OrionUI Elements. */
-		typedef ODrawable drawable_t;
+		typedef OWidget   widget_t;
 	#endif /* !ORION_NOALTNAMES */
 }
 
-#endif /* !__ORIONAPI_OKIT_ODRAWABLE_H__ */
+#endif /* !__ORIONAPI_OKIT_OWIDGET_H__ */

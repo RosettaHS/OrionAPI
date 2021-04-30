@@ -38,7 +38,7 @@ namespace Orion{
 /** Forward Declaration **/
 
 	/* The base element for all OrionUI Elements. */
-	class ODrawable;
+	class OWidget;
 
 	/* Internal. An enumeration of possible Context types. */
 	enum CCType : char{
@@ -55,37 +55,123 @@ namespace Orion{
 	/* Internal. Higher-level abstraction of an X Window. */
 	class CContext : public CLoggable{
 		public:
+			/* The Type of this Context. */
 			CCType   XTYPE;
+			/* The XID of this Context. */
 			uint32_t XWIN;
+			/* The XID of this Context's Parent. */
 			uint32_t XPARENT;
+			/* The raw colour of this Context. */
 			uint32_t XCOL;
+			/* The XCB Event Mask used by this Context. */
 			uint32_t XMASK;
+			/* The title of this Context. ONLY FOR USE ON CCT_TOPLEVEL! */
 			char*    XTITLE;
+			/* Has this Context been mapped to the Window Manager? */
 			bool     XMAPPED;
+			/* Has this Context been mapped to the Event Dispatcher? */
 			bool     XLINKED;
 			struct{
+				/* The top-level Widget that is listening for Events. Something like an OButton for example. */
 				void* obj;
-				void  (*func)(ODrawable* obj, CXEvent* event);
-			}XLISTENER;
+				/* A pointer to the function that works as a router on the top-level Widget. Takes in the Widget and the XEvent. */
+				void  (*func)(OWidget* obj, CXEvent* event);
+			}XLISTENER; /* A small struct containing Event information. */
 
+			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);
+			/* Empty constructor. Sets all values to 0. */
 			CContext(void);
 
+			/**
+			 * @brief Initialises this Context based on the given parameters.
+			 * Make sure to call .map() after this!
+			 * @param root A pointer to the Context to use as a parent. Pass NULL to make this Context use the Window Manager as the parent.
+			 * @param x The X position of this Context relative to its parent.
+			 * @param y The Y position of this Context relative to its parent.
+			 * @param w The width of this Context.
+			 * @param h The height of this Context.
+			 * @param t The title of this Context. Only used with CCT_TOPLEVEL. Can be NULL.
+			 * @param col A pointer to the OCol this Context will use as its primary colour. Cannot be NULL.
+			 * @param mask The XCB Event Mask used by this Context. Will dispatch these to the Listener via the Listener Function. Can be NULL.
+			 * @param type The Type of this Context. See CCType.
+			 * @return True if Context could be successfully created, otherwise false.
+			 */
 			bool create(CContext* root, int16_t x, int16_t y, uint16_t w, uint16_t h, const char* t, OCol* col, uint32_t mask, CCType type);
+			/**
+			 * @brief Destroys this Context, resetting it to be used again with create().
+			 * @return True if Context could be successfully destroyed, otherwise false.
+			 */
 			bool destroy(void);
 
+			/**
+			 * @brief Maps this Context to be visible on its parent Context.
+			 * Make sure to call XCB_FLUSH() after this! (XCB_FLUSH can only be accessed if ORION_INTERNAL is defined!)
+			 * @param link Should this Context register itself to the Event Dispatcher (CXHA)?
+			 * @return True if Context could be successfully mapped, otherwise false.
+			 */
 			bool map(bool link);
+			/**
+			 * @brief Unmaps this Context from its parent Context.
+			 * @return True if Context could be successfully mapped, otherwise false.
+			 */
 			bool unmap(void);
+			/**
+			 * @brief Clears a given section and sets it to the primary colour.
+			 * NOTE: Does NOT clear other Contexts!
+			 * @param startX The starting X position to clear.
+			 * @param startY The starting Y position to clear.
+			 * @param endX The ending X position to clear.
+			 * @param endY The ending Y position to clear.
+			 */
 			void clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY);
 
+			/**
+			 * @brief Sets this Context's title to the given String. Only used on CCT_TOPLEVEL Contexts.
+			 * @param title The String to copy and set.
+			 * @return True if title was successfully changed, otherwise false.
+			 */
 			bool setTitle(const char* title);
+			/**
+			 * @brief Sets this Context's colour to the given OCol.
+			 * @param col A pointer to the Colour to set this Context's primary colour to.
+			 * @return True if colour was successfully changed, otherwise false.
+			 */
 			bool setCol(OCol* col);
+			/**
+			 * @brief Sets this Context's position to the given values.
+			 * @param x The new X position relative to the parent.
+			 * @param y The new Y position relative to the parent.
+			 * @return True if position was successfully changed, otherwise false.
+			 */
 			bool setPos(int16_t x, int16_t y);
+			/**
+			 * @brief Sets this Context's size to the given values.
+			 * @param w The new width of this Context.
+			 * @param h The new height of this Context.
+			 * @return True if size was successfully changed, otherwise false.
+			 */
 			bool setSize(uint16_t w, uint16_t h);
+			/**
+			 * @brief Sets this Context's geometry to the given values.
+			 * @param x The new X position relative to the parent.
+			 * @param y The new Y position relative to the parent.
+			 * @param w The new width of this Context.
+			 * @param h The new height of this Context
+			 * @return True if geometry was successfully changed, otherwise false.
+			 */
 			bool setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 
+			/**
+			 * @return An OVec4 containing the position and size values of this Context.
+			 */
 			OVec4 getGeometry(void);
 
+			/**
+			 * @brief Logs the information of this Context to the terminal.
+			 * @param verbose Log verbose information about this Context instead of the traditional information. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
+			 */
 			virtual void log(bool verbose=false, bool newLine=true) override;
 
 	};

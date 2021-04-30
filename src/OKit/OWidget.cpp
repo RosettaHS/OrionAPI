@@ -25,18 +25,18 @@
 
 #define ORION_INTERNAL
 
-#include "../include/OKit/ODrawable.hpp"
+#include "../include/OKit/OWidget.hpp"
 
 namespace Orion{
-	ODrawable::ODrawable(void) :
-		type{OUI_ERROR},
-		x{0},y{0},w{0},h{0},
-		minW{0},minH{0},scale{0},
-		index{0},context{0},parent{0},
-		drawPtr{0},flags{0,0,0,0,0,0}
-		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
+	// ODrawable::ODrawable(void) :
+		// type{OUI_ERROR},
+		// x{0},y{0},w{0},h{0},
+		// minW{0},minH{0},scale{0},
+		// index{0},context{0},parent{0},
+		// drawPtr{0},flags{0,0,0,0,0,0}
+		// { theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
-	const char* ODrawable::getTypeAsString(void) const{
+	const char* OWidget::getTypeAsString(void) const{
 		switch(type){
 			case OUI_ERROR:{ return "OUI_ERROR"; }
 		}

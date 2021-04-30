@@ -38,7 +38,7 @@
 #include "CContext.hpp"
 
 /*** Base Elements ***/
-#include "ODrawable.hpp"
+#include "OWidget.hpp"
 
 /*** Final Elements ***/
 
