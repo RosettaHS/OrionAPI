@@ -494,7 +494,7 @@ namespace Orion{
 		return false;
 	}
 
-	/* Setting a specific line. TODO: Reintroduce error messages with new error system. */
+	/* Setting a specific line. */
 	bool OFile::setLine(size_t line, const char* newText){
 		if(contents.isLinear){ return false; } /* Can't set lines if they're not stored as lines. */
 		if(CFILE.RAW && contents.asLines.list){
@@ -503,8 +503,7 @@ namespace Orion{
 			if(line>=contents.asLines.lineCount){
 				contents.asLines.list=(OFileLine*)realloc(contents.asLines.list,sizeof(OFileLine)*(line+1));
 				if(!contents.asLines.list){
-					// OLog("ORIONAPI | ERROR! COULD NOT ALLOCATE EXTRA LINES FOR FILE! CURRENT COUNT : %lu | ATTEMPTED ALLOCATION : %lu\n",contents.lineCount,line);
-					// exit(OERR_CANTMALLOC);
+					OERROR(OERR_CANTMALLOC,true,"COULD NOT ALLOCATE EXTRA LINES FOR FILE!");
 					return false;
 				}
 				for(size_t i=contents.asLines.lineCount;i<line+1;i++){
