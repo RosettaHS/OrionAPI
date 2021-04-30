@@ -519,8 +519,8 @@ namespace Orion{
 			size_t l2=OStringLength(newText);
 			if(l2>l1){ lineToSet->str=(unsigned char*)realloc(lineToSet->str,(l2+1)); }
 			if(!lineToSet->str){
-				OLog("ORIONAPI | ERROR! COULD NOT RESIZE FILE LINE %lu OF LENGTH %lu TO LENGTH %lu!\n",line,l1,l2);
-				exit(OERR_CANTMALLOC);
+				OERROR(OERR_CANTMALLOC,true,"COULD NOT RESIZE FILE LINE!");
+				return false;
 			}
 			for(size_t i=0;i<l2;i++){
 				lineToSet->str[i]=newText[i];
@@ -534,11 +534,9 @@ namespace Orion{
 	}
 
 /** Getters/misc ops **/
-	// void OFile::shouldStoreMisc(bool v) { flags.storeMisc=v; }
-	// void OFile::shouldStoreToMem(bool v) { flags.storeMem=v; }
-	bool OFile::valid(void) const { return ( CFILE.RAW ? true : false ); }
+	bool OFile::valid(void) const           { return ( CFILE.RAW ? true : false ); }
 	bool OFile::hasBeenModified(void) const { return contents.modified; }
-	OFile::operator bool(void) const { return (CFILE.RAW ? true : false); }
+	OFile::operator bool(void) const        { return (CFILE.RAW ? true : false); }
 
 	OFileHash OFile::recalcHash(void){
 		OFileHash tmpHash=0;
