@@ -178,11 +178,6 @@ namespace Orion{
 
 /*** Context Handling ***/
 #ifdef ORION_INTERNAL
-	struct CXHANDLE{
-		uint32_t  XWIN;
-		CContext* context;
-	};
-
 	extern bool      CXHA_INIT(void);
 	extern bool      CXHA_FREE(void);
 	extern bool      CXHA_LINK(CContext* context);

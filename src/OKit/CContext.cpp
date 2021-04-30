@@ -299,6 +299,11 @@ namespace Orion{
 #define __CXHA_DEFAULT_CAP  30
 #define __CXHA_DEFAULT_STEP 10
 
+	struct CXHANDLE{
+		uint32_t  XWIN;
+		CContext* context;
+	};
+
 	static CXHANDLE* CXHA=0;
 	static size_t    CXHA_COUNT=0;
 	static size_t    CXHA_CAP=__CXHA_DEFAULT_CAP;
