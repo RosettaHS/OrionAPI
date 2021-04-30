@@ -72,7 +72,7 @@ namespace Orion{
 			xcb_intern_atom_reply_t  *replyA, *replyB;
 			xcb_atom_enum_t           modeType;
 			bool                      NOTMOTIF=false;
-			switch(XTYPE){ /* TODO: Add FULL support. */
+			switch(XTYPE){
 				case CCT_ERROR:     { break; } /* The fuck are you doing if this is set? */
 				case CCT_INPUTONLY: { break; } /* Handled externally... */
 				case CCT_TOPLEVEL:{
@@ -136,7 +136,6 @@ namespace Orion{
 			if(XWIN){
 				unmap();
 				xcb_destroy_window(XCON,XWIN);
-				/* TODO: Add Event unlinking! */
 				if(XTITLE){ free(XTITLE); }
 				XTYPE=CCT_ERROR;
 				XWIN=0;
@@ -174,7 +173,7 @@ namespace Orion{
 				// xcb_void_cookie_t result=
 				xcb_unmap_window(XCON,XWIN);
 				// if( xcb_request_check(XCON,result) ){ return false; }
-				if(XLINKED){ XLINKED=CXHA_UNLINK(this); }
+				if(XLINKED){ XLINKED=!CXHA_UNLINK(this); }
 				XMAPPED=0;
 				return true;
 			}
