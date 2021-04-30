@@ -182,6 +182,14 @@ namespace Orion{
 		return false;
 	}
 
+	void CContext::clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY){
+		XONLY{
+			if(XWIN && XMAPPED){
+				xcb_clear_area(XCON,1,XWIN,(startX*OAPP_SCALE),(startY*OAPP_SCALE),(endX*OAPP_SCALE),(endY*OAPP_SCALE));
+			}
+		}
+	}
+
 	bool CContext::setTitle(const char* title){
 		XONLY{
 			if(title){

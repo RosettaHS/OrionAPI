@@ -76,6 +76,7 @@ namespace Orion{
 
 			bool map(bool link);
 			bool unmap(void);
+			void clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY);
 
 			bool setTitle(const char* title);
 			bool setCol(OCol* col);
