@@ -37,7 +37,7 @@ namespace Orion{
 	 * @return If the given value "x" is within the range between "min" and "max", it will be returned as normal.
 	 * Otherwise, the minimum or maximum value will be returned depending on which is the closest value to "x".
 	 */
-	inline long OClamp(long& x, long& min, long& max){ return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
+	inline long OClamp(long x, long min, long max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); } inline double OClampD(double x, double min, double max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
 	/**
 	 * @brief Returns a version of the given value clamped below the second value.
 	 * @param x The value to clamp.
@@ -45,7 +45,7 @@ namespace Orion{
 	 * @return If the given value "x" is less than the maximum value, the value of "x" will be returned.
 	 * Otherwise, the maximum value will be returned.
 	 */
-	inline long OClampMax(long& x, long& max){ return ( (x>max) ? max : x ); }
+	inline long OClampMax(long x, long max) { return ( (x>max) ? max : x ); } inline double OClampMaxD(double x, double max) { return ( (x>max) ? max : x ); }
 	/**
 	 * @brief Returns a version of the given value clamped above the second value.
 	 * @param x The value to clamp.
@@ -53,7 +53,7 @@ namespace Orion{
 	 * @return If the given value "x" is greater than the minimum value, the value of "x" will be returned.
 	 * Otherwise, the minimum value will be returned.
 	 */
-	inline long OClampMin(long& x, long& min){ return ( (x<min) ? min : x ); }
+	inline long OClampMin(long x, long min) { return ( (x<min) ? min : x ); } inline double OClampMinD(double x, double min) { return ( (x<min) ? min : x ); }
 }
 
 #endif /* !__ORIONAPI_OSL_OMATH_H__ */

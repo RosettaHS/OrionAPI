@@ -3,44 +3,50 @@
 
 ## Declarations
 ```cpp
-inline long OClamp(long& x, long& min, long& max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
-inline long OClampMax(long& x, long& max)         { return ( (x>max) ? max : x ); }
-inline long OClampMin(long& x, long& min)         { return ( (x<min) ? min : x ); }
+
+inline long OClamp(long x, long min, long max)          { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
+inline double OClampD(double x, double min, double max) { return ( (x<min) ? (min) : ( (x>max) ? max : x) ); }
+
+inline long OClampMax(long x, long max)        { return ( (x>max) ? max : x ); }
+inline double OClampMaxD(double x, double max) { return ( (x>max) ? max : x ); }
+
+inline long OClampMin(long x, long min)        { return ( (x<min) ? min : x ); } 
+inline double OClampMinD(double x, double min) { return ( (x<min) ? min : x ); }
 ```
 ```
 [Library  : OSL]
 [Declared : src/include/OSL/OMath.hpp]
 [Defined  : src/include/OSL/OMath.hpp] <inline>
 ```
-### OClamp
+### OClamp(D)
 Returns a version of the given value clamped between the two other values.
 #### Parameters
 ```
-long x   - The value to clamp.
-long min - The minimum for the value.
-long max - The maximum for the value.
+long/double x   - The value to clamp.
+long/double min - The minimum for the value.
+long/double max - The maximum for the value.
 ```
 #### Returns
 If the given value `x` is within the range between `min` and `max`, it will be returned as normal.
 Otherwise, the minimum or maximum value will be returned depending on which is the closest value to `x`.
 
-### OClampMax
+### OClampMax(D)
 Returns a version of the given value clamped below the second value.
 #### Parameters
 ```
-long x   - The value to clamp.
-long max - The maximum for the value.
+long/double x   - The value to clamp.
+long/double max - The maximum for the value.
 ```
 #### Returns
 If the given value `x` is less than the maximum value, the value of `x` will be returned.
 Otherwise, the maximum value will be returned.
 
-### OClampMin
+### OClampMin(D)
 Returns a version of the given value clamped above the second value.
 #### Parameters
 ```
-long x   - The value to clamp.
-long min - The minimum for the value.
+long/double x   - The value to clamp.
+long/double min - The minimum for the value.
 ```
 #### Returns
 If the given value `x` is greater than the minimum value, the value of `x` will be returned.
@@ -78,3 +84,15 @@ myValue=OClampMin(inputValue,5);
 
 Since these functions are [inlined](https://en.wikipedia.org/wiki/Inline_function), they are rather efficient,
 and do not pose much of a performance hit in your Applications.
+
+An [overload](https://www.tutorialspoint.com/cplusplus/cpp_overloading.htm) also exists for utilising this with `double` types:
+```cpp
+double inputValue=10.5
+double myValue=0;
+
+/*
+ * myValue will be "5.0", since "10.5" is greater the maximum threshold of "5.0", and will be clamped. 
+ * However, there is no minimum threshold, meaning the input can go as low as it wants.
+ */
+myValue=OClampMaxD(inputValue,5.0);
+```
