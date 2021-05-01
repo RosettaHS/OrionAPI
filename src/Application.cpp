@@ -138,6 +138,7 @@ namespace Orion{
 		OAPP_NAME=name;
 		OAPP_IDENTIFIER=identifier;
 		OAPP_USERNAME=getlogin();
+		OAPP_FOCUSEDELEMENT=0;
 		OAPP_PID=getpid();
 		CAppInitCWD();
 	/* Overrides */
@@ -184,6 +185,7 @@ namespace Orion{
 		OAPP_NAME=0;
 		OAPP_IDENTIFIER=0;
 		OAPP_USERNAME=0;
+		OAPP_FOCUSEDELEMENT=0;
 		OAPP_PID=0;
 		OAPP_SCALE=1;
 	/* Storage */

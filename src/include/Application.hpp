@@ -28,63 +28,71 @@
 
 #include <sys/types.h>
 
-/*Orion implementation for maximum amount of characters allowed in a directory path.*/
+/* Orion implementation for maximum amount of characters allowed in a directory path. */
 #define OPATH_MAX 1024
 
 #ifndef ORION_NOHELPERS
 
 	/* Wrapper if() statement for doing operations based on if the Application is in an Orion-Native Application Architecture. */
-	#define ONATIVEONLY if(Orion::OApp.Flags.isNativeOApp)
+	#define ONATIVEONLY         if(Orion::OApp.Flags.isNativeOApp)
 	/* An instance of an OAppInfo struct describing this OApp. */
-	#define OAPP             (Orion::OApp)
+	#define OAPP                (Orion::OApp)
 	/* The name of this OApp. */
-	#define OAPP_NAME        (Orion::OApp.name)
+	#define OAPP_NAME           (Orion::OApp.name)
 	/* The unique identifier of this OApp. */
-	#define OAPP_IDENTIFIER  (Orion::OApp.identifier)
+	#define OAPP_IDENTIFIER     (Orion::OApp.identifier)
 	/* The name of the User running this OApp. */
-	#define OAPP_USERNAME    (Orion::OApp.username)
+	#define OAPP_USERNAME       (Orion::OApp.username)
 	/* The global scale of the UI of this OApp. */
-	#define OAPP_SCALE       (Orion::OApp.scale)
+	#define OAPP_SCALE          (Orion::OApp.scale)
+	/* A pointer to the UI element that has the global focus of this OApp. */
+	#define OAPP_FOCUSEDELEMENT (Orion::OApp.focusedElement)
 	/* The process identifier of this OApp. */
-	#define OAPP_PID         (Orion::OApp.pid)
+	#define OAPP_PID            (Orion::OApp.pid)
 
 	/* A Struct containing Storage Directories for this OApp determined by OrionAPI. */
-	#define OAPP_STORAGE     (Orion::OApp.Storage)
+	#define OAPP_STORAGE        (Orion::OApp.Storage)
 	/* A path to a Directory where this OApp can store persistent Files irregardless of the User running it. */
-	#define OAPP_STATICPATH  (Orion::OApp.Storage.staticPath)
+	#define OAPP_STATICPATH     (Orion::OApp.Storage.staticPath)
 	/* A path to a Directory where this OApp stores the library files required for use. */
-	#define OAPP_LIBPATH     (Orion::OApp.Storage.libPath)
+	#define OAPP_LIBPATH        (Orion::OApp.Storage.libPath)
 	/* A path to a Directory where this OApp can store persistent files dependent on the User running it. */
-	#define OAPP_DATAPATH    (Orion::OApp.Storage.dataPath)
+	#define OAPP_DATAPATH       (Orion::OApp.Storage.dataPath)
 
 	#ifdef ORION_INTERNAL
 		/* Internal. A path to a Directory where OrionAPI can store persistent files for this OApp. */
-		#define OAPP_INTPATH (Orion::OApp.Storage.internalPath)
+		#define OAPP_INTPATH    (Orion::OApp.Storage.internalPath)
 	#endif /* !ORION_INTERNAL */
 
 	/* A Struct containing generic paths determined by OrionAPI. */
-	#define OAPP_PATH        (Orion::OApp.Path)
+	#define OAPP_PATH           (Orion::OApp.Path)
 	/* The path to this OApp's binary. */
-	#define OAPP_BINPATH     (Orion::OApp.Path.toBinary)
+	#define OAPP_BINPATH        (Orion::OApp.Path.toBinary)
 	/* The path to the folder where this OApp's binary is stored. */
-	#define OAPP_BINDIR      (Orion::OApp.Path.toBinaryFolder)
+	#define OAPP_BINDIR         (Orion::OApp.Path.toBinaryFolder)
 	/* The path to the User's /home/ Folder. */
-	#define OAPP_HOME        (Orion::OApp.Path.toHome)
+	#define OAPP_HOME           (Orion::OApp.Path.toHome)
 	/* The path to the Working Directory of this OApp. */
-	#define OAPP_CWD         (Orion::OApp.Path.toCWD)
+	#define OAPP_CWD            (Orion::OApp.Path.toCWD)
 
 	/* A Struct containing various flags related to this OApp. */
-	#define OAPP_FLAGS       (Orion::OApp.Flags)
+	#define OAPP_FLAGS          (Orion::OApp.Flags)
 	/* Is this OApp in an Orion-Native File structure? */
-	#define OAPP_NATIVE      (Orion::OApp.Flags.isNativeOApp)
+	#define OAPP_NATIVE         (Orion::OApp.Flags.isNativeOApp)
 	/* Is this OApp running in Verbose Mode? */
-	#define OAPP_VERBOSE     (Orion::OApp.Flags.isVerbose)
+	#define OAPP_VERBOSE        (Orion::OApp.Flags.isVerbose)
 	/* Is this OApp running and initialised? */
-	#define OAPP_RUNNING     (Orion::OApp.Flags.isRunning)
+	#define OAPP_RUNNING        (Orion::OApp.Flags.isRunning)
 
 #endif /* !ORION_NOHELPERS */
 
 namespace Orion{
+
+/** Forward Declaration **/
+
+	/* The base element for all OrionUI Elements. */
+	class OWidget;
+
 	/* A Struct containing information regarding a specific OApp. */
 	struct OAppInfo{
 		/* The name of the OApp. */
@@ -94,9 +102,11 @@ namespace Orion{
 		/* The name of the User running the OApp. */
 		const char* username;
 		/* The global scale of the UI of the OApp. */
-		float scale;
+		float       scale;
+		/* A pointer to the UI element that has the global focus of the OApp. */
+		OWidget*    focusedElement;
 		/* The process identifier of the OApp. */
-		pid_t pid;
+		pid_t       pid;
 		struct{
 			/* A path to a Directory where the OApp can store persistent Files irregardless of the User running it. */
 			char* staticPath;

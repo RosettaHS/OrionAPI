@@ -33,7 +33,8 @@
 namespace Orion{
 	/* An enumeration of OrionUI Elements. */
 	enum OUIType : char{
-		OUI_ERROR
+		OUI_ERROR,
+		OUI_CUSTOM,
 	};
 
 	/* The base element for all OrionUI Elements. */
@@ -50,7 +51,6 @@ namespace Orion{
 			void     (*drawPtr)(OWidget*);
 			struct{
 				bool   ready      : 1;
-				bool   valid      : 1;
 				bool   linked     : 1;
 				bool   enabled    : 1;
 				bool   focused    : 1;
@@ -64,10 +64,31 @@ namespace Orion{
 				OCol*  tertiary;
 				OCol*  accent;
 			}theme;
+
+			virtual void onLink(void);
+			virtual void onUnlink(void);
+			virtual void onPosChanged(void);
+			virtual void onSizeChanged(void);
+			virtual void onFocusChanged(void);
 		public:
 			OWidget(void);
 
-			inline void redraw(void) { if(drawPtr){ drawPtr(this); } }
+			void redraw(bool full=false);
+
+			bool setPos(int16_t x, int16_t y);
+			inline bool setPos(OVec& v)       { return setPos(v.x,v.y); }
+			inline bool setPos(OVec* v)       { return setPos(v->x,v->y); }
+			bool setSize(uint16_t w, uint16_t h);
+			inline bool setSize(OVec& v)      { return setSize(v.x,v.y); }
+			inline bool setSize(OVec* v)      { return setSize(v->x,v->y); }
+			void setMinSize(uint16_t minW, uint16_t minH);
+			inline void setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
+			inline void setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
+			bool setScale(float s);
+			bool setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
+			inline bool setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
+			inline bool setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
+			bool setFocus(bool newFocus);
 
 			/* Returns the type of this Element. */
 			inline OUIType getType(void) const { return type; }
