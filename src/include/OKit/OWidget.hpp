@@ -50,7 +50,7 @@ namespace Orion{
 			OWidget*   parent;
 			void     (*drawPtr)(OWidget*);
 			struct{
-				bool   ready      : 1;
+				bool   valid      : 1;
 				bool   linked     : 1;
 				bool   enabled    : 1;
 				bool   focused    : 1;
