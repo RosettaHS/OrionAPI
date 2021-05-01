@@ -75,20 +75,20 @@ namespace Orion{
 
 			void redraw(bool full=false);
 
-			bool setPos(int16_t x, int16_t y);
+			bool        setPos(int16_t x, int16_t y);
 			inline bool setPos(OVec& v)       { return setPos(v.x,v.y); }
 			inline bool setPos(OVec* v)       { return setPos(v->x,v->y); }
-			bool setSize(uint16_t w, uint16_t h);
+			bool        setSize(uint16_t w, uint16_t h);
 			inline bool setSize(OVec& v)      { return setSize(v.x,v.y); }
 			inline bool setSize(OVec* v)      { return setSize(v->x,v->y); }
-			void setMinSize(uint16_t minW, uint16_t minH);
+			void        setMinSize(uint16_t minW, uint16_t minH);
 			inline void setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
 			inline void setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
-			bool setScale(float s);
-			bool setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
+			bool        setScale(float s);
+			bool        setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 			inline bool setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
 			inline bool setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
-			bool setFocus(bool newFocus);
+			bool        setFocus(bool newFocus);
 
 			/* Returns the type of this Element. */
 			inline OUIType getType(void) const { return type; }
