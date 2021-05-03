@@ -90,6 +90,9 @@ namespace Orion{
 			inline bool setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
 			bool        setFocus(bool newFocus);
 
+			// bool        setTheme(OTheme*);
+			// inline bool setTheme(OTheme& theme) { return setTheme(&theme); }
+
 			/* Returns the type of this Element. */
 			inline OUIType getType(void) const { return type; }
 			/**

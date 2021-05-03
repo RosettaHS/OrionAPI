@@ -118,8 +118,11 @@ struct OAppInfo{
 	const char* name;
 	const char* identifier;
 	const char* username;
-	float scale;
-	pid_t pid;
+	pid_t       pid;
+	struct{
+		float    scale;
+		OWidget* focusedElement;	
+	}Interface;
 	struct{
 		char* staticPath;
 		char* libPath;

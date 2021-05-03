@@ -43,12 +43,15 @@
 	#define OAPP_IDENTIFIER     (Orion::OApp.identifier)
 	/* The name of the User running this OApp. */
 	#define OAPP_USERNAME       (Orion::OApp.username)
-	/* The global scale of the UI of this OApp. */
-	#define OAPP_SCALE          (Orion::OApp.scale)
-	/* A pointer to the UI element that has the global focus of this OApp. */
-	#define OAPP_FOCUSEDELEMENT (Orion::OApp.focusedElement)
 	/* The process identifier of this OApp. */
 	#define OAPP_PID            (Orion::OApp.pid)
+
+	/* A Struct containing information on this OApp's Interaface. */
+	#define OAPP_INTERFACE      (Orion::OApp.Interface)
+	/* The global scale of the UI of this OApp. */
+	#define OAPP_SCALE          (Orion::OApp.Interface.scale)
+	/* A pointer to the UI Element that has the global focus of this OApp. */
+	#define OAPP_FOCUSEDELEMENT (Orion::OApp.Interface.focusedElement)
 
 	/* A Struct containing Storage Directories for this OApp determined by OrionAPI. */
 	#define OAPP_STORAGE        (Orion::OApp.Storage)
@@ -88,10 +91,13 @@
 
 namespace Orion{
 
-/** Forward Declaration **/
+/** Forward Declarations **/
 
 	/* The base element for all OrionUI Elements. */
-	class OWidget;
+	class  OWidget;
+
+	/* Container struct for multiple OCols. Used for theming UI elements. */
+	struct OTheme;
 
 	/* A Struct containing information regarding a specific OApp. */
 	struct OAppInfo{
@@ -101,12 +107,14 @@ namespace Orion{
 		const char* identifier;
 		/* The name of the User running the OApp. */
 		const char* username;
-		/* The global scale of the UI of the OApp. */
-		float       scale;
-		/* A pointer to the UI element that has the global focus of the OApp. */
-		OWidget*    focusedElement;
 		/* The process identifier of the OApp. */
 		pid_t       pid;
+		struct{
+			/* The global scale of the UI of the OApp. */
+			float    scale;
+			/* A pointer to the UI Element that has the global focus of the OApp. */
+			OWidget* focusedElement;	
+		}Interface; /* A Struct containing information on the OApp's Interaface. */
 		struct{
 			/* A path to a Directory where the OApp can store persistent Files irregardless of the User running it. */
 			char* staticPath;
@@ -138,7 +146,7 @@ namespace Orion{
 
 		/* Empty constructor. Sets all values to 0. */
 		inline OAppInfo(void) :
-			name{0}, identifier{0}, username{0}, scale{1}, pid{0},
+			name{0}, identifier{0}, username{0},pid{0}, Interface{1,0},
 			Storage{0,0,0,0}, Path{0,0,0,0}, Flags{0,0,0} {}
 	};
 
