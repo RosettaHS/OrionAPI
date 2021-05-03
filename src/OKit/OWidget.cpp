@@ -31,7 +31,7 @@
 
 namespace Orion{
 
-/** Constructors/Destructors **/
+/*** Constructors/Destructors ***/
 	OWidget::OWidget(void) :
 		type{OUI_ERROR},
 		x{0},y{0},w{0},h{0},
@@ -39,7 +39,7 @@ namespace Orion{
 		index{0},context{0},parent{0},
 		drawPtr{0},flags{0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
-/** Deferrables **/
+/*** Deferrables ***/
 	/* Base Widget does nothing when linked or modified. */
 	void OWidget::onLink(void)         { return; }
 	void OWidget::onUnlink(void)       { return; }
@@ -48,7 +48,8 @@ namespace Orion{
 	void OWidget::onFocusChanged(void) { return; }
 
 
-/** Setters **/
+/*** Setters ***/
+	/** Position and Size **/
 	bool OWidget::setPos(int16_t ix, int16_t iy){
 		if(x==ix && y==iy){ return false; }
 		x=ix, y=iy;
@@ -108,8 +109,93 @@ namespace Orion{
 		return true;
 	}
 
-/** Getters **/
-/** Misc ops **/
+	/** Theme **/
+	void OWidget::setTheme(OTheme* newTheme){
+		if(!newTheme){ return; }
+		if(newTheme==OAPP_INTERFACE.theme){ resetTheme(); return; }
+		theme.internal  = *newTheme;
+		theme.primary   = &(theme.internal.primary);
+		theme.secondary = &(theme.internal.secondary);
+		theme.tertiary  = &(theme.internal.tertiary);
+		theme.accent    = &(theme.internal.accent);
+		redraw();
+	}
+
+	void OWidget::setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b){
+		theme.internal.setPrimary(r,g,b);
+		theme.primary=&(theme.internal.primary);
+		redraw();
+	}
+	void OWidget::setThemePrimaryCol(OCol* col){
+		if      (col==&OAPP_THEME.primary)   { theme.primary = &OAPP_THEME.primary;   redraw(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.primary = &OAPP_THEME.secondary; redraw(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.primary = &OAPP_THEME.tertiary;  redraw(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.primary = &OAPP_THEME.accent;    redraw(); return; }
+		else{
+			setThemePrimaryCol(col->raw.r,col->raw.g,col->raw.b);
+			redraw();
+		}
+	}
+
+	void OWidget::setThemeSecondaryCol(uint8_t r, uint8_t g, uint8_t b){
+		theme.internal.setSecondary(r,g,b);
+		theme.secondary=&(theme.internal.secondary);
+		redraw();
+	}
+	void OWidget::setThemeSecondaryCol(OCol* col){
+		if      (col==&OAPP_THEME.primary)   { theme.secondary = &OAPP_THEME.primary;   redraw(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.secondary = &OAPP_THEME.secondary; redraw(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.secondary = &OAPP_THEME.tertiary;  redraw(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.secondary = &OAPP_THEME.accent;    redraw(); return; }
+		else{
+			setThemeSecondaryCol(col->raw.r,col->raw.g,col->raw.b);
+			redraw();
+		}
+	}
+
+	void OWidget::setThemeTertiaryCol(uint8_t r, uint8_t g, uint8_t b){
+		theme.internal.setTertiary(r,g,b);
+		theme.tertiary=&(theme.internal.tertiary);
+		redraw();
+	}
+	void OWidget::setThemeTertiaryCol(OCol* col){
+		if      (col==&OAPP_THEME.primary)   { theme.tertiary = &OAPP_THEME.primary;   redraw(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.tertiary = &OAPP_THEME.secondary; redraw(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.tertiary = &OAPP_THEME.tertiary;  redraw(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.tertiary = &OAPP_THEME.accent;    redraw(); return; }
+		else{
+			setThemeTertiaryCol(col->raw.r,col->raw.g,col->raw.b);
+			redraw();
+		}
+	}
+
+	void OWidget::setThemeAccentCol(uint8_t r, uint8_t g, uint8_t b){
+		theme.internal.setAccent(r,g,b);
+		theme.accent=&(theme.internal.accent);
+		redraw();
+	}
+	void OWidget::setThemeAccentCol(OCol* col){
+		if      (col==&OAPP_THEME.primary)   { theme.accent = &OAPP_THEME.primary;   redraw(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.accent = &OAPP_THEME.secondary; redraw(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.accent = &OAPP_THEME.tertiary;  redraw(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.accent = &OAPP_THEME.accent;    redraw(); return; }
+		else{
+			setThemeAccentCol(col->raw.r,col->raw.g,col->raw.b);
+			redraw();
+		}
+	}
+	
+	void OWidget::resetTheme(void){
+		theme.internal   = OAPP_THEME;
+		theme.primary    = &OAPP_THEME.primary;
+		theme.secondary  = &OAPP_THEME.secondary;
+		theme.tertiary   = &OAPP_THEME.tertiary;
+		theme.accent     = &OAPP_THEME.accent;
+		redraw();
+	}
+
+/*** Getters ***/
+/*** Misc ops ***/
 	void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
 
 	const char* OWidget::getTypeAsString(void) const{

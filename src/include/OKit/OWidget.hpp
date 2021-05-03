@@ -58,7 +58,7 @@ namespace Orion{
 				char   containerFlags;
 			}flags;
 			struct{
-				OTheme overridden;
+				OTheme internal;
 				OCol*  primary;
 				OCol*  secondary;
 				OCol*  tertiary;
@@ -90,8 +90,23 @@ namespace Orion{
 			inline bool setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
 			bool        setFocus(bool newFocus);
 
-			// bool        setTheme(OTheme*);
-			// inline bool setTheme(OTheme& theme) { return setTheme(&theme); }
+			void        setTheme(OTheme*);
+			inline void setTheme(OTheme& theme)         { setTheme(&theme); }
+			void        setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void        setThemePrimaryCol(OCol* col);
+			inline void setThemePrimaryCol(OCol& col)   { setThemePrimaryCol(&col); }
+			void        setThemeSecondaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void        setThemeSecondaryCol(OCol* col);
+			inline void setThemeSecondaryCol(OCol& col) { setThemeSecondaryCol(&col); }
+			void        setThemeTertiaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void        setThemeTertiaryCol(OCol* col);
+			inline void setThemeTertiaryCol(OCol& col)  { setThemeTertiaryCol(&col); }
+			void        setThemeAccentCol(uint8_t r, uint8_t g, uint8_t b);
+			void        setThemeAccentCol(OCol* col);
+			inline void setThemeAccentCol(OCol& col)    { setThemeAccentCol(&col); }
+			void        resetTheme(void);
+
+			
 
 			/* Returns the type of this Element. */
 			inline OUIType getType(void) const { return type; }
