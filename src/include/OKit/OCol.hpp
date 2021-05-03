@@ -80,6 +80,54 @@ namespace Orion{
 		OCol accent;
 
 		/**
+		 * @brief Initialises and sets the Primary colour of this Theme to the given RGB values. 
+		 * @param r The red value (0 - 255) of the Colour to set.
+		 * @param g The green value (0 - 255) of the Colour to set.
+		 * @param b The blue value (0 - 255) of the Colour to set.
+		 */
+		inline void setPrimary(uint8_t r, uint8_t g, uint8_t b)   { primary.setTo(r,g,b); }
+		/**
+		 * @brief Initialises and sets the Primary colour of this Theme to the given OCol's values. 
+		 * @param col The OCol to set as the Primary.
+		 */
+		inline void setPrimary(OCol& col)                         { primary.setTo(col.raw.r,col.raw.g,col.raw.b); }
+		/**
+		 * @brief Initialises and sets the Secondary colour of this Theme to the given RGB values. 
+		 * @param r The red value (0 - 255) of the Colour to set.
+		 * @param g The green value (0 - 255) of the Colour to set.
+		 * @param b The blue value (0 - 255) of the Colour to set.
+		 */
+		inline void setSecondary(uint8_t r, uint8_t g, uint8_t b) { secondary.setTo(r,g,b); }
+		/**
+		 * @brief Initialises and sets the Secondary colour of this Theme to the given OCol's values. 
+		 * @param col The OCol to set as the Secondary.
+		 */
+		inline void setSecondary(OCol& col)                       { secondary.setTo(col.raw.r,col.raw.g,col.raw.b); }
+		/**
+		 * @brief Initialises and sets the Tertiary colour of this Theme to the given RGB values. 
+		 * @param r The red value (0 - 255) of the Colour to set.
+		 * @param g The green value (0 - 255) of the Colour to set.
+		 * @param b The blue value (0 - 255) of the Colour to set.
+		 */
+		inline void setTertiary(uint8_t r, uint8_t g, uint8_t b)  { tertiary.setTo(r,g,b); }
+		/**
+		 * @brief Initialises and sets the Tertiary colour of this Theme to the given OCol's values. 
+		 * @param col The OCol to set as the Tertiary.
+		 */
+		inline void setTertiary(OCol& col)                        { tertiary.setTo(col.raw.r,col.raw.g,col.raw.b); }
+		/**
+		 * @brief Initialises and sets the Accent colour of this Theme to the given RGB values. 
+		 * @param r The red value (0 - 255) of the Colour to set.
+		 * @param g The green value (0 - 255) of the Colour to set.
+		 * @param b The blue value (0 - 255) of the Colour to set.
+		 */
+		inline void setAccent(uint8_t r, uint8_t g, uint8_t b)    { accent.setTo(r,g,b); }
+		/**
+		 * @brief Initialises and sets the Accent colour of this Theme to the given OCol's values. 
+		 * @param col The OCol to set as the Accent.
+		 */
+		inline void setAccent(OCol& col)                          { accent.setTo(col.raw.r,col.raw.g,col.raw.b); }
+		/**
 		 * @brief Logs the information of this Theme to the terminal.
 		 * @param verbose Log verbose information about this Theme instead of the traditional information. Default is false.
 		 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
