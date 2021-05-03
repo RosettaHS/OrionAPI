@@ -421,7 +421,9 @@ virtual void log(bool verbose=false, bool newLine=true) override;
 Logs this String out to the terminal.
 
 Parameters:
+
 `bool verbose - Log verbose information (such as memory usage and alongside the String itself. Default is false.`
+
 `bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
 
 ## Other Information

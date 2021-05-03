@@ -127,3 +127,6 @@ Parameters:
 `bool verbose - Log verbose information about this Col instead of the traditional information. Default is false.`
 
 `bool newLine - Should the output be placed on a newline or append to the current one if applicable? Default is true.`
+
+## See Also:
+[OTheme](https://github.com/RosettaHS/OrionAPI/blob/main/docs/Type%20Reference/OTheme.md)

@@ -74,11 +74,14 @@ namespace Orion{
 
 	/* Container struct for multiple OCols. Used for theming UI elements. */
 	struct OTheme : public CLoggable{
+		/* The Primary colour of this Theme. */
 		OCol primary;
+		/* The Secondary colour of this Theme. */
 		OCol secondary;
+		/* The Tertiary colour of this Theme. */
 		OCol tertiary;
+		/* The Accent colour of this Theme. */
 		OCol accent;
-
 		/**
 		 * @brief Initialises and sets the Primary colour of this Theme to the given RGB values. 
 		 * @param r The red value (0 - 255) of the Colour to set.
