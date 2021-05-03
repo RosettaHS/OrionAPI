@@ -195,6 +195,51 @@ namespace Orion{
 	}
 
 /*** Getters ***/
+	OVec OWidget::getPos(bool globalToWindow) const{
+		OVec v={0,0};
+		if( globalToWindow && parent ){
+			if(parent->getType()!=OUI_WINDOW){ v=parent->getPos(true); }
+			v.x+=x,v.y+=y;
+		}else{ v={x,y}; }
+		return v;
+	}
+
+	/* FIXME: The following two methods WILL come back to bite me in the ass later.. I just know it.. */
+	OVec OWidget::getSize(bool useScale) const{
+		OVec v;
+		if(useScale){
+			float s=getScale();
+			v.x=(w*s);
+			v.y=(h*s);
+		}else{ v={w,h}; }
+		return v;
+	}
+
+	OVec OWidget::getMinSize(bool useScale) const{
+		OVec v;
+		if(useScale){
+			float s=getScale();
+			v.x=(minW*s);
+			v.y=(minH*s);
+		}else{ v={minW,minH}; }
+		return v;
+	}
+
+	OVec4 OWidget::getGeometry(bool posGlobalToWindow, bool sizeUseScale) const{
+		OVec4 v;
+		OVec  tmp;
+		tmp=getPos(posGlobalToWindow);
+		v.x=tmp.x, v.y=tmp.y;
+		tmp=getSize(sizeUseScale);
+		v.w=tmp.x, v.h=tmp.y;
+		return v;
+	}
+
+	int16_t OWidget::getIndex(void) const{
+		if(flags.linked){ return index; }
+		else            { return OWIDGET_NOTLINKED; }
+	}
+
 /*** Misc ops ***/
 	void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
 
@@ -202,6 +247,7 @@ namespace Orion{
 		switch(type){
 			case OUI_ERROR:    { return "OUI_ERROR"; }
 			case OUI_CUSTOM:   { return "OUI_CUSTOM"; }
+			case OUI_WINDOW:   { return "OUI_WINDOW"; }
 		}
 		return 0;
 	}
