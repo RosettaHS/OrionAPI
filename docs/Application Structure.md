@@ -121,7 +121,8 @@ struct OAppInfo{
 	pid_t       pid;
 	struct{
 		float    scale;
-		OWidget* focusedElement;	
+		OWidget* focusedElement;
+		OTheme*  theme;
 	}Interface;
 	struct{
 		char* staticPath;

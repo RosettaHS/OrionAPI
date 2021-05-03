@@ -30,12 +30,14 @@
 #include <sys/stat.h>
 #include "include/OSL/OLog.hpp"
 #include "include/OSL/OString.hpp"
+#include "include/OKit/OCol.hpp"
 #include "include/Application.hpp"
 
 #define _MKDIRARG ( S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH )
 
 namespace Orion{
-	OAppInfo OApp;
+	OAppInfo      OApp;
+	static OTheme OAppTheme;
 
 /* Functions */
 
@@ -139,6 +141,7 @@ namespace Orion{
 		OAPP_IDENTIFIER=identifier;
 		OAPP_USERNAME=getlogin();
 		OAPP_FOCUSEDELEMENT=0;
+		OAPP_INTERFACE.theme=&OAppTheme;
 		OAPP_PID=getpid();
 		CAppInitCWD();
 	/* Overrides */
@@ -188,6 +191,7 @@ namespace Orion{
 		OAPP_PID=0;
 		OAPP_SCALE=1;
 		OAPP_FOCUSEDELEMENT=0;
+		OAPP_INTERFACE.theme=&OAppTheme; /* This is to NEVER change! */
 	/* Storage */
 		if(OAPP_STATICPATH) { free(OAPP_STATICPATH); OAPP_STATICPATH=0; }
 		if(OAPP_LIBPATH)    { free(OAPP_LIBPATH);    OAPP_LIBPATH=0; }

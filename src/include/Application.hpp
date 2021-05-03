@@ -52,6 +52,11 @@
 	#define OAPP_SCALE          (Orion::OApp.Interface.scale)
 	/* A pointer to the UI Element that has the global focus of this OApp. */
 	#define OAPP_FOCUSEDELEMENT (Orion::OApp.Interface.focusedElement)
+	/*
+	 * A dereferenced pointer (Reference) to the OTheme struct that contains the theme colours of this OApp.
+	 * To access it in pointer form, use OAPP_INTERFACE.theme
+	 */
+	#define OAPP_THEME          (*Orion::OApp.Interface.theme)
 
 	/* A Struct containing Storage Directories for this OApp determined by OrionAPI. */
 	#define OAPP_STORAGE        (Orion::OApp.Storage)
@@ -114,6 +119,8 @@ namespace Orion{
 			float    scale;
 			/* A pointer to the UI Element that has the global focus of the OApp. */
 			OWidget* focusedElement;	
+			/* A pointer to the OTheme struct that contains the theme colours of the OApp. */
+			OTheme*  theme;
 		}Interface; /* A Struct containing information on the OApp's Interaface. */
 		struct{
 			/* A path to a Directory where the OApp can store persistent Files irregardless of the User running it. */
@@ -146,7 +153,7 @@ namespace Orion{
 
 		/* Empty constructor. Sets all values to 0. */
 		inline OAppInfo(void) :
-			name{0}, identifier{0}, username{0},pid{0}, Interface{1,0},
+			name{0}, identifier{0}, username{0},pid{0}, Interface{1,0,0},
 			Storage{0,0,0,0}, Path{0,0,0,0}, Flags{0,0,0} {}
 	};
 
