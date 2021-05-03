@@ -25,9 +25,42 @@
 
 #define ORION_INTERNAL
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "include/OrionAPI.hpp"
 
 namespace Orion{
+
+	static OTheme OTHEME_FALLBACK;
+
+	static bool CAppSetThemeFromSystem(void){
+	/* Setting the fallback. */
+		OTHEME_FALLBACK.primary.setTo(30,25,25);
+		OTHEME_FALLBACK.secondary.setTo(40,35,35);
+		OTHEME_FALLBACK.tertiary.setTo(25,15,15);
+		OTHEME_FALLBACK.accent.setTo(255,86,15);
+	/* Generate the potential path for the ThemeFile. */
+		char themepath[OPATH_MAX];
+		OFile themefile;
+		OFormat(themepath,"%s/.orion/theme",getenv("HOME"));
+	/* Check if ThemeFile exists. */
+		if( themefile.open(themepath,OFILE_OPEN_READONLY) ){
+	/* Run through the Lines of the ThemeFile and attempt to set the OApp's Theme. */
+			for(size_t i=0;i<themefile.getLineCount();i++){
+				char* line=themefile[i];
+				if     ( OStringFindFirst(line,"[PRIMARY]")!=OSTRING_NOTFOUND )   { if(!OAPP_THEME.primary.setTo(line)){ OAPP_THEME.primary=OTHEME_FALLBACK.primary; } continue; }
+				else if( OStringFindFirst(line,"[SECONDARY]")!=OSTRING_NOTFOUND ) { if(!OAPP_THEME.secondary.setTo(line))  { OAPP_THEME.secondary=OTHEME_FALLBACK.secondary; } continue; }
+				else if( OStringFindFirst(line,"[TERTIARY]")!=OSTRING_NOTFOUND )  { if(!OAPP_THEME.tertiary.setTo(line))   { OAPP_THEME.tertiary=OTHEME_FALLBACK.tertiary; } continue; }
+				else if( OStringFindFirst(line,"[ACCENT]")!=OSTRING_NOTFOUND )    { if(!OAPP_THEME.accent.setTo(line))     { OAPP_THEME.accent=OTHEME_FALLBACK.accent; } continue; }
+			}
+			return true;
+		}
+	/* On total failure, set it to fallback and return false. */
+		OAPP_THEME=OTHEME_FALLBACK;
+		return false;
+	}
+
 
 	bool OAppStart(const char* AppName, const char* AppIdentifier,bool ForceONative){
 		if(OAPP_RUNNING){ return false; }
@@ -57,6 +90,7 @@ namespace Orion{
 				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE, BUT ONE OR MORE OF THE REQUIRED PATHS HAS FAILED TO INITIALISE!");
 			}
 		}
+		CAppSetThemeFromSystem();
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
 		XCB_CONNECT();
 		CXHA_INIT();
