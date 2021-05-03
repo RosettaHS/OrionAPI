@@ -105,6 +105,7 @@ inline void setPrimary(OCol& col)                         { primary.setTo(col.ra
 Initialises and sets the Primary colour of this Theme to the given RGB values, or the given OCol's values. 
 
 Parameters:
+
 `uint8_t r - The red value (0 - 255) of the Colour to set.`
 
 `uint8_t g - The green value (0 - 255) of the Colour to set.`
@@ -120,6 +121,7 @@ inline void setSecondary(OCol& col)                       { secondary.setTo(col.
 Initialises and sets the Secondary colour of this Theme to the given RGB values, or the given OCol's values. 
 
 Parameters:
+
 `uint8_t r - The red value (0 - 255) of the Colour to set.`
 
 `uint8_t g - The green value (0 - 255) of the Colour to set.`
@@ -135,6 +137,7 @@ inline void setTertiary(OCol& col)                        { tertiary.setTo(col.r
 Initialises and sets the Tertiary colour of this Theme to the given RGB values, or the given OCol's values. 
 
 Parameters:
+
 `uint8_t r - The red value (0 - 255) of the Colour to set.`
 
 `uint8_t g - The green value (0 - 255) of the Colour to set.`
@@ -151,6 +154,7 @@ inline void setAccent(OCol& col)                          { accent.setTo(col.raw
 Initialises and sets the Accent colour of this Theme to the given RGB values, or the given OCol's values. 
 
 Parameters:
+
 `uint8_t r - The red value (0 - 255) of the Colour to set.`
 
 `uint8_t g - The green value (0 - 255) of the Colour to set.`
