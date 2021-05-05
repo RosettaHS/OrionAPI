@@ -130,10 +130,11 @@ namespace Orion{
 			bool        forceSelfOnNext;
 
 			OContainer(void);
-			~OContainer(void);
 
 			virtual void     baseSort(void);
 		public:
+			~OContainer(void);
+
 			bool             link(OWidget* widget);
 			inline bool      link(OWidget& widget)   { return link(&widget); }
 			bool             unlink(OWidget* widget);

@@ -135,7 +135,20 @@ namespace Orion{
 		forceSelfOnNext=0;
 	}
 	OContainer::~OContainer(void){
-		
+		if(list.isReady()){
+			OWidget* tmp=0;
+			for(uint16_t i=0;i<list.getCount();i++){
+				tmp=list.getFromIndexFast(i);
+				tmp->flags.linked=false;
+				tmp->onUnlink();
+				tmp->context = 0;
+				tmp->parent  = 0;
+				tmp->index   = OWIDGET_NOTLINKED;
+			}
+		}
+		contextToUse=0;
+		containerToUse=0;
+		selfContext.destroy();
 	}
 	/*** Deferrables ***/
 	void OContainer::baseSort(void) { return; }
