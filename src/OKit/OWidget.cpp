@@ -44,7 +44,7 @@ namespace Orion{
 		type{OUI_ERROR},
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},
-		index{0},context{0},parent{0},
+		index{0},context{0},parentContainer{0},parentWidget{0},
 		drawPtr{0},flags{0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 /*** Deferrables ***/
@@ -63,7 +63,7 @@ namespace Orion{
 	}
 
 	bool OWidget::unlinkThis(void){
-		if(parent){ return parent->unlink(this); }
+		if(parentContainer){ return parentContainer->unlink(this); }
 		return false;
 	}
 
@@ -247,8 +247,8 @@ namespace Orion{
 
 	OVec OWidget::getPos(bool globalToWindow) const{
 		OVec v={0,0};
-		if( globalToWindow && parent ){
-			if(parent->getType()!=OUI_WINDOW){ v=parent->getPos(true); }
+		if( globalToWindow && parentWidget ){
+			if(parentWidget->getType()!=OUI_WINDOW){ v=parentWidget->getPos(true); }
 			v.x+=x,v.y+=y;
 		}else{ v={x,y}; }
 		return v;

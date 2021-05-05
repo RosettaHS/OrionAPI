@@ -139,11 +139,12 @@ namespace Orion{
 			OWidget* tmp=0;
 			for(uint16_t i=0;i<list.getCount();i++){
 				tmp=list.getFromIndexFast(i);
-				tmp->flags.linked=false;
+				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->context = 0;
-				tmp->parent  = 0;
-				tmp->index   = OWIDGET_NOTLINKED;
+				tmp->context         = 0;
+				tmp->parentContainer = 0;
+				tmp->parentWidget    = 0;
+				tmp->index           = OWIDGET_NOTLINKED;
 			}
 		}
 		contextToUse=0;
@@ -167,11 +168,12 @@ namespace Orion{
 		/** Linkage **/
 			OContainer* container=CHECKFORCE;
 			if(container->list.link(widget)){
-				if(widget->parent){ widget->parent->unlink(widget); }
-				widget->context = container->contextToUse;
-				widget->parent  = container;
-				widget->index   = container->getIndexOf(widget);
-				widget->flags.linked=true;
+				if(widget->parentContainer){ widget->parentContainer->unlink(widget); }
+				widget->context         = container->contextToUse;
+				widget->parentContainer = container;
+				widget->parentWidget    = this;
+				widget->index           = container->getIndexOf(widget);
+				widget->flags.linked    = true;
 				widget->onLink();
 				sort();
 				return true;
@@ -189,11 +191,12 @@ namespace Orion{
 		/** Unlinkage **/
 			OContainer* container=CHECKFORCE;
 			if(container->list.unlink(widget)){
-				widget->flags.linked=false;
+				widget->flags.linked    = false;
 				widget->onUnlink();
-				widget->context = 0;
-				widget->parent  = 0;
-				widget->index   = OWIDGET_NOTLINKED;
+				widget->context         = 0;
+				widget->parentContainer = 0;
+				widget->parentWidget    = 0;
+				widget->index           = OWIDGET_NOTLINKED;
 				return true;
 			}
 		}
@@ -206,11 +209,12 @@ namespace Orion{
 			OWidget* tmp=0;
 			for(uint16_t i=0;i<container->list.getCount();i++){
 				tmp=container->list.getFromIndexFast(i);
-				tmp->flags.linked=false;
+				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->context = 0;
-				tmp->parent  = 0;
-				tmp->index   = OWIDGET_NOTLINKED;
+				tmp->context         = 0;
+				tmp->parentContainer = 0;
+				tmp->parentWidget    = 0;
+				tmp->index           = OWIDGET_NOTLINKED;
 			}
 			container->list.unlinkAll();
 			return true;

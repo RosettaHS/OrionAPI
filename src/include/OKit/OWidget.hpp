@@ -97,7 +97,8 @@ namespace Orion{
 			float       scale;
 			int16_t     index;
 			CContext*   context;
-			OContainer* parent;
+			OContainer* parentContainer;
+			OContainer* parentWidget;
 			void      (*drawPtr)(OWidget*);
 			struct{
 				bool    valid      : 1;
