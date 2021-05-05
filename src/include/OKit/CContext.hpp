@@ -37,7 +37,7 @@ namespace Orion{
 
 /** Forward Declaration **/
 
-	/* The base element for all OrionUI Elements. */
+	/* The base class for all OrionUI Elements. */
 	class OWidget;
 
 	/* Internal. An enumeration of possible Context types. */

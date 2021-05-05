@@ -28,6 +28,14 @@
 #include "../include/Application.hpp"
 #include "../include/OSL/OMath.hpp"
 #include "../include/OKit/OWidget.hpp"
+#include "../include/OKit/OContainer.hpp"
+
+/*** Template section comments for deferred classes ***/
+	/*** Constructors/Destructors ***/
+	/*** Deferrables ***/
+	/*** Setters ***/
+	/*** Getters ***/
+	/*** Misc ops ***/
 
 namespace Orion{
 
@@ -49,6 +57,16 @@ namespace Orion{
 
 
 /*** Setters ***/
+	bool OWidget::linkTo(OContainer* container){
+		if(container){ return container->link(this); }
+		return false;
+	}
+
+	bool OWidget::unlinkThis(void){
+		if(parent){ return parent->unlink(this); }
+		return false;
+	}
+
 	/** Position and Size **/
 	bool OWidget::setPos(int16_t ix, int16_t iy){
 		if(x==ix && y==iy){ return false; }
@@ -277,9 +295,10 @@ namespace Orion{
 
 	const char* OWidget::getTypeAsString(void) const{
 		switch(type){
-			case OUI_ERROR:    { return "OUI_ERROR"; }
-			case OUI_CUSTOM:   { return "OUI_CUSTOM"; }
-			case OUI_WINDOW:   { return "OUI_WINDOW"; }
+			case OUI_ERROR:      { return "OUI_ERROR"; }
+			case OUI_CUSTOM:     { return "OUI_CUSTOM"; }
+			case OUI_WINDOW:     { return "OUI_WINDOW"; }
+			case OUI_CONTAINER:  { return "OUI_CONTAINER"; }
 		}
 		return 0;
 	}

@@ -79,36 +79,40 @@ namespace Orion{
 	enum OUIType : char{
 		OUI_ERROR,
 		OUI_CUSTOM,
+		OUI_CONTAINER,
 		/* ... */
 		OUI_WINDOW
 	};
 
-	/* The base element for all OrionUI Elements. */
+	/* The base Container that contains OrionUI Elements. */
+	class OContainer;
+
+	/* The base class for all OrionUI Elements. */
 	class OWidget{
 		protected:
-			OUIType    type;
-			int16_t    x,y;
-			uint16_t   w,h;
-			uint16_t   minW,minH;
-			float      scale;
-			int16_t    index;
-			CContext*  context;
-			OWidget*   parent;
-			void     (*drawPtr)(OWidget*);
+			OUIType     type;
+			int16_t     x,y;
+			uint16_t    w,h;
+			uint16_t    minW,minH;
+			float       scale;
+			int16_t     index;
+			CContext*   context;
+			OContainer* parent;
+			void      (*drawPtr)(OWidget*);
 			struct{
-				bool   valid      : 1;
-				bool   linked     : 1;
-				bool   enabled    : 1;
-				bool   focused    : 1;
-				bool   fullRedraw : 1;
-				char   containerFlags;
+				bool    valid      : 1;
+				bool    linked     : 1;
+				bool    enabled    : 1;
+				bool    focused    : 1;
+				bool    fullRedraw : 1;
+				char    containerFlags;
 			}flags;
 			struct{
-				OTheme internal;
-				OCol*  primary;
-				OCol*  secondary;
-				OCol*  tertiary;
-				OCol*  accent;
+				OTheme  internal;
+				OCol*   primary;
+				OCol*   secondary;
+				OCol*   tertiary;
+				OCol*   accent;
 			}theme;
 
 			virtual void   onLink(void);
@@ -117,11 +121,18 @@ namespace Orion{
 			virtual void   onSizeChanged(void);
 			virtual void   onFocusChanged(void);
 			bool           setFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
+
+			friend class   OContainer;
 		public:
 			OWidget(void);
 
 			void           redraw(bool full=false);
-			inline bool    isReady(void) const   { return ( flags.valid && flags.linked ); }
+			inline bool    isReady(void)  const  { return ( flags.valid && flags.linked ); }
+			inline bool    isInited(void) const  { return ( flags.valid); }
+
+			bool           linkTo(OContainer* container);
+			inline bool    linkTo(OContainer& container) { return linkTo(&container); }
+			bool           unlinkThis(void);
 
 			bool           setPos(int16_t x, int16_t y);
 			inline bool    setPos(OVec& v)       { return setPos(v.x,v.y); }

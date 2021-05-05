@@ -44,6 +44,8 @@ namespace Orion{
 		public:
 			/* Empty constructor. Sets all values to 0. */
 			inline   CWidgetList(void) : arr{0},count{0},cap{0},step{0} {}
+			/* Destructor. Frees all memory. */
+			inline  ~CWidgetList(void) { wipe(); }
 
 			/* Returns true if the WidgetList is initialised and ready for use. */
 			inline bool isReady(void) const { return ( (arr) ? true : false ); }
@@ -83,21 +85,70 @@ namespace Orion{
 			 */
 			bool unlink(OWidget* widget);
 			/**
+			 * @brief Unregisters all Widgets from this WidgetList.
+			 * @return True if unlinkages were successful, otherwise false.
+			 */
+			bool unlinkAll(void);
+			/**
 			 * @brief Returns the index if a given Widget if it is registered in this WidgetList.
 			 * Note that indices can and will change overtime, make sure to check this frequently
 			 * @param widget A pointer to the Widget to attempt to search for.
 			 * @return The index of the Widget in the WidgetList if it could be found, otherwise returns OWIDGET_NOTLINKED
 			 */
-			int32_t         getIndexOf(OWidget* widget) const;
+			int32_t          getIndexOf(OWidget* widget) const;
 			/* Return the count of registered Widgets in this WidgetList. */
-			inline uint16_t getCount(void) const { return count; }
+			inline uint16_t  getCount(void) const { return count; }
 			/* Return the maximum allowed amount of registered Widgets in this WidgetList before resizing. */
-			inline uint16_t getCap(void)   const { return cap; }
+			inline uint16_t  getCap(void)   const { return cap; }
 			/* Return the amount to resize by when the count of registered Widgets encroaches on the maximum amount. */
-			inline uint8_t  getStep(void)  const { return step; }
+			inline uint8_t   getStep(void)  const { return step; }
+			/* Returns the internal array used by this WidgetList. */
+			inline OWidget** getArray(void) const { return arr; }
+			/**
+			 * @brief Returns the Widget found at the given index.
+			 * @param index	The index to attempt to retrieve
+			 * @returns A pointer to the Widget if successful, otherwise returns NULL
+			 */
+			OWidget*         getFromIndex(uint16_t index) const;
+			/**
+			 * @brief Returns the Widget found at the given index, without checking if the index is valid or if the array is initialised.
+			 * @param index	The index to attempt to retrieve
+			 * @returns A pointer to the Widget if successful, otherwise returns NULL
+			 */
+			OWidget*         getFromIndexFast(uint16_t index) const { return arr[index]; }
 	};
 
 	/*** Public Widget Container Class ***/
+
+	/* The base Container for containing OrionUI Elements. */
+	class OContainer : public OWidget{
+		protected:
+			CWidgetList list;
+			CContext    selfContext;
+			CContext*   contextToUse;
+			OContainer* containerToUse;
+			bool        forceSelfOnNext;
+
+			OContainer(void);
+			~OContainer(void);
+
+			virtual void     baseSort(void);
+		public:
+			bool             link(OWidget* widget);
+			inline bool      link(OWidget& widget)   { return link(&widget); }
+			bool             unlink(OWidget* widget);
+			inline bool      unlink(OWidget& widget) { return unlink(&widget); }
+			bool             unlinkAll(void);
+
+			virtual void     sort(void);
+
+			int32_t          getIndexOf(OWidget* widget) const;
+			inline int32_t   getIndexOf(OWidget& widget) const { return getIndexOf(&widget); }
+			OWidget*         getChild(uint16_t index)    const;
+			inline OWidget*  operator[](uint16_t index)  const { return getChild(index); }
+			OWidget**        getChildren(void)           const;
+			uint16_t         getChildCount(void)         const;
+	};
 }
 
 #endif /* !__ORIONAPI_OKIT_OCONTAINER_H__ */

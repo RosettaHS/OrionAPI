@@ -98,7 +98,7 @@ namespace Orion{
 
 /** Forward Declarations **/
 
-	/* The base element for all OrionUI Elements. */
+	/* The base class for all OrionUI Elements. */
 	class  OWidget;
 
 	/* Container struct for multiple OCols. Used for theming UI elements. */
