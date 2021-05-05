@@ -150,6 +150,11 @@ namespace Orion{
 			OWidget**        getChildren(void)           const;
 			uint16_t         getChildCount(void)         const;
 	};
+
+	#ifndef ORION_NOALTNAMES
+		/* The base Container for containing OrionUI Elements. */
+		typedef OContainer container_t;
+	#endif /* !ORION_NOALTNAMES */
 }
 
 #endif /* !__ORIONAPI_OKIT_OCONTAINER_H__ */
