@@ -30,7 +30,49 @@
 #include "CContext.hpp"
 #include "OCol.hpp"
 
+/*** Macros ***/
+
+/* Internal. The base for flag definitions. Random magic number (that won't ever be accidentally used) that is commonly below SHRT_MAX. */
+#define _OUI_FLAGDEFBASE 25678
+
+/** Position Flag Definitions **/
+
+/* Positional Only. Aligns to the start of the given axis. */
+#define START  (_OUI_FLAGDEFBASE)
+/* Positional Only. Aligns to the end of the given axis. */
+#define END    (_OUI_FLAGDEFBASE-1)
+/* Positional Only. Aligns to the center of the given axis. */
+#define CENTER (_OUI_FLAGDEFBASE-2)
+/* Positional Only. Aligns to the centre of the given axis. */
+#define CENTRE (_OUI_FLAGDEFBASE-2)
+
+/** Size Flag Definitions **/
+
+/* Sizing Only. Fills to the end of the given axis. */
+#define FILL   (_OUI_FLAGDEFBASE-3)
+
+/** Utilities **/
+
+/* If this is returned from getIndex(), it means the Widget has not been linked to any Containers. */
 #define OWIDGET_NOTLINKED (-1)
+
+#ifdef ORION_INTERNAL
+
+/* Internal Flags */
+	#define _OUI_X_START  0x1
+	#define _OUI_X_END    0x2
+	#define _OUI_X_CENTRE 0x4
+
+	#define _OUI_Y_START  0x8
+	#define _OUI_Y_END    0x10
+	#define _OUI_Y_CENTRE 0x20
+
+	#define _OUI_W_FILL   0x40
+	#define _OUI_H_FILL   0x80
+
+#endif /* ORION_INTERNAL */
+
+/*** Declarations ***/
 
 namespace Orion{
 	/* An enumeration of OrionUI Elements. */
@@ -74,11 +116,12 @@ namespace Orion{
 			virtual void   onPosChanged(void);
 			virtual void   onSizeChanged(void);
 			virtual void   onFocusChanged(void);
+			bool           setFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 		public:
 			OWidget(void);
 
 			void           redraw(bool full=false);
-			inline bool    isReady(void) const     { return ( flags.valid && flags.linked ); }
+			inline bool    isReady(void) const   { return ( flags.valid && flags.linked ); }
 
 			bool           setPos(int16_t x, int16_t y);
 			inline bool    setPos(OVec& v)       { return setPos(v.x,v.y); }
@@ -111,13 +154,14 @@ namespace Orion{
 			inline void    setThemeAccentCol(OCol& col)    { setThemeAccentCol(&col); }
 			void           resetTheme(void);
 
+			inline uint8_t getContainerFlags(void) const { return flags.containerFlags; }
 			OVec           getPos(bool globalToWindow=false) const;
 			OVec           getSize(bool useScale=false) const;
 			OVec           getMinSize(bool useScale=false) const;
-			inline float   getScale(void) const  { return scale; }
+			inline float   getScale(void) const          { return scale; }
 			OVec4          getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
-			inline bool    getFocus(void) const  { return flags.focused; }
-			inline OTheme  getTheme(void) const  { return theme.internal; }
+			inline bool    getFocus(void) const          { return flags.focused; }
+			inline OTheme  getTheme(void) const          { return theme.internal; }
 			int16_t        getIndex(void) const;
 
 			/* Returns the type of this Element. */

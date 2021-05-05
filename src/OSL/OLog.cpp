@@ -67,7 +67,7 @@ namespace Orion{
 
 	void OERROR(unsigned long errcode, bool autoQuit, const char* message){
 		OLog("ORIONAPI | ERROR! [%lu] | %s\n",errcode,message);
-		if(autoQuit){ exit(errcode); }
+		if(autoQuit){ exit(errcode); } /* TODO: Replace with OAppKill() once implemented. */
 	}
 
 	void OWARN(bool verboseOnly, const char* message){

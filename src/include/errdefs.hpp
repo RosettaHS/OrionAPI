@@ -50,6 +50,7 @@
 /*** OSL Errors ***/
 
 /*** OKit Errors ***/
+#define OERR_WIDGET_INVALID_FLAG (300)
 
 
 #endif /* !__ORIONAPI_ERRDEFS_H__ */

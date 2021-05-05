@@ -195,6 +195,38 @@ namespace Orion{
 	}
 
 /*** Getters ***/
+	bool OWidget::setFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag){
+		if( ((xFlag!=0)+(yFlag!=0)+(wFlag!=0)+(hFlag!=0))>1  ){ /* Could this be any uglier? */
+			OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN ONLY SET ONE FLAG AT A TIME!");
+			return false;
+		}
+		switch(xFlag){
+			case START:  { flags.containerFlags|=_OUI_X_START;  return true; }
+			case END:    { flags.containerFlags|=_OUI_X_END;    return true; }
+			case CENTRE: { flags.containerFlags|=_OUI_X_CENTRE; return true; }
+			case FILL:   { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET X POSITION FLAG WITH \"FILL\" SIZE FLAG (SIZE [W/H] ONLY)!"); return false; }
+		}
+		switch(yFlag){
+			case START:  { flags.containerFlags|=_OUI_Y_START;  return true; }
+			case END:    { flags.containerFlags|=_OUI_Y_END;    return true; }
+			case CENTRE: { flags.containerFlags|=_OUI_Y_CENTRE; return true; }
+			case FILL:   { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET Y POSITION FLAG WITH \"FILL\" SIZE FLAG (SIZE [W/H] ONLY)!"); return false; }
+		}
+		switch(wFlag){
+			case START:  { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET W SIZE FLAG WITH \"START\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!");  return false; }
+			case END:    { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET W SIZE FLAG WITH \"END\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!");    return false; }
+			case CENTRE: { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET W SIZE FLAG WITH \"CENTRE\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!"); return false; }
+			case FILL:   { flags.containerFlags|=_OUI_W_FILL; return true; }
+		}
+		switch(hFlag){
+			case START:  { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET H SIZE FLAG WITH \"START\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!");  return false; }
+			case END:    { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET H SIZE FLAG WITH \"END\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!");    return false; }
+			case CENTRE: { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T SET H SIZE FLAG WITH \"CENTRE\" POSITIONAL FLAG (POSITIONAL [X/Y] ONLY)!"); return false; }
+			case FILL:   { flags.containerFlags|=_OUI_H_FILL; return true; }
+		}
+		return false;
+	}
+
 	OVec OWidget::getPos(bool globalToWindow) const{
 		OVec v={0,0};
 		if( globalToWindow && parent ){
