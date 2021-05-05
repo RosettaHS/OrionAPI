@@ -127,63 +127,64 @@ namespace Orion{
 		public:
 			OWidget(void);
 
-			void           redraw(bool full=false);
-			inline bool    isReady(void)  const  { return ( flags.valid && flags.linked ); }
-			inline bool    isInited(void) const  { return ( flags.valid); }
+			void               redraw(bool full=false);
+			inline bool        isReady(void)  const  { return ( flags.valid && flags.linked ); }
+			inline bool        isInited(void) const  { return ( flags.valid); }
 
-			bool           linkTo(OContainer* container);
-			inline bool    linkTo(OContainer& container) { return linkTo(&container); }
-			bool           unlinkThis(void);
+			bool               linkTo(OContainer* container);
+			inline bool        linkTo(OContainer& container) { return linkTo(&container); }
+			bool               unlinkThis(void);
 
-			bool           setPos(int16_t x, int16_t y);
-			inline bool    setPos(OVec& v)       { return setPos(v.x,v.y); }
-			inline bool    setPos(OVec* v)       { return setPos(v->x,v->y); }
-			bool           setSize(uint16_t w, uint16_t h);
-			inline bool    setSize(OVec& v)      { return setSize(v.x,v.y); }
-			inline bool    setSize(OVec* v)      { return setSize(v->x,v->y); }
-			void           setMinSize(uint16_t minW, uint16_t minH);
-			inline void    setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
-			inline void    setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
-			bool           setScale(float s);
-			bool           setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
-			inline bool    setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
-			inline bool    setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
-			bool           setFocus(bool newFocus);
+			bool               setPos(int16_t x, int16_t y);
+			inline bool        setPos(OVec& v)       { return setPos(v.x,v.y); }
+			inline bool        setPos(OVec* v)       { return setPos(v->x,v->y); }
+			bool               setSize(uint16_t w, uint16_t h);
+			inline bool        setSize(OVec& v)      { return setSize(v.x,v.y); }
+			inline bool        setSize(OVec* v)      { return setSize(v->x,v->y); }
+			void               setMinSize(uint16_t minW, uint16_t minH);
+			inline void        setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
+			inline void        setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
+			bool               setScale(float s);
+			bool               setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
+			inline bool        setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
+			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
+			bool               setFocus(bool newFocus);
 
-			void           setTheme(OTheme*);
-			inline void    setTheme(OTheme& theme)         { setTheme(&theme); }
-			void           setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b);
-			void           setThemePrimaryCol(OCol* col);
-			inline void    setThemePrimaryCol(OCol& col)   { setThemePrimaryCol(&col); }
-			void           setThemeSecondaryCol(uint8_t r, uint8_t g, uint8_t b);
-			void           setThemeSecondaryCol(OCol* col);
-			inline void    setThemeSecondaryCol(OCol& col) { setThemeSecondaryCol(&col); }
-			void           setThemeTertiaryCol(uint8_t r, uint8_t g, uint8_t b);
-			void           setThemeTertiaryCol(OCol* col);
-			inline void    setThemeTertiaryCol(OCol& col)  { setThemeTertiaryCol(&col); }
-			void           setThemeAccentCol(uint8_t r, uint8_t g, uint8_t b);
-			void           setThemeAccentCol(OCol* col);
-			inline void    setThemeAccentCol(OCol& col)    { setThemeAccentCol(&col); }
-			void           resetTheme(void);
+			void               setTheme(OTheme*);
+			inline void        setTheme(OTheme& theme)         { setTheme(&theme); }
+			void               setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void               setThemePrimaryCol(OCol* col);
+			inline void        setThemePrimaryCol(OCol& col)   { setThemePrimaryCol(&col); }
+			void               setThemeSecondaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void               setThemeSecondaryCol(OCol* col);
+			inline void        setThemeSecondaryCol(OCol& col) { setThemeSecondaryCol(&col); }
+			void               setThemeTertiaryCol(uint8_t r, uint8_t g, uint8_t b);
+			void               setThemeTertiaryCol(OCol* col);
+			inline void        setThemeTertiaryCol(OCol& col)  { setThemeTertiaryCol(&col); }
+			void               setThemeAccentCol(uint8_t r, uint8_t g, uint8_t b);
+			void               setThemeAccentCol(OCol* col);
+			inline void        setThemeAccentCol(OCol& col)    { setThemeAccentCol(&col); }
+			void               resetTheme(void);
 
-			inline uint8_t getContainerFlags(void) const { return flags.containerFlags; }
-			OVec           getPos(bool globalToWindow=false) const;
-			OVec           getSize(bool useScale=false) const;
-			OVec           getMinSize(bool useScale=false) const;
-			inline float   getScale(void) const          { return scale; }
-			OVec4          getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
-			inline bool    getFocus(void) const          { return flags.focused; }
-			inline OTheme  getTheme(void) const          { return theme.internal; }
-			int16_t        getIndex(void) const;
+			inline uint8_t     getContainerFlags(void) const { return flags.containerFlags; }
+			OVec               getPos(bool globalToWindow=false) const;
+			OVec               getSize(bool useScale=false) const;
+			OVec               getMinSize(bool useScale=false) const;
+			inline float       getScale(void) const          { return scale; }
+			OVec4              getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
+			inline bool        getFocus(void) const          { return flags.focused; }
+			inline OTheme      getTheme(void) const          { return theme.internal; }
+			int16_t            getIndex(void) const;
+			inline OContainer* getParent(void) const         { return parentContainer; }
 
 			/* Returns the type of this Element. */
-			inline OUIType getType(void) const { return type; }
+			inline OUIType     getType(void) const { return type; }
 			/**
 			 * @brief Returns the type of this Element as a String.
 			 * @return A String version of the given OUIType value corrisponding to this Element.
 			 * For example: if the Element's Type is OUI_WINDOW, this will return "OUI_WINDOW" as a String. Good for easily readable debug logs.
 			 */
-			const char*    getTypeAsString(void) const;
+			const char*        getTypeAsString(void) const;
 	};
 
 	#ifndef ORION_NOALTNAMES
