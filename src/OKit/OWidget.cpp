@@ -87,7 +87,6 @@ namespace Orion{
 	void OWidget::onPosChanged(void)   { return; }
 	void OWidget::onSizeChanged(void)  { return; }
 	void OWidget::onFocusChanged(void) { return; }
-	void OWidget::setCol(OCol*)        { return; }
 
 
 /*** Setters ***/
@@ -164,6 +163,8 @@ namespace Orion{
 	}
 
 	/** Theme **/
+	void OWidget::setCol(OCol* col){ setThemePrimaryCol(col); }
+
 	void OWidget::setTheme(OTheme* newTheme){
 		if(!newTheme){ return; }
 		if(newTheme==OAPP_INTERFACE.theme){ resetTheme(); return; }
