@@ -31,6 +31,7 @@
 namespace Orion{
 	/*** Private Widget Containment ***/
 
+	/* A wrapper array that contains pointers to Widgets. */
 	class CWidgetList{
 		private:
 			/* The internal array of pointers to OWidgets. */
@@ -109,7 +110,7 @@ namespace Orion{
 			 * @param index	The index to attempt to retrieve
 			 * @returns A pointer to the Widget if successful, otherwise returns NULL
 			 */
-			OWidget*         getFromIndex(uint16_t index) const;
+			OWidget*         getFromIndex(uint16_t index) const; OWidget* operator [](uint16_t index) const { return getFromIndex(index); }
 			/**
 			 * @brief Returns the Widget found at the given index, without checking if the index is valid or if the array is initialised.
 			 * @param index	The index to attempt to retrieve

@@ -141,7 +141,7 @@ namespace Orion{
 		return ( posChanged || sizeChanged );
 	}
 	bool OWidget::setFocus(bool newFocus){
-		if(!flags.canFocus){ return false; }
+		if(!flags.canFocus || flags.focused == newFocus){ return false; }
 		if(newFocus){
 			if(OAPP_FOCUSEDELEMENT){
 				if(OAPP_FOCUSEDELEMENT==this) { return false; }
@@ -149,12 +149,13 @@ namespace Orion{
 			}
 			OAPP_FOCUSEDELEMENT=this;
 		}else{
-			if(OAPP_FOCUSEDELEMENT && OAPP_FOCUSEDELEMENT!=this){
-				OAPP_FOCUSEDELEMENT->setFocus(false);
-			}
-			OAPP_FOCUSEDELEMENT=0;
+			if(OAPP_FOCUSEDELEMENT==this){ OAPP_FOCUSEDELEMENT=0; }
+			else{ return false; }
+			// if(OAPP_FOCUSEDELEMENT && OAPP_FOCUSEDELEMENT!=this){
+				// OAPP_FOCUSEDELEMENT->setFocus(false);
+			// }
+			// OAPP_FOCUSEDELEMENT=0;
 		}
-		if(flags.focused==newFocus){ return false; }
 
 		flags.focused=newFocus;
 		onFocusChanged();

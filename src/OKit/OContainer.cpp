@@ -138,7 +138,7 @@ namespace Orion{
 		if(list.isReady()){
 			OWidget* tmp=0;
 			for(uint16_t i=0;i<list.getCount();i++){
-				tmp=list.getFromIndexFast(i);
+				tmp=list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
 				tmp->parentContext   = 0;
@@ -208,7 +208,7 @@ namespace Orion{
 		if(container->list.isReady()){
 			OWidget* tmp=0;
 			for(uint16_t i=0;i<container->list.getCount();i++){
-				tmp=container->list.getFromIndexFast(i);
+				tmp=container->list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
 				tmp->parentContext   = 0;
@@ -230,8 +230,8 @@ namespace Orion{
 		else                { return containerToUse->list.getIndexOf(widget); }
 	}
 	OWidget*  OContainer::getChild(uint16_t index) const{
-		if(forceSelfOnNext) { return list.getFromIndex(index); }
-		else                { return containerToUse->list.getFromIndex(index); }
+		if(forceSelfOnNext) { return list[index]; }
+		else                { return containerToUse->list[index]; }
 	}
 	OWidget** OContainer::getChildren(void) const{
 		if(forceSelfOnNext) { return list.getArray(); }
