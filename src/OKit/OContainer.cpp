@@ -141,7 +141,7 @@ namespace Orion{
 				tmp=list.getFromIndexFast(i);
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->context         = 0;
+				tmp->parentContext   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 				tmp->index           = OWIDGET_NOTLINKED;
@@ -169,7 +169,7 @@ namespace Orion{
 			OContainer* container=CHECKFORCE;
 			if(container->list.link(widget)){
 				if(widget->parentContainer){ widget->parentContainer->unlink(widget); }
-				widget->context         = container->contextToUse;
+				widget->parentContext   = container->contextToUse;
 				widget->parentContainer = container;
 				widget->parentWidget    = this;
 				widget->index           = container->getIndexOf(widget);
@@ -193,7 +193,7 @@ namespace Orion{
 			if(container->list.unlink(widget)){
 				widget->flags.linked    = false;
 				widget->onUnlink();
-				widget->context         = 0;
+				widget->parentContext   = 0;
 				widget->parentContainer = 0;
 				widget->parentWidget    = 0;
 				widget->index           = OWIDGET_NOTLINKED;
@@ -211,7 +211,7 @@ namespace Orion{
 				tmp=container->list.getFromIndexFast(i);
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->context         = 0;
+				tmp->parentContext   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 				tmp->index           = OWIDGET_NOTLINKED;

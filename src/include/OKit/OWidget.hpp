@@ -96,7 +96,7 @@ namespace Orion{
 			uint16_t    minW,minH;
 			float       scale;
 			int16_t     index;
-			CContext*   context;
+			CContext*   parentContext;
 			OContainer* parentContainer;
 			OContainer* parentWidget;
 			void      (*drawPtr)(OWidget*);
@@ -170,11 +170,11 @@ namespace Orion{
 			OVec               getPos(bool globalToWindow=false) const;
 			OVec               getSize(bool useScale=false) const;
 			OVec               getMinSize(bool useScale=false) const;
-			inline float       getScale(void) const          { return scale; }
+			inline float       getScale(void)  const         { return scale; }
 			OVec4              getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
-			inline bool        getFocus(void) const          { return flags.focused; }
-			inline OTheme      getTheme(void) const          { return theme.internal; }
-			int16_t            getIndex(void) const;
+			inline bool        getFocus(void)  const         { return flags.focused; }
+			inline OTheme      getTheme(void)  const         { return theme.internal; }
+			int16_t            getIndex(void)  const;
 			inline OContainer* getParent(void) const         { return parentContainer; }
 
 			/* Returns the type of this Element. */
