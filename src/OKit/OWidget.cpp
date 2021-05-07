@@ -45,7 +45,7 @@ namespace Orion{
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},
 		index{0},parentContext{0},parentContainer{0},parentWidget{0},
-		drawPtr{0},flags{0,0,0,0,0,0}
+		drawPtr{0},flags{0,0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	/* Technically part of the initialiser. */
@@ -141,6 +141,7 @@ namespace Orion{
 		return ( posChanged || sizeChanged );
 	}
 	bool OWidget::setFocus(bool newFocus){
+		if(!flags.canFocus){ return false; }
 		if(newFocus){
 			if(OAPP_FOCUSEDELEMENT){
 				if(OAPP_FOCUSEDELEMENT==this) { return false; }

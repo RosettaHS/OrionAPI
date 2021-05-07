@@ -105,6 +105,7 @@ namespace Orion{
 				bool    linked     : 1;
 				bool    enabled    : 1;
 				bool    focused    : 1;
+				bool    canFocus   : 1;
 				bool    fullRedraw : 1;
 				char    containerFlags;
 			}flags;
@@ -128,8 +129,9 @@ namespace Orion{
 			OWidget(void);
 
 			void               redraw(bool full=false);
-			inline bool        isReady(void)  const  { return ( flags.valid && flags.linked ); }
-			inline bool        isInited(void) const  { return ( flags.valid); }
+			inline bool        isReady(void)      const      { return ( flags.valid && flags.linked ); }
+			inline bool        isInited(void)     const      { return ( flags.valid); }
+			inline bool        isFocusable(void)  const      { return flags.focused; }
 
 			bool               linkTo(OContainer* container);
 			inline bool        linkTo(OContainer& container) { return linkTo(&container); }
