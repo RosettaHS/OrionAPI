@@ -40,7 +40,9 @@ namespace Orion{
 		arr=(OWidget**)malloc( sizeof(OWidget*)*cap );
 		if(arr){
 			for(uint16_t i=0;i<cap;i++){ arr[i]=0; }
-		}else{ return false; }
+			return true;
+		}
+		return false;
 	}
 
 	bool CWidgetList::wipe(void){
@@ -48,6 +50,7 @@ namespace Orion{
 		free(arr);
 		arr=0;
 		count=0,cap=0,step=0;
+		return true;
 	}
 
 	bool CWidgetList::resizeTo(uint16_t newCap){

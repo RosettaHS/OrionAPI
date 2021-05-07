@@ -87,6 +87,7 @@ namespace Orion{
 	void OWidget::onPosChanged(void)   { return; }
 	void OWidget::onSizeChanged(void)  { return; }
 	void OWidget::onFocusChanged(void) { return; }
+	void OWidget::setCol(OCol*)        { return; }
 
 
 /*** Setters ***/
