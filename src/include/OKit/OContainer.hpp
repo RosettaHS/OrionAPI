@@ -135,6 +135,7 @@ namespace Orion{
 			virtual void     baseSort(void);
 		public:
 			~OContainer(void);
+			OContainer(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h);
 
 			bool             link(OWidget* widget);
 			inline bool      link(OWidget& widget)   { return link(&widget); }
