@@ -51,6 +51,7 @@
 
 /*** OKit Errors ***/
 #define OERR_WIDGET_INVALID_FLAG (300)
+#define OERR_X11_NOT_INITED      (301)
 
 
 #endif /* !__ORIONAPI_ERRDEFS_H__ */

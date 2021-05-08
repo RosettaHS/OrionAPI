@@ -101,7 +101,7 @@ namespace Orion{
 			OContainer* parentWidget;
 			void      (*drawPtr)(OWidget*);
 			struct{
-				bool    valid      : 1;
+				bool    inited     : 1;
 				bool    linked     : 1;
 				bool    enabled    : 1;
 				bool    focused    : 1;
@@ -130,8 +130,8 @@ namespace Orion{
 			OWidget(void);
 
 			void               redraw(bool full=false);
-			inline bool        isReady(void)      const      { return ( flags.valid && flags.linked ); }
-			inline bool        isInited(void)     const      { return ( flags.valid); }
+			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentContext ); }
+			inline bool        isInited(void)     const      { return ( flags.inited); }
 			inline bool        isFocusable(void)  const      { return flags.focused; }
 
 			bool               linkTo(OContainer* container);

@@ -130,6 +130,10 @@ namespace Orion{
 	}
 
 	/*** Public Widget Container Class ***/
+#define DEF_MINW    50
+#define DEF_MINH    50
+#define DEF_ARRCAP  10
+#define DEF_ARRSTEP 5
 
 	/*** Constructors/Destructors ***/
 	OContainer::OContainer(void){
@@ -149,14 +153,56 @@ namespace Orion{
 				tmp->parentWidget    = 0;
 				tmp->index           = OWIDGET_NOTLINKED;
 			}
+			list.wipe();
 		}
 		contextToUse=0;
 		containerToUse=0;
 		selfContext.destroy();
 	}
+
+	/* Three in a row! */
+	OContainer::OContainer(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
+		XONLY{
+			type=OUI_CONTAINER;
+			minW=DEF_MINW,minH=DEF_MINH;
+			init(ix,iy,iw,ih);
+
+			contextToUse=&selfContext;
+			containerToUse=this;
+			list.init(DEF_ARRCAP, DEF_ARRSTEP);
+			flags.inited=true;
+
+			parent->link(this);
+		}else{
+			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE OCONTAINER BECAUSE X IS NOT INITIALISED!");
+		}
+	}
 	/*** Deferrables ***/
 	void OContainer::baseSort(void) { return; }
 	void OContainer::sort(void)     { return; }
+
+	void OContainer::onLink(void){
+		selfContext.create(parentContext,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT);
+		selfContext.map(false);
+		XCB_FLUSH();
+		tmpRelinkAll();
+		sort();
+	}
+	void OContainer::onUnlink(void){
+		tmpUnlinkAll();
+		selfContext.destroy();
+		XCB_FLUSH();
+	}
+	void OContainer::onPosChanged(void){
+		selfContext.setPos(x,y);
+		XCB_FLUSH();
+		sort();
+	}
+	void OContainer::onSizeChanged(void){
+		selfContext.setGeometry(x,y,w,h);
+		XCB_FLUSH();
+		sort();
+	}
 	
 
 	/*** Registration ***/
@@ -225,6 +271,32 @@ namespace Orion{
 		OWARN(false,"CAN'T UNLINK ALL CHILDREN FROM AN UNINITIALISED CONTAINER!");
 		return false;
 	}
+
+	/** Temporary Transfers **/
+	/*
+	 * These are used when a Container is unlinked.
+	 * It ensures all of the children are temporarily unlinked so
+	 * they no longer do any graphical operations that might cause
+	 * severe errors.
+	 */
+	void OContainer::tmpRelinkAll(void){
+		for(uint16_t i=0;i<list.getCount();i++){
+			if(list[i]->parentContainer==this){
+				list[i]->flags.linked  = true;
+				list[i]->parentContext = contextToUse;
+				list[i]->onLink();
+			}
+		}
+	}
+
+	void OContainer::tmpUnlinkAll(void){
+		for(uint16_t i=0;i<list.getCount();i++){
+			list[i]->flags.linked  = false;
+			list[i]->parentContext = 0;
+			list[i]->onUnlink();
+		}
+	}
+	
 
 	/*** Setters ***/
 	/*** Getters ***/
