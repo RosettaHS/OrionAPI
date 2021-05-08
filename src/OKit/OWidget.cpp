@@ -98,6 +98,7 @@ namespace Orion{
 		}
 		if(iw<minW){ minW=iw; }else{ minW=iminW; }
 		if(ih<minH){ minH=ih; }else{ minH=iminH; }
+		resetTheme();
 		/* TODO: Add offsetter */
 	}
 /*** Deferrables ***/

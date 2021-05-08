@@ -49,7 +49,7 @@ namespace Orion{
 			XTYPE=type;
 			XWIN=xcb_generate_id(XCON);
 			XPARENT=( (root) ? root->XWIN : XROOT );
-			XCOL=col->XCOL;
+			XCOL=( (col) ? col->XCOL : 0);
 			XMASK=mask;
 		/* Creating X Window */
 			uint32_t tmpVal[2]={ XCOL,XMASK };
@@ -126,6 +126,7 @@ namespace Orion{
 		/* If provided, set the title. */
 			setTitle(t);
 		/* Finishing up */
+			return true;
 		}
 		return false;
 	}

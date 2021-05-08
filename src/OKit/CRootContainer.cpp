@@ -47,7 +47,8 @@ namespace Orion{
 			list.init(DEF_ARRCAP, DEF_ARRSTEP);
 			flags.inited=true;
 
-			selfContext.create(0,ix,iy,iw,ih,it,theme.primary,imask,itype);
+			selfContext.create(0,x,y,w,h,it,theme.primary,imask,itype);
+			selfContext.map( ( (imask) ? true : false ) );
 			XCB_FLUSH();
 		}else{
 			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE CROOTCONTAINER BECAUSE X IS NOT INITIALISED!");
