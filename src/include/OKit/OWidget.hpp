@@ -117,14 +117,15 @@ namespace Orion{
 				OCol*   accent;
 			}theme;
 
-			virtual void   onLink(void);
-			virtual void   onUnlink(void);
-			virtual void   onPosChanged(void);
-			virtual void   onSizeChanged(void);
-			virtual void   onFocusChanged(void);
-			bool           setFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
+			virtual void       onLink(void);
+			virtual void       onUnlink(void);
+			virtual void       onPosChanged(void);
+			virtual void       onSizeChanged(void);
+			virtual void       onFocusChanged(void);
+			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
+			void               init(int16_t x, int16_t y, uint16_t w, uint16_t h);
 
-			friend class   OContainer;
+			friend class       OContainer;
 		public:
 			OWidget(void);
 
@@ -146,7 +147,7 @@ namespace Orion{
 			void               setMinSize(uint16_t minW, uint16_t minH);
 			inline void        setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
 			inline void        setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
-			bool               setScale(float s);
+			virtual bool       setScale(float s);
 			bool               setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 			inline bool        setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
 			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }

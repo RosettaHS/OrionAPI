@@ -39,7 +39,7 @@
 
 namespace Orion{
 
-/*** Constructors/Destructors ***/
+/*** Initialisation/Constructors/Destructors ***/
 	OWidget::OWidget(void) :
 		type{OUI_ERROR},
 		x{0},y{0},w{0},h{0},
@@ -49,7 +49,7 @@ namespace Orion{
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	/* Technically part of the initialiser. */
-	bool OWidget::setFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag){
+	bool OWidget::initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag){
 		if( ((xFlag!=0)+(yFlag!=0)+(wFlag!=0)+(hFlag!=0))>1  ){ /* Could this be any uglier? */
 			OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN ONLY SET ONE FLAG AT A TIME!");
 			return false;
@@ -79,6 +79,25 @@ namespace Orion{
 			case FILL:   { flags.containerFlags|=_OUI_H_FILL; return true; }
 		}
 		return false;
+	}
+
+	void OWidget::init(int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
+		if( initFlag(ix,0,0,0) ){ x=0; }   else{ x=ix; }
+		if( initFlag(0,iy,0,0) ){ y=0; }   else{ y=iy; }
+		if( initFlag(0,0,iw,0) ){ w=minW; }else{ w=iw; }
+		if( initFlag(0,0,0,ih) ){ h=minH; }else{ h=ih; }
+	/* Extra error checking */
+		if(flags.containerFlags&_OUI_W_FILL){
+			if( flags.containerFlags & _OUI_X_CENTRE) { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"CENTRE\" POSITIONAL FLAG ON THE SAME AXIS! [X | W AXIS]"); }
+			if( flags.containerFlags & _OUI_X_END)    { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"END\" POSITIONAL FLAG ON THE SAME AXIS! [X | W AXIS]"); }
+		}
+		if(flags.containerFlags&_OUI_H_FILL){
+			if( flags.containerFlags & _OUI_Y_CENTRE) { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"CENTRE\" POSITIONAL FLAG ON THE SAME AXIS! [Y | H AXIS]"); }
+			if( flags.containerFlags & _OUI_Y_END)    { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"END\" POSITIONAL FLAG ON THE SAME AXIS! [Y | H AXIS]"); }
+		}
+		if(iw<minW){ minW=iw; }
+		if(ih<minH){ minH=ih; }
+		/* TODO: Add offsetter */
 	}
 /*** Deferrables ***/
 	/* Base Widget does nothing when linked or modified. */
