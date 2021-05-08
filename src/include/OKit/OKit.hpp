@@ -39,6 +39,8 @@
 
 /*** Base Elements ***/
 #include "OWidget.hpp"
+#include "OContainer.hpp"
+#include "CRootContainer.hpp" /* Debug */
 
 /*** Final Elements ***/
 
