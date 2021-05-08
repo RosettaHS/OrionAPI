@@ -158,14 +158,13 @@ namespace Orion{
 		contextToUse=0;
 		containerToUse=0;
 		selfContext.destroy();
+		XCB_FLUSH();
 	}
 
 	/* Three in a row! */
 	OContainer::OContainer(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
 		XONLY{
-			type=OUI_CONTAINER;
-			minW=DEF_MINW,minH=DEF_MINH;
-			init(ix,iy,iw,ih);
+			init(OUI_CONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
 
 			contextToUse=&selfContext;
 			containerToUse=this;

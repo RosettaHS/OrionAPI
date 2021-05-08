@@ -80,6 +80,7 @@ namespace Orion{
 		OUI_ERROR,
 		OUI_CUSTOM,
 		OUI_CONTAINER,
+		OUI_ROOTCONTAINER,
 		/* ... */
 		OUI_WINDOW
 	};
@@ -117,18 +118,18 @@ namespace Orion{
 				OCol*   accent;
 			}theme;
 
+			OWidget(void);
+
 			virtual void       onLink(void);
 			virtual void       onUnlink(void);
 			virtual void       onPosChanged(void);
 			virtual void       onSizeChanged(void);
 			virtual void       onFocusChanged(void);
 			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
-			void               init(int16_t x, int16_t y, uint16_t w, uint16_t h);
+			void               init(OUIType type, int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t minW, uint16_t minH);
 
 			friend class       OContainer;
 		public:
-			OWidget(void);
-
 			void               redraw(bool full=false);
 			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentContext ); }
 			inline bool        isInited(void)     const      { return ( flags.inited); }

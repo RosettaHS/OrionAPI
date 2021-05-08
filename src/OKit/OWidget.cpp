@@ -81,7 +81,8 @@ namespace Orion{
 		return false;
 	}
 
-	void OWidget::init(int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
+	void OWidget::init(OUIType itype, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, uint16_t iminW, uint16_t iminH){
+		type=itype;
 		if( initFlag(ix,0,0,0) ){ x=0; }   else{ x=ix; }
 		if( initFlag(0,iy,0,0) ){ y=0; }   else{ y=iy; }
 		if( initFlag(0,0,iw,0) ){ w=minW; }else{ w=iw; }
@@ -95,8 +96,8 @@ namespace Orion{
 			if( flags.containerFlags & _OUI_Y_CENTRE) { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"CENTRE\" POSITIONAL FLAG ON THE SAME AXIS! [Y | H AXIS]"); }
 			if( flags.containerFlags & _OUI_Y_END)    { OERROR(OERR_WIDGET_INVALID_FLAG,true,"CAN'T COMBINE \"FILL\" SIZE FLAG WITH \"END\" POSITIONAL FLAG ON THE SAME AXIS! [Y | H AXIS]"); }
 		}
-		if(iw<minW){ minW=iw; }
-		if(ih<minH){ minH=ih; }
+		if(iw<minW){ minW=iw; }else{ minW=iminW; }
+		if(ih<minH){ minH=ih; }else{ minH=iminH; }
 		/* TODO: Add offsetter */
 	}
 /*** Deferrables ***/
@@ -321,10 +322,11 @@ namespace Orion{
 
 	const char* OWidget::getTypeAsString(void) const{
 		switch(type){
-			case OUI_ERROR:      { return "OUI_ERROR"; }
-			case OUI_CUSTOM:     { return "OUI_CUSTOM"; }
-			case OUI_WINDOW:     { return "OUI_WINDOW"; }
-			case OUI_CONTAINER:  { return "OUI_CONTAINER"; }
+			case OUI_ERROR:         { return "OUI_ERROR"; }
+			case OUI_CUSTOM:        { return "OUI_CUSTOM"; }
+			case OUI_CONTAINER:     { return "OUI_CONTAINER"; }
+			case OUI_ROOTCONTAINER: { return "OUI_ROOTCONTAINER"; }
+			case OUI_WINDOW:        { return "OUI_WINDOW"; }
 		}
 		return 0;
 	}
