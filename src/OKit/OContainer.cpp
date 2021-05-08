@@ -179,7 +179,7 @@ namespace Orion{
 	}
 	/*** Deferrables ***/
 	void OContainer::baseSort(void) { return; }
-	void OContainer::sort(void)     { return; }
+	void OContainer::sort(void)     { sort(); } /* Default OContainer uses the baseSort. */
 
 	void OContainer::onLink(void){
 		selfContext.create(parentContext,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT);
