@@ -14,6 +14,7 @@ ORION_UNUSE_NAMESPACE
 ORION_NODEBUG
 ORION_NOHELPERS
 ORION_NOALTNAMES
+ORION_NOGRAPHICS
 ```
 The developer can define any one of these before including `<OrionAPI>` to enable or disable certain features.
 
@@ -123,6 +124,7 @@ The following is a list of all non-internal helper macros (and their expansions)
 #define OAPP_SCALE          (Orion::OApp.Interface.scale)
 #define OAPP_FOCUSEDELEMENT (Orion::OApp.Interface.focusedElement)
 #define OAPP_THEME          (*Orion::OApp.Interface.theme)
+#define OAPP_HEADLESS       (Orion::OApp.Interface.headless)
 #define OAPP_STORAGE        (Orion::OApp.Storage)
 #define OAPP_STATICPATH     (Orion::OApp.Storage.staticPath)
 #define OAPP_LIBPATH        (Orion::OApp.Storage.libPath)
@@ -280,6 +282,34 @@ int main(void){
 	}
 	file.close(false);
 	dir.close();
+}
+```
+
+### ORION_NOGRAPHICS
+OrionAPI's primary purpose is to provide a suite of [widgets](https://en.wikipedia.org/wiki/Widget_toolkit)(OKit) to be used for creating graphical Applications for the Orion Operating System.
+However, OrionAPI also provides many other useful standard utilities not pertaining to graphical Applications, such as the OSL Sub-library.
+This means if you want to use any of OSL's components, you must also include the entirety of OKit as well, even if your Application has no intent of using any graphical elements.
+
+This is where this definable macro comes in.
+It allows for OrionAPI to be able to run the Application in [headless mode](https://en.wikipedia.org/wiki/Widget_toolkit), and prevents the inclusion of any OKit headers.
+It also forces the Application to not attempt to connect to the [X Service](https://en.wikipedia.org/wiki/X_Window_System).
+
+By defining `ORION_NOGRAPHICS`, the following code will fail to compile:
+```cpp
+#define ORION_NOGRAPHICS
+#include <OrionAPI>
+
+int main(void){
+	OAppStart();
+
+	/*
+	 * OKit is not included when ORION_NOGRAPHICS is defined,
+	 * meaning these types technically don't exist in this file.
+	 */
+	OWindow myWindow(CENTRE,CENTRE,400,350,"My Window");
+	OButton myButton(myWindow,CENTRE,CENTRE,150,50);
+
+	OAppEnd();
 }
 ```
 

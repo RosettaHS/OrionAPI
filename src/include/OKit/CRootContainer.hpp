@@ -23,8 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
-#ifndef __ORION_OKIT_CROOTCONTAINER_H__
-#define __ORION_OKIT_CROOTCONTAINER_H__
+#ifndef __ORIONAPI_OKIT_CROOTCONTAINER_H__
+#define __ORIONAPI_OKIT_CROOTCONTAINER_H__
 
 #include "OContainer.hpp"
 
@@ -40,4 +40,4 @@ namespace Orion{
 	};
 }
 
-#endif /* !__ORION_OKIT_CROOTCONTAINER_H__ */
+#endif /* !__ORIONAPI_OKIT_CROOTCONTAINER_H__ */

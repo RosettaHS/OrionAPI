@@ -25,6 +25,8 @@
 
 /* OKit - The Window Widget Toolkit for the Orion Operating System */
 
+#ifndef ORION_NOGRAPHICS
+
 #ifndef __ORIONAPI_OKIT_H__
 #define __ORIONAPI_OKIT_H__
 
@@ -45,3 +47,5 @@
 /*** Final Elements ***/
 
 #endif /* !__ORIONAPI_OKIT_H__ */
+
+#endif /* !ORION_NOGRAPHICS */

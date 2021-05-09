@@ -49,10 +49,10 @@ namespace Orion{
 	/* Run through the Lines of the ThemeFile and attempt to set the OApp's Theme. */
 			for(size_t i=0;i<themefile.getLineCount();i++){
 				char* line=themefile[i];
-				if     ( OStringFindFirst(line,"[PRIMARY]")!=OSTRING_NOTFOUND )   { if(!OAPP_THEME.primary.setTo(line)){ OAPP_THEME.primary=OTHEME_FALLBACK.primary; } continue; }
-				else if( OStringFindFirst(line,"[SECONDARY]")!=OSTRING_NOTFOUND ) { if(!OAPP_THEME.secondary.setTo(line))  { OAPP_THEME.secondary=OTHEME_FALLBACK.secondary; } continue; }
-				else if( OStringFindFirst(line,"[TERTIARY]")!=OSTRING_NOTFOUND )  { if(!OAPP_THEME.tertiary.setTo(line))   { OAPP_THEME.tertiary=OTHEME_FALLBACK.tertiary; } continue; }
-				else if( OStringFindFirst(line,"[ACCENT]")!=OSTRING_NOTFOUND )    { if(!OAPP_THEME.accent.setTo(line))     { OAPP_THEME.accent=OTHEME_FALLBACK.accent; } continue; }
+				if     ( OStringFindFirst(line,"[PRIMARY]")!=OSTRING_NOTFOUND )   { if(!OAPP_THEME.primary.setTo(line))   { OAPP_THEME.primary=OTHEME_FALLBACK.primary; }     continue; }
+				else if( OStringFindFirst(line,"[SECONDARY]")!=OSTRING_NOTFOUND ) { if(!OAPP_THEME.secondary.setTo(line)) { OAPP_THEME.secondary=OTHEME_FALLBACK.secondary; } continue; }
+				else if( OStringFindFirst(line,"[TERTIARY]")!=OSTRING_NOTFOUND )  { if(!OAPP_THEME.tertiary.setTo(line))  { OAPP_THEME.tertiary=OTHEME_FALLBACK.tertiary; }   continue; }
+				else if( OStringFindFirst(line,"[ACCENT]")!=OSTRING_NOTFOUND )    { if(!OAPP_THEME.accent.setTo(line))    { OAPP_THEME.accent=OTHEME_FALLBACK.accent; }       continue; }
 			}
 			return true;
 		}
@@ -62,7 +62,7 @@ namespace Orion{
 	}
 
 
-	bool OAppStart(const char* AppName, const char* AppIdentifier,bool ForceONative){
+	bool OAppStart(const char* AppName, const char* AppIdentifier, bool ForceONative, bool headless){
 		if(OAPP_RUNNING){ return false; }
 	/* First make sure the names and identifiers are valid. */
 		if(AppName){
@@ -81,6 +81,7 @@ namespace Orion{
 		}
 	/* If everything checks out, continue the initialisation process.. */
 		CAppInit(AppName,AppIdentifier);
+		OAPP_HEADLESS=headless;
 		if(ForceONative){
 			if(!OAPP_NATIVE){
 				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NATIVE, BUT APPLICATION EXECUTED AS STANDALONE BINARY!");
@@ -92,8 +93,13 @@ namespace Orion{
 		}
 		CAppSetThemeFromSystem();
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
-		XCB_CONNECT();
-		CXHA_INIT();
+		if(!OAPP_HEADLESS){
+			// XCB_CONNECT();
+			if(ForceONative && !XCB_CONNECT()){
+				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE WITH HEADLESS MODE OFF, BUT ORIONAPI COULD NOT ESTABLISH A CONNECTION TO THE X SERVICE!");
+			}
+			CXHA_INIT();
+		}
 		OAPP_RUNNING=true;
 		return true;
 	}
@@ -102,8 +108,10 @@ namespace Orion{
 		if(!OAPP_RUNNING){ return false; }
 		CAppWipe();
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
-		XCB_DISCONNECT();
-		CXHA_FREE();
+		if(!OAPP_HEADLESS){
+			XCB_DISCONNECT();
+			CXHA_FREE();
+		}
 		OAPP_RUNNING=false;
 		return true;
 	}

@@ -86,6 +86,12 @@ namespace Orion{
 	#include "OSL/OSL.hpp"
 	#include "OKit/OKit.hpp"
 
+#ifdef ORION_NOGRAPHICS
+	#define __ORION_ISHEADLESS true
+#else
+	#define __ORION_ISHEADLESS false
+#endif /* ORION_NOGRAPHICS */
+
 /* Service Functions */
 namespace Orion{
 	/**
@@ -95,10 +101,12 @@ namespace Orion{
 	 * @param AppIdentifier An identifier for this Application, used for Orion-Native IPC.
 	 * The format for this would be "mycompany.myapplication" or "mycompany.myproduct.myservice".
 	 * Example: "rosetta.orion.files"
-	 * @param ForceONative If this is true, the Application will immediately quit if the graphical service hasn't been initialised or binary is nnot in an Orion-Native Application Structure.
+	 * @param ForceONative If this is true, the Application will immediately quit if the graphical service hasn't been initialised (if headless is false) or binary is not in an Orion-Native Application Structure.
+	 * @param headless If this is true, OrionAPI will not establish a graphical connection, and won't allow OrionUI Elements to be created.
+	 * By default, this is false. If, however, ORION_NOGRAPHICS is defined, this will be true by default.
 	 * @return True on successful initialisation, otherwise false if service is already initialised.
 	 */
-	extern bool OAppStart(const char* AppName=0, const char* AppIdentifier=0,bool ForceONative=false);
+	extern bool OAppStart(const char* AppName=0, const char* AppIdentifier=0, bool ForceONative=false, bool headless=__ORION_ISHEADLESS);
 	/*
 	* Runs the OrionAPI graphical service (if UI elements are present) and once done, frees all memory allocated by the OrionAPI service.
 	* Blocks function execution until the service ends. Place this at the bottom of main().

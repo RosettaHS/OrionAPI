@@ -123,6 +123,7 @@ struct OAppInfo{
 		float    scale;
 		OWidget* focusedElement;
 		OTheme*  theme;
+		bool     headless;
 	}Interface;
 	struct{
 		char* staticPath;

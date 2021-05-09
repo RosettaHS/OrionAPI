@@ -177,10 +177,6 @@ namespace Orion{
 		}else{
 			if(OAPP_FOCUSEDELEMENT==this){ OAPP_FOCUSEDELEMENT=0; }
 			else{ return false; }
-			// if(OAPP_FOCUSEDELEMENT && OAPP_FOCUSEDELEMENT!=this){
-				// OAPP_FOCUSEDELEMENT->setFocus(false);
-			// }
-			// OAPP_FOCUSEDELEMENT=0;
 		}
 
 		flags.focused=newFocus;
