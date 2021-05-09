@@ -323,13 +323,14 @@ namespace Orion{
 /*** Misc ops ***/
 	void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
 
+#define MATCHTOSTRING(s) case s: { return #s; }
 	const char* OWidget::getTypeAsString(void) const{
 		switch(type){
-			case OUI_ERROR:         { return "OUI_ERROR"; }
-			case OUI_CUSTOM:        { return "OUI_CUSTOM"; }
-			case OUI_CONTAINER:     { return "OUI_CONTAINER"; }
-			case OUI_ROOTCONTAINER: { return "OUI_ROOTCONTAINER"; }
-			case OUI_WINDOW:        { return "OUI_WINDOW"; }
+			MATCHTOSTRING(OUI_ERROR)
+			MATCHTOSTRING(OUI_CUSTOM)
+			MATCHTOSTRING(OUI_CONTAINER)
+			MATCHTOSTRING(OUI_ROOTCONTAINER)
+			MATCHTOSTRING(OUI_WINDOW)
 		}
 		return 0;
 	}
