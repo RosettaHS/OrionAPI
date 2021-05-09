@@ -134,8 +134,9 @@ namespace Orion{
 
 			void               redraw(bool full=false);
 			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentContext ); }
-			inline bool        isInited(void)     const      { return ( flags.inited); }
-			inline bool        isFocusable(void)  const      { return flags.focused; }
+			inline bool        isInited(void)     const      { return flags.inited;   }
+			inline bool        isLinked(void)     const      { return flags.linked;   }
+			inline bool        isFocusable(void)  const      { return flags.canFocus; }
 
 			bool               linkTo(OContainer* container);
 			inline bool        linkTo(OContainer& container) { return linkTo(&container); }
