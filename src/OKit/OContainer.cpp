@@ -140,6 +140,7 @@ namespace Orion{
 		contextToUse=0;
 		containerToUse=0;
 		forceSelfOnNext=0;
+		holdingInTmp=0;
 	}
 	OContainer::~OContainer(void){
 		if(list.isReady()){
@@ -177,7 +178,7 @@ namespace Orion{
 	}
 	/*** Deferrables ***/
 	void OContainer::baseSort(void) { return; }
-	void OContainer::sort(void)     { sort(); } /* Default OContainer uses the baseSort. */
+	void OContainer::sort(void)     { baseSort(); } /* Default OContainer uses the baseSort. */
 
 	void OContainer::onLink(void){
 		selfContext.create(parentContext,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT);
@@ -261,6 +262,7 @@ namespace Orion{
 				tmp->parentWidget    = 0;
 			}
 			container->list.unlinkAll();
+			holdingInTmp=true;
 			return true;
 		}
 		OWARN(false,"CAN'T UNLINK ALL CHILDREN FROM AN UNINITIALISED CONTAINER!");
@@ -275,12 +277,15 @@ namespace Orion{
 	 * severe errors.
 	 */
 	void OContainer::tmpRelinkAll(void){
-		for(uint16_t i=0;i<list.getCount();i++){
-			if(list[i]->parentContainer==this){
-				list[i]->flags.linked  = true;
-				list[i]->parentContext = contextToUse;
-				list[i]->onLink();
+		if(holdingInTmp){
+			for(uint16_t i=0;i<list.getCount();i++){
+				if(list[i]->parentContainer==this){
+					list[i]->flags.linked  = true;
+					list[i]->parentContext = contextToUse;
+					list[i]->onLink();
+				}
 			}
+			holdingInTmp=false;
 		}
 	}
 

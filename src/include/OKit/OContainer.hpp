@@ -131,6 +131,7 @@ namespace Orion{
 			CContext*   contextToUse;
 			OContainer* containerToUse;
 			bool        forceSelfOnNext;
+			bool        holdingInTmp;
 
 			OContainer(void);
 
