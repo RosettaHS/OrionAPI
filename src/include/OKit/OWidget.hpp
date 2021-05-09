@@ -158,7 +158,7 @@ namespace Orion{
 
 			virtual void       setCol(uint8_t r, uint8_t g, uint8_t b);
 			virtual void       setCol(OCol* col);
-			inline void        setCol(OCol& col)               { setCol(&col); }
+			virtual void       setCol(OCol& col);
 			void               setTheme(OTheme*);
 			inline void        setTheme(OTheme& theme)         { setTheme(&theme); }
 			void               setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b);

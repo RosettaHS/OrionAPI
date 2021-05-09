@@ -49,6 +49,7 @@ namespace Orion{
 
 			selfContext.create(0,x,y,w,h,it,theme.primary,imask,itype);
 			selfContext.map( ( (imask) ? true : false ) );
+			flags.linked=true;
 			XCB_FLUSH();
 		}else{
 			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE CROOTCONTAINER BECAUSE X IS NOT INITIALISED!");

@@ -208,7 +208,7 @@ namespace Orion{
 
 	bool CContext::setCol(OCol* col){
 		XONLY{
-			if(col->XCOL!=XCOL){
+			if(col->XCOL!=XCOL && XWIN){
 				// xcb_void_cookie_t result=
 				xcb_change_window_attributes(XCON,XWIN,XCB_CW_BACK_PIXEL,&(col->XCOL));
 				// if( xcb_request_check(XCON,result) ){ return false; }

@@ -191,6 +191,7 @@ namespace Orion{
 	/** Theme **/
 	void OWidget::setCol(OCol* col)                      { setThemePrimaryCol(col); }
 	void OWidget::setCol(uint8_t r, uint8_t g, uint8_t b){ setThemePrimaryCol(r,g,b); }
+	void OWidget::setCol(OCol& col)                      { setCol(&col); }
 
 	void OWidget::setTheme(OTheme* newTheme){
 		if(!newTheme){ return; }

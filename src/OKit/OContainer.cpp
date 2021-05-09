@@ -171,7 +171,7 @@ namespace Orion{
 			list.init(DEF_ARRCAP, DEF_ARRSTEP);
 			flags.inited=true;
 
-			parent->link(this);
+			if(parent){ parent->link(this); }
 		}else{
 			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE OCONTAINER BECAUSE X IS NOT INITIALISED!");
 		}
@@ -201,6 +201,10 @@ namespace Orion{
 		selfContext.setGeometry(x,y,w,h);
 		XCB_FLUSH();
 		sort();
+	}
+	void OContainer::onColChanged(void){
+		selfContext.setCol(theme.secondary);
+		XCB_FLUSH();
 	}
 	
 
@@ -299,8 +303,9 @@ namespace Orion{
 	
 
 	/*** Setters ***/
-	void OContainer::setCol(OCol* col)                      { setThemeSecondaryCol(col); }
 	void OContainer::setCol(uint8_t r, uint8_t g, uint8_t b){ setThemeSecondaryCol(r,g,b); }
+	void OContainer::setCol(OCol* col)                      { setThemeSecondaryCol(col); }
+	void OContainer::setCol(OCol& col)                      { setThemeSecondaryCol(&col); }
 	/*** Getters ***/
 	int32_t OContainer::getIndexOf(const OWidget* widget) const{
 		if(forceSelfOnNext) { return list.getIndexOf(widget); }

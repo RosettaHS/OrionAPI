@@ -140,6 +140,7 @@ namespace Orion{
 			virtual void     onUnlink(void)       override;
 			virtual void     onPosChanged(void)   override;
 			virtual void     onSizeChanged(void)  override;
+			virtual void     onColChanged(void)   override;
 			void             tmpUnlinkAll(void);
 			void             tmpRelinkAll(void);
 		public:
@@ -156,6 +157,7 @@ namespace Orion{
 
 			virtual void     setCol(uint8_t r, uint8_t g, uint8_t b) override;
 			virtual void     setCol(OCol* col)                       override;
+			virtual void     setCol(OCol& col)                       override;
 
 			int32_t          getIndexOf(const OWidget* widget) const;
 			inline int32_t   getIndexOf(const OWidget& widget) const { return getIndexOf(&widget); }
