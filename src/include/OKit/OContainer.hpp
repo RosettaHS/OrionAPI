@@ -135,7 +135,7 @@ namespace Orion{
 
 			OContainer(void);
 
-			virtual void     baseSort(void);
+			void             baseSort(void);
 			virtual void     onLink(void)         override;
 			virtual void     onUnlink(void)       override;
 			virtual void     onPosChanged(void)   override;
