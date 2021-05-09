@@ -112,6 +112,7 @@ namespace Orion{
 	void OWidget::onPosChanged(void)   { return; }
 	void OWidget::onSizeChanged(void)  { return; }
 	void OWidget::onFocusChanged(void) { return; }
+	void OWidget::onColChanged(void)   { return; }
 
 
 /*** Setters ***/
@@ -199,7 +200,7 @@ namespace Orion{
 		theme.secondary = &(theme.internal.secondary);
 		theme.tertiary  = &(theme.internal.tertiary);
 		theme.accent    = &(theme.internal.accent);
-		redraw();
+		onColChanged();
 	}
 
 	void OWidget::setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b){
@@ -208,61 +209,61 @@ namespace Orion{
 		redraw();
 	}
 	void OWidget::setThemePrimaryCol(OCol* col){
-		if      (col==&OAPP_THEME.primary)   { theme.primary = &OAPP_THEME.primary;   redraw(); return; }
-		else if (col==&OAPP_THEME.secondary) { theme.primary = &OAPP_THEME.secondary; redraw(); return; }
-		else if (col==&OAPP_THEME.tertiary)  { theme.primary = &OAPP_THEME.tertiary;  redraw(); return; }
-		else if (col==&OAPP_THEME.accent)    { theme.primary = &OAPP_THEME.accent;    redraw(); return; }
+		if      (col==&OAPP_THEME.primary)   { theme.primary = &OAPP_THEME.primary;   onColChanged(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.primary = &OAPP_THEME.secondary; onColChanged(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.primary = &OAPP_THEME.tertiary;  onColChanged(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.primary = &OAPP_THEME.accent;    onColChanged(); return; }
 		else{
 			setThemePrimaryCol(col->raw.r,col->raw.g,col->raw.b);
-			redraw();
+			onColChanged();
 		}
 	}
 
 	void OWidget::setThemeSecondaryCol(uint8_t r, uint8_t g, uint8_t b){
 		theme.internal.setSecondary(r,g,b);
 		theme.secondary=&(theme.internal.secondary);
-		redraw();
+		onColChanged();
 	}
 	void OWidget::setThemeSecondaryCol(OCol* col){
-		if      (col==&OAPP_THEME.primary)   { theme.secondary = &OAPP_THEME.primary;   redraw(); return; }
-		else if (col==&OAPP_THEME.secondary) { theme.secondary = &OAPP_THEME.secondary; redraw(); return; }
-		else if (col==&OAPP_THEME.tertiary)  { theme.secondary = &OAPP_THEME.tertiary;  redraw(); return; }
-		else if (col==&OAPP_THEME.accent)    { theme.secondary = &OAPP_THEME.accent;    redraw(); return; }
+		if      (col==&OAPP_THEME.primary)   { theme.secondary = &OAPP_THEME.primary;   onColChanged(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.secondary = &OAPP_THEME.secondary; onColChanged(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.secondary = &OAPP_THEME.tertiary;  onColChanged(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.secondary = &OAPP_THEME.accent;    onColChanged(); return; }
 		else{
 			setThemeSecondaryCol(col->raw.r,col->raw.g,col->raw.b);
-			redraw();
+			onColChanged();
 		}
 	}
 
 	void OWidget::setThemeTertiaryCol(uint8_t r, uint8_t g, uint8_t b){
 		theme.internal.setTertiary(r,g,b);
 		theme.tertiary=&(theme.internal.tertiary);
-		redraw();
+		onColChanged();
 	}
 	void OWidget::setThemeTertiaryCol(OCol* col){
-		if      (col==&OAPP_THEME.primary)   { theme.tertiary = &OAPP_THEME.primary;   redraw(); return; }
-		else if (col==&OAPP_THEME.secondary) { theme.tertiary = &OAPP_THEME.secondary; redraw(); return; }
-		else if (col==&OAPP_THEME.tertiary)  { theme.tertiary = &OAPP_THEME.tertiary;  redraw(); return; }
-		else if (col==&OAPP_THEME.accent)    { theme.tertiary = &OAPP_THEME.accent;    redraw(); return; }
+		if      (col==&OAPP_THEME.primary)   { theme.tertiary = &OAPP_THEME.primary;   onColChanged(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.tertiary = &OAPP_THEME.secondary; onColChanged(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.tertiary = &OAPP_THEME.tertiary;  onColChanged(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.tertiary = &OAPP_THEME.accent;    onColChanged(); return; }
 		else{
 			setThemeTertiaryCol(col->raw.r,col->raw.g,col->raw.b);
-			redraw();
+			onColChanged();
 		}
 	}
 
 	void OWidget::setThemeAccentCol(uint8_t r, uint8_t g, uint8_t b){
 		theme.internal.setAccent(r,g,b);
 		theme.accent=&(theme.internal.accent);
-		redraw();
+		onColChanged();
 	}
 	void OWidget::setThemeAccentCol(OCol* col){
-		if      (col==&OAPP_THEME.primary)   { theme.accent = &OAPP_THEME.primary;   redraw(); return; }
-		else if (col==&OAPP_THEME.secondary) { theme.accent = &OAPP_THEME.secondary; redraw(); return; }
-		else if (col==&OAPP_THEME.tertiary)  { theme.accent = &OAPP_THEME.tertiary;  redraw(); return; }
-		else if (col==&OAPP_THEME.accent)    { theme.accent = &OAPP_THEME.accent;    redraw(); return; }
+		if      (col==&OAPP_THEME.primary)   { theme.accent = &OAPP_THEME.primary;   onColChanged(); return; }
+		else if (col==&OAPP_THEME.secondary) { theme.accent = &OAPP_THEME.secondary; onColChanged(); return; }
+		else if (col==&OAPP_THEME.tertiary)  { theme.accent = &OAPP_THEME.tertiary;  onColChanged(); return; }
+		else if (col==&OAPP_THEME.accent)    { theme.accent = &OAPP_THEME.accent;    onColChanged(); return; }
 		else{
 			setThemeAccentCol(col->raw.r,col->raw.g,col->raw.b);
-			redraw();
+			onColChanged();
 		}
 	}
 	
@@ -272,7 +273,7 @@ namespace Orion{
 		theme.secondary  = &OAPP_THEME.secondary;
 		theme.tertiary   = &OAPP_THEME.tertiary;
 		theme.accent     = &OAPP_THEME.accent;
-		redraw();
+		onColChanged();
 	}
 
 /*** Getters ***/

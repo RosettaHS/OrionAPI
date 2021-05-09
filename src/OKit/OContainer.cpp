@@ -208,7 +208,7 @@ namespace Orion{
 #define CHECKFORCE ( forceSelfOnNext ? this : containerToUse ); forceSelfOnNext=false
 
 	bool OContainer::link(OWidget* widget){
-		if(widget && list.isReady()){
+		if(widget && list.isReady() && flags.linked){
 		/** Error Checking **/
 			if(widget==this)                  { OWARN(false,"CAN'T LINK A CONTAINER TO ITSELF!");                return false; }
 			if(widget->getType()==OUI_WINDOW) { OWARN(false,"CAN'T LINK A WINDOW TO ANYTHING!");                 return false; }

@@ -136,13 +136,14 @@ namespace Orion{
 			 * @brief Sets this Context's colour to the given OCol.
 			 * @param col A pointer to the Colour to set this Context's primary colour to.
 			 * @return True if colour was successfully changed, otherwise false.
+			 * Can return false if the "new" colour to set is identical to the current colour.
 			 */
 			bool setCol(OCol* col);
 			/**
 			 * @brief Sets this Context's position to the given values.
 			 * @param x The new X position relative to the parent.
 			 * @param y The new Y position relative to the parent.
-			 * @return True if position was successfully changed, otherwise false.
+			 * @return True if position was successfully changed, otherwise false. 
 			 */
 			bool setPos(int16_t x, int16_t y);
 			/**

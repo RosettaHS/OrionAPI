@@ -124,6 +124,7 @@ namespace Orion{
 			virtual void       onPosChanged(void);
 			virtual void       onSizeChanged(void);
 			virtual void       onFocusChanged(void);
+			virtual void       onColChanged(void);
 			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 			void               init(OUIType type, int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t minW, uint16_t minH);
 
