@@ -96,7 +96,7 @@ namespace Orion{
 			 * @param widget A pointer to the Widget to attempt to search for.
 			 * @return The index of the Widget in the WidgetList if it could be found, otherwise returns OWIDGET_NOTLINKED
 			 */
-			int32_t          getIndexOf(OWidget* widget) const;
+			int32_t          getIndexOf(const OWidget* widget) const;
 			/* Return the count of registered Widgets in this WidgetList. */
 			inline uint16_t  getCount(void) const { return count; }
 			/* Return the maximum allowed amount of registered Widgets in this WidgetList before resizing. */
@@ -156,8 +156,8 @@ namespace Orion{
 			virtual void     setCol(uint8_t r, uint8_t g, uint8_t b) override;
 			virtual void     setCol(OCol* col)                       override;
 
-			int32_t          getIndexOf(OWidget* widget) const;
-			inline int32_t   getIndexOf(OWidget& widget) const { return getIndexOf(&widget); }
+			int32_t          getIndexOf(const OWidget* widget) const;
+			inline int32_t   getIndexOf(const OWidget& widget) const { return getIndexOf(&widget); }
 			OWidget*         getChild(uint16_t index)    const;
 			inline OWidget*  operator[](uint16_t index)  const { return getChild(index); }
 			OWidget**        getChildren(void)           const;

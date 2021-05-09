@@ -96,7 +96,6 @@ namespace Orion{
 			uint16_t    w,h;
 			uint16_t    minW,minH;
 			float       scale;
-			int16_t     index;
 			CContext*   parentContext;
 			OContainer* parentContainer;
 			OContainer* parentWidget;
@@ -130,6 +129,8 @@ namespace Orion{
 
 			friend class       OContainer;
 		public:
+			virtual           ~OWidget(void);
+
 			void               redraw(bool full=false);
 			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentContext ); }
 			inline bool        isInited(void)     const      { return ( flags.inited); }

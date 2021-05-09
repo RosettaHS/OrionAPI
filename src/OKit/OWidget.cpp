@@ -44,9 +44,13 @@ namespace Orion{
 		type{OUI_ERROR},
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},
-		index{0},parentContext{0},parentContainer{0},parentWidget{0},
+		parentContext{0},parentContainer{0},parentWidget{0},
 		drawPtr{0},flags{0,0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
+
+	OWidget::~OWidget(void){
+		unlinkThis();
+	}
 
 	/* Technically part of the initialiser. */
 	bool OWidget::initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag){
@@ -314,8 +318,8 @@ namespace Orion{
 	}
 
 	int16_t OWidget::getIndex(void) const{
-		if(flags.linked){ return index; }
-		else            { return OWIDGET_NOTLINKED; }
+		if(parentContainer){ return parentContainer->getIndexOf((const OWidget*)this); }
+		else               { return OWIDGET_NOTLINKED; }
 	}
 
 /*** Misc ops ***/

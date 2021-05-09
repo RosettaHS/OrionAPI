@@ -111,7 +111,7 @@ namespace Orion{
 		return false;
 	}
 
-	int32_t CWidgetList::getIndexOf(OWidget* widget) const{
+	int32_t CWidgetList::getIndexOf(const OWidget* widget) const{
 		if(arr){
 			for(uint16_t i=0;i<count;i++){
 				if(arr[i]==widget){ return i; }
@@ -151,7 +151,6 @@ namespace Orion{
 				tmp->parentContext   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
-				tmp->index           = OWIDGET_NOTLINKED;
 			}
 			list.wipe();
 		}
@@ -220,7 +219,6 @@ namespace Orion{
 				widget->parentContext   = container->contextToUse;
 				widget->parentContainer = container;
 				widget->parentWidget    = this;
-				widget->index           = container->getIndexOf(widget);
 				widget->flags.linked    = true;
 				widget->onLink();
 				sort();
@@ -244,7 +242,6 @@ namespace Orion{
 				widget->parentContext   = 0;
 				widget->parentContainer = 0;
 				widget->parentWidget    = 0;
-				widget->index           = OWIDGET_NOTLINKED;
 				return true;
 			}
 		}
@@ -262,7 +259,6 @@ namespace Orion{
 				tmp->parentContext   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
-				tmp->index           = OWIDGET_NOTLINKED;
 			}
 			container->list.unlinkAll();
 			return true;
@@ -301,7 +297,7 @@ namespace Orion{
 	void OContainer::setCol(OCol* col)                      { setThemeSecondaryCol(col); }
 	void OContainer::setCol(uint8_t r, uint8_t g, uint8_t b){ setThemeSecondaryCol(r,g,b); }
 	/*** Getters ***/
-	int32_t OContainer::getIndexOf(OWidget* widget) const{
+	int32_t OContainer::getIndexOf(const OWidget* widget) const{
 		if(forceSelfOnNext) { return list.getIndexOf(widget); }
 		else                { return containerToUse->list.getIndexOf(widget); }
 	}
