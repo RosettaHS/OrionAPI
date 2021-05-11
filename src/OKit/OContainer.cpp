@@ -321,7 +321,7 @@ namespace Orion{
 	}
 	uint16_t OContainer::getChildCount(void) const{
 		if(forceSelfOnNext) { return list.getCount(); }
-		else                { return containerToUse->list.getCount(); }	
+		else                { return containerToUse->list.getCount(); }
 	}
 	/*** Misc ops ***/
 }

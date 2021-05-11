@@ -27,8 +27,7 @@
 #define __ORIONAPI_OKIT_OWIDGET_H__
 
 #include "common.hpp"
-#include "CContext.hpp"
-#include "OCol.hpp"
+#include "OSurface.hpp"
 
 /*** Macros ***/
 
@@ -96,6 +95,7 @@ namespace Orion{
 			uint16_t    w,h;
 			uint16_t    minW,minH;
 			float       scale;
+			OSurface    surface;
 			CContext*   parentContext;
 			OContainer* parentContainer;
 			OContainer* parentWidget;
