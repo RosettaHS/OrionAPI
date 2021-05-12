@@ -95,11 +95,10 @@ namespace Orion{
 			uint16_t    w,h;
 			uint16_t    minW,minH;
 			float       scale;
-			OSurface    surface;
+			OSurface    canvas;
 			CContext*   parentContext;
 			OContainer* parentContainer;
 			OContainer* parentWidget;
-			void      (*drawPtr)(OWidget*);
 			struct{
 				bool    inited     : 1;
 				bool    linked     : 1;
@@ -127,12 +126,15 @@ namespace Orion{
 			virtual void       onSizeChanged(void);
 			virtual void       onFocusChanged(void);
 			virtual void       onColChanged(void);
+			virtual void       onDraw(bool full);
+			virtual void       onEvent(OSurfaceEvent* event);
 
 			friend class       OContainer;
+			friend void        CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event);
 		public:
 			virtual           ~OWidget(void);
 
-			void               redraw(bool full=false);
+			bool               redraw(bool full=false);
 			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentContext ); }
 			inline bool        isInited(void)     const      { return flags.inited;   }
 			inline bool        isLinked(void)     const      { return flags.linked;   }
@@ -196,6 +198,10 @@ namespace Orion{
 			 */
 			const char*        getTypeAsString(void) const;
 	};
+
+	#ifdef ORION_INTERNAL
+		extern void CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event);
+	#endif /* ORION_INTERNAL */
 
 	#ifndef ORION_NOALTNAMES
 		/* An enumeration of OrionUI Elements. */

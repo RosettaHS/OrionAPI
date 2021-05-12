@@ -23,6 +23,8 @@
 /*                                                                                */
 /**********************************************************************************/
 
+#ifdef ORION_INTERNAL
+
 #ifndef __ORIONAPI_ERRDEFS_H__
 #define __ORIONAPI_ERRDEFS_H__
 
@@ -55,3 +57,5 @@
 
 
 #endif /* !__ORIONAPI_ERRDEFS_H__ */
+
+#endif /* ORION_INTERNAL */

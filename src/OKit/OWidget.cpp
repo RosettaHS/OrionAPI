@@ -45,7 +45,7 @@ namespace Orion{
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1}, /* Where's surface? Please don't bite me in the ass later... */
 		parentContext{0},parentContainer{0},parentWidget{0},
-		drawPtr{0},flags{0,0,0,0,0,0,0}
+		flags{0,0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	OWidget::~OWidget(void){
@@ -107,12 +107,14 @@ namespace Orion{
 	}
 /*** Deferrables ***/
 	/* Base Widget does nothing when linked or modified. */
-	void OWidget::onLink(void)         { return; }
-	void OWidget::onUnlink(void)       { return; }
-	void OWidget::onPosChanged(void)   { return; }
-	void OWidget::onSizeChanged(void)  { return; }
-	void OWidget::onFocusChanged(void) { return; }
-	void OWidget::onColChanged(void)   { return; }
+	void OWidget::onLink(void)            { return; }
+	void OWidget::onUnlink(void)          { return; }
+	void OWidget::onPosChanged(void)      { return; }
+	void OWidget::onSizeChanged(void)     { return; }
+	void OWidget::onFocusChanged(void)    { return; }
+	void OWidget::onColChanged(void)      { return; }
+	void OWidget::onDraw(bool)            { return; }
+	void OWidget::onEvent(OSurfaceEvent*) { return; }
 
 
 /*** Setters ***/
@@ -321,7 +323,16 @@ namespace Orion{
 	}
 
 /*** Misc ops ***/
-	void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
+	// void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
+	bool OWidget::redraw(bool full){
+		if(flags.inited && flags.linked){
+			flags.fullRedraw=full;
+			onDraw(full);
+			flags.fullRedraw=false;
+			return true;
+		}
+		return false;
+	}
 
 #define MATCHTOSTRING(s) case s: { return #s; }
 	const char* OWidget::getTypeAsString(void) const{
@@ -333,5 +344,9 @@ namespace Orion{
 			MATCHTOSTRING(OUI_WINDOW)
 		}
 		return 0;
+	}
+
+	void CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event){
+		widget->onEvent(event);
 	}
 }

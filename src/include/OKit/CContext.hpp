@@ -39,6 +39,7 @@ namespace Orion{
 
 	/* The base class for all OrionUI Elements. */
 	class OWidget;
+	// class OSurface;
 
 	/* Internal. An enumeration of possible Context types. */
 	enum CCType : char{
@@ -71,12 +72,8 @@ namespace Orion{
 			bool     XMAPPED;
 			/* Has this Context been mapped to the Event Dispatcher? */
 			bool     XLINKED;
-			struct{
-				/* The top-level Widget that is listening for Events. Something like an OButton for example. */
-				void* obj;
-				/* A pointer to the function that works as a router on the top-level Widget. Takes in the Widget and the XEvent. */
-				void  (*func)(OWidget* obj, CXEvent* event);
-			}XLISTENER; /* A small struct containing Event information. */
+			/* The top-level Widget that is listening for Events. Something like an OButton for example. */
+			OWidget* XLISTENER;
 
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);

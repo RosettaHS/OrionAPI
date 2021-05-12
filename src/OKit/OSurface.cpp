@@ -40,11 +40,25 @@ namespace Orion{
 	}
 	OSurface::OSurface(void){ parent=0; geo={0,0,0,0}; }
 	
-	bool OSurface::create(OSurface* p, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol, OSurfaceMask imask, bool autoFlush){
+	bool OSurface::create(OSurface* p, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol, OSurfaceMask imask, OWidget* listener, bool autoFlush){
 		if(!raw.XWIN && !p){
+		/* Error Checking */
+			if( ((bool)imask) && !((bool)listener) ){
+				OWARN(false,
+					"CANNOT SET EVENT MASK WITH UNSET (NULL) WIDGET LISTENER WHEN CREATING OSURFACE!"
+				);
+				return false;
+			}else if( ((bool)listener) && !((bool)imask) ){
+				OWARN(false,
+					"CANNOT SET WIDGET LISTENER WITH UNSET (NULL) EVENT MASK WHEN CREATING OSURFACE!"
+				);
+				return false;
+			}
+		/* Initialisation */
 			parent=p;
 			geo={ix,iy,iw,ih};
 			if( raw.create(STC(p),ix,iy,iw,ih,0,icol,imask,CCT_ELEMENT) ){
+				setListener(listener);
 				raw.map(imask);
 				FLUSHIF(autoFlush);
 				return true;

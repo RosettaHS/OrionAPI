@@ -132,4 +132,6 @@ namespace Orion{
 using namespace Orion;
 #endif /* !ORION_UNUSE_NAMESPACE */
 
+#undef __ORION_ISHEADLESS
+
 #endif /* !__ORIONAPI_H__ */

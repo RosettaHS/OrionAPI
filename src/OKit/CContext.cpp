@@ -38,7 +38,7 @@ namespace Orion{
 	CContext::~CContext(void){ destroy(); }
 	CContext::CContext(void) :
 		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
-		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLINKED{0}, XLISTENER{0,0}
+		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLINKED{0}, XLISTENER{0}
 		{}
 
 /** Creation **/
@@ -146,7 +146,7 @@ namespace Orion{
 				XTITLE=0;
 				XMAPPED=0;
 				XLINKED=0;
-				XLISTENER={0,0};
+				XLISTENER=0;
 				return true;
 			}
 		}

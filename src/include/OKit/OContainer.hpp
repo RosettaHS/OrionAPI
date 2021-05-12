@@ -121,8 +121,6 @@ namespace Orion{
 
 	/*** Public Widget Container Class ***/
 
-	// namespace DRAW{ void OContainer(Orion::OWidget* widget); }
-
 	/* The base Container for containing OrionUI Elements. */
 	class OContainer : public OWidget{
 		protected:
