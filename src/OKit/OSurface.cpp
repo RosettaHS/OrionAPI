@@ -35,8 +35,7 @@
 namespace Orion{
 	/*** Constructors/Destructors ***/
 	OSurface::~OSurface(void){
-		raw.destroy();
-		OFlushSurfaces();
+		destroy(true);
 	}
 	OSurface::OSurface(void) : raw(), parent{0}, geo{0,0,0,0} {}
 	

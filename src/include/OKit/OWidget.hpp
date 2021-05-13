@@ -159,9 +159,9 @@ namespace Orion{
 			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
 			bool               setFocus(bool newFocus);
 
-			virtual void       setCol(uint8_t r, uint8_t g, uint8_t b);
+			inline void        setCol(uint8_t r, uint8_t g, uint8_t b);
 			virtual void       setCol(OCol* col);
-			virtual void       setCol(OCol& col);
+			inline void        setCol(OCol& col)               { setCol(&col); }
 			void               setTheme(OTheme*);
 			inline void        setTheme(OTheme& theme)         { setTheme(&theme); }
 			void               setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b);

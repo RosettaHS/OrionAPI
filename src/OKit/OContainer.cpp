@@ -299,9 +299,7 @@ namespace Orion{
 	
 
 	/*** Setters ***/
-	void OContainer::setCol(uint8_t r, uint8_t g, uint8_t b){ setThemeSecondaryCol(r,g,b); }
 	void OContainer::setCol(OCol* col)                      { setThemeSecondaryCol(col); }
-	void OContainer::setCol(OCol& col)                      { setThemeSecondaryCol(&col); }
 	/*** Getters ***/
 	int32_t OContainer::getIndexOf(const OWidget* widget) const{
 		if(forceSelfOnNext) { return list.getIndexOf(widget); }
