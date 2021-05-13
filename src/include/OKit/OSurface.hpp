@@ -28,12 +28,6 @@
 
 #include "CContext.hpp"
 
-#ifdef ORION_INTERNAL
-	/* Converts an OSurface* to a CContext* */
-	#define STC(surf) ((CContext*)surf)
-	#define CTS(cont) ((OSurface*)cont)
-#endif /* ORION_INTERNAL */
-
 namespace Orion{
 	typedef uint32_t OSurfaceMask;
 
@@ -68,6 +62,7 @@ namespace Orion{
 			inline OVec4     getGeometry(void) const { return geo;}
 			OCol             getCol(void)      const;
 			inline OSurface* getParent(void)   const { return parent; }
+			inline CContext* getAsContext(void)      { return &raw; }
 	};
 
 	enum OSEType : char{

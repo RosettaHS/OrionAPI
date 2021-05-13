@@ -38,10 +38,10 @@ namespace Orion{
 		raw.destroy();
 		OFlushSurfaces();
 	}
-	OSurface::OSurface(void){ parent=0; geo={0,0,0,0}; }
+	OSurface::OSurface(void) : raw(), parent{0}, geo{0,0,0,0} {}
 	
 	bool OSurface::create(OSurface* p, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol, OSurfaceMask imask, OWidget* listener, bool autoFlush){
-		if(!raw.XWIN && !p){
+		if(!raw.XWIN && p){
 		/* Error Checking */
 			if( ((bool)imask) && !((bool)listener) ){
 				OWARN(false,
@@ -57,7 +57,7 @@ namespace Orion{
 		/* Initialisation */
 			parent=p;
 			geo={ix,iy,iw,ih};
-			if( raw.create(STC(p),ix,iy,iw,ih,0,icol,imask,CCT_ELEMENT) ){
+			if( raw.create(p->getAsContext(),ix,iy,iw,ih,0,icol,imask,CCT_ELEMENT) ){
 				setListener(listener);
 				raw.map(imask);
 				FLUSHIF(autoFlush);

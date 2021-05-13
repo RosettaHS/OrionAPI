@@ -43,8 +43,8 @@ namespace Orion{
 	OWidget::OWidget(void) : /* FIXME: In case Widgets just stop working at some point, this is why. */
 		type{OUI_ERROR},
 		x{0},y{0},w{0},h{0},
-		minW{0},minH{0},scale{1}, /* Where's surface? Please don't bite me in the ass later... */
-		parentContext{0},parentContainer{0},parentWidget{0},
+		minW{0},minH{0},scale{1},canvas(),
+		parentSurface{0},parentContainer{0},parentWidget{0},
 		flags{0,0,0,0,0,0,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 

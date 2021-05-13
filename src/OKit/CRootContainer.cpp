@@ -42,28 +42,31 @@ namespace Orion{
 		XONLY{
 			init(OUI_ROOTCONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
 
-			contextToUse=&selfContext;
+			surfaceToUse=&canvas;
 			containerToUse=this;
 			list.init(DEF_ARRCAP, DEF_ARRSTEP);
 			flags.inited=true;
 
-			selfContext.create(0,x,y,w,h,it,theme.primary,imask,itype);
-			selfContext.map( ( (imask) ? true : false ) );
+			CContext* context=canvas.getAsContext(); /* Weird pointer trickery. Don't do this in production code! */
+			context->create(0,x,y,w,h,it,theme.primary,imask,itype);
+			context->map( ( (imask) ? true : false ) );
 			flags.linked=true;
 			XCB_FLUSH();
+			/*
+			 * The only reason the weird shit above works is because
+			 * Surface checks the Context in all of its methods.
+			 */
 		}else{
 			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE CROOTCONTAINER BECAUSE X IS NOT INITIALISED!");
 		}
 	}
 	/*** Deferrables ***/
 	void CRootContainer::onPosChanged(void){
-		selfContext.setPos(x,y);
-		XCB_FLUSH();
+		canvas.setPos(x,y);
 		sort();
 	}
 	void CRootContainer::onSizeChanged(void){
-		selfContext.setGeometry(x,y,w,h);
-		XCB_FLUSH();
+		canvas.setGeometry(x,y,w,h);
 		sort();
 	}
 	/*** Setters ***/

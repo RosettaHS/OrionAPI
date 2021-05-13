@@ -36,6 +36,7 @@ namespace Orion{
 			virtual void     onPosChanged(void)   override;
 			virtual void     onSizeChanged(void)  override;
 		public:
+			CRootContainer(void) = default;
 			CRootContainer(int16_t x, int16_t y, uint16_t w, uint16_t h, const char* t, uint32_t mask, CCType typ);
 	};
 }

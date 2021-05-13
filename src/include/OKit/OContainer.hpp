@@ -125,8 +125,7 @@ namespace Orion{
 	class OContainer : public OWidget{
 		protected:
 			CWidgetList list;
-			CContext    selfContext;
-			CContext*   contextToUse;
+			OSurface*   surfaceToUse;
 			OContainer* containerToUse;
 			bool        forceSelfOnNext;
 			bool        holdingInTmp;

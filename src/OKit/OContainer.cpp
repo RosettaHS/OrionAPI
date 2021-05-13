@@ -137,7 +137,7 @@ namespace Orion{
 
 	/*** Constructors/Destructors ***/
 	OContainer::OContainer(void){
-		contextToUse=0;
+		surfaceToUse=0;
 		containerToUse=0;
 		forceSelfOnNext=0;
 		holdingInTmp=0;
@@ -149,15 +149,15 @@ namespace Orion{
 				tmp=list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->parentContext   = 0;
+				tmp->parentSurface   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 			}
 			list.wipe();
 		}
-		contextToUse=0;
+		surfaceToUse=0;
 		containerToUse=0;
-		selfContext.destroy();
+		canvas.destroy();
 		XCB_FLUSH();
 	}
 
@@ -166,7 +166,7 @@ namespace Orion{
 		XONLY{
 			init(OUI_CONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
 
-			contextToUse=&selfContext;
+			surfaceToUse=&canvas;
 			containerToUse=this;
 			list.init(DEF_ARRCAP, DEF_ARRSTEP);
 			flags.inited=true;
@@ -181,30 +181,24 @@ namespace Orion{
 	void OContainer::sort(void)     { baseSort(); } /* Default OContainer uses the baseSort. */
 
 	void OContainer::onLink(void){
-		selfContext.create(parentContext,x,y,w,h,0,theme.secondary,0,CCT_ELEMENT);
-		selfContext.map(false);
-		XCB_FLUSH();
+		canvas.create(parentSurface,x,y,w,h,theme.secondary);
 		tmpRelinkAll();
 		sort();
 	}
 	void OContainer::onUnlink(void){
 		tmpUnlinkAll();
-		selfContext.destroy();
-		XCB_FLUSH();
+		canvas.destroy();
 	}
 	void OContainer::onPosChanged(void){
-		selfContext.setPos(x,y);
-		XCB_FLUSH();
+		canvas.setPos(x,y);
 		sort();
 	}
 	void OContainer::onSizeChanged(void){
-		selfContext.setGeometry(x,y,w,h);
-		XCB_FLUSH();
+		canvas.setGeometry(x,y,w,h);
 		sort();
 	}
 	void OContainer::onColChanged(void){
-		selfContext.setCol(theme.secondary);
-		XCB_FLUSH();
+		canvas.setCol(theme.secondary);
 	}
 	
 
@@ -221,7 +215,7 @@ namespace Orion{
 			OContainer* container=CHECKFORCE;
 			if(container->list.link(widget)){
 				if(widget->parentContainer){ widget->parentContainer->unlink(widget); }
-				widget->parentContext   = container->contextToUse;
+				widget->parentSurface   = container->surfaceToUse;
 				widget->parentContainer = container;
 				widget->parentWidget    = this;
 				widget->flags.linked    = true;
@@ -244,7 +238,7 @@ namespace Orion{
 			if(container->list.unlink(widget)){
 				widget->flags.linked    = false;
 				widget->onUnlink();
-				widget->parentContext   = 0;
+				widget->parentSurface   = 0;
 				widget->parentContainer = 0;
 				widget->parentWidget    = 0;
 				return true;
@@ -261,7 +255,7 @@ namespace Orion{
 				tmp=container->list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->parentContext   = 0;
+				tmp->parentSurface   = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 			}
@@ -285,7 +279,7 @@ namespace Orion{
 			for(uint16_t i=0;i<list.getCount();i++){
 				if(list[i]->parentContainer==this){
 					list[i]->flags.linked  = true;
-					list[i]->parentContext = contextToUse;
+					list[i]->parentSurface = surfaceToUse;
 					list[i]->onLink();
 				}
 			}
@@ -296,7 +290,7 @@ namespace Orion{
 	void OContainer::tmpUnlinkAll(void){
 		for(uint16_t i=0;i<list.getCount();i++){
 			list[i]->flags.linked  = false;
-			list[i]->parentContext = 0;
+			list[i]->parentSurface = 0;
 			list[i]->onUnlink();
 		}
 	}
