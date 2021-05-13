@@ -206,7 +206,7 @@ namespace Orion{
 #define CHECKFORCE ( forceSelfOnNext ? this : containerToUse ); forceSelfOnNext=false
 
 	bool OContainer::link(OWidget* widget){
-		if(widget && list.isReady() && flags.linked){
+		if(widget && list.isReady()){
 		/** Error Checking **/
 			if(widget==this)                  { OWARN(false,"CAN'T LINK A CONTAINER TO ITSELF!");                return false; }
 			if(widget->getType()==OUI_WINDOW) { OWARN(false,"CAN'T LINK A WINDOW TO ANYTHING!");                 return false; }
@@ -215,12 +215,14 @@ namespace Orion{
 			OContainer* container=CHECKFORCE;
 			if(container->list.link(widget)){
 				if(widget->parentContainer){ widget->parentContainer->unlink(widget); }
-				widget->parentSurface   = container->surfaceToUse;
-				widget->parentContainer = container;
-				widget->parentWidget    = this;
-				widget->flags.linked    = true;
-				widget->onLink();
-				sort();
+				widget->parentContainer    = container;
+				widget->parentWidget       = this;
+				if(flags.linked){
+					widget->parentSurface = container->surfaceToUse;
+					widget->flags.linked  = true;
+					widget->onLink();
+					sort();
+				}
 				return true;
 			}
 		}
@@ -237,10 +239,10 @@ namespace Orion{
 			OContainer* container=CHECKFORCE;
 			if(container->list.unlink(widget)){
 				widget->flags.linked    = false;
-				widget->onUnlink();
 				widget->parentSurface   = 0;
 				widget->parentContainer = 0;
 				widget->parentWidget    = 0;
+				widget->onUnlink();
 				return true;
 			}
 		}
@@ -278,8 +280,8 @@ namespace Orion{
 		if(holdingInTmp){
 			for(uint16_t i=0;i<list.getCount();i++){
 				if(list[i]->parentContainer==this){
-					list[i]->flags.linked  = true;
-					list[i]->parentSurface = surfaceToUse;
+					list[i]->flags.linked    = true;
+					list[i]->parentSurface   = surfaceToUse;
 					list[i]->onLink();
 				}
 			}
