@@ -45,7 +45,7 @@ namespace Orion{
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},canvas(),
 		parentSurface{0},parentContainer{0},parentWidget{0},
-		flags{0,0,0,0,0,0,0}
+		flags{0,0,0,0,0,0,OWIDGET_SETCOL_USE_PRIMARY,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	OWidget::~OWidget(void){
@@ -187,10 +187,17 @@ namespace Orion{
 	}
 
 	/** Theme **/
-	void OWidget::setCol(OCol* col)                      { setThemePrimaryCol(col); }
 	void OWidget::setCol(uint8_t r, uint8_t g, uint8_t b){
 		OCol tmp(r,g,b);
 		setCol(&tmp);
+	}
+	void OWidget::setCol(OCol* col){
+		switch(flags.setColMode){
+			case OWIDGET_SETCOL_USE_PRIMARY:   { setThemePrimaryCol(col);   return; }
+			case OWIDGET_SETCOL_USE_SECONDARY: { setThemeSecondaryCol(col); return; }
+			case OWIDGET_SETCOL_USE_TERTIARY:  { setThemeTertiaryCol(col);  return; }
+			case OWIDGET_SETCOL_USE_ACCENT:    { setThemeAccentCol(col);    return; }
+		}
 	}
 
 	void OWidget::setTheme(OTheme* newTheme){

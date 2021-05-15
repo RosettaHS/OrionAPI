@@ -55,6 +55,12 @@
 /* If this is returned from getIndex(), it means the Widget has not been linked to any Containers. */
 #define OWIDGET_NOTLINKED (-1)
 
+
+#define OWIDGET_SETCOL_USE_PRIMARY   (0)
+#define OWIDGET_SETCOL_USE_SECONDARY (1)
+#define OWIDGET_SETCOL_USE_TERTIARY  (2)
+#define OWIDGET_SETCOL_USE_ACCENT    (3)
+
 #ifdef ORION_INTERNAL
 
 /* Internal Flags */
@@ -84,6 +90,7 @@ namespace Orion{
 		OUI_WINDOW
 	};
 
+
 	/* The base Container that contains OrionUI Elements. */
 	class OContainer;
 
@@ -106,6 +113,7 @@ namespace Orion{
 				bool    focused    : 1;
 				bool    canFocus   : 1;
 				bool    fullRedraw : 1;
+				char    setColMode : 3;
 				char    containerFlags;
 			}flags;
 			struct{
@@ -160,7 +168,7 @@ namespace Orion{
 			bool               setFocus(bool newFocus);
 
 			inline void        setCol(uint8_t r, uint8_t g, uint8_t b);
-			virtual void       setCol(OCol* col);
+			void               setCol(OCol* col);
 			inline void        setCol(OCol& col)               { setCol(&col); }
 			void               setTheme(OTheme*);
 			inline void        setTheme(OTheme& theme)         { setTheme(&theme); }

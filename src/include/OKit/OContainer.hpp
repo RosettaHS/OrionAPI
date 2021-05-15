@@ -150,8 +150,6 @@ namespace Orion{
 
 			virtual void     sort(void);
 
-			virtual void     setCol(OCol* col) override;
-
 			int32_t          getIndexOf(const OWidget* widget) const;
 			inline int32_t   getIndexOf(const OWidget& widget) const { return getIndexOf(&widget); }
 			OWidget*         getChild(uint16_t index)          const;

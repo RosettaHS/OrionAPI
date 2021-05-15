@@ -170,6 +170,7 @@ namespace Orion{
 			containerToUse=this;
 			list.init(DEF_ARRCAP, DEF_ARRSTEP);
 			flags.inited=true;
+			flags.setColMode=OWIDGET_SETCOL_USE_SECONDARY;
 
 			if(parent){ parent->link(this); }
 		}else{
@@ -299,7 +300,6 @@ namespace Orion{
 	
 
 	/*** Setters ***/
-	void OContainer::setCol(OCol* col)                      { setThemeSecondaryCol(col); }
 	/*** Getters ***/
 	int32_t OContainer::getIndexOf(const OWidget* widget) const{
 		if(forceSelfOnNext) { return list.getIndexOf(widget); }
