@@ -188,14 +188,15 @@ namespace Orion{
 			inline void        setThemeAccentCol(OCol& col)    { setThemeAccentCol(&col); }
 			void               resetTheme(void);
 
-			inline uint8_t     getContainerFlags(void) const { return flags.containerFlags; }
 			OVec               getPos(bool globalToWindow=false) const;
-			OVec               getSize(bool useScale=false) const;
-			OVec               getMinSize(bool useScale=false) const;
+			OVec               getSize(bool useScale=false)      const;
+			OVec               getMinSize(bool useScale=false)   const;
 			inline float       getScale(void)  const         { return scale; }
 			OVec4              getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
+			inline uint8_t     getContainerFlags(void) const { return flags.containerFlags; }
 			inline bool        getFocus(void)  const         { return flags.focused; }
-			inline OTheme      getTheme(void)  const         { return theme.internal; }
+			OCol               getCol(void)    const;
+			OTheme             getTheme(void)  const;
 			int16_t            getIndex(void)  const;
 			inline OContainer* getParent(void) const         { return parentContainer; }
 

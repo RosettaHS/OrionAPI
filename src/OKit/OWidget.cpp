@@ -343,6 +343,29 @@ namespace Orion{
 		return v;
 	}
 
+	OCol OWidget::getCol(void) const{
+		OCol tmp;
+		switch(flags.setColMode){
+			case OWIDGET_SETCOL_USE_PRIMARY:   { tmp=*theme.primary;   break; }
+			case OWIDGET_SETCOL_USE_SECONDARY: { tmp=*theme.secondary; break; }
+			case OWIDGET_SETCOL_USE_TERTIARY:  { tmp=*theme.tertiary;  break; }
+			case OWIDGET_SETCOL_USE_ACCENT:    { tmp=*theme.accent;;   break; }
+
+		}
+		return tmp;
+	}
+
+	OTheme OWidget::getTheme(void) const{
+		OTheme tmp;
+
+		tmp.setPrimary  (*theme.primary);
+		tmp.setSecondary(*theme.secondary);
+		tmp.setTertiary (*theme.tertiary);
+		tmp.setAccent   (*theme.accent);
+
+		return tmp;
+	}
+
 	int16_t OWidget::getIndex(void) const{
 		if(parentContainer){ return parentContainer->getIndexOf((const OWidget*)this); }
 		else               { return OWIDGET_NOTLINKED; }
