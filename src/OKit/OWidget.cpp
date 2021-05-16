@@ -171,6 +171,20 @@ namespace Orion{
 		if(sizeChanged) { onSizeChanged(); }
 		return ( posChanged || sizeChanged );
 	}
+
+	bool OWidget::setContainerFlags(uint16_t xFlag, uint16_t yFlag, uint16_t wFlag, uint16_t hFlag){
+		bool flagSet=false;
+
+		if(xFlag){ if( initFlag(xFlag,0,0,0) ){ flagSet=true; } x=0; }
+		if(yFlag){ if( initFlag(0,yFlag,0,0) ){ flagSet=true; } y=0; }
+		if(wFlag){ if( initFlag(0,0,wFlag,0) ){ flagSet=true; } w=minW; }
+		if(hFlag){ if( initFlag(0,0,0,hFlag) ){ flagSet=true; } h=minH; }
+
+		if(flagSet && parentContainer) { parentContainer->sort(); }
+		return flagSet;
+	}
+
+	
 	bool OWidget::setFocus(bool newFocus){
 		if(!flags.canFocus || flags.focused == newFocus){ return false; }
 		if(newFocus){

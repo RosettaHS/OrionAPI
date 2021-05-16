@@ -166,6 +166,7 @@ namespace Orion{
 			bool               setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 			inline bool        setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
 			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
+			bool               setContainerFlags(uint16_t xFlag, uint16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 			bool               setFocus(bool newFocus);
 
 			inline void        setCol(uint8_t r, uint8_t g, uint8_t b);
