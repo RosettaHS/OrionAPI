@@ -125,8 +125,7 @@ namespace Orion{
 			}theme;
 
 			OWidget(void);
-			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
-			void               init(OUIType type, int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t minW, uint16_t minH);
+			void               init(OUIType type, int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t minW=50, uint16_t minH=50);
 
 			virtual void       onLink(void);
 			virtual void       onUnlink(void);
@@ -139,6 +138,8 @@ namespace Orion{
 
 			friend class       OContainer;
 			friend void        CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event);
+		private:
+			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 		public:
 			virtual           ~OWidget(void);
 

@@ -142,9 +142,9 @@ namespace Orion{
 			void             tmpRelinkAll(void);
 		public:
 			virtual ~OContainer(void);
-			OContainer(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h);
+			         OContainer(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h);
 
-			bool             link(OWidget* widget); inline bool link(OWidget& widget)     { return link(&widget); }
+			bool             link(OWidget* widget);   inline bool link(OWidget& widget)   { return link(&widget); }
 			bool             unlink(OWidget* widget); inline bool unlink(OWidget& widget) { return unlink(&widget); }
 			bool             unlinkAll(void);
 

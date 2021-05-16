@@ -30,11 +30,12 @@
 #include "../include/OKit/core.hpp"
 
 namespace Orion{
-	void*    XCB_CON=0;
-	void*    XCB_SCR=0;
-	int      XCB_SID=0;
-	uint32_t XCB_ROOT=0;
-	bool     XCB_CONNECTED=0;
+	void*    XCB_CON         = 0;
+	void*    XCB_SCR         = 0;
+	int      XCB_SID         = 0;
+	uint32_t XCB_ROOT        = 0;
+	bool     XCB_CONNECTED   = 0;
+	bool     OAppUIConnected = 0;
 
 	bool XCB_CONNECT(void){
 		if(XCB_CONNECTED){ return false; }
@@ -47,6 +48,7 @@ namespace Orion{
 		}
 		XCB_ROOT=XSCR->root;
 		XCB_CONNECTED=true;
+		OAppUIConnected=true;
 		return true;
 	}
 	
@@ -58,6 +60,7 @@ namespace Orion{
 		XCB_SID=0;
 		XCB_ROOT=0;
 		XCB_CONNECTED=0;
+		OAppUIConnected=false;
 		return true;
 	}
 

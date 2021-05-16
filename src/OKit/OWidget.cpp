@@ -49,6 +49,7 @@ namespace Orion{
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	OWidget::~OWidget(void){
+		type=OUI_ERROR;
 		unlinkThis();
 	}
 

@@ -39,7 +39,7 @@
 namespace Orion{
 	/*** Constructors/Destructors ***/	
 	CRootContainer::CRootContainer(int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, const char* it, uint32_t imask, CCType itype){
-		XONLY{
+		OUIONLY{
 			init(OUI_ROOTCONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
 
 			surfaceToUse=&canvas;
@@ -57,7 +57,7 @@ namespace Orion{
 			 * Surface checks the Context in all of its methods.
 			 */
 		}else{
-			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE CROOTCONTAINER BECAUSE X IS NOT INITIALISED!");
+			OERROR(OERR_GRAPHICS_NOT_INITED,true,"FAILED TO CREATE CROOTCONTAINER BECAUSE GRAPHICS ARE NOT INITIALISED!");
 		}
 	}
 	/*** Deferrables ***/

@@ -163,8 +163,8 @@ namespace Orion{
 
 	/* Three in a row! */
 	OContainer::OContainer(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
-		XONLY{
-			init(OUI_CONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
+		OUIONLY{
+			init(OUI_CONTAINER,ix,iy,iw,ih);
 
 			surfaceToUse=&canvas;
 			containerToUse=this;
@@ -174,7 +174,7 @@ namespace Orion{
 
 			if(parent){ parent->link(this); }
 		}else{
-			OERROR(OERR_X11_NOT_INITED,true,"FAILED TO CREATE OCONTAINER BECAUSE X IS NOT INITIALISED!");
+			OERROR(OERR_GRAPHICS_NOT_INITED,true,"FAILED TO CREATE OCONTAINER BECAUSE GRAPHICS ARE NOT INITIALISED!");
 		}
 	}
 	/*** Deferrables ***/

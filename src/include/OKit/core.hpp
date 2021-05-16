@@ -70,6 +70,14 @@ namespace Orion{
 	extern void XCB_FLUSH(void);
 #endif
 
+	extern bool OAppUIConnected;
+#ifndef ORION_NOHELPERS
+
+	/* Wrapper if() statement. Will only run the code in the brackets if the graphical service has been successfully initalised. */
+	#define OUIONLY if(Orion::OAppUIConnected)
+
+#endif /* !ORION_NOHELPERS */
+
 }
 
 #endif /* !__ORIONAPI_OKIT_CORE_H__ */
