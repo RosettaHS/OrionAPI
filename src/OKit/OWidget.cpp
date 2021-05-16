@@ -349,8 +349,7 @@ namespace Orion{
 			case OWIDGET_SETCOL_USE_PRIMARY:   { tmp=*theme.primary;   break; }
 			case OWIDGET_SETCOL_USE_SECONDARY: { tmp=*theme.secondary; break; }
 			case OWIDGET_SETCOL_USE_TERTIARY:  { tmp=*theme.tertiary;  break; }
-			case OWIDGET_SETCOL_USE_ACCENT:    { tmp=*theme.accent;;   break; }
-
+			case OWIDGET_SETCOL_USE_ACCENT:    { tmp=*theme.accent;    break; }
 		}
 		return tmp;
 	}
@@ -395,7 +394,16 @@ namespace Orion{
 		return 0;
 	}
 
-	void CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event){
-		widget->onEvent(event);
+	void CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data){
+		switch(signal){
+			case CWS_ONLINK:           { widget->onLink();                      return; }
+			case CWS_ONUNLINK:         { widget->onUnlink();                    return; }
+			case CWS_ONPOSCHANGED:     { widget->onPosChanged();                return; }
+			case CWS_ONSIZECHANGED:    { widget->onSizeChanged();               return; }
+			case CWS_ONFOCUSEDCHANGED: { widget->onFocusChanged();              return; }
+			case CWS_ONCOLCHANGED:     { widget->onColChanged();                return; }
+			case CWS_ONDRAW:           { widget->onDraw( *((bool*)data) );      return; }
+			case CWS_ONEVENT:          { widget->onEvent((OSurfaceEvent*)data); return; }
+		}
 	}
 }

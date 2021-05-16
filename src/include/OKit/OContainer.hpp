@@ -153,7 +153,7 @@ namespace Orion{
 			int32_t          getIndexOf(const OWidget* widget) const;
 			inline int32_t   getIndexOf(const OWidget& widget) const { return getIndexOf(&widget); }
 			OWidget*         getChild(uint16_t index)          const;
-			inline OWidget* operator[](uint16_t index)         const { return getChild(index); }
+			inline OWidget*  operator[](uint16_t index)        const { return getChild(index); }
 			OWidget**        getChildren(void)                 const;
 			uint16_t         getChildCount(void)               const;
 	};

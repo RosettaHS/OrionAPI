@@ -90,6 +90,16 @@ namespace Orion{
 		OUI_WINDOW
 	};
 
+	enum CWidgetSignal{
+		CWS_ONLINK,
+		CWS_ONUNLINK,
+		CWS_ONPOSCHANGED,
+		CWS_ONSIZECHANGED,
+		CWS_ONFOCUSEDCHANGED,
+		CWS_ONCOLCHANGED,
+		CWS_ONDRAW,
+		CWS_ONEVENT
+	};
 
 	/* The base Container that contains OrionUI Elements. */
 	class OContainer;
@@ -137,7 +147,7 @@ namespace Orion{
 			virtual void       onEvent(OSurfaceEvent* event);
 
 			friend class       OContainer;
-			friend void        CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event);
+			friend void        CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data);
 		private:
 			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 		public:
@@ -211,7 +221,7 @@ namespace Orion{
 	};
 
 	#ifdef ORION_INTERNAL
-		extern void CWidgetDispatchEvent(OWidget* widget, OSurfaceEvent* event);
+		extern void CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data=0);
 	#endif /* ORION_INTERNAL */
 
 	#ifndef ORION_NOALTNAMES
