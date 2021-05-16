@@ -31,6 +31,8 @@
 #include "../include/OKit/OContainer.hpp"
 
 /*** Template section comments for deferred classes ***/
+#define DEF_MINW    50
+#define DEF_MINH    50
 	/*** Constructors/Destructors ***/
 	/*** Deferrables ***/
 	/*** Setters ***/

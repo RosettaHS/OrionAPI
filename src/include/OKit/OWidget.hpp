@@ -113,8 +113,8 @@ namespace Orion{
 				bool    focused    : 1;
 				bool    canFocus   : 1;
 				bool    fullRedraw : 1;
-				char    setColMode : 3;
-				char    containerFlags;
+				uint8_t setColMode : 2;
+				uint8_t containerFlags;
 			}flags;
 			struct{
 				OTheme  internal;

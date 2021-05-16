@@ -40,7 +40,7 @@ namespace Orion{
 	/*** Constructors/Destructors ***/	
 	CRootContainer::CRootContainer(int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, const char* it, uint32_t imask, CCType itype){
 		OUIONLY{
-			init(OUI_ROOTCONTAINER,ix,iy,iw,ih,DEF_MINW,DEF_MINH);
+			init(OUI_ROOTCONTAINER,ix,iy,iw,ih);
 
 			surfaceToUse=&canvas;
 			containerToUse=this;

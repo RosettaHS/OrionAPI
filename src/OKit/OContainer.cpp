@@ -158,7 +158,6 @@ namespace Orion{
 		surfaceToUse=0;
 		containerToUse=0;
 		canvas.destroy();
-		XCB_FLUSH();
 	}
 
 	/* Three in a row! */
