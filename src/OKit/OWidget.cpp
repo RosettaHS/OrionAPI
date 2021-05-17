@@ -369,7 +369,7 @@ namespace Orion{
 /*** Misc ops ***/
 	// void OWidget::redraw(bool full)  { if(drawPtr){ flags.fullRedraw=full; drawPtr(this); } }
 	bool OWidget::redraw(bool full){
-		if(flags.inited && flags.linked){
+		if(isReady()){
 			flags.fullRedraw=full;
 			onDraw(full);
 			flags.fullRedraw=false;
