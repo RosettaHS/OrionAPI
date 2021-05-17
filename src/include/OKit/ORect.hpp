@@ -32,12 +32,12 @@
 namespace Orion{
 	class ORect final : public OWidget{
 		protected:
-			virtual void       onLink(void)         override;
-			virtual void       onUnlink(void)       override;
-			virtual void       onPosChanged(void)   override;
-			virtual void       onSizeChanged(void)  override;
-			virtual void       onColChanged(void)   override;
-			virtual void       onDraw(bool full)    override;
+			virtual void onLink(void)         override;
+			virtual void onUnlink(void)       override;
+			virtual void onPosChanged(void)   override;
+			virtual void onSizeChanged(void)  override;
+			virtual void onColChanged(void)   override;
+			virtual void onDraw(bool full)    override;
 		public:
 			ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col=0);
 			ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol& col);

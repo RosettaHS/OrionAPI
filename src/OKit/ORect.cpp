@@ -39,10 +39,10 @@ namespace Orion{
 	ORect::ORect(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol){
 		OUIONLY{
 			init(OUI_RECT,ix,iy,iw,ih);
-			flags.inited=true;
 			flags.setColMode=OWIDGET_SETCOL_USE_SECONDARY;
-
 			setCol(icol);
+
+			flags.inited=true;
 			linkTo(parent);
 		}else{
 			OERROR(OERR_GRAPHICS_NOT_INITED,true,"FAILED TO CREATE ORECT BECAUSE GRAPHICS ARE NOT INITIALISED!");
@@ -73,5 +73,4 @@ namespace Orion{
 			if(full){ canvas.setGeometry(x,y,w,h); }
 		}
 	}
-	/*** Misc ops ***/
 }
