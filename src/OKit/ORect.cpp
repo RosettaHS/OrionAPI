@@ -48,7 +48,6 @@ namespace Orion{
 			OERROR(OERR_GRAPHICS_NOT_INITED,true,"FAILED TO CREATE ORECT BECAUSE GRAPHICS ARE NOT INITIALISED!");
 		}
 	}
-	// ORect::ORect(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol& icol) : ORect(parent,ix,iy,iw,ih,&icol) { }
 
 	/*** Deferrables ***/
 	void ORect::onLink(void){

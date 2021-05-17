@@ -114,6 +114,7 @@ namespace Orion{
 			uint16_t    w,h;
 			uint16_t    minW,minH;
 			float       scale;
+			uint16_t    customID;
 			OSurface    canvas;
 			OSurface*   parentSurface;
 			OContainer* parentContainer;
@@ -203,14 +204,15 @@ namespace Orion{
 			OVec               getPos(bool globalToWindow=false) const;
 			OVec               getSize(bool useScale=false)      const;
 			OVec               getMinSize(bool useScale=false)   const;
-			inline float       getScale(void)  const         { return scale; }
+			inline float       getScale(void)    const         { return scale; }
+			inline uint16_t    getCustomID(void) const         { return customID; }
 			OVec4              getGeometry(bool posGlobalToWindow=false, bool sizeUseScale=false) const;
-			inline uint8_t     getContainerFlags(void) const { return flags.containerFlags; }
-			inline bool        getFocus(void)  const         { return flags.focused; }
-			OCol               getCol(void)    const;
-			OTheme             getTheme(void)  const;
-			int16_t            getIndex(void)  const;
-			inline OContainer* getParent(void) const         { return parentContainer; }
+			inline uint8_t     getContainerFlags(void) const   { return flags.containerFlags; }
+			inline bool        getFocus(void)    const         { return flags.focused; }
+			OCol               getCol(void)      const;
+			OTheme             getTheme(void)    const;
+			int16_t            getIndex(void)    const;
+			inline OContainer* getParent(void)   const         { return parentContainer; }
 
 			/* Returns the type of this Element. */
 			inline OUIType     getType(void) const { return type; }
