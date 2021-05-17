@@ -27,6 +27,7 @@
 #define __ORIONAPI_OKIT_OWIDGET_H__
 
 #include "common.hpp"
+#include "../Application.hpp"
 #include "OSurface.hpp"
 
 /*** Macros ***/
@@ -86,6 +87,7 @@ namespace Orion{
 		OUI_CUSTOM,
 		OUI_CONTAINER,
 		OUI_ROOTCONTAINER,
+		OUI_RECT,
 		/* ... */
 		OUI_WINDOW
 	};
@@ -105,7 +107,7 @@ namespace Orion{
 	class OContainer;
 
 	/* The base class for all OrionUI Elements. */
-	class OWidget{
+	class OWidget : public CLoggable{
 		protected:
 			OUIType     type;
 			int16_t     x,y;
@@ -179,7 +181,7 @@ namespace Orion{
 			bool               setContainerFlags(uint16_t xFlag, uint16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 			bool               setFocus(bool newFocus);
 
-			inline void        setCol(uint8_t r, uint8_t g, uint8_t b);
+			void               setCol(uint8_t r, uint8_t g, uint8_t b);
 			void               setCol(OCol* col);
 			inline void        setCol(OCol& col)               { setCol(&col); }
 			void               setTheme(OTheme*);
@@ -218,6 +220,12 @@ namespace Orion{
 			 * For example: if the Element's Type is OUI_WINDOW, this will return "OUI_WINDOW" as a String. Good for easily readable debug logs.
 			 */
 			const char*        getTypeAsString(void) const;
+			/**
+			 * @brief Logs the information of this Type to the terminal.
+			 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
+			 */
+			virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 	#ifdef ORION_INTERNAL

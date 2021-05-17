@@ -47,6 +47,7 @@
 #include "CRootContainer.hpp" /* Debug */
 
 /*** Final Elements ***/
+#include "ORect.hpp"
 
 #endif /* !__ORIONAPI_OKIT_H__ */
 

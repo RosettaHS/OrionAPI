@@ -231,16 +231,15 @@ namespace Orion{
 	void OWidget::setThemePrimaryCol(uint8_t r, uint8_t g, uint8_t b){
 		theme.internal.setPrimary(r,g,b);
 		theme.primary=&(theme.internal.primary);
-		redraw();
+		onColChanged();
 	}
 	void OWidget::setThemePrimaryCol(OCol* col){
 		if      (col==&OAPP_THEME.primary)   { theme.primary = &OAPP_THEME.primary;   onColChanged(); return; }
 		else if (col==&OAPP_THEME.secondary) { theme.primary = &OAPP_THEME.secondary; onColChanged(); return; }
 		else if (col==&OAPP_THEME.tertiary)  { theme.primary = &OAPP_THEME.tertiary;  onColChanged(); return; }
 		else if (col==&OAPP_THEME.accent)    { theme.primary = &OAPP_THEME.accent;    onColChanged(); return; }
-		else{
+		else if (col){
 			setThemePrimaryCol(col->raw.r,col->raw.g,col->raw.b);
-			onColChanged();
 		}
 	}
 
@@ -254,9 +253,8 @@ namespace Orion{
 		else if (col==&OAPP_THEME.secondary) { theme.secondary = &OAPP_THEME.secondary; onColChanged(); return; }
 		else if (col==&OAPP_THEME.tertiary)  { theme.secondary = &OAPP_THEME.tertiary;  onColChanged(); return; }
 		else if (col==&OAPP_THEME.accent)    { theme.secondary = &OAPP_THEME.accent;    onColChanged(); return; }
-		else{
+		else if (col){
 			setThemeSecondaryCol(col->raw.r,col->raw.g,col->raw.b);
-			onColChanged();
 		}
 	}
 
@@ -270,9 +268,8 @@ namespace Orion{
 		else if (col==&OAPP_THEME.secondary) { theme.tertiary = &OAPP_THEME.secondary; onColChanged(); return; }
 		else if (col==&OAPP_THEME.tertiary)  { theme.tertiary = &OAPP_THEME.tertiary;  onColChanged(); return; }
 		else if (col==&OAPP_THEME.accent)    { theme.tertiary = &OAPP_THEME.accent;    onColChanged(); return; }
-		else{
+		else if (col){
 			setThemeTertiaryCol(col->raw.r,col->raw.g,col->raw.b);
-			onColChanged();
 		}
 	}
 
@@ -286,9 +283,8 @@ namespace Orion{
 		else if (col==&OAPP_THEME.secondary) { theme.accent = &OAPP_THEME.secondary; onColChanged(); return; }
 		else if (col==&OAPP_THEME.tertiary)  { theme.accent = &OAPP_THEME.tertiary;  onColChanged(); return; }
 		else if (col==&OAPP_THEME.accent)    { theme.accent = &OAPP_THEME.accent;    onColChanged(); return; }
-		else{
+		else if (col){
 			setThemeAccentCol(col->raw.r,col->raw.g,col->raw.b);
-			onColChanged();
 		}
 	}
 	
@@ -389,10 +385,66 @@ namespace Orion{
 			MATCHTOSTRING(OUI_CUSTOM)
 			MATCHTOSTRING(OUI_CONTAINER)
 			MATCHTOSTRING(OUI_ROOTCONTAINER)
+			MATCHTOSTRING(OUI_RECT)
 			MATCHTOSTRING(OUI_WINDOW)
 		}
 		return 0;
 	}
+
+/* Should probably be a Lambda... */
+// static inline const char* boolType(bool v){
+	// return ( (v) ? "true" : "false" );
+// }
+	void OWidget::log(bool verbose, bool newLine){
+		if(verbose){
+			OVec  v;
+			OVec4 v4;
+			auto boolType       = [](bool _BOOL)       { return ( (_BOOL) ? "true" : "false" ); };
+			auto setColModeType = [](uint8_t _COLMODE) {
+				switch(_COLMODE){
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_PRIMARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_SECONDARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_TERTIARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_ACCENT)
+				}
+				return "(UNKNOWN)";
+			};
+			OLog("Widget : %s : %p {\n",getTypeAsString(),this);
+			OLog("\tx,y                : (%d, %d)\n",x,y);
+			OLog("\tw,h                : (%u, %u)\n",w,h);
+			OLog("\tminW,minH          : (%u, %u)\n",minW,minH);
+			OLog("\tscale              : (%.3f)\n",scale);
+			OLog("\tcanvas             : (%p)\n",&canvas);
+			OLog("\tparentSurface      : (%p)\n",parentSurface);
+			OLog("\tparentContainer    : (%p - %s)\n",parentContainer,( (parentContainer) ? parentContainer->getTypeAsString() : "OUI_ERROR") );
+			OLog("\tparentWidget       : (%p - %s)\n",parentWidget,( (parentWidget) ? parentWidget->getTypeAsString() : "OUI_ERROR") );
+			OLog("\tflags:\n");
+			OLog("\t    inited         : %s\n",boolType(flags.inited));
+			OLog("\t    linked         : %s\n",boolType(flags.linked));
+			OLog("\t    enabled        : %s\n",boolType(flags.enabled));
+			OLog("\t    focused        : %s\n",boolType(flags.focused));
+			OLog("\t    canFocus       : %s\n",boolType(flags.canFocus));
+			OLog("\t    fullRedraw     : %s\n",boolType(flags.fullRedraw));
+			OLog("\t    setColMode     : %s\n",setColModeType(flags.setColMode));
+			OLog("\t    containerFlags : "); OLogBits(&flags.containerFlags,1,true);
+			OLog("\ttheme:\n");
+			OLog("\t     internal:\n");
+			OLog("\t         primary   : "); theme.internal.primary.log();
+			OLog("\t         secondary : "); theme.internal.secondary.log();
+			OLog("\t         tertiary  : "); theme.internal.tertiary.log();
+			OLog("\t         accent    : "); theme.internal.accent.log();
+			OLog("\t     primary       : (%p)\n",theme.primary);
+			OLog("\t     secondary     : (%p)\n",theme.secondary);
+			OLog("\t     tertiary      : (%p)\n",theme.tertiary);
+			OLog("\t     accent        : (%p)\n}\n",theme.accent);
+		}else{
+			OLog("(%s : %d, %d, %u, %u) ",getTypeAsString(),x,y,w,h);
+			if(newLine){ OLog("\n"); }
+		}
+	}
+
+
+/*** External ***/
 
 	void CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data){
 		switch(signal){

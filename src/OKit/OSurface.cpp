@@ -111,6 +111,7 @@ namespace Orion{
 	bool OSurface::setCol(OCol* icol, bool autoFlush){
 		if(raw.XWIN){
 			if( raw.setCol(icol) ){
+				raw.clear(0,0,geo.w,geo.h);
 				FLUSHIF(autoFlush);
 				return true;
 			}
