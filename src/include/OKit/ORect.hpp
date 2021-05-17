@@ -39,8 +39,10 @@ namespace Orion{
 			virtual void onColChanged(void)   override;
 			virtual void onDraw(bool full)    override;
 		public:
-			ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col=0);
-			ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol& col);
+			       ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col=0);
+			inline ORect(OContainer* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol& col)   : ORect(parent,x,y,w,h,&col)  { }
+			inline ORect(OContainer& parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col=0) : ORect(&parent,x,y,w,h,col)  { }
+			inline ORect(OContainer& parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol& col)   : ORect(&parent,x,y,w,h,&col) { }
 	};
 
 	#ifndef ORION_NOALTNAMES
