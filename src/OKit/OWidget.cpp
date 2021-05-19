@@ -215,6 +215,8 @@ namespace Orion{
 			case OWIDGET_SETCOL_USE_TERTIARY:  { setThemeTertiaryCol(col);  return; }
 			case OWIDGET_SETCOL_USE_ACCENT:    { setThemeAccentCol(col);    return; }
 		}
+		OWARN(false,"INVALID SETCOL MODE! NOT SETTING COLOUR ON WIDGET!");
+		return;
 	}
 
 	void OWidget::setTheme(OTheme* newTheme){
@@ -407,7 +409,7 @@ namespace Orion{
 					MATCHTOSTRING(OWIDGET_SETCOL_USE_TERTIARY)
 					MATCHTOSTRING(OWIDGET_SETCOL_USE_ACCENT)
 				}
-				return "(UNKNOWN)";
+				return "(INVALID)";
 			};
 			OLog("Widget : %s : %p {\n",getTypeAsString(),this);
 			OLog("\tx,y                : (%d, %d)\n",x,y);
