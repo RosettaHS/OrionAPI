@@ -322,22 +322,19 @@ namespace Orion{
 	/*** Misc ops ***/
 #define MATCHTOSTRING(s) case s: { return #s; }
 	/* holy... */
-	static void recLog(uint16_t depth, uint16_t parIndex, widget_t* W){
+	static void recLog(uint16_t depth, uint16_t parIndex, container_t* c){
 		auto indent = [](void) { OLog("    "); };
-		if(W->getBaseType()==OUIB_CONTAINER){
-			container_t* c=(container_t*)W;
-			widget_t*    w=0;
-			depth++;
-			for(uint16_t i=0; i<c->getChildCount(); i++){
-				OLog("\t         ");
-				for(uint16_t i=0;i<depth;i++){ indent(); }
-				w=c->getChild(i);
+		widget_t*    w=0;
+		depth++;
+		for(uint16_t i=0; i<c->getChildCount(); i++){
+			OLog("\t         ");
+			for(uint16_t i=0;i<depth;i++){ indent(); }
+			w=c->getChild(i);
 
-				OLog("%u.%u : ",parIndex,i);
-				OLog(w);
-				if(w->getBaseType()==OUIB_CONTAINER){
-					recLog(depth,i,w);
-				}
+			OLog("%u.%u : ",parIndex,i);
+			OLog(w);
+			if(w->getBaseType()==OUIB_CONTAINER){
+				recLog(depth,i,(container_t*)w);
 			}
 		}
 	}
@@ -392,16 +389,13 @@ namespace Orion{
 			OLog("\tlist:\n");
 			OLog("\t     count         : (%u)\n",getChildCount());
 			OLog("\t     children:\n");
-			union{
-				widget_t*    W;
-				container_t* C;
-			}tmp;
+			widget_t* tmp=0;
 			for(uint16_t i=0;i<getChildCount();i++){
-				tmp.W=getChild(i);
+				tmp=getChild(i);
 				OLog("\t         %u : ",i);
 				getChild(i)->log();
-				if(tmp.W->getBaseType()==OUIB_CONTAINER){
-					recLog(0,i,tmp.C);
+				if(tmp->getBaseType()==OUIB_CONTAINER){
+					recLog(0,i,(container_t*)tmp);
 					/* I should never be allowed to write recursion again... */
 				}
 			}
