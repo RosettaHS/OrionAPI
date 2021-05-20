@@ -95,6 +95,13 @@ namespace Orion{
 		OUI_WINDOW
 	};
 
+	enum OUIBType : char{
+		OUIB_ERROR,
+		OUIB_WIDGET,
+		OUIB_CONTAINER,
+		OUIB_BUTTON,
+	};
+
 	enum CWidgetSignal{
 		CWS_ONLINK,
 		CWS_ONUNLINK,
@@ -113,6 +120,7 @@ namespace Orion{
 	class OWidget : public CLoggable{
 		protected:
 			OUIType     type;
+			OUIBType    baseType;
 			int16_t     x,y;
 			uint16_t    w,h;
 			uint16_t    minW,minH;
@@ -152,6 +160,10 @@ namespace Orion{
 			virtual void       onDraw(bool full);
 			virtual void       onEvent(OSurfaceEvent* event);
 
+			OVec               getTruePos(void);
+			OVec               getTrueSize(void);
+			OVec4              getTrueGeo(void);
+
 			friend class       OContainer;
 			friend void        CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data);
 		private:
@@ -178,7 +190,7 @@ namespace Orion{
 			void               setMinSize(uint16_t minW, uint16_t minH);
 			inline void        setMinSize(OVec v)    { setMinSize(v.x,v.y); }
 			inline void        setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
-			virtual bool       setScale(float s);
+			bool               setScale(float s);
 			bool               setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
 			inline bool        setGeometry(OVec4 v)  { return setGeometry(v.x,v.y,v.w,v.h); }
 			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
@@ -218,13 +230,15 @@ namespace Orion{
 			inline OContainer* getParent(void)   const         { return parentContainer; }
 
 			/* Returns the type of this Element. */
-			inline OUIType     getType(void) const { return type; }
+			inline OUIType     getType(void)     const { return type; }
+			inline OUIBType    getBaseType(void) const { return baseType; }
 			/**
 			 * @brief Returns the type of this Element as a String.
 			 * @return A String version of the given OUIType value corrisponding to this Element.
 			 * For example: if the Element's Type is OUI_WINDOW, this will return "OUI_WINDOW" as a String. Good for easily readable debug logs.
 			 */
-			const char*        getTypeAsString(void) const;
+			const char*        getTypeAsString(void)  const;
+			const char*        getBTypeAsString(void) const;
 			/**
 			 * @brief Logs the information of this Type to the terminal.
 			 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
@@ -240,6 +254,7 @@ namespace Orion{
 	#ifndef ORION_NOALTNAMES
 		/* An enumeration of OrionUI Elements. */
 		typedef OUIType   uitype_t;
+		typedef OUIBType  uibtype_t;
 		/* The base element for all OrionUI Elements. */
 		typedef OWidget   widget_t;
 	#endif /* !ORION_NOALTNAMES */

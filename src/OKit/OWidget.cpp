@@ -43,7 +43,7 @@ namespace Orion{
 
 /*** Initialisation/Constructors/Destructors ***/
 	OWidget::OWidget(void) : /* FIXME: In case Widgets just stop working at some point, this is why. */
-		type{OUI_ERROR},
+		type{OUI_ERROR},baseType{OUIB_WIDGET},
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},customID{0},canvas(),
 		parentSurface{0},parentContainer{0},parentWidget{0},
@@ -108,6 +108,24 @@ namespace Orion{
 		resetTheme();
 		/* TODO: Add offsetter */
 	}
+
+	OVec OWidget::getTruePos(void){
+		int16_t xx = ( x-( (w/2)*(scale-1) ) ) /scale;
+		int16_t yy = ( y-( (h/2)*(scale-1) ) ) /scale;
+		return { (int16_t)(xx*scale), (int16_t)(yy*scale) };
+	}
+
+	OVec OWidget::getTrueSize(void){ return { uint16_t(w*scale),uint16_t(h*scale) }; }
+
+	OVec4 OWidget::getTrueGeo(void){
+		OVec  tmpXY=getTruePos();
+		OVec  tmpWH=getTrueSize();
+		return {
+			(int16_t) tmpXY.x, (int16_t) tmpXY.y,
+			(uint16_t)tmpWH.x, (uint16_t)tmpWH.y
+		};
+	}
+
 /*** Deferrables ***/
 	/* Base Widget does nothing when linked or modified. */
 	void OWidget::onLink(void)            { return; }
@@ -151,6 +169,10 @@ namespace Orion{
 		if( (w<minW) || (h<minH) ){ setSize(iminW,iminH); }
 	}
 	bool OWidget::setScale(float s){
+		if(baseType==OUIB_CONTAINER){
+			OWARN(true,"CONTAINER WIDGETS CANNOT BE SCALED!");
+			return false;
+		}
 		if(scale==s){ return false; }
 		scale=OClampMinD(s,0.1);
 		/* TODO: Add offsetter */
@@ -392,6 +414,15 @@ namespace Orion{
 		}
 		return 0;
 	}
+	const char* OWidget::getBTypeAsString(void) const{
+		switch(baseType){
+			MATCHTOSTRING(OUIB_ERROR)
+			MATCHTOSTRING(OUIB_WIDGET)
+			MATCHTOSTRING(OUIB_CONTAINER)
+			MATCHTOSTRING(OUIB_BUTTON)
+		}
+		return 0;
+	}
 
 /* Should probably be a Lambda... */
 // static inline const char* boolType(bool v){
@@ -411,7 +442,7 @@ namespace Orion{
 				}
 				return "(INVALID)";
 			};
-			OLog("Widget : %s : %p {\n",getTypeAsString(),this);
+			OLog("Widget : %s | %s : %p {\n",getTypeAsString(),getBTypeAsString(),this);
 			OLog("\tx,y                : (%d, %d)\n",x,y);
 			OLog("\tw,h                : (%u, %u)\n",w,h);
 			OLog("\tminW,minH          : (%u, %u)\n",minW,minH);

@@ -137,6 +137,7 @@ namespace Orion{
 
 	/*** Constructors/Destructors ***/
 	OContainer::OContainer(void){
+		baseType=OUIB_CONTAINER;
 		surfaceToUse=0;
 		containerToUse=0;
 		forceSelfOnNext=0;
