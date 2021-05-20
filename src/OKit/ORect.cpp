@@ -51,7 +51,7 @@ namespace Orion{
 
 	/*** Deferrables ***/
 	void ORect::onLink(void){
- 		canvas.create(parentSurface,x,y,w,h,theme.secondary);
+ 		canvas.create(parentSurface,getGeometry(false,true),theme.secondary);
 	}
 	void ORect::onUnlink(void){
 		canvas.destroy();
@@ -60,13 +60,13 @@ namespace Orion{
 		canvas.setPos(x,y);
 	}
 	void ORect::onSizeChanged(void){
-		canvas.setGeometry(x,y,w,h);
+		canvas.setGeometry( getGeometry(false,true) );
 	}
 	void ORect::onColChanged(void){
 		canvas.setCol(theme.secondary);
 	}
 	void ORect::onDraw(bool full){
 		canvas.setCol(theme.secondary);
-		if(full){ canvas.setGeometry(x,y,w,h); }
+		if(full){ canvas.setGeometry( getGeometry(false,true) ); }
 	}
 }

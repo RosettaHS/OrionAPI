@@ -62,6 +62,9 @@
 #define OWIDGET_SETCOL_USE_TERTIARY  (2)
 #define OWIDGET_SETCOL_USE_ACCENT    (3)
 
+#define SCALE2(XX,YY,SS)       (XX*SS) , (YY*SS)
+#define SCALE4(XX,YY,WW,HH,SS) (XX*SS) , (YY*SS) , (WW*SS) , (HH*SS)
+
 #ifdef ORION_INTERNAL
 
 /* Internal Flags */
@@ -167,17 +170,17 @@ namespace Orion{
 			bool               unlinkThis(void);
 
 			bool               setPos(int16_t x, int16_t y);
-			inline bool        setPos(OVec& v)       { return setPos(v.x,v.y); }
+			inline bool        setPos(OVec v)        { return setPos(v.x,v.y); }
 			inline bool        setPos(OVec* v)       { return setPos(v->x,v->y); }
 			bool               setSize(uint16_t w, uint16_t h);
-			inline bool        setSize(OVec& v)      { return setSize(v.x,v.y); }
+			inline bool        setSize(OVec v)       { return setSize(v.x,v.y); }
 			inline bool        setSize(OVec* v)      { return setSize(v->x,v->y); }
 			void               setMinSize(uint16_t minW, uint16_t minH);
-			inline void        setMinSize(OVec& v)   { setMinSize(v.x,v.y); }
+			inline void        setMinSize(OVec v)    { setMinSize(v.x,v.y); }
 			inline void        setMinSize(OVec* v)   { setMinSize(v->x,v->y); }
 			virtual bool       setScale(float s);
 			bool               setGeometry(int16_t x, int16_t y, uint16_t w, uint16_t h);
-			inline bool        setGeometry(OVec4& v) { return setGeometry(v.x,v.y,v.w,v.h); }
+			inline bool        setGeometry(OVec4 v)  { return setGeometry(v.x,v.y,v.w,v.h); }
 			inline bool        setGeometry(OVec4* v) { return setGeometry(v->x,v->y,v->w,v->h); }
 			bool               setContainerFlags(uint16_t xFlag, uint16_t yFlag, uint16_t wFlag, uint16_t hFlag);
 			bool               setFocus(bool newFocus);

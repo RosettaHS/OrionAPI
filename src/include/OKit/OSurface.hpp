@@ -41,9 +41,13 @@ namespace Orion{
 			         OSurface(void);
 			inline   OSurface(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
 			                  { create(parent,x,y,w,h,col,mask,listener,autoFlush); }
+			inline   OSurface(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
+			                  { create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
 
-			bool     create(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true);
-			bool     destroy(bool autoFlush=true);
+			bool        create(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true);
+			inline bool create(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
+			                   {  return create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
+			bool        destroy(bool autoFlush=true);
 
 			inline void setListener(OWidget* listener)             { raw.XLISTENER=listener; }
 			bool        setPos(int16_t x, int16_t y, bool autoFlush=true);
