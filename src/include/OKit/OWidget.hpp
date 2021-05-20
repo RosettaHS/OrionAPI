@@ -240,8 +240,8 @@ namespace Orion{
 			const char*        getTypeAsString(void)  const;
 			const char*        getBTypeAsString(void) const;
 			/**
-			 * @brief Logs the information of this Type to the terminal.
-			 * @param verbose Log verbose information about this Type instead of the traditional information. Default is false.
+			 * @brief Logs the information of this Widget to the terminal.
+			 * @param verbose Log verbose information about this Widget instead of the traditional information. Default is false.
 			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
 			 */
 			virtual void log(bool verbose=false, bool newLine=true) override;

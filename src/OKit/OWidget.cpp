@@ -153,14 +153,12 @@ namespace Orion{
 	bool OWidget::setPos(int16_t ix, int16_t iy){
 		if(x==ix && y==iy){ return false; }
 		x=ix, y=iy;
-		/* TODO: Add offsetter */
 		onPosChanged();
 		return true;
 	}
 	bool OWidget::setSize(uint16_t iw, uint16_t ih){
 		if(w==iw && h==ih){ return false; }
 		w=iw,h=ih;
-		/* TODO: Add offsetter */
 		onSizeChanged();
 		return true;
 	}
@@ -175,7 +173,6 @@ namespace Orion{
 		}
 		if(scale==s){ return false; }
 		scale=OClampMinD(s,0.1);
-		/* TODO: Add offsetter */
 		onPosChanged();
 		onSizeChanged();
 		return true;
@@ -186,7 +183,6 @@ namespace Orion{
 		if(x!=ix || y!=iy){ posChanged=true; }
 		if(w!=iw || h!=ih){ sizeChanged=true; }
 		x=ix,y=iy;
-		/* TODO: Add offsetter */
 		if(iw<minW){ w=minW; }else{ w=iw; }
 		if(ih<minH){ h=minH; }else{ h=ih; }
 		if(posChanged)  { onPosChanged(); }
@@ -424,10 +420,6 @@ namespace Orion{
 		return 0;
 	}
 
-/* Should probably be a Lambda... */
-// static inline const char* boolType(bool v){
-	// return ( (v) ? "true" : "false" );
-// }
 	void OWidget::log(bool verbose, bool newLine){
 		if(verbose){
 			OVec  v;
@@ -453,13 +445,13 @@ namespace Orion{
 			OLog("\tparentContainer    : (%p - %s)\n",parentContainer,( (parentContainer) ? parentContainer->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tparentWidget       : (%p - %s)\n",parentWidget,( (parentWidget) ? parentWidget->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tflags:\n");
-			OLog("\t    inited         : %s\n",boolType(flags.inited));
-			OLog("\t    linked         : %s\n",boolType(flags.linked));
-			OLog("\t    enabled        : %s\n",boolType(flags.enabled));
-			OLog("\t    focused        : %s\n",boolType(flags.focused));
-			OLog("\t    canFocus       : %s\n",boolType(flags.canFocus));
-			OLog("\t    fullRedraw     : %s\n",boolType(flags.fullRedraw));
-			OLog("\t    setColMode     : %s\n",setColModeType(flags.setColMode));
+			OLog("\t    inited         : (%s)\n",boolType(flags.inited));
+			OLog("\t    linked         : (%s)\n",boolType(flags.linked));
+			OLog("\t    enabled        : (%s)\n",boolType(flags.enabled));
+			OLog("\t    focused        : (%s)\n",boolType(flags.focused));
+			OLog("\t    canFocus       : (%s)\n",boolType(flags.canFocus));
+			OLog("\t    fullRedraw     : (%s)\n",boolType(flags.fullRedraw));
+			OLog("\t    setColMode     : (%s)\n",setColModeType(flags.setColMode));
 			OLog("\t    containerFlags : "); OLogBits(&flags.containerFlags,1,true);
 			OLog("\ttheme:\n");
 			OLog("\t     internal:\n");

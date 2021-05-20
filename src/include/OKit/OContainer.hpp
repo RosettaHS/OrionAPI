@@ -156,6 +156,13 @@ namespace Orion{
 			inline OWidget*  operator[](uint16_t index)        const { return getChild(index); }
 			OWidget**        getChildren(void)                 const;
 			uint16_t         getChildCount(void)               const;
+
+			/**
+			 * @brief Logs the information of this Container to the terminal.
+			 * @param verbose Log verbose information about this Container instead of the traditional information. Default is false.
+			 * @param newLine Should the output be placed on a newline or append to the current one if applicable? Default is true.
+			 */
+			virtual void log(bool verbose=false, bool newLine=true) override;
 	};
 
 	#ifndef ORION_NOALTNAMES

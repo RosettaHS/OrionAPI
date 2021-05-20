@@ -165,6 +165,7 @@ namespace Orion{
 	OContainer::OContainer(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih){
 		OUIONLY{
 			init(OUI_CONTAINER,ix,iy,iw,ih);
+			baseType=OUIB_CONTAINER;
 
 			surfaceToUse=&canvas;
 			containerToUse=this;
@@ -317,5 +318,97 @@ namespace Orion{
 		if(forceSelfOnNext) { return list.getCount(); }
 		else                { return containerToUse->list.getCount(); }
 	}
+
 	/*** Misc ops ***/
+#define MATCHTOSTRING(s) case s: { return #s; }
+	/* holy... */
+	static void recLog(uint16_t depth, uint16_t parIndex, widget_t* W){
+		auto indent = [](void) { OLog("    "); };
+		if(W->getBaseType()==OUIB_CONTAINER){
+			container_t* c=(container_t*)W;
+			widget_t*    w=0;
+			depth++;
+			for(uint16_t i=0; i<c->getChildCount(); i++){
+				OLog("\t         ");
+				for(uint16_t i=0;i<depth;i++){ indent(); }
+				w=c->getChild(i);
+
+				OLog("%u.%u : ",parIndex,i);
+				OLog(w);
+				if(w->getBaseType()==OUIB_CONTAINER){
+					recLog(depth,i,w);
+				}
+			}
+		}
+	}
+
+	void OContainer::log(bool verbose, bool newLine){
+		if(verbose){
+			OVec  v;
+			OVec4 v4;
+			auto boolType       = [](bool _BOOL)       { return ( (_BOOL) ? "true" : "false" ); };
+			auto setColModeType = [](uint8_t _COLMODE) {
+				switch(_COLMODE){
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_PRIMARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_SECONDARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_TERTIARY)
+					MATCHTOSTRING(OWIDGET_SETCOL_USE_ACCENT)
+				}
+				return "(INVALID)";
+			};
+			OLog("Container Widget : %s | %s : %p {\n",getTypeAsString(),getBTypeAsString(),this);
+			OLog("\tx,y                : (%d, %d)\n",x,y);
+			OLog("\tw,h                : (%u, %u)\n",w,h);
+			OLog("\tminW,minH          : (%u, %u)\n",minW,minH);
+			OLog("\tscale              : (%.3f)\n",scale);
+			OLog("\tcustomID           : (%u)\n",customID);
+			OLog("\tcanvas             : (%p)\n",&canvas);
+			OLog("\tparentSurface      : (%p)\n",parentSurface);
+			OLog("\tparentContainer    : (%p - %s)\n",parentContainer,( (parentContainer) ? parentContainer->getTypeAsString() : "OUI_ERROR") );
+			OLog("\tparentWidget       : (%p - %s)\n",parentWidget,( (parentWidget) ? parentWidget->getTypeAsString() : "OUI_ERROR") );
+			OLog("\tsurfaceToUse       : (%p)\n",surfaceToUse);
+			OLog("\tcontainerToUse     : (%p)\n",containerToUse);
+			OLog("\tforceSelfOnNext    : (%s)\n",boolType(forceSelfOnNext));
+			OLog("\tholdingInTmp       : (%s)\n",boolType(holdingInTmp));
+			OLog("\tflags:\n");
+			OLog("\t    inited         : (%s)\n",boolType(flags.inited));
+			OLog("\t    linked         : (%s)\n",boolType(flags.linked));
+			OLog("\t    enabled        : (%s)\n",boolType(flags.enabled));
+			OLog("\t    focused        : (%s)\n",boolType(flags.focused));
+			OLog("\t    canFocus       : (%s)\n",boolType(flags.canFocus));
+			OLog("\t    fullRedraw     : (%s)\n",boolType(flags.fullRedraw));
+			OLog("\t    setColMode     : (%s)\n",setColModeType(flags.setColMode));
+			OLog("\t    containerFlags : "); OLogBits(&flags.containerFlags,1,true);
+			OLog("\ttheme:\n");
+			OLog("\t     internal:\n");
+			OLog("\t         primary   : "); theme.internal.primary.log();
+			OLog("\t         secondary : "); theme.internal.secondary.log();
+			OLog("\t         tertiary  : "); theme.internal.tertiary.log();
+			OLog("\t         accent    : "); theme.internal.accent.log();
+			OLog("\t     primary       : (%p)\n",theme.primary);
+			OLog("\t     secondary     : (%p)\n",theme.secondary);
+			OLog("\t     tertiary      : (%p)\n",theme.tertiary);
+			OLog("\t     accent        : (%p)\n",theme.accent);
+			OLog("\tlist:\n");
+			OLog("\t     count         : (%u)\n",getChildCount());
+			OLog("\t     children:\n");
+			union{
+				widget_t*    W;
+				container_t* C;
+			}tmp;
+			for(uint16_t i=0;i<getChildCount();i++){
+				tmp.W=getChild(i);
+				OLog("\t         %u : ",i);
+				getChild(i)->log();
+				if(tmp.W->getBaseType()==OUIB_CONTAINER){
+					recLog(0,i,tmp.C);
+					/* I should never be allowed to write recursion again... */
+				}
+			}
+			OLog("}\n");
+		}else{
+			OLog("(%s : %d, %d, %u, %u) ",getTypeAsString(),x,y,w,h);
+			if(newLine){ OLog("\n"); }
+		}
+	}
 }

@@ -207,7 +207,6 @@ namespace Orion{
 	}
 
 	bool CContext::setCol(OCol* col){
-		col->log();
 		XONLY{
 			if(col->XCOL!=XCOL && XWIN){
 				// xcb_void_cookie_t result=
