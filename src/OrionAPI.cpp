@@ -94,8 +94,7 @@ namespace Orion{
 		CAppSetThemeFromSystem();
 		/* TODO: Add more stuff here once you've introduced most of OKit. */
 		if(!OAPP_HEADLESS){
-			// XCB_CONNECT();
-			if(ForceONative && !XCB_CONNECT()){
+			if(!XCB_CONNECT() && ForceONative){
 				OERROR(OERR_NOTNATIVE,true,"SERVICE FORCED AS ORION-NAITVE WITH HEADLESS MODE OFF, BUT ORIONAPI COULD NOT ESTABLISH A CONNECTION TO THE X SERVICE!");
 			}
 			CXHA_INIT();
