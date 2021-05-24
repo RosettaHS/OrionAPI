@@ -51,6 +51,7 @@ namespace Orion{
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
 	OWidget::~OWidget(void){
+		if(OAPP_FOCUSEDELEMENT==this){ setFocus(false); }
 		type=OUI_ERROR;
 		unlinkThis();
 	}
