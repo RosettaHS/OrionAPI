@@ -51,10 +51,10 @@ namespace Orion{
 	}
 
 	/** INTERNAL **/
-	void OSurface::scaleXYByWidget(int16_t& x, int16_t& y){
+	void OSurface::scaleXYByWidget(int16_t& x, int16_t& y, bool addOffset){
 		if(widget){
 			float s=widget->scale;
-			if(&widget->canvas==this){
+			if(addOffset && &widget->canvas==this){
 				x = ( x-( (widget->w/2)*(s-1) ) ) /s;
 				y = ( y-( (widget->h/2)*(s-1) ) ) /s;
 			}
@@ -120,7 +120,7 @@ namespace Orion{
 		if(raw.XWIN){
 			vec4_t v=area.getGeometry();
 			col_t  c=area.getCol();
-			float s=( (widget) ? widget->getScale() : 1);
+			float s=( (widget) ? widget->scale : 1);
 			raw.drawArea(
 				v.x*s,v.y*s,
 				v.w*s,v.h*s,
@@ -135,11 +135,26 @@ namespace Orion{
 	bool OSurface::drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, bool autoFlush){
 		if(raw.XWIN){
 			col_t tmp;
-			float s=( (widget) ? widget->getScale() : 1);
+			float s=( (widget) ? widget->scale : 1);
 			raw.drawArea(
 				x*s,y*s,
 				w*s,h*s,
 				( (col) ? col : &tmp )
+			);
+			FLUSHIF(autoFlush);
+			return true;
+		}
+		return false;
+	}
+
+	bool OSurface::drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t r, uint8_t g, uint8_t b, bool autoFlush){
+		if(raw.XWIN){
+			col_t tmp(r,g,b);
+			float s=( (widget) ? widget->scale : 1);
+			raw.drawArea(
+				x*s,y*s,
+				w*s,h*s,
+				&tmp
 			);
 			FLUSHIF(autoFlush);
 			return true;

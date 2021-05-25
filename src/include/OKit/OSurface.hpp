@@ -65,7 +65,7 @@ namespace Orion{
 			OVec4     geo;
 			OWidget*  widget;
 
-			void scaleXYByWidget(int16_t& x, int16_t& y);
+			void scaleXYByWidget(int16_t& x, int16_t& y, bool addOffset=true);
 			void scaleWHByWidget(uint16_t& w, uint16_t& h);
 		public:
 			virtual ~OSurface(void);
@@ -86,6 +86,7 @@ namespace Orion{
 			bool        drawRect(OSurfaceRect area, bool autoFlush=true);
 			bool        drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, bool autoFlush=true);
 			inline bool drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol col, bool autoFlush=true) { return drawRect(x,y,w,h,&col,autoFlush); }
+			bool        drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t r, uint8_t g, uint8_t b, bool autoFlush=true);
 			inline bool drawRect(OVec4 v, OCol* col, bool autoFlush=true) { return drawRect(v.x,v.y,v.w,v.h,col,autoFlush); }
 			inline bool drawRect(OVec4 v, OCol col, bool autoFlush=true)  { return drawRect(v.x,v.y,v.w,v.h,&col,autoFlush); }
 			bool        drawRects(OSurfaceRect* rectList, uint16_t rectCount, bool autoFlush=true);
