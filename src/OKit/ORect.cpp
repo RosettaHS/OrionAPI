@@ -39,7 +39,7 @@ namespace Orion{
 	ORect::ORect(OContainer* parent, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol){
 		OUIONLY{
 			init(OUI_RECT,ix,iy,iw,ih);
-			flags.setColMode=OWIDGET_SETCOL_USE_SECONDARY;
+			flags.setColMode=OWIDGET_SETCOL_USE_ACCENT;
 			setCol(icol);
 
 			flags.inited=true;
@@ -51,7 +51,7 @@ namespace Orion{
 
 	/*** Deferrables ***/
 	void ORect::onLink(void){
- 		canvas.create(parentSurface,getTrueGeo(),theme.secondary);
+ 		canvas.create(parentSurface,getTrueGeo(),theme.accent);
 	}
 	void ORect::onUnlink(void){
 		canvas.destroy();
@@ -63,7 +63,7 @@ namespace Orion{
 		canvas.setGeometry( getTrueGeo() );
 	}
 	void ORect::onColChanged(void){
-		canvas.setCol(theme.secondary);
+		canvas.setCol(theme.accent);
 	}
 	void ORect::onDraw(bool full){
 		canvas.setCol(theme.secondary);
