@@ -198,10 +198,12 @@ namespace Orion{
 		}
 	}
 
-	void CContext::drawArea(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY, OCol* col){
+	void CContext::drawArea(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col){
 		XONLY{
 			if(XWIN && XMAPPED){
-				xcb_rectangle_t r={startX,startY,endX,endY};
+				x*=OAPP_SCALE,y*=OAPP_SCALE;
+				w*=OAPP_SCALE,h*=OAPP_SCALE;
+				xcb_rectangle_t r={x,y,w,h};
 
 				xcb_change_gc(XCON,XGC,XCB_GC_FOREGROUND,&col->XCOL);
 				xcb_poly_fill_rectangle(XCON,XWIN,XGC,1,&r);
