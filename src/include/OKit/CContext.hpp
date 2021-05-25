@@ -62,6 +62,8 @@ namespace Orion{
 			uint32_t XWIN;
 			/* The XID of this Context's Parent. */
 			uint32_t XPARENT;
+			/* The XID of this Context's X Graphics Context. */
+			uint32_t XGC;
 			/* The raw colour of this Context. */
 			uint32_t XCOL;
 			/* The XCB Event Mask used by this Context. */
@@ -122,6 +124,15 @@ namespace Orion{
 			 * @param endY The ending Y position to clear.
 			 */
 			void clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY);
+			/**
+			 * @brief Draws a given section and sets it to the given colour.
+			 * @param x The X position of the area to draw.
+			 * @param y The Y position of the area to draw.
+			 * @param w The Width of the drawn area (relative to the starting point)
+			 * @param h The Height of the drawn area (relative to the starting point)
+			 * @param col A pointer to the colour to fill the area with
+			 */
+			void drawArea(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col);
 
 			/**
 			 * @brief Sets this Context's title to the given String. Only used on CCT_TOPLEVEL Contexts.

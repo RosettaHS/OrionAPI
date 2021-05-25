@@ -37,7 +37,7 @@ namespace Orion{
 /** Constructors/Destructors **/
 	CContext::~CContext(void){ destroy(); }
 	CContext::CContext(void) :
-		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XCOL{0},
+		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XGC{0}, XCOL{0},
 		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLINKED{0}, XLISTENER{0}
 		{}
 
@@ -46,24 +46,28 @@ namespace Orion{
 		if(XWIN){ return false; }
 		XONLY{
 		/* Context initialisation */
-			XTYPE=type;
-			XWIN=xcb_generate_id(XCON);
-			XPARENT=( (root) ? root->XWIN : XROOT );
-			XCOL=( (col) ? col->XCOL : 0);
-			XMASK=mask;
+			XTYPE   = type;
+			XWIN    = xcb_generate_id(XCON);
+			XGC     = xcb_generate_id(XCON);
+			XPARENT = ( (root) ? root->XWIN : XROOT );
+			XCOL    = ( (col) ? col->XCOL : 0);
+			XMASK   = mask;
 		/* Creating X Window */
 			uint32_t tmpVal[2]={ XCOL,XMASK };
 			int16_t  x,y;
 			uint16_t w,h;
 			/* Scale the position differently depending if it's using the WM as a root Context or not. */
-			if(root){ x=(_x*OAPP_SCALE); y=(_y*OAPP_SCALE); }
-			else{ x=_x; y=_y; }
+			if(root) { x=(_x*OAPP_SCALE); y=(_y*OAPP_SCALE); }
+			else     { x=_x; y=_y; }
 			w=(_w*OAPP_SCALE); h=(_h*OAPP_SCALE);
 			// xcb_void_cookie_t result=
 			xcb_create_window(
 				XCON,XCB_COPY_FROM_PARENT,XWIN,XPARENT,
 				x,y,w,h,0,( (XTYPE!=CCT_INPUTONLY) ? XCB_WINDOW_CLASS_INPUT_OUTPUT : XCB_WINDOW_CLASS_INPUT_ONLY ),
 				XSCR->root_visual,XCB_CW_BACK_PIXEL|XCB_CW_EVENT_MASK,tmpVal
+			);
+			xcb_create_gc(
+				XCON,XGC,XWIN,XCB_GC_FOREGROUND,&XCOL
 			);
 			// if( xcb_request_check(XCON,result) ){ destroy(); return false; }
 		/* Type Configuration */
@@ -185,10 +189,26 @@ namespace Orion{
 	void CContext::clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY){
 		XONLY{
 			if(XWIN && XMAPPED){
-				xcb_clear_area(XCON,1,XWIN,(startX*OAPP_SCALE),(startY*OAPP_SCALE),(endX*OAPP_SCALE),(endY*OAPP_SCALE));
+				xcb_clear_area(
+					XCON,1,XWIN,
+					(startX*OAPP_SCALE),(startY*OAPP_SCALE),
+					(endX*OAPP_SCALE),(endY*OAPP_SCALE)
+				);
 			}
 		}
 	}
+
+	void CContext::drawArea(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY, OCol* col){
+		XONLY{
+			if(XWIN && XMAPPED){
+				xcb_rectangle_t r={startX,startY,endX,endY};
+
+				xcb_change_gc(XCON,XGC,XCB_GC_FOREGROUND,&col->XCOL);
+				xcb_poly_fill_rectangle(XCON,XWIN,XGC,1,&r);
+			}
+		}
+	}
+	
 
 	bool CContext::setTitle(const char* title){
 		XONLY{

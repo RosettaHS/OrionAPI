@@ -40,6 +40,7 @@ namespace Orion{
 		OUIONLY{
 			init(OUI_RECT,ix,iy,iw,ih);
 			flags.setColMode=OWIDGET_SETCOL_USE_ACCENT;
+			canvas.registerTo(this);
 			setCol(icol);
 
 			flags.inited=true;
@@ -51,16 +52,16 @@ namespace Orion{
 
 	/*** Deferrables ***/
 	void ORect::onLink(void){
- 		canvas.create(parentSurface,getTrueGeo(),theme.accent);
+ 		canvas.create(parentSurface,x,y,w,h,theme.accent);
 	}
 	void ORect::onUnlink(void){
 		canvas.destroy();
 	}
 	void ORect::onPosChanged(void){
-		canvas.setPos( getTruePos() );
+		canvas.setPos(x,y);
 	}
 	void ORect::onSizeChanged(void){
-		canvas.setGeometry( getTrueGeo() );
+		canvas.setGeometry(x,y,w,h);
 	}
 	void ORect::onColChanged(void){
 		canvas.setCol(theme.accent);

@@ -165,6 +165,7 @@ namespace Orion{
 			OVec4              getTrueGeo(void);
 
 			friend class       OContainer;
+			friend class       OSurface;
 			friend void        CWidgetFireSignal(OWidget* widget, CWidgetSignal signal, void* data);
 		private:
 			bool               initFlag(int16_t xFlag, int16_t yFlag, uint16_t wFlag, uint16_t hFlag);
@@ -217,6 +218,7 @@ namespace Orion{
 			void               resetTheme(void);
 
 			OVec               getPos(bool globalToWindow=false) const;
+			// OVec               getOffsetPos(void)                const;
 			OVec               getSize(bool useScale=false)      const;
 			OVec               getMinSize(bool useScale=false)   const;
 			inline float       getScale(void)    const         { return scale; }

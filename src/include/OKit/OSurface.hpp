@@ -31,11 +31,42 @@
 namespace Orion{
 	typedef uint32_t OSurfaceMask;
 
+	class OSurfaceRect{
+		protected:
+			OVec4 geo;
+			OCol  col;
+		public:
+			inline      OSurfaceRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* icol) : geo{x,y,w,h} { if(icol){ col=*icol; } }
+			inline      OSurfaceRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol icol)  : geo{x,y,w,h} { col=icol; }
+			inline      OSurfaceRect(int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t r, uint8_t g, uint8_t b)  : geo{x,y,w,h}, col(r,g,b) {}
+
+			inline      OSurfaceRect(OVec4 igeo, OCol* icol) : geo{igeo} { if(icol){ col=*icol; } }
+			inline      OSurfaceRect(OVec4 igeo, OCol icol)  : geo{igeo} { col=icol; }
+			inline      OSurfaceRect(OVec4 igeo, uint8_t r, uint8_t g, uint8_t b)  : geo{igeo}, col(r,g,b) {}
+
+			inline void setTo(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* icol)                       { geo={x,y,w,h}; if(icol){ col=*icol; } }
+			inline void setTo(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol icol)                        { geo={x,y,w,h}; col=icol; }
+			inline void setTo(int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t r, uint8_t g, uint8_t b)  { geo={x,y,w,h}; col.setTo(r,g,b); }
+
+			inline void setTo(OVec4 igeo, OCol* icol)                       { geo=igeo; if(icol){ col=*icol; } }
+			inline void setTo(OVec4 igeo, OCol icol)                        { geo=igeo; col=icol; }
+			inline void setTo(OVec4 igeo, uint8_t r, uint8_t g, uint8_t b)  { geo=igeo; col.setTo(r,g,b); }
+
+			inline OVec  getPos(void)      const { return { geo.x, geo.y }; }
+			inline OVec  getSize(void)     const { return { geo.w, geo.h }; }
+			inline OVec4 getGeometry(void) const { return geo; }
+			inline OCol  getCol(void)      const { return col; }
+	};
+
 	class OSurface{
 		protected:
 			CContext  raw;
 			OSurface* parent;
 			OVec4     geo;
+			OWidget*  widget;
+
+			void scaleXYByWidget(int16_t& x, int16_t& y);
+			void scaleWHByWidget(uint16_t& w, uint16_t& h);
 		public:
 			virtual ~OSurface(void);
 			         OSurface(void);
@@ -44,10 +75,20 @@ namespace Orion{
 			inline   OSurface(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
 			                  { create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
 
+			void        registerTo(OWidget* widget);
+			void        unregister(void);
 			bool        create(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true);
 			inline bool create(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
 			                   {  return create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
 			bool        destroy(bool autoFlush=true);
+
+			bool        clearRects(bool autoFlush=true);
+			bool        drawRect(OSurfaceRect area, bool autoFlush=true);
+			bool        drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, bool autoFlush=true);
+			inline bool drawRect(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol col, bool autoFlush=true) { return drawRect(x,y,w,h,&col,autoFlush); }
+			inline bool drawRect(OVec4 v, OCol* col, bool autoFlush=true) { return drawRect(v.x,v.y,v.w,v.h,col,autoFlush); }
+			inline bool drawRect(OVec4 v, OCol col, bool autoFlush=true)  { return drawRect(v.x,v.y,v.w,v.h,&col,autoFlush); }
+			bool        drawRects(OSurfaceRect* rectList, uint16_t rectCount, bool autoFlush=true);
 
 			inline void setListener(OWidget* listener)             { raw.XLISTENER=listener; }
 			bool        setPos(int16_t x, int16_t y, bool autoFlush=true);
@@ -83,6 +124,7 @@ namespace Orion{
 	#ifndef ORION_NOALTNAMES
 		typedef uint32_t          surfacemask_t;
 		typedef OSurface          surface_t;
+		typedef OSurfaceRect      surfrect_t;
 		typedef OSurfaceEvent     surfevent_t;
 		typedef OSEType           surfeventtype_t;
 	#endif /* !ORION_NOALTNAMES */
