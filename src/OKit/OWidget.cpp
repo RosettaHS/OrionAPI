@@ -46,7 +46,7 @@ namespace Orion{
 		type{OUI_ERROR},baseType{OUIB_WIDGET},
 		x{0},y{0},w{0},h{0},
 		minW{0},minH{0},scale{1},customID{0},canvas(),
-		parentSurface{0},parentContainer{0},parentWidget{0},
+		parentCanvas{0},parentContainer{0},parentWidget{0},
 		flags{0,0,0,0,0,0,OWIDGET_SETCOL_USE_PRIMARY,0}
 		{ theme.primary=0; theme.secondary=0; theme.tertiary=0; theme.accent=0; }
 
@@ -442,7 +442,7 @@ namespace Orion{
 			OLog("\tscale              : (%.3f)\n",scale);
 			OLog("\tcustomID           : (%u)\n",customID);
 			OLog("\tcanvas             : (%p)\n",&canvas);
-			OLog("\tparentSurface      : (%p)\n",parentSurface);
+			OLog("\tparentCanvas       : (%p)\n",parentCanvas);
 			OLog("\tparentContainer    : (%p - %s)\n",parentContainer,( (parentContainer) ? parentContainer->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tparentWidget       : (%p - %s)\n",parentWidget,( (parentWidget) ? parentWidget->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tflags:\n");

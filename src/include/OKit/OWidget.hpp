@@ -127,7 +127,7 @@ namespace Orion{
 			float       scale;
 			uint16_t    customID;
 			OSurface    canvas;
-			OSurface*   parentSurface;
+			OSurface*   parentCanvas;
 			OContainer* parentContainer;
 			OContainer* parentWidget;
 			struct{
@@ -173,7 +173,7 @@ namespace Orion{
 			virtual           ~OWidget(void);
 
 			bool               redraw(bool full=false);
-			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentSurface ); }
+			inline bool        isReady(void)      const      { return ( flags.inited && flags.linked && parentCanvas ); }
 			inline bool        isInited(void)     const      { return flags.inited;   }
 			inline bool        isLinked(void)     const      { return flags.linked;   }
 			inline bool        isFocusable(void)  const      { return flags.canFocus; }

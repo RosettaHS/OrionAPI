@@ -150,7 +150,7 @@ namespace Orion{
 				tmp=list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->parentSurface   = 0;
+				tmp->parentCanvas    = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 			}
@@ -183,7 +183,7 @@ namespace Orion{
 	void OContainer::sort(void)     { baseSort(); } /* Default OContainer uses the baseSort. */
 
 	void OContainer::onLink(void){
-		canvas.create(parentSurface,x,y,w,h,theme.secondary);
+		canvas.create(parentCanvas,x,y,w,h,theme.secondary);
 		tmpRelinkAll();
 		sort();
 	}
@@ -220,7 +220,7 @@ namespace Orion{
 				widget->parentContainer    = container;
 				widget->parentWidget       = this;
 				if(flags.linked){
-					widget->parentSurface = container->surfaceToUse;
+					widget->parentCanvas = container->surfaceToUse;
 					widget->flags.linked  = true;
 					widget->onLink();
 					sort();
@@ -241,7 +241,7 @@ namespace Orion{
 			OContainer* container=CHECKFORCE;
 			if(container->list.unlink(widget)){
 				widget->flags.linked    = false;
-				widget->parentSurface   = 0;
+				widget->parentCanvas    = 0;
 				widget->parentContainer = 0;
 				widget->parentWidget    = 0;
 				widget->onUnlink();
@@ -259,7 +259,7 @@ namespace Orion{
 				tmp=container->list[i];
 				tmp->flags.linked    = false;
 				tmp->onUnlink();
-				tmp->parentSurface   = 0;
+				tmp->parentCanvas    = 0;
 				tmp->parentContainer = 0;
 				tmp->parentWidget    = 0;
 			}
@@ -283,7 +283,7 @@ namespace Orion{
 			for(uint16_t i=0;i<list.getCount();i++){
 				if(list[i]->parentContainer==this){
 					list[i]->flags.linked    = true;
-					list[i]->parentSurface   = surfaceToUse;
+					list[i]->parentCanvas    = surfaceToUse;
 					list[i]->onLink();
 				}
 			}
@@ -294,7 +294,7 @@ namespace Orion{
 	void OContainer::tmpUnlinkAll(void){
 		for(uint16_t i=0;i<list.getCount();i++){
 			list[i]->flags.linked  = false;
-			list[i]->parentSurface = 0;
+			list[i]->parentCanvas  = 0;
 			list[i]->onUnlink();
 		}
 	}
@@ -360,7 +360,7 @@ namespace Orion{
 			OLog("\tscale              : (%.3f)\n",scale);
 			OLog("\tcustomID           : (%u)\n",customID);
 			OLog("\tcanvas             : (%p)\n",&canvas);
-			OLog("\tparentSurface      : (%p)\n",parentSurface);
+			OLog("\tparentCanvas       : (%p)\n",parentCanvas);
 			OLog("\tparentContainer    : (%p - %s)\n",parentContainer,( (parentContainer) ? parentContainer->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tparentWidget       : (%p - %s)\n",parentWidget,( (parentWidget) ? parentWidget->getTypeAsString() : "OUI_ERROR") );
 			OLog("\tsurfaceToUse       : (%p)\n",surfaceToUse);

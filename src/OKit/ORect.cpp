@@ -52,7 +52,7 @@ namespace Orion{
 
 	/*** Deferrables ***/
 	void ORect::onLink(void){
- 		canvas.create(parentSurface,x,y,w,h,theme.accent);
+ 		canvas.create(parentCanvas,x,y,w,h,theme.accent);
 	}
 	void ORect::onUnlink(void){
 		canvas.destroy();
