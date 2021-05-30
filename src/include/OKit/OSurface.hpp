@@ -28,10 +28,22 @@
 
 #include "CContext.hpp"
 
+#ifdef ORION_INTERNAL
+
+/* Since there are no virtual methods in an OSurface (marked final),
+ * a CContext exists at the same location in memory as its OSurface abstraction,
+ * and vice-versa.
+ */
+
+#define STC(surf) ((Orion::CContext*)surf)
+#define CTS(cont) ((Orion::OSurface*)cont)
+
+#endif /* ORION_INTERNAL */
+
 namespace Orion{
 	typedef uint32_t OSurfaceMask;
 
-	class OSurfaceRect{
+	class OSurfaceRect final{
 		protected:
 			OVec4 geo;
 			OCol  col;
@@ -58,28 +70,27 @@ namespace Orion{
 			inline OCol  getCol(void)      const { return col; }
 	};
 
-	class OSurface{
+	class OSurface final{
 		protected:
 			CContext  raw;
-			OSurface* parent;
 			OVec4     geo;
 			OWidget*  widget;
 
 			void scaleXYByWidget(int16_t& x, int16_t& y, bool addOffset=true);
 			void scaleWHByWidget(uint16_t& w, uint16_t& h);
 		public:
-			virtual ~OSurface(void);
+			        ~OSurface(void);
 			         OSurface(void);
-			inline   OSurface(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
-			                  { create(parent,x,y,w,h,col,mask,listener,autoFlush); }
-			inline   OSurface(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
-			                  { create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
+			inline   OSurface(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, bool autoFlush=true)
+			                  { create(parent,x,y,w,h,col,mask,autoFlush); }
+			inline   OSurface(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, bool autoFlush=true)
+			                  { create(parent,v.x,v.y,v.w,v.h,col,mask,autoFlush); }
 
 			void        registerTo(OWidget* widget);
 			void        unregister(void);
-			bool        create(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true);
-			inline bool create(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, OWidget* listener=0, bool autoFlush=true)
-			                   {  return create(parent,v.x,v.y,v.w,v.h,col,mask,listener,autoFlush); }
+			bool        create(OSurface* parent, int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col, OSurfaceMask mask=0, bool autoFlush=true);
+			inline bool create(OSurface* parent, OVec4 v, OCol* col, OSurfaceMask mask=0, bool autoFlush=true)
+			                   {  return create(parent,v.x,v.y,v.w,v.h,col,mask,autoFlush); }
 			bool        destroy(bool autoFlush=true);
 
 			bool        clearRects(bool autoFlush=true);
@@ -91,7 +102,6 @@ namespace Orion{
 			inline bool drawRect(OVec4 v, OCol col, bool autoFlush=true)  { return drawRect(v.x,v.y,v.w,v.h,&col,autoFlush); }
 			bool        drawRects(OSurfaceRect* rectList, uint16_t rectCount, bool autoFlush=true);
 
-			inline void setListener(OWidget* listener)             { raw.XLISTENER=listener; }
 			bool        setPos(int16_t x, int16_t y, bool autoFlush=true);
 			inline bool setPos(OVec v, bool autoFlush=true)        { return setPos(v.x,v.y,autoFlush); }
 			bool        setSize(uint16_t w, uint16_t h, bool autoFlush=true);
@@ -102,13 +112,12 @@ namespace Orion{
 			inline bool setCol(OCol& col, bool autoFlush=true)     { return setCol(&col,autoFlush); }
 			bool        setCol(uint8_t r, uint8_t g, uint8_t b, bool autoFlush=true);
 
-			inline OWidget*  getListener(void) const { return raw.XLISTENER; }
-			inline OVec      getPos(void)      const { return { geo.x, geo.y }; }
-			inline OVec      getSize(void)     const { return { geo.w, geo.h }; }
-			inline OVec4     getGeometry(void) const { return geo;}
-			OCol             getCol(void)      const;
-			inline OSurface* getParent(void)   const { return parent; }
-			inline CContext* getAsContext(void)      { return &raw; }
+			inline OWidget*  getRegisteredWidget(void) const { return widget; }
+			inline OVec      getPos(void)              const { return { geo.x, geo.y }; }
+			inline OVec      getSize(void)             const { return { geo.w, geo.h }; }
+			inline OVec4     getGeometry(void)         const { return geo;}
+			OCol             getCol(void)              const;
+			inline CContext* getAsContext(void)              { return &raw; }
 	};
 
 	enum OSEType : char{
@@ -123,7 +132,7 @@ namespace Orion{
 	extern void OFlushSurfaces(void);
 
 	#ifndef ORION_NOALTNAMES
-		typedef uint32_t          surfacemask_t;
+		typedef OSurfaceMask      surfacemask_t;
 		typedef OSurface          surface_t;
 		typedef OSurfaceRect      surfrect_t;
 		typedef OSurfaceEvent     surfevent_t;

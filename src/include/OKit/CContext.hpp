@@ -39,7 +39,6 @@ namespace Orion{
 
 	/* The base class for all OrionUI Elements. */
 	class OWidget;
-	// class OSurface;
 
 	/* Internal. An enumeration of possible Context types. */
 	enum CCType : char{
@@ -57,25 +56,27 @@ namespace Orion{
 	class CContext : public CLoggable{
 		public:
 			/* The Type of this Context. */
-			CCType   XTYPE;
+			CCType    XTYPE;
 			/* The XID of this Context. */
-			uint32_t XWIN;
+			uint32_t  XWIN;
 			/* The XID of this Context's Parent. */
-			uint32_t XPARENT;
+			uint32_t  XPARENT;
 			/* The XID of this Context's X Graphics Context. */
-			uint32_t XGC;
+			uint32_t  XGC;
 			/* The raw colour of this Context. */
-			uint32_t XCOL;
+			uint32_t  XCOL;
 			/* The XCB Event Mask used by this Context. */
-			uint32_t XMASK;
+			uint32_t  XMASK;
 			/* The title of this Context. ONLY FOR USE ON CCT_TOPLEVEL! */
-			char*    XTITLE;
-			/* Has this Context been mapped to the Window Manager? */
-			bool     XMAPPED;
-			/* Has this Context been mapped to the Event Dispatcher? */
-			bool     XLINKED;
-			/* The top-level Widget that is listening for Events. Something like an OButton for example. */
-			OWidget* XLISTENER;
+			char*     XTITLE;
+			struct{
+				/* Has this Context been mapped to the Window Manager? */
+				bool  XMAPPED     : 1;
+				/* Has this Context been mapped to the Event Dispatcher? */
+				bool  XLINKED     : 1;
+				/* Is this Context also an abstracted OSurface? */
+				bool  XABSTRACTED : 1;
+			}XFLAGS; /* Saves memory by packing these together. */
 
 			/* Destructor. Frees all memory and unlinks from X. */
 			~CContext(void);

@@ -39,7 +39,7 @@ namespace Orion{
 		destroy(true);
 		unregister();
 	}
-	OSurface::OSurface(void) : raw(), parent{0}, geo{0,0,0,0}, widget{0} {}
+	OSurface::OSurface(void) : raw(), geo{0,0,0,0}, widget{0} {}
 
 	void OSurface::registerTo(OWidget* iwidget){
 		widget=iwidget;
@@ -69,25 +69,19 @@ namespace Orion{
 		}
 	}
 	
-	bool OSurface::create(OSurface* p, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol, OSurfaceMask imask, OWidget* listener, bool autoFlush){
+	bool OSurface::create(OSurface* p, int16_t ix, int16_t iy, uint16_t iw, uint16_t ih, OCol* icol, OSurfaceMask imask, bool autoFlush){
 		if(!raw.XWIN && p){
 		/* Error Checking */
-			if( ((bool)imask) && !((bool)listener) ){
+			if( ((bool)imask) && !((bool)widget) ){
 				OWARN(false,
-					"CANNOT SET EVENT MASK WITH UNSET (NULL) WIDGET LISTENER WHEN CREATING OSURFACE!"
-				);
-				return false;
-			}else if( ((bool)listener) && !((bool)imask) ){
-				OWARN(false,
-					"CANNOT SET WIDGET LISTENER WITH UNSET (NULL) EVENT MASK WHEN CREATING OSURFACE!"
+					"CANNOT SET EVENT MASK WITH UNREGISTERED (NULL) PARENT WIDGET WHEN CREATING OSURFACE!"
 				);
 				return false;
 			}
 		/* Initialisation */
-			parent=p;
 			geo={ix,iy,iw,ih};
 			if( raw.create(p->getAsContext(),ix,iy,iw,ih,0,icol,imask,CCT_ELEMENT) ){
-				setListener(listener);
+				raw.XFLAGS.XABSTRACTED=true;
 				raw.map(imask);
 				FLUSHIF(autoFlush);
 				return true;
@@ -99,7 +93,7 @@ namespace Orion{
 	bool OSurface::destroy(bool autoFlush){
 		if(raw.XWIN){
 			if( raw.destroy() ){
-				parent=0; geo={0,0,0,0};
+				geo={0,0,0,0};
 				FLUSHIF(autoFlush);
 				return true;
 			}

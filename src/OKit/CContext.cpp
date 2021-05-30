@@ -38,7 +38,7 @@ namespace Orion{
 	CContext::~CContext(void){ destroy(); }
 	CContext::CContext(void) :
 		XTYPE{CCT_ERROR}, XWIN{0}, XPARENT{0}, XGC{0}, XCOL{0},
-		XMASK{0}, XTITLE{0}, XMAPPED{0}, XLINKED{0}, XLISTENER{0}
+		XMASK{0}, XTITLE{0}, XFLAGS{0,0,0}
 		{}
 
 /** Creation **/
@@ -148,9 +148,9 @@ namespace Orion{
 				XCOL=0;
 				XMASK=0;
 				XTITLE=0;
-				XMAPPED=0;
-				XLINKED=0;
-				XLISTENER=0;
+				XFLAGS.XMAPPED=0;
+				XFLAGS.XLINKED=0;
+				XFLAGS.XABSTRACTED=0;
 				return true;
 			}
 		}
@@ -160,12 +160,12 @@ namespace Orion{
 /** Modification **/
 	bool CContext::map(bool link){
 		XONLY{
-			if(XWIN && !XMAPPED){
+			if(XWIN && !XFLAGS.XMAPPED){
 				// xcb_void_cookie_t result=
 				xcb_map_window(XCON,XWIN);
 				// if( xcb_request_check(XCON,result) ){ return false; }
-				if(link){ XLINKED=CXHA_LINK(this); }
-				XMAPPED=1;
+				if(link){ XFLAGS.XLINKED=CXHA_LINK(this); }
+				XFLAGS.XMAPPED=1;
 				return true;
 			}
 		}
@@ -174,12 +174,12 @@ namespace Orion{
 
 	bool CContext::unmap(void){
 		XONLY{
-			if(XWIN && XMAPPED){
+			if(XWIN && XFLAGS.XMAPPED){
 				// xcb_void_cookie_t result=
 				xcb_unmap_window(XCON,XWIN);
 				// if( xcb_request_check(XCON,result) ){ return false; }
-				if(XLINKED){ XLINKED=!CXHA_UNLINK(this); }
-				XMAPPED=0;
+				if(XFLAGS.XLINKED){ XFLAGS.XLINKED=!CXHA_UNLINK(this); }
+				XFLAGS.XMAPPED=0;
 				return true;
 			}
 		}
@@ -188,7 +188,7 @@ namespace Orion{
 
 	void CContext::clear(int16_t startX, int16_t startY, uint16_t endX, uint16_t endY){
 		XONLY{
-			if(XWIN && XMAPPED){
+			if(XWIN && XFLAGS.XMAPPED){
 				xcb_clear_area(
 					XCON,1,XWIN,
 					(startX*OAPP_SCALE),(startY*OAPP_SCALE),
@@ -200,7 +200,7 @@ namespace Orion{
 
 	void CContext::drawArea(int16_t x, int16_t y, uint16_t w, uint16_t h, OCol* col){
 		XONLY{
-			if(XWIN && XMAPPED){
+			if(XWIN && XFLAGS.XMAPPED){
 				x*=OAPP_SCALE,y*=OAPP_SCALE;
 				w*=OAPP_SCALE,h*=OAPP_SCALE;
 				xcb_rectangle_t r={x,y,w,h};
@@ -307,8 +307,8 @@ namespace Orion{
 
 	void CContext::log(bool verbose, bool newLine){
 		if(verbose){
-			OLog("CONTEXT : %p | XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XMAPPED : %s | XLINKED : %s",
-				(const void*)this, XTYPE,XWIN,XPARENT,XCOL,XMASK,XTITLE,( (XMAPPED) ? "true" : "false" ),( (XLINKED) ? "true" : "false" )
+			OLog("CONTEXT : %p | XTYPE : %d | XWIN : %lu | XPARENT : %lu | XCOL : %lu | XMASK : %lu | XTITLE : %s | XFLAGS.XMAPPED : %s | XFLAGS.XLINKED : %s",
+				(const void*)this, XTYPE,XWIN,XPARENT,XCOL,XMASK,XTITLE,( (XFLAGS.XMAPPED) ? "true" : "false" ),( (XFLAGS.XLINKED) ? "true" : "false" )
 			);
 			if(newLine){ OLog("\n"); }
 		}else{

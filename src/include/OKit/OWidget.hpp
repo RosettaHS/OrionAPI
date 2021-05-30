@@ -218,7 +218,6 @@ namespace Orion{
 			void               resetTheme(void);
 
 			OVec               getPos(bool globalToWindow=false) const;
-			// OVec               getOffsetPos(void)                const;
 			OVec               getSize(bool useScale=false)      const;
 			OVec               getMinSize(bool useScale=false)   const;
 			inline float       getScale(void)    const         { return scale; }
