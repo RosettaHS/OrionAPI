@@ -68,6 +68,6 @@ namespace Orion{
 	}
 	void ORect::onDraw(bool full){
 		canvas.setCol(theme.secondary);
-		if(full){ canvas.setGeometry( getTrueGeo() ); }
+		if(full){ canvas.setGeometry(x,y,w,h); }
 	}
 }
